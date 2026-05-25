@@ -1,0 +1,2287 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NQuoc · IT Request</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* ── Brand ── */
+  --purple:#5B4FE8;--purple-dark:#4338CA;--purple-deep:#312E81;
+  --purple-light:#EDE9FE;--purple-mid:#7C3AED;--purple-glow:rgba(91,79,232,.18);
+  /* ── Surfaces ── */
+  --bg-page:#F8F7FF;--bg-card:#FFFFFF;--bg-surface:#F3F1FF;--bg-hover:#ECEAFF;
+  /* ── Text ── */
+  --text:#1E1B4B;--text-mid:#374151;--text-muted:#6B7280;--text-faint:#9CA3AF;
+  /* ── Semantic ── */
+  --green:#16A34A;--green-light:#DCFCE7;--green-mid:#22C55E;
+  --red:#DC2626;--red-light:#FEE2E2;
+  --orange:#EA580C;--orange-light:#FFEDD5;
+  --yellow:#CA8A04;--yellow-light:#FEF9C3;
+  --cyan:#06B6D4;--cyan-light:#CFFAFE;--cyan-dark:#155E75;
+  --gray:#6B7280;--gray-light:#F3F4F6;--gray-border:#E5E7EB;--gray-border-soft:#EDE9FE;
+  /* ── Spacing ── */
+  --radius:14px;--radius-sm:10px;--radius-xs:8px;
+  /* ── 3-tier shadow system (học từ Crisis Simulator) ── */
+  --shadow-sm:0 1px 3px rgba(91,79,232,.06),0 1px 2px rgba(91,79,232,.04);
+  --shadow-md:0 4px 16px rgba(91,79,232,.10),0 2px 6px rgba(91,79,232,.06);
+  --shadow-lg:0 8px 32px rgba(91,79,232,.14),0 4px 12px rgba(91,79,232,.08),0 1px 3px rgba(91,79,232,.04);
+  /* ── Font ── */
+  --font:'Be Vietnam Pro',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+body{font-family:var(--font);background:var(--bg-page);color:var(--text);min-height:100vh;position:relative}
+
+/* ── Atmospheric texture layer (học từ Crisis Simulator) ── */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(circle at 15% 25%,rgba(91,79,232,.05) 0%,transparent 50%),
+    radial-gradient(circle at 85% 75%,rgba(91,79,232,.04) 0%,transparent 50%),
+    radial-gradient(circle at 50% 100%,rgba(124,58,237,.03) 0%,transparent 40%);
+}
+.container,.header{position:relative;z-index:1}
+
+/* ── Pulse animation (học từ Crisis Simulator) ── */
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.5)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+.pulse-dot{width:8px;height:8px;border-radius:50%;background:#22C55E;animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+
+/* ── Spring step animation (học từ Nhi Lê) ── */
+@keyframes stepPop{0%{transform:scale(0.6)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.step-item.done .step-circle,.step-item.active .step-circle{animation:stepPop .35s cubic-bezier(.34,1.56,.64,1) both}
+
+/* ── Review hero card (học từ Crisis Simulator) ── */
+.review-hero-card{
+  background:linear-gradient(135deg,#4338CA 0%,#5B4FE8 50%,#6D28D9 100%);
+  border-radius:var(--radius);padding:20px;margin-bottom:16px;color:#fff;
+  position:relative;overflow:hidden;
+  box-shadow:var(--shadow-lg);
+}
+.review-hero-card::before{
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:240px;height:240px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+.review-hero-card::after{
+  content:'';position:absolute;bottom:-40px;left:-40px;
+  width:160px;height:160px;border-radius:50%;
+  background:radial-gradient(circle,rgba(91,79,232,.3) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+/* ── Panel transitions ── */
+.panel{display:none;animation:fadeUp .28s ease both}
+.panel.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Header ── */
+.header{background:rgba(255,255,255,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--gray-border-soft);padding:0 24px;height:58px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-md)}
+.logo{width:32px;height:32px;background:var(--purple);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;letter-spacing:-.5px}
+.header-title{font-size:14px;font-weight:600;color:var(--text)}
+.header-sub{font-size:11px;color:var(--text-muted)}
+
+/* Layout */
+.container{max-width:780px;margin:0 auto;padding:32px 24px 80px}
+
+/* ── Step nav ── */
+.step-nav{display:flex;align-items:center;margin-bottom:28px}
+.step-item{display:flex;flex-direction:column;align-items:center;gap:5px}
+.step-circle{width:36px;height:36px;border-radius:50%;border:2px solid var(--gray-border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--text-faint);background:#fff;transition:all .3s;position:relative}
+.step-circle svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.step-label{font-size:11px;color:var(--text-faint);white-space:nowrap;font-weight:500;transition:all .3s}
+.step-item.active .step-circle{border-color:var(--purple);background:var(--purple);color:#fff;box-shadow:0 0 0 4px var(--purple-glow)}
+.step-item.active .step-label{color:var(--purple);font-weight:600}
+.step-item.done .step-circle{border-color:var(--purple);background:var(--purple);color:#fff}
+.step-item.done .step-label{color:var(--purple)}
+.step-line{flex:1;height:2px;background:var(--gray-border);margin:0 4px;margin-bottom:16px;transition:background .4s}
+.step-line.done{background:var(--purple)}
+
+/* ── Progress ── */
+.progress-wrap{margin-bottom:24px}
+.progress-bar-outer{height:5px;background:var(--bg-hover);border-radius:3px;overflow:hidden;margin-bottom:8px}
+.progress-bar-inner{height:100%;background:var(--purple);border-radius:3px;transition:width .45s cubic-bezier(.4,0,.2,1)}
+.progress-label{font-size:12px;color:var(--text-muted);display:flex;justify-content:space-between}
+.progress-label span{color:var(--purple);font-weight:600}
+
+/* ── Panels ── */
+
+/* ── Section header ── */
+.section-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px}
+.section-title{font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-.3px}
+.section-sub{font-size:14px;color:var(--text-muted);margin-bottom:28px;line-height:1.6}
+
+/* ── Selection cards ── */
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.card-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px}
+.sel-card{border:1.5px solid var(--gray-border-soft);border-radius:var(--radius);padding:16px;cursor:pointer;transition:all .2s;background:var(--bg-card);text-align:left;box-shadow:var(--shadow-sm)}
+.sel-card:hover{border-color:var(--purple);background:var(--bg-surface);transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.sel-card.selected{border-color:var(--purple);background:var(--purple-light);box-shadow:0 0 0 3px var(--purple-glow)}
+.sel-card .card-icon{font-size:24px;margin-bottom:8px}
+.sel-card .card-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px}
+.sel-card.selected .card-name{color:var(--purple-dark)}
+.sel-card .card-desc{font-size:12px;color:var(--text-muted)}
+
+/* ── Type list cards ── */
+.type-list{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.type-card{border:1.5px solid var(--gray-border-soft);border-radius:var(--radius);padding:15px 16px;cursor:pointer;transition:all .2s;background:var(--bg-card);display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-sm)}
+.type-card:hover{border-color:var(--purple);background:var(--bg-surface);transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.type-card.selected{border-color:var(--purple);background:var(--purple-light)}
+.type-card .tc-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.type-card .tc-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:2px}
+.type-card.selected .tc-name{color:var(--purple-dark)}
+.type-card .tc-desc{font-size:13px;color:var(--text-muted)}
+
+/* ── System chips ── */
+.chip-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{border:1.5px solid var(--gray-border-soft);border-radius:20px;padding:7px 15px;font-size:13px;cursor:pointer;color:var(--text-muted);background:#fff;transition:all .2s;display:flex;align-items:center;gap:6px;min-height:36px}
+.chip:hover{border-color:var(--purple);color:var(--purple);background:var(--bg-surface)}
+.chip.selected{border-color:var(--purple);background:var(--purple-light);color:var(--purple-dark);font-weight:600}
+
+/* ── Form fields ── */
+.field-group{margin-bottom:20px}
+.field-label{font-size:12px;font-weight:600;color:var(--text-mid);margin-bottom:7px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.04em}
+.req{color:var(--red);font-size:11px;text-transform:none;letter-spacing:0}
+.opt{color:var(--text-faint);font-size:11px;font-weight:400;text-transform:none;letter-spacing:0}
+.field-hint{font-size:12px;color:var(--text-muted);margin-bottom:8px;line-height:1.5}
+.field-env{background:var(--bg-surface);border:1px solid var(--gray-border-soft);border-radius:var(--radius-xs);padding:10px 14px;font-size:13px;color:var(--text-muted);display:flex;gap:12px}
+.field-env span{background:#fff;border:1px solid var(--gray-border-soft);border-radius:6px;padding:2px 10px;font-size:12px;color:var(--text-mid)}
+
+input[type=text],input[type=date],input[type=email],textarea,select{
+  width:100%;padding:11px 14px;border:1.5px solid var(--gray-border-soft);
+  border-radius:var(--radius-xs);background:#fff;color:var(--text);
+  font-size:14px;font-family:inherit;transition:border .2s,box-shadow .2s;
+  min-height:44px;
+}
+input[type=text]:focus,input[type=date]:focus,input[type=email]:focus,textarea:focus,select:focus{
+  outline:none;border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-glow)
+}
+textarea{resize:vertical;min-height:84px;line-height:1.6}
+select{cursor:pointer}
+
+/* ── Sub-sections ── */
+.sub-section{background:var(--bg-card);border:1.5px solid var(--gray-border-soft);border-radius:var(--radius);padding:20px;margin-bottom:16px;box-shadow:var(--shadow-md)}
+.sub-section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.sub-section-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.sub-section-title{font-size:14px;font-weight:600;color:var(--text)}
+.sub-section-sub{font-size:12px;color:var(--text-muted)}
+
+/* ── Expect split ── */
+.expect-split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.expect-box{border:1.5px solid var(--gray-border-soft);border-radius:var(--radius-xs);overflow:hidden}
+.expect-header{padding:9px 12px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
+.expect-header.good{background:#F0FDF4;color:#16A34A;border-bottom:1px solid #BBF7D0}
+.expect-header.bad{background:#FFF5F5;color:#DC2626;border-bottom:1px solid #FECACA}
+.expect-box textarea{border:none;border-radius:0;min-height:90px}
+.expect-box textarea:focus{box-shadow:none}
+
+/* ── Nav buttons ── */
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:28px}
+.btn-back{padding:11px 22px;border:1.5px solid var(--gray-border-soft);border-radius:var(--radius-xs);background:#fff;color:var(--text-mid);font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;min-height:44px}
+.btn-back:hover{border-color:var(--purple);color:var(--purple);background:var(--bg-surface)}
+.btn-next{padding:11px 28px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius-xs);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;min-height:44px;letter-spacing:.01em}
+.btn-next:hover{background:var(--purple-dark);transform:translateY(-1px);box-shadow:0 4px 12px rgba(91,79,232,.3)}
+.btn-next:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-submit{padding:13px 32px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius-xs);font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;min-height:48px;letter-spacing:.02em}
+.btn-submit:hover{background:var(--purple-dark)}
+
+/* ── Confirm review ── */
+.confirm-block{background:var(--bg-card);border:1.5px solid var(--gray-border-soft);border-radius:var(--radius);overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow-md)}
+.confirm-block-header{background:var(--bg-surface);padding:10px 16px;font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em}
+.confirm-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 16px;border-bottom:1px solid var(--gray-border-soft);font-size:13px;gap:16px}
+.confirm-row:last-child{border-bottom:none}
+.confirm-key{color:var(--text-muted);flex-shrink:0;min-width:120px}
+.confirm-val{color:var(--text);font-weight:500;text-align:right}
+.completeness-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600}
+.badge-good{background:var(--green-light);color:var(--green)}
+.badge-warn{background:var(--yellow-light);color:var(--yellow)}
+.badge-bad{background:var(--red-light);color:var(--red)}
+
+/* ── Completeness bar ── */
+.comp-bar-wrap{margin-bottom:20px}
+.comp-bar-outer{height:6px;background:var(--bg-hover);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.comp-bar-inner{height:100%;border-radius:3px;transition:width .4s,background .4s}
+.comp-info{display:flex;justify-content:space-between;font-size:12px;color:var(--text-muted)}
+.comp-info strong{color:var(--purple)}
+
+/* ── Check item ── */
+.check-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;font-size:13px;color:var(--text-mid)}
+.check-item.ok{color:var(--green)}
+.check-item.warn{color:var(--orange)}
+
+/* ── Success ── */
+.success-wrap{text-align:center;padding:52px 24px}
+.ticket-id{display:inline-block;background:var(--purple-light);color:var(--purple-dark);border:1.5px solid #C4B5FD;border-radius:var(--radius-xs);padding:8px 22px;font-size:14px;font-weight:700;margin-bottom:24px;letter-spacing:.04em}
+.sla-badge{display:inline-flex;align-items:center;gap:8px;background:var(--green-light);color:var(--green);border-radius:20px;padding:7px 18px;font-size:13px;font-weight:600}
+
+/* ── Divider ── */
+.divider{border:none;border-top:1px solid var(--gray-border-soft);margin:20px 0}
+
+/* ── System cards ── */
+.sys-card{display:flex;align-items:center;gap:8px;border:1.5px solid var(--gray-border-soft);border-radius:var(--radius-xs);padding:10px 12px;cursor:pointer;background:var(--bg-card);transition:all .2s;font-size:13px;min-height:44px}
+.sys-card:hover{border-color:var(--purple);background:var(--bg-surface)}
+.sys-card.selected{border-color:var(--purple);background:var(--purple-light)}
+.sys-card.selected .sys-name{color:var(--purple-dark);font-weight:600}
+.sys-icon{font-size:16px;flex-shrink:0}
+.sys-name{color:var(--text-mid);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* ── Sub checklist ── */
+.type-card-wrap{border:1.5px solid var(--gray-border-soft);border-radius:var(--radius);overflow:hidden;background:var(--bg-card);transition:border-color .2s;box-shadow:var(--shadow-sm)}
+.type-card-wrap:has(.type-card.selected){border-color:var(--purple)}
+.type-card-wrap .type-card{border:none;border-radius:0;margin:0;box-shadow:none}
+.tc-arrow{font-size:20px;color:var(--text-muted);transition:transform .3s;line-height:1}
+.tc-arrow.open{transform:rotate(90deg)}
+.sub-checklist{display:none;padding:14px 16px 16px;border-top:1px solid var(--gray-border-soft);background:var(--bg-surface)}
+.sub-checklist.open{display:block}
+.sub-cl-label{font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em}
+.cl-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:var(--radius-xs);cursor:pointer;font-size:14px;color:var(--text-mid);transition:background .15s;margin-bottom:2px}
+.cl-item:hover{background:var(--purple-light)}
+.cl-item input[type=checkbox]{width:16px;height:16px;accent-color:var(--purple);cursor:pointer;flex-shrink:0}
+.cl-item.cl-other{align-items:center}
+.cl-other-input{flex:1;border:none;border-bottom:1px solid var(--gray-border-soft);padding:2px 6px;font-size:13px;background:transparent;outline:none;color:var(--text);min-height:auto}
+.cl-other-input:focus{border-bottom-color:var(--purple)}
+
+/* ── AI Step cyan theme ── */
+.ai-step-badge{display:inline-flex;align-items:center;gap:6px;background:#CFFAFE;border:1px solid #A5F3FC;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;color:var(--cyan-dark);margin-bottom:12px}
+.ai-chat-wrap{background:#fff;border:1.5px solid #A5F3FC;border-radius:16px;overflow:hidden;margin-bottom:12px;box-shadow:0 0 0 4px rgba(6,182,212,.06)}
+.ai-input-bar{border-top:1.5px solid #E0F7FA;display:flex;gap:0;background:#F0FEFF}
+.ai-input-bar input{flex:1;border:none;background:transparent;padding:14px 16px;font-size:14px;outline:none;color:var(--text)}
+.ai-send-btn{padding:12px 22px;background:var(--cyan);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;min-height:44px;letter-spacing:.01em}
+.ai-send-btn:hover{background:var(--cyan-dark)}
+
+/* ── Bé Chip Mascot ── */
+@keyframes chipBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes chipPop{0%{transform:scale(0.8);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes chipGlow{0%,100%{filter:drop-shadow(0 0 8px rgba(91,79,232,.35)) drop-shadow(0 4px 12px rgba(91,79,232,.2))}50%{filter:drop-shadow(0 0 18px rgba(91,79,232,.65)) drop-shadow(0 4px 16px rgba(91,79,232,.35))}}
+#beChip{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+#chipBody{animation:chipBob 2.8s ease-in-out infinite,chipGlow 3s ease-in-out infinite;cursor:pointer}
+#chipBubble{background:#fff;border:1.5px solid var(--purple-light);border-radius:16px 16px 4px 16px;padding:10px 14px;font-size:12px;color:var(--text-mid);max-width:220px;line-height:1.6;box-shadow:var(--shadow-lg);animation:chipPop .3s ease both;display:none}
+#chipBubble.show{display:block}
+
+/* ── Checklist widget ── */
+.cl-tab{padding:6px 12px;border:0.5px solid var(--gray-border-soft);border-radius:20px;font-size:12px;cursor:pointer;background:#fff;color:var(--text-muted);transition:all .15s}
+.cl-tab:hover{border-color:var(--purple);color:var(--purple)}
+.cl-tab.active{background:var(--purple-light);border-color:var(--purple);color:var(--purple-dark);font-weight:600}
+.cl-group-head{font-size:11px;font-weight:500;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;padding:0 0 6px;border-bottom:0.5px solid var(--gray-border-soft);margin:12px 0 4px}
+.cl-check-item{display:flex;align-items:flex-start;gap:8px;padding:8px 4px;border-bottom:0.5px solid var(--gray-border-soft);cursor:pointer}
+.cl-check-item:last-child{border-bottom:none}
+.cl-box{width:18px;height:18px;border:0.5px solid var(--gray-border);border-radius:4px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s;background:#fff}
+.cl-box.on{background:var(--green-light);border-color:var(--green)}
+.cl-box.on::after{content:'';display:block;width:5px;height:9px;border:1.5px solid var(--green);border-top:none;border-left:none;transform:rotate(40deg) translateY(-1px)}
+.cl-txt{font-size:13px;color:var(--text-mid);line-height:1.5;flex:1}
+.cl-txt.on{color:var(--text-faint);text-decoration:line-through}
+.cl-note{font-size:11px;color:var(--text-muted);margin-top:2px}
+.cl-hard{display:inline-block;font-size:10px;font-weight:500;padding:1px 6px;border-radius:20px;margin-left:6px;background:var(--red-light);color:var(--red)}
+.cl-panel{display:none}
+.cl-panel.active{display:block}
+
+@keyframes tb{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+
+/* ── Conditional ── */
+.cond{display:none}
+.cond.show{display:block}
+
+/* ── Responsive ── */
+@media(max-width:600px){
+  .card-grid{grid-template-columns:repeat(2,1fr)}
+  .expect-split{grid-template-columns:1fr}
+  #beChip{bottom:16px;right:16px}
+}
+.fo-card{background:#fff;border:1px solid #e0d8c8;border-radius:16px;padding:22px;margin-bottom:12px}
+.fo-card-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px}
+.fo-card-icon{width:36px;height:36px;flex-shrink:0;background:#f5e6d3;border:1px solid #f0d4b0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.fo-card-title{font-size:16px;font-weight:700;color:#0a1929;margin-bottom:3px}
+.fo-card-hint{font-size:12px;color:#5d6d7e;line-height:1.5}
+.fo-field{margin-bottom:16px}
+.fo-field:last-child{margin-bottom:0}
+.fo-label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#2c5278;margin-bottom:8px}
+.fo-input{width:100%;background:#faf6f0;border:1.5px solid #e0d8c8;border-radius:8px;padding:10px 13px;font-size:14px;color:#1b1b1b;outline:none;font-family:inherit;resize:vertical;transition:border-color .2s}
+.fo-input:focus{border-color:#c77b30;background:#fff;box-shadow:0 0 0 3px #f5e6d3}
+.fo-input::placeholder{color:#95a5a6}
+.fo-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+.fo-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#faf6f0;border:1.5px solid #e0d8c8;border-radius:100px;font-size:13px;color:#5d6d7e;cursor:pointer;transition:all .15s;user-select:none}
+.fo-chip:hover{border-color:#c77b30;color:#a8641e;background:#faf2e8}
+.fo-chip.on{background:#faf2e8;border-color:#c77b30;color:#a8641e;font-weight:600;box-shadow:0 0 0 3px #f5e6d3}
+.fo-chip-other{background:#faf6f0;border:1.5px dashed #e0d8c8;border-radius:100px;padding:7px 13px;font-size:13px;color:#1b1b1b;outline:none;font-family:inherit;min-width:120px;transition:all .15s}
+.fo-chip-other:focus{border-color:#c77b30;border-style:solid;background:#fff}
+.fo-ui-card{border:1.5px solid #e0d8c8;border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s;background:#faf6f0;text-align:center}
+.fo-ui-card:hover{border-color:#c77b30;transform:translateY(-1px)}
+.fo-ui-card.on{border-color:#c77b30;box-shadow:0 0 0 3px #f5e6d3}
+.fo-ui-preview{padding:14px;font-size:26px;background:#f4ede0;border-bottom:1px solid #e0d8c8}
+.fo-ui-label{padding:6px 8px;font-size:11px;font-weight:600;color:#0a1929}
+
+/* Conditional */
+.cond{display:none}
+.cond.show{display:block}
+
+/* Responsive */
+@media(max-width:600px){
+  .card-grid{grid-template-columns:repeat(2,1fr)}
+  .prio-grid{grid-template-columns:1fr}
+  .expect-split{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">N</div>
+  <div>
+    <div class="header-title">NQuoc IT Request</div>
+    <div class="header-sub">Hệ thống tiếp nhận yêu cầu IT</div>
+  </div>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+    <div class="pulse-dot"></div>
+    <span style="font-size:12px;color:var(--text-muted)">Đang hoạt động</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- Step nav -->
+<div class="step-nav" id="stepNav">
+  <div class="step-item active" id="dot0"><div class="step-circle">1</div><div class="step-label">Team</div></div>
+  <div class="step-line" id="line01"></div>
+  <div class="step-item" id="dot1"><div class="step-circle">2</div><div class="step-label">Loại</div></div>
+  <div class="step-line" id="line12"></div>
+  <div class="step-item" id="dot2"><div class="step-circle">3</div><div class="step-label">Chi tiết</div></div>
+  <div class="step-line" id="line23"></div>
+  <div class="step-item" id="dot3"><div class="step-circle">4</div><div class="step-label">Phỏng vấn</div></div>
+  <div class="step-line" id="line34"></div>
+  <div class="step-item" id="dot4"><div class="step-circle">5</div><div class="step-label">Gửi</div></div>
+</div>
+
+<!-- Progress -->
+<div class="progress-wrap">
+  <div class="progress-bar-outer"><div class="progress-bar-inner" id="progBar" style="width:20%"></div></div>
+  <div class="progress-label"><span id="progStep">Bước 1 / 5</span><span id="progPct">20%</span></div>
+</div>
+
+<!-- ═══════════════ STEP 0: TEAM ═══════════════ -->
+<div class="panel active" id="panel0">
+  <div class="section-icon" style="background:#EDE9FE">🏢</div>
+  <div class="section-title">Team bạn đang gặp chuyện gì rồi? 👀</div>
+  <div class="section-sub">Chọn team bạn đang làm việc hoặc team liên quan đến vấn đề.</div>
+  <div class="card-grid" id="teamGrid">
+    <div class="sel-card" onclick="pick('team','N-EDU',this,'teamGrid')"><div class="card-icon">🎓</div><div class="card-name">N-EDU</div><div class="card-desc">Nền tảng giáo dục</div></div>
+    <div class="sel-card" onclick="pick('team','Bloom',this,'teamGrid')"><div class="card-icon">🌸</div><div class="card-name">Bloom</div><div class="card-desc">Sản phẩm Bloom</div></div>
+    <div class="sel-card" onclick="pick('team','This is Home',this,'teamGrid')"><div class="card-icon">🏠</div><div class="card-name">This is Home</div><div class="card-desc">Cộng đồng nội bộ</div></div>
+    <div class="sel-card" onclick="pick('team','Family Cloud',this,'teamGrid')"><div class="card-icon">☁️</div><div class="card-name">Family Cloud</div><div class="card-desc">Lưu trữ gia đình</div></div>
+    <div class="sel-card" onclick="pick('team','NhiLe System',this,'teamGrid')"><div class="card-icon">⚙️</div><div class="card-name">NhiLe System</div><div class="card-desc">Hệ thống nội bộ</div></div>
+    <div class="sel-card" onclick="pick('team','NQuoc',this,'teamGrid')"><div class="card-icon">🚀</div><div class="card-name">NQuoc</div><div class="card-desc">Platform NQuoc</div></div>
+  </div>
+  <div class="nav-row"><div></div><button class="btn-next" id="btn0" onclick="go(1)" disabled>Tiếp theo →</button></div>
+</div>
+
+<!-- ═══════════════ STEP 1: LOẠI ═══════════════ -->
+<div class="panel" id="panel1">
+  <div class="section-icon" style="background:#FFF7ED">🔍</div>
+  <div class="section-title">Bạn đang gặp vấn đề gì?</div>
+  <div class="section-sub">Chọn loại gần nhất — bước tiếp theo sẽ thay đổi theo lựa chọn này.</div>
+  <div class="type-list" id="typeList">
+
+    <!-- Bug -->
+    <div class="type-card-wrap">
+      <div class="type-card" onclick="pickType('bug',this,'subBug')">
+        <div class="tc-icon" style="background:#fee2e2">🐛</div>
+        <div style="flex:1"><div class="tc-name">Báo lỗi hệ thống</div><div class="tc-desc">Hệ thống bị lỗi, không hoạt động đúng</div></div>
+        <div class="tc-arrow" id="arrowBug">›</div>
+      </div>
+      <div class="sub-checklist" id="subBug">
+        <div class="sub-cl-label">Lỗi bạn đang gặp là gì? <span style="color:var(--text-muted);font-weight:400">(chọn một hoặc nhiều)</span></div>
+        <label class="cl-item"><input type="checkbox" name="bug" value="Bấm nút không có phản hồi"> Bấm nút không có phản hồi</label>
+        <label class="cl-item"><input type="checkbox" name="bug" value="Trang trắng / không load được"> Trang trắng / không load được</label>
+        <label class="cl-item"><input type="checkbox" name="bug" value="Lỗi hiện thông báo đỏ không rõ nguyên nhân"> Lỗi hiện thông báo đỏ không rõ nguyên nhân</label>
+        <label class="cl-item"><input type="checkbox" name="bug" value="Dữ liệu hiển thị sai sau khi lưu"> Dữ liệu hiển thị sai sau khi lưu</label>
+        <label class="cl-item"><input type="checkbox" name="bug" value="Form submit xong nhưng không thấy kết quả"> Form submit xong nhưng không thấy kết quả</label>
+        <label class="cl-item"><input type="checkbox" name="bug" value="Tính năng hoạt động được hôm qua, hôm nay không được"> Tính năng hoạt động được hôm qua, hôm nay không được</label>
+        <label class="cl-item cl-other"><input type="checkbox" name="bug" value="Khác"> Khác — <input type="text" class="cl-other-input" placeholder="Mô tả thêm..." onclick="event.stopPropagation()"></label>
+      </div>
+    </div>
+
+    <!-- Feature -->
+    <div class="type-card-wrap">
+      <div class="type-card" onclick="pickType('feature',this,null)">
+        <div class="tc-icon" style="background:#ede9fe">✨</div>
+        <div style="flex:1"><div class="tc-name">Yêu cầu tính năng mới</div><div class="tc-desc">Muốn thêm tính năng cho hệ thống</div></div>
+      </div>
+    </div>
+
+
+    <!-- Access -->
+    <div class="type-card-wrap">
+      <div class="type-card" onclick="pickType('access',this,'subAccess')">
+        <div class="tc-icon" style="background:#fef9c3">🔐</div>
+        <div style="flex:1"><div class="tc-name">Đăng nhập / Quyền truy cập</div><div class="tc-desc">Không đăng nhập được hoặc thiếu quyền</div></div>
+        <div class="tc-arrow" id="arrowAccess">›</div>
+      </div>
+      <div class="sub-checklist" id="subAccess">
+        <div class="sub-cl-label">Vấn đề bạn đang gặp là gì?</div>
+        <label class="cl-item"><input type="checkbox" name="access" value="Không nhập được Gmail / tài khoản"> Không nhập được Gmail / tài khoản</label>
+        <label class="cl-item"><input type="checkbox" name="access" value="Nhập đúng mật khẩu nhưng vẫn báo sai"> Nhập đúng mật khẩu nhưng vẫn báo sai</label>
+        <label class="cl-item"><input type="checkbox" name="access" value="Đăng nhập được nhưng không thấy tính năng cần dùng"> Đăng nhập được nhưng không thấy tính năng cần dùng</label>
+        <label class="cl-item"><input type="checkbox" name="access" value="Bị đăng xuất tự động"> Bị đăng xuất tự động</label>
+        <label class="cl-item"><input type="checkbox" name="access" value="Không được phân quyền đúng role"> Không được phân quyền đúng role</label>
+        <label class="cl-item"><input type="checkbox" name="access" value="Tài khoản bị khoá"> Tài khoản bị khoá</label>
+        <label class="cl-item cl-other"><input type="checkbox" name="access" value="Khác"> Khác — <input type="text" class="cl-other-input" placeholder="Mô tả thêm..." onclick="event.stopPropagation()"></label>
+      </div>
+    </div>
+
+    <!-- Perf -->
+    <div class="type-card-wrap">
+      <div class="type-card" onclick="pickType('perf',this,'subPerf')">
+        <div class="tc-icon" style="background:#fff7ed">🐢</div>
+        <div style="flex:1"><div class="tc-name">Hiệu suất chậm</div><div class="tc-desc">Hệ thống chậm, load lâu</div></div>
+        <div class="tc-arrow" id="arrowPerf">›</div>
+      </div>
+      <div class="sub-checklist" id="subPerf">
+        <div class="sub-cl-label">Biểu hiện chậm như thế nào?</div>
+        <label class="cl-item"><input type="checkbox" name="perf" value="Trang load hơn 5 giây"> Trang load hơn 5 giây</label>
+        <label class="cl-item"><input type="checkbox" name="perf" value="Bấm nút xong chờ rất lâu mới có kết quả"> Bấm nút xong chờ rất lâu mới có kết quả</label>
+        <label class="cl-item"><input type="checkbox" name="perf" value="Upload file bị treo / không xong"> Upload file bị treo / không xong</label>
+        <label class="cl-item"><input type="checkbox" name="perf" value="Chỉ chậm vào giờ cao điểm"> Chỉ chậm vào giờ cao điểm</label>
+        <label class="cl-item"><input type="checkbox" name="perf" value="Chậm trên điện thoại, máy tính thì ổn"> Chậm trên điện thoại, máy tính thì ổn</label>
+        <label class="cl-item cl-other"><input type="checkbox" name="perf" value="Khác"> Khác — <input type="text" class="cl-other-input" placeholder="Mô tả thêm..." onclick="event.stopPropagation()"></label>
+      </div>
+    </div>
+
+    <!-- Data -->
+    <div class="type-card-wrap">
+      <div class="type-card" onclick="pickType('data',this,'subData')">
+        <div class="tc-icon" style="background:#f0fdf4">📊</div>
+        <div style="flex:1"><div class="tc-name">Vấn đề dữ liệu</div><div class="tc-desc">Dữ liệu sai, mất hoặc không đồng bộ</div></div>
+        <div class="tc-arrow" id="arrowData">›</div>
+      </div>
+      <div class="sub-checklist" id="subData">
+        <div class="sub-cl-label">Dữ liệu bị vấn đề gì?</div>
+        <label class="cl-item"><input type="checkbox" name="data" value="Số liệu hiển thị sai so với thực tế"> Số liệu hiển thị sai so với thực tế</label>
+        <label class="cl-item"><input type="checkbox" name="data" value="Dữ liệu bị mất sau khi lưu"> Dữ liệu bị mất sau khi lưu</label>
+        <label class="cl-item"><input type="checkbox" name="data" value="Dữ liệu không đồng bộ giữa các trang"> Dữ liệu không đồng bộ giữa các trang</label>
+        <label class="cl-item"><input type="checkbox" name="data" value="Dữ liệu của người khác hiển thị nhầm vào tài khoản mình"> Dữ liệu của người khác hiển thị nhầm vào tài khoản mình</label>
+        <label class="cl-item"><input type="checkbox" name="data" value="Báo cáo / export ra số sai"> Báo cáo / export ra số sai</label>
+        <label class="cl-item cl-other"><input type="checkbox" name="data" value="Khác"> Khác — <input type="text" class="cl-other-input" placeholder="Mô tả thêm..." onclick="event.stopPropagation()"></label>
+      </div>
+    </div>
+
+  </div>
+  <div class="nav-row"><button class="btn-back" onclick="go(0)">← Quay lại</button><button class="btn-next" id="btn1" onclick="go(2)" disabled>Tiếp theo →</button></div>
+</div>
+
+<!-- ═══════════════ STEP 2: CHI TIẾT ═══════════════ -->
+<div class="panel" id="panel2">
+
+  <!-- FEATURE ORDER FORM — shown when type=feature -->
+  <div id="fo-panel" style="display:none;background:#faf6f0;border-radius:var(--radius);padding:20px 16px;font-family:'Inter Tight',-apple-system,system-ui,sans-serif">
+    <div class="section-icon" style="background:#ede9fe">✨</div>
+    <div class="section-title">Chi tiết tính năng mới</div>
+    <div class="section-sub" style="margin-bottom:20px">Điền càng đầy đủ, IT càng hiểu đúng yêu cầu của bạn.</div>
+
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">👤</div><div><div class="fo-card-title">Thông tin của bạn</div><div class="fo-card-hint">Để IT biết ai đang yêu cầu và liên hệ lại khi cần.</div></div></div>
+      <div class="fo-field"><label class="fo-label">HỌ VÀ TÊN *</label><input type="text" id="fo-name" class="fo-input" placeholder="Ví dụ: Nguyễn Thị Lan"></div>
+      <div class="fo-field"><label class="fo-label">TỔ CHỨC / PHÒNG BAN *</label><input type="text" id="fo-org" class="fo-input" placeholder="Ví dụ: Phòng Kinh doanh..."></div>
+      <div class="fo-field"><label class="fo-label">EMAIL LIÊN HỆ</label><input type="email" id="fo-email" class="fo-input" placeholder="email@company.com"></div>
+    </div>
+
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">🎯</div><div><div class="fo-card-title">Tên tính năng & Deadline</div><div class="fo-card-hint">Gọi nó bằng cái tên bạn hay dùng khi kể cho đồng nghiệp nghe.</div></div></div>
+      <div class="fo-field"><label class="fo-label">TÊN TÍNH NĂNG *</label><input type="text" id="fo-feat-name" class="fo-input" placeholder="Ví dụ: Hệ thống quản lý đơn hàng nội bộ" oninput="foCheck()"></div>
+      <div class="fo-field"><label class="fo-label">DEADLINE MONG MUỐN</label><input type="date" id="fo-deadline" class="fo-input"></div>
+    </div>
+
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">🔍</div><div><div class="fo-card-title">Bạn đang gặp vấn đề gì?</div><div class="fo-card-hint">Kể thoải mái — không có câu trả lời sai ở đây đâu nhé!</div></div></div>
+      <div class="fo-field">
+        <label class="fo-label">HIỆN ĐANG LÀM BẰNG CÁCH NÀO?</label>
+        <div class="fo-chips">
+          <div class="fo-chip" onclick="foToggle(this)">📊 Làm tay / nhập Excel</div>
+          <div class="fo-chip" onclick="foToggle(this)">💬 Zalo / Email qua lại</div>
+          <div class="fo-chip" onclick="foToggle(this)">🖥️ Phần mềm cũ không đủ</div>
+          <div class="fo-chip" onclick="foToggle(this)">🆕 Chưa có gì cả</div>
+          <input type="text" class="fo-chip-other" placeholder="✏️ Khác...">
+        </div>
+      </div>
+      <div class="fo-field">
+        <label class="fo-label">VẤN ĐỀ LỚN NHẤT LÀ GÌ?</label>
+        <div class="fo-chips">
+          <div class="fo-chip" onclick="foToggle(this)">⏰ Mất nhiều thời gian</div>
+          <div class="fo-chip" onclick="foToggle(this)">⚠️ Hay xảy ra sai sót</div>
+          <div class="fo-chip" onclick="foToggle(this)">🔍 Khó theo dõi</div>
+          <div class="fo-chip" onclick="foToggle(this)">📉 Không có dữ liệu báo cáo</div>
+          <div class="fo-chip" onclick="foToggle(this)">👥 Quá nhiều thủ công</div>
+          <input type="text" class="fo-chip-other" placeholder="✏️ Khác...">
+        </div>
+      </div>
+      <div class="fo-field"><label class="fo-label">KỂ THÊM CHO IT NGHE (KHÔNG BẮT BUỘC)</label><textarea id="fo-desc" class="fo-input" rows="3" placeholder="Ví dụ: Mỗi tuần tôi mất 3 tiếng tổng hợp 5 file Excel..."></textarea></div>
+    </div>
+
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">👥</div><div><div class="fo-card-title">Ai sẽ dùng & dùng ở đâu?</div><div class="fo-card-hint">Giúp IT hiểu quy mô và môi trường để thiết kế đúng nhất.</div></div></div>
+      <div class="fo-field">
+        <label class="fo-label">NGƯỜI DÙNG</label>
+        <div class="fo-chips" id="fo-users">
+          <div class="fo-chip" onclick="foRadio(this,'fo-users')">👤 Nhóm nhỏ (dưới 10)</div>
+          <div class="fo-chip" onclick="foRadio(this,'fo-users')">👥 Cả phòng ban (10–50)</div>
+          <div class="fo-chip" onclick="foRadio(this,'fo-users')">🏢 Toàn công ty</div>
+          <div class="fo-chip" onclick="foRadio(this,'fo-users')">🌐 Khách hàng bên ngoài</div>
+          <input type="text" class="fo-chip-other" placeholder="✏️ Khác...">
+        </div>
+      </div>
+      <div class="fo-field">
+        <label class="fo-label">THIẾT BỊ SỬ DỤNG</label>
+        <div class="fo-chips">
+          <div class="fo-chip" onclick="foToggle(this)">💻 Máy tính văn phòng</div>
+          <div class="fo-chip" onclick="foToggle(this)">📱 Điện thoại</div>
+          <div class="fo-chip" onclick="foToggle(this)">📲 Máy tính bảng</div>
+          <input type="text" class="fo-chip-other" placeholder="✏️ Khác...">
+        </div>
+      </div>
+    </div>
+
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">✅</div><div><div class="fo-card-title">Kết quả bạn mong muốn</div><div class="fo-card-hint">Sau khi có tính năng này, cuộc sống của bạn sẽ dễ hơn như thế nào?</div></div></div>
+      <div class="fo-field">
+        <label class="fo-label">TÍNH NĂNG CẦN CÓ</label>
+        <div class="fo-chips">
+          <div class="fo-chip" onclick="foToggle(this)">✍️ Nhập liệu nhanh hơn</div>
+          <div class="fo-chip" onclick="foToggle(this)">📋 Quản lý danh sách</div>
+          <div class="fo-chip" onclick="foToggle(this)">📊 Báo cáo tự động</div>
+          <div class="fo-chip" onclick="foToggle(this)">🔔 Thông báo tự động</div>
+          <div class="fo-chip" onclick="foToggle(this)">🔐 Phân quyền</div>
+          <div class="fo-chip" onclick="foToggle(this)">🔎 Tìm kiếm & lọc</div>
+          <input type="text" class="fo-chip-other" placeholder="✏️ Khác...">
+        </div>
+      </div>
+      <div class="fo-field">
+        <label class="fo-label">KẾT NỐI VỚI PHẦN MỀM NÀO ĐANG DÙNG?</label>
+        <div class="fo-chips">
+          <div class="fo-chip" onclick="foToggle(this)">🔒 Không cần</div>
+          <div class="fo-chip" onclick="foToggle(this)">🟡 Google Workspace</div>
+          <div class="fo-chip" onclick="foToggle(this)">💰 Kế toán</div>
+          <div class="fo-chip" onclick="foToggle(this)">👔 Nhân sự / Chấm công</div>
+          <div class="fo-chip" onclick="foToggle(this)">🤔 Cần IT tư vấn</div>
+          <input type="text" class="fo-chip-other" placeholder="✏️ Phần mềm khác...">
+        </div>
+      </div>
+    </div>
+
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">🎨</div><div><div class="fo-card-title">Giao diện trông như thế nào?</div><div class="fo-card-hint">Chọn kiểu gần nhất với hình dung của bạn.</div></div></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px" id="fo-ui-grid">
+        <div class="fo-ui-card" onclick="foUI(this)"><div class="fo-ui-preview">📋</div><div class="fo-ui-label">Bảng quản lý</div></div>
+        <div class="fo-ui-card" onclick="foUI(this)"><div class="fo-ui-preview">🃏</div><div class="fo-ui-label">Thẻ / Card</div></div>
+        <div class="fo-ui-card" onclick="foUI(this)"><div class="fo-ui-preview">📊</div><div class="fo-ui-label">Dashboard</div></div>
+        <div class="fo-ui-card" onclick="foUI(this)"><div class="fo-ui-preview">📝</div><div class="fo-ui-label">Form từng bước</div></div>
+        <div class="fo-ui-card" onclick="foUI(this)"><div class="fo-ui-preview">📱</div><div class="fo-ui-label">App điện thoại</div></div>
+        <div class="fo-ui-card" style="background:#faf6f0;border-style:dashed"><div class="fo-ui-preview">✨</div><div><input type="text" id="fo-ui-other" class="fo-input" placeholder="Tên app hoặc link..." style="font-size:11px;padding:4px 8px" onclick="event.stopPropagation()"></div></div>
+      </div>
+    </div>
+
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">📝</div><div><div class="fo-card-title">Thông tin thêm</div><div class="fo-card-hint">Link tham khảo, ảnh chụp màn hình, hay bất kỳ ghi chú nào.</div></div></div>
+      <div class="fo-field"><label class="fo-label">LINK THAM KHẢO</label><input type="text" id="fo-links" class="fo-input" placeholder="https://... hoặc nhiều link cách nhau bằng dấu phẩy"></div>
+      <div class="fo-field"><label class="fo-label">GHI CHÚ THÊM</label><textarea id="fo-notes" class="fo-input" rows="3" placeholder="Bất kỳ điều gì bạn muốn IT biết thêm..."></textarea></div>
+    </div>
+
+    <div class="nav-row"><button class="btn-back" onclick="go(1)">← Quay lại</button><button class="btn-next" id="btn2fo" onclick="go(3)" disabled>Tiếp theo →</button></div>
+  </div>
+
+  <!-- NORMAL DETAIL FORM — hidden when type=feature -->
+  <div id="normal-panel">
+  <div class="section-icon" style="background:#f0fdf4">📋</div>
+  <div class="section-title">Chi tiết yêu cầu</div>
+  <div class="section-sub">Điền đầy đủ để IT hiểu đúng và xử lý nhanh hơn.</div>
+
+  <!-- Hệ thống -->
+  <div class="field-group">
+    <div class="field-label">Hệ thống nào đang bị ảnh hưởng? <span class="req">* Cần điền</span></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px" id="sysCards">
+      <div class="sys-card" onclick="toggleSys('nquoc.vn',this)"><span class="sys-icon">🌐</span><span class="sys-name">nquoc.vn</span></div>
+      <div class="sys-card" onclick="toggleSys('team.nquoc.vn',this)"><span class="sys-icon">👥</span><span class="sys-name">team.nquoc.vn</span></div>
+      <div class="sys-card" onclick="toggleSys('data.nquoc.vn',this)"><span class="sys-icon">📊</span><span class="sys-name">data.nquoc.vn</span></div>
+      <div class="sys-card" onclick="toggleSys('api.nquoc.vn',this)"><span class="sys-icon">⚙️</span><span class="sys-name">api.nquoc.vn</span></div>
+      <div class="sys-card" onclick="toggleSys('Supabase',this)"><span class="sys-icon">🗄️</span><span class="sys-name">Supabase</span></div>
+      <div class="sys-card" onclick="toggleSys('tbot.nquoc.vn',this)"><span class="sys-icon">🤖</span><span class="sys-name">tbot.nquoc.vn</span></div>
+      <div class="sys-card" onclick="toggleSys('Website của team',this)"><span class="sys-icon">🔗</span><span class="sys-name">Website của tea...</span></div>
+      <div class="sys-card" onclick="toggleSys('Không rõ',this)"><span class="sys-icon">❓</span><span class="sys-name">Không rõ</span></div>
+    </div>
+  </div>
+
+  <!-- Link trang -->
+  <div class="field-group">
+    <div class="field-label" id="linkLabel">Link trang đang bị lỗi <span class="opt">(tuỳ chọn)</span></div>
+    <input type="text" id="bugLink" placeholder="Link trang lỗi hoặc Google Drive, Loom...">
+  </div>
+
+  <!-- Môi trường -->
+  <div class="field-group">
+    <div class="field-label">Môi trường <span class="opt">Tự động phát hiện</span></div>
+    <div class="field-env" id="envInfo">
+      <span id="envBrowser">Chrome</span>
+      <span id="envOS">Windows</span>
+      <span id="envRes">1920×1080</span>
+    </div>
+  </div>
+
+  <!-- === BUG filter === -->
+  <div id="flt-bug" class="cond">
+    <hr class="divider">
+    <div class="sub-section">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background:#fee2e2">🐛</div>
+        <div><div class="sub-section-title">Mô tả lỗi cụ thể</div><div class="sub-section-sub">Càng cụ thể, IT xử lý càng nhanh</div></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Kỳ vọng vs Thực tế <span class="req">*</span></div>
+        <div class="expect-split">
+          <div class="expect-box">
+            <div class="expect-header good">✅ Kỳ vọng</div>
+            <textarea id="bugExpect" placeholder="Tôi muốn hệ thống làm [X]..." oninput="checkStep2()"></textarea>
+          </div>
+          <div class="expect-box">
+            <div class="expect-header bad">✗ Thực tế</div>
+            <textarea id="bugActual" placeholder="Thực tế đang xảy ra điều gì..." oninput="checkStep2()"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Lỗi xảy ra khi làm gì? <span class="req">*</span></div>
+        <div class="field-hint">VD: "Tôi đang click Lưu trong form tạo task thì..."</div>
+        <textarea id="bugAction" placeholder="Tôi đang làm [X] thì..." oninput="checkStep2()"></textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Tần suất xảy ra</div>
+        <div class="chip-group" id="freqChips">
+          <div class="chip" onclick="toggleChip(this,'freq')">Luôn luôn</div>
+          <div class="chip" onclick="toggleChip(this,'freq')">Thỉnh thoảng</div>
+          <div class="chip" onclick="toggleChip(this,'freq')">Chỉ 1 lần</div>
+          <div class="chip" onclick="toggleChip(this,'freq')">Chưa thử lại</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vấn đề gốc -->
+    <div class="sub-section">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background:#eff6ff">🔎</div>
+        <div><div class="sub-section-title">Vấn đề gốc</div><div class="sub-section-sub">Hiểu đúng bệnh — không chữa triệu chứng</div></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Quy trình hiện tại</div>
+        <div class="field-hint">Hiện đang làm việc này như thế nào? Ai làm? Dùng công cụ gì?</div>
+        <textarea id="bugProcess" placeholder="Hiện tại quy trình là..."></textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Điểm đau cụ thể</div>
+        <textarea id="bugPain" placeholder="Điều gì đang không ổn? Gây mất thời gian / lỗi / bực bội nhất?"></textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Hậu quả nếu không giải quyết</div>
+        <textarea id="bugImpact" placeholder="Ảnh hưởng gì? Mất bao nhiêu tiền / giờ / cơ hội?"></textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Loại lỗi liên quan đến</div>
+        <div class="chip-group" id="bugTypeChips">
+          <div class="chip" onclick="toggleChip(this,'bugtype')">Web UI</div>
+          <div class="chip" onclick="toggleChip(this,'bugtype')">Auto / quy trình tự động</div>
+          <div class="chip" onclick="toggleChip(this,'bugtype')">Data hiển thị trên UI</div>
+          <div class="chip" onclick="toggleChip(this,'bugtype')">API / Backend</div>
+          <div class="chip" onclick="toggleChip(this,'bugtype')">Không rõ</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === FEATURE filter === -->
+  <div id="flt-feature" class="cond">
+    <hr class="divider">
+    <div class="sub-section">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background:#ede9fe">✨</div>
+        <div><div class="sub-section-title">Vấn đề gốc</div><div class="sub-section-sub">Hiểu đúng bệnh — không chữa triệu chứng</div></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Quy trình hiện tại <span class="req">*</span></div>
+        <div class="field-hint">Hiện đang làm việc này như thế nào? Ai làm? Dùng công cụ gì?</div>
+        <textarea id="featProcess" placeholder="Hiện tại tôi đang phải làm [X] bằng cách [Y]..." oninput="checkStep2()"></textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Điểm đau cụ thể <span class="req">*</span></div>
+        <textarea id="featPain" placeholder="Điều gì đang không ổn? Gây mất thời gian nhất?" oninput="checkStep2()"></textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Tần suất xảy ra</div>
+        <select id="featFreq">
+          <option value="">Chọn...</option>
+          <option>Hàng ngày (nghiệp vụ chính)</option>
+          <option>Định kỳ (tuần/tháng)</option>
+          <option>Xử lý tình huống</option>
+          <option>Một lần</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Hậu quả nếu không giải quyết</div>
+        <textarea id="featImpact" placeholder="Ảnh hưởng gì? Mất bao nhiêu tiền / giờ / cơ hội?"></textarea>
+      </div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background:#f0fdf4">👥</div>
+        <div><div class="sub-section-title">Mục đích & Người dùng</div><div class="sub-section-sub">Ai dùng — dùng gì — trong bối cảnh nào</div></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Người dùng cuối <span class="req">*</span></div>
+        <input type="text" id="featUser" placeholder="Ai sẽ dùng? Bao nhiêu người? Trình độ kỹ thuật?" oninput="checkStep2()">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Bối cảnh sử dụng</div>
+        <select id="featCtx">
+          <option value="">Chọn...</option>
+          <option>Hàng ngày (nghiệp vụ chính)</option>
+          <option>Định kỳ (tuần/tháng)</option>
+          <option>Xử lý tình huống</option>
+          <option>Một lần</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Mục tiêu cuối cùng</div>
+        <textarea id="featGoal" placeholder="Sau khi có tính năng này, điều gì thay đổi trong công việc?"></textarea>
+      </div>
+    </div>
+
+    <div class="sub-section">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background:#fff7ed">🎯</div>
+        <div><div class="sub-section-title">Output & Outcome mong muốn</div><div class="sub-section-sub">Tách rõ cái muốn vs cái cần</div></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Output cần có <span class="req">*</span></div>
+        <textarea id="featOutput" placeholder="Hệ thống / tính năng trông như thế nào? Màn hình, luồng, dữ liệu?" oninput="checkStep2()"></textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Outcome mong đợi</div>
+        <textarea id="featOutcome" placeholder="Bộ phận nào hưởng lợi trực tiếp? Thay đổi gì cụ thể?"></textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Must-have — bắt buộc phải có <span class="req">*</span></div>
+        <div class="field-hint">Không có thì không xong. Không thể thương lượng.</div>
+        <textarea id="featMust" placeholder="Tính năng này PHẢI có [X], nếu không thì..." oninput="checkStep2()"></textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Nice-to-have — có thì tốt hơn</div>
+        <textarea id="featNice" placeholder="Có thì tốt hơn, không có vẫn dùng được."></textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Tính năng này xong khi nào là "dùng được"? <span class="req">*</span></div>
+        <div class="field-hint">Đây là tiêu chuẩn nghiệm thu — IT sẽ dùng câu này để biết khi nào DONE.</div>
+        <textarea id="featDone" placeholder="Tôi sẽ thấy tính năng này xong khi tôi có thể [...]..." oninput="checkStep2()"></textarea>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- === ACCESS filter === -->
+  <div id="flt-access" class="cond">
+    <hr class="divider">
+    <div class="sub-section">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background:#fef9c3">🔐</div>
+        <div><div class="sub-section-title">Mô tả vấn đề truy cập</div></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Bạn không thể làm gì cụ thể? <span class="req">*</span></div>
+        <textarea id="accessWhat" placeholder="Tôi không thể [đăng nhập / truy cập trang X / thấy tính năng Y]..." oninput="checkStep2()"></textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Thông báo lỗi hiện ra</div>
+        <input type="text" id="accessErr" placeholder="Copy chính xác thông báo lỗi...">
+      </div>
+      <div class="field-group">
+        <div class="field-label">Bạn cần quyền gì? <span class="req">*</span></div>
+        <div class="chip-group" id="permChips">
+          <div class="chip" onclick="toggleChip(this,'perm')">Đăng nhập</div>
+          <div class="chip" onclick="toggleChip(this,'perm')">Xem dữ liệu</div>
+          <div class="chip" onclick="toggleChip(this,'perm')">Chỉnh sửa</div>
+          <div class="chip" onclick="toggleChip(this,'perm')">Admin</div>
+          <div class="chip" onclick="toggleChip(this,'perm')">Không rõ</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === PERF filter === -->
+  <div id="flt-perf" class="cond">
+    <hr class="divider">
+    <div class="sub-section">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background:#fff7ed">🐢</div>
+        <div><div class="sub-section-title">Mô tả vấn đề hiệu suất</div></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Trang / tính năng nào bị chậm? <span class="req">*</span></div>
+        <textarea id="perfWhere" placeholder="Trang [X] tại URL [Y] bị chậm khi tôi làm [Z]..." oninput="checkStep2()"></textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Chậm bao lâu?</div>
+        <div class="chip-group" id="slowChips">
+          <div class="chip" onclick="toggleChip(this,'slow')">3–5 giây</div>
+          <div class="chip" onclick="toggleChip(this,'slow')">5–10 giây</div>
+          <div class="chip" onclick="toggleChip(this,'slow')">Hơn 10 giây</div>
+          <div class="chip" onclick="toggleChip(this,'slow')">Không load được</div>
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Xảy ra khi nào?</div>
+        <div class="chip-group" id="perfTimeChips">
+          <div class="chip" onclick="toggleChip(this,'perftime')">Luôn luôn</div>
+          <div class="chip" onclick="toggleChip(this,'perftime')">Giờ cao điểm</div>
+          <div class="chip" onclick="toggleChip(this,'perftime')">Thỉnh thoảng</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === DATA filter === -->
+  <div id="flt-data" class="cond">
+    <hr class="divider">
+    <div class="sub-section">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background:#f0fdf4">📊</div>
+        <div><div class="sub-section-title">Mô tả vấn đề dữ liệu</div></div>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Dữ liệu nào bị vấn đề? <span class="req">*</span></div>
+        <textarea id="dataWhat" placeholder="Dữ liệu [X] của [ai / module nào] đang bị [sai / mất / không đồng bộ]..." oninput="checkStep2()"></textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Dữ liệu đúng phải là gì? <span class="req">*</span></div>
+        <textarea id="dataExpected" placeholder="Dữ liệu đúng phải là [Y], nhưng hiện đang hiển thị [Z]..." oninput="checkStep2()"></textarea>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Lần cuối dữ liệu đúng là khi nào?</div>
+        <input type="text" id="dataLastOk" placeholder="VD: Trước 14h hôm nay / Trước khi update...">
+      </div>
+    </div>
+  </div>
+
+  <!-- File đính kèm tài liệu -->
+  <div style="margin-top:24px">
+    <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;padding-top:16px;border-top:1px solid var(--gray-border)">Đính kèm tài liệu</div>
+    <div style="font-size:13px;font-weight:600;color:var(--text-mid);margin-bottom:8px" id="fileUploadLabel">ẢNH / VIDEO / FILE MÔ TẢ LỖI</div>
+    <div id="dropZone3"
+      style="border:1.5px dashed var(--gray-border);border-radius:var(--radius);padding:28px 20px;text-align:center;cursor:pointer;background:#fafafa;transition:border-color .2s"
+      onclick="document.getElementById('allFiles').click()"
+      ondragover="event.preventDefault();this.style.borderColor='var(--purple)'"
+      ondragleave="this.style.borderColor='var(--gray-border)'"
+      ondrop="handleDrop3(event)">
+      <div style="font-size:28px;margin-bottom:8px">📎</div>
+      <div style="font-size:14px;color:var(--text-mid)"><strong style="color:var(--purple)">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
+      <div style="display:flex;justify-content:center;gap:6px;margin-top:10px">
+        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PNG</span>
+        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">JPG</span>
+        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">MP4</span>
+        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PDF</span>
+      </div>
+      <input type="file" id="allFiles" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="handleFiles3(this.files)">
+    </div>
+    <div id="fileList3" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
+    <div id="linkList3" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
+  </div>
+
+  </div><!-- /normal-panel -->
+
+  <div class="nav-row" id="normal-nav"><button class="btn-back" onclick="go(1)">← Quay lại</button><button class="btn-next" id="btn2" onclick="go(3)" disabled>Tiếp theo →</button></div>
+</div>
+
+<!-- ═══════════════ STEP 3: AI RÀ SOÁT ═══════════════ -->
+<div class="panel" id="panel3">
+  <div class="ai-step-badge">✦ Bước 4 / 5 — AI đang rà soát</div>
+  <div style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-.3px">AI rà soát yêu cầu ✨</div>
+  <div style="font-size:14px;color:var(--text-muted);margin-bottom:20px;line-height:1.6">Để team IT hiểu đúng 100%, AI sẽ kiểm tra và hỏi lại nếu cần làm rõ thêm.</div>
+
+  <!-- AI Chat box -->
+  <div class="ai-chat-wrap">
+    <div id="aiChatWrap" style="padding:16px;display:flex;flex-direction:column;gap:12px;min-height:160px"></div>
+    <div id="aiInputWrap" class="ai-input-bar">
+      <input type="text" id="aiInput" placeholder="Nhập câu trả lời của bạn..." onkeydown="if(event.key==='Enter')sendAI()" style="min-height:44px">
+      <button onclick="sendAI()" class="ai-send-btn">Gửi →</button>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-bottom:16px">
+    <button onclick="skipAI()" style="background:none;border:none;font-size:13px;color:var(--text-muted);cursor:pointer;text-decoration:underline;padding:8px">Bỏ qua bước này →</button>
+  </div>
+
+  <div id="aiDoneWrap" style="display:none">
+    <button onclick="go(4)" style="width:100%;padding:14px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer;min-height:48px">✅ Xem lại & gửi yêu cầu →</button>
+  </div>
+
+  <div class="nav-row" style="margin-top:12px"><button class="btn-back" onclick="go(2)">← Quay lại</button><div></div></div>
+</div>
+
+<!-- ═══════════════ STEP 4: ĐỌC LẠI TRƯỚC KHI GỬI ═══════════════ -->
+<div class="panel" id="panel4">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <div style="display:inline-flex;align-items:center;gap:6px;background:#f3e8ff;border:1px solid #d8b4fe;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;color:#7c3aed">Bước 5 / 5</div>
+    <button onclick="go(3)" style="background:none;border:none;font-size:13px;color:var(--text-muted);cursor:pointer">← Quay lại</button>
+  </div>
+  <div style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px">Đọc lại trước khi gửi 📋</div>
+  <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Kiểm tra một lần nữa — sau khi gửi sẽ không chỉnh sửa được nhé.</div>
+
+  <!-- Warning banner -->
+  <div style="background:#fef9c3;border:1px solid #fde047;border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;color:#854d0e;margin-bottom:16px;display:flex;align-items:center;gap:8px">
+    ⚠️ Yêu cầu sẽ được chuyển ngay đến team IT khi bạn bấm gửi.
+  </div>
+
+  <!-- Summary card — hero moment -->
+  <div class="review-hero-card">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:12px;display:flex;align-items:center;gap:10px">
+      <span style="display:inline-block;width:20px;height:1px;background:rgba(255,255,255,.5)"></span>
+      TÓM TẮT YÊU CẦU HỖ TRỢ
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;position:relative;z-index:1">
+      <div>
+        <div style="font-size:13px;opacity:.75;margin-bottom:4px">NQuoc IT Support</div>
+        <div style="font-size:15px;font-weight:700;letter-spacing:-.01em"><span id="rv-date"></span></div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:10px;opacity:.6;margin-bottom:2px;letter-spacing:.06em;text-transform:uppercase">NGƯỜI GỬI</div>
+        <div style="font-size:13px;font-weight:600" id="rv-sender">—</div>
+        <div style="font-size:11px;opacity:.6" id="rv-team-badge">—</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;position:relative;z-index:1">
+      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(8px);border-radius:10px;padding:12px">
+        <div style="font-size:10px;opacity:.65;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">LOẠI YÊU CẦU</div>
+        <div style="font-size:13px;font-weight:600" id="rv-type-card">—</div>
+      </div>
+      <div style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(8px);border-radius:10px;padding:12px">
+        <div style="font-size:10px;opacity:.65;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px">ĐỘ ƯU TIÊN</div>
+        <div style="font-size:13px;font-weight:600" id="rv-prio-card">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail rows -->
+  <div style="background:#fff;border:1px solid var(--gray-border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px">
+    <div id="rv-summary-rows"></div>
+  </div>
+
+  <!-- Checkbox xác nhận -->
+  <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid var(--gray-border);border-radius:var(--radius-sm);cursor:pointer;font-size:13px;color:var(--text-mid);margin-bottom:16px;transition:border-color .2s" id="confirmLabel">
+    <input type="checkbox" id="confirmCheck" onchange="toggleSubmit()" style="width:18px;height:18px;accent-color:var(--purple);cursor:pointer">
+    Tôi đã đọc kỹ và xác nhận thông tin trên là chính xác
+  </label>
+
+  <!-- Submit -->
+  <button id="submitBtn" onclick="submit()" disabled style="width:100%;padding:14px;background:#d1d5db;color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:not-allowed;transition:all .3s">
+    🚀 Gửi cho team IT
+  </button>
+</div>
+
+<!-- ═══════════════ DONE ═══════════════ -->
+<div class="panel" id="panelDone">
+  <div class="success-wrap">
+    <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--purple-light),#C4B5FD);display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto 20px;box-shadow:0 0 0 12px rgba(91,79,232,.08),var(--shadow-lg);animation:stepPop .5s cubic-bezier(.34,1.56,.64,1) both .1s">✅</div>
+    <div style="font-size:24px;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-.3px">Đã gửi thành công!</div>
+    <div class="ticket-id" id="ticketId">IT-2026-001</div>
+    <div style="font-size:14px;color:var(--text-muted);margin:12px 0 20px;line-height:1.6" id="successSub">IT sẽ phản hồi theo SLA đã cam kết.</div>
+    <div class="sla-badge" id="slaBadge" style="margin:0 auto 32px">⏱ IT phản hồi trong thời gian sớm nhất</div>
+    <button class="btn-next" onclick="resetAll()" style="margin:0 auto">+ Tạo yêu cầu mới</button>
+  </div>
+</div>
+
+<!-- ═══ FEATURE FULLPAGE ═══ -->
+<div id="panelFeature" style="display:none;font-family:'Inter Tight',-apple-system,system-ui,sans-serif;color:#1b1b1b">
+
+  <!-- Feature form -->
+  <div id="panelFeatureForm" style="background:#faf6f0;padding:20px 0">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#c77b30;margin-bottom:6px">── YÊU CẦU TÍNH NĂNG MỚI</div>
+        <div style="font-size:22px;font-weight:800;color:#0a1929;letter-spacing:-.02em">Bạn muốn làm tính năng gì?</div>
+        <div style="font-size:13px;color:#5d6d7e;margin-top:4px">Cứ mô tả theo cách bạn cảm nhận — đừng lo sai 💛</div>
+      </div>
+      <button onclick="backFromFeature()" style="background:none;border:1px solid #e0d8c8;border-radius:8px;padding:6px 12px;font-size:13px;color:#5d6d7e;cursor:pointer">← Quay lại</button>
+    </div>
+
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">👤</div><div><div class="fo-card-title">Thông tin của bạn</div><div class="fo-card-hint">Để IT biết ai đang yêu cầu và liên hệ lại khi cần.</div></div></div>
+      <div class="fo-field"><label class="fo-label">HỌ VÀ TÊN *</label><input type="text" id="pf-name" class="fo-input" placeholder="Ví dụ: Nguyễn Thị Lan"></div>
+      <div class="fo-field"><label class="fo-label">TỔ CHỨC / PHÒNG BAN *</label><input type="text" id="pf-org" class="fo-input" placeholder="Ví dụ: Phòng Kinh doanh..."></div>
+      <div class="fo-field"><label class="fo-label">EMAIL LIÊN HỆ</label><input type="email" id="pf-email" class="fo-input" placeholder="email@company.com"></div>
+    </div>
+
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">🎯</div><div><div class="fo-card-title">Tên tính năng & Deadline</div><div class="fo-card-hint">Gọi nó bằng cái tên bạn hay dùng khi kể cho đồng nghiệp nghe.</div></div></div>
+      <div class="fo-field"><label class="fo-label">TÊN TÍNH NĂNG *</label><input type="text" id="pf-feat-name" class="fo-input" placeholder="Ví dụ: Hệ thống quản lý đơn hàng nội bộ" oninput="foCheck()"></div>
+      <div class="fo-field"><label class="fo-label">DEADLINE MONG MUỐN</label><input type="date" id="pf-deadline" class="fo-input"></div>
+    </div>
+
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">🔍</div><div><div class="fo-card-title">Bạn đang gặp vấn đề gì?</div><div class="fo-card-hint">Kể thoải mái — không có câu trả lời sai!</div></div></div>
+      <div class="fo-field">
+        <label class="fo-label">HIỆN ĐANG LÀM BẰNG CÁCH NÀO?</label>
+        <div class="fo-chips">
+          <div class="fo-chip" onclick="foToggle(this)">📊 Làm tay / nhập Excel</div>
+          <div class="fo-chip" onclick="foToggle(this)">💬 Zalo / Email qua lại</div>
+          <div class="fo-chip" onclick="foToggle(this)">🖥️ Phần mềm cũ không đủ</div>
+          <div class="fo-chip" onclick="foToggle(this)">🆕 Chưa có gì cả</div>
+          <input type="text" class="fo-chip-other" placeholder="✏️ Khác...">
+        </div>
+      </div>
+      <div class="fo-field">
+        <label class="fo-label">VẤN ĐỀ LỚN NHẤT LÀ GÌ?</label>
+        <div class="fo-chips">
+          <div class="fo-chip" onclick="foToggle(this)">⏰ Mất nhiều thời gian</div>
+          <div class="fo-chip" onclick="foToggle(this)">⚠️ Hay xảy ra sai sót</div>
+          <div class="fo-chip" onclick="foToggle(this)">🔍 Khó theo dõi</div>
+          <div class="fo-chip" onclick="foToggle(this)">📉 Không có dữ liệu báo cáo</div>
+          <div class="fo-chip" onclick="foToggle(this)">👥 Quá nhiều thủ công</div>
+          <input type="text" class="fo-chip-other" placeholder="✏️ Khác...">
+        </div>
+      </div>
+      <div class="fo-field"><label class="fo-label">KỂ THÊM CHO IT NGHE</label><textarea id="pf-desc" class="fo-input" rows="3" placeholder="Ví dụ: Mỗi tuần tôi mất 3 tiếng tổng hợp 5 file Excel..."></textarea></div>
+    </div>
+
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">👥</div><div><div class="fo-card-title">Ai sẽ dùng & dùng ở đâu?</div></div></div>
+      <div class="fo-field">
+        <label class="fo-label">NGƯỜI DÙNG</label>
+        <div class="fo-chips" id="pf-users">
+          <div class="fo-chip" onclick="foRadio(this,'pf-users')">👤 Nhóm nhỏ (dưới 10)</div>
+          <div class="fo-chip" onclick="foRadio(this,'pf-users')">👥 Cả phòng ban (10–50)</div>
+          <div class="fo-chip" onclick="foRadio(this,'pf-users')">🏢 Toàn công ty</div>
+          <div class="fo-chip" onclick="foRadio(this,'pf-users')">🌐 Khách hàng bên ngoài</div>
+          <input type="text" class="fo-chip-other" placeholder="✏️ Khác...">
+        </div>
+      </div>
+      <div class="fo-field">
+        <label class="fo-label">THIẾT BỊ SỬ DỤNG</label>
+        <div class="fo-chips">
+          <div class="fo-chip" onclick="foToggle(this)">💻 Máy tính văn phòng</div>
+          <div class="fo-chip" onclick="foToggle(this)">📱 Điện thoại</div>
+          <div class="fo-chip" onclick="foToggle(this)">📲 Máy tính bảng</div>
+          <input type="text" class="fo-chip-other" placeholder="✏️ Khác...">
+        </div>
+      </div>
+    </div>
+
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">✅</div><div><div class="fo-card-title">Kết quả bạn mong muốn</div></div></div>
+      <div class="fo-field">
+        <label class="fo-label">TÍNH NĂNG CẦN CÓ</label>
+        <div class="fo-chips">
+          <div class="fo-chip" onclick="foToggle(this)">✍️ Nhập liệu nhanh hơn</div>
+          <div class="fo-chip" onclick="foToggle(this)">📋 Quản lý danh sách</div>
+          <div class="fo-chip" onclick="foToggle(this)">📊 Báo cáo tự động</div>
+          <div class="fo-chip" onclick="foToggle(this)">🔔 Thông báo tự động</div>
+          <div class="fo-chip" onclick="foToggle(this)">🔐 Phân quyền</div>
+          <div class="fo-chip" onclick="foToggle(this)">🔎 Tìm kiếm & lọc</div>
+          <input type="text" class="fo-chip-other" placeholder="✏️ Khác...">
+        </div>
+      </div>
+      <div class="fo-field">
+        <label class="fo-label">KẾT NỐI VỚI PHẦN MỀM NÀO ĐANG DÙNG?</label>
+        <div class="fo-chips">
+          <div class="fo-chip" onclick="foToggle(this)">🔒 Không cần</div>
+          <div class="fo-chip" onclick="foToggle(this)">🟡 Google Workspace</div>
+          <div class="fo-chip" onclick="foToggle(this)">💰 Kế toán</div>
+          <div class="fo-chip" onclick="foToggle(this)">👔 Nhân sự / Chấm công</div>
+          <div class="fo-chip" onclick="foToggle(this)">🤔 Cần IT tư vấn</div>
+          <input type="text" class="fo-chip-other" placeholder="✏️ Phần mềm khác...">
+        </div>
+      </div>
+    </div>
+
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">🎨</div><div><div class="fo-card-title">Giao diện trông như thế nào?</div></div></div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px" id="pf-ui-grid">
+        <div class="fo-ui-card" onclick="foUI(this)"><div class="fo-ui-preview">📋</div><div class="fo-ui-label">Bảng quản lý</div></div>
+        <div class="fo-ui-card" onclick="foUI(this)"><div class="fo-ui-preview">🃏</div><div class="fo-ui-label">Thẻ / Card</div></div>
+        <div class="fo-ui-card" onclick="foUI(this)"><div class="fo-ui-preview">📊</div><div class="fo-ui-label">Dashboard</div></div>
+        <div class="fo-ui-card" onclick="foUI(this)"><div class="fo-ui-preview">📝</div><div class="fo-ui-label">Form từng bước</div></div>
+        <div class="fo-ui-card" onclick="foUI(this)"><div class="fo-ui-preview">📱</div><div class="fo-ui-label">App điện thoại</div></div>
+        <div class="fo-ui-card" style="border-style:dashed"><div class="fo-ui-preview">✨</div><div><input type="text" id="pf-ui-other" class="fo-input" placeholder="Tên app / link..." style="font-size:11px;padding:4px 8px" onclick="event.stopPropagation()"></div></div>
+      </div>
+    </div>
+
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">📝</div><div><div class="fo-card-title">Thông tin thêm</div></div></div>
+      <div class="fo-field"><label class="fo-label">LINK THAM KHẢO</label><input type="text" id="pf-links" class="fo-input" placeholder="https://... hoặc nhiều link cách nhau bằng dấu phẩy"></div>
+      <div class="fo-field">
+        <label class="fo-label">ẢNH / VIDEO / FILE MOCKUP <span style="font-weight:400;text-transform:none;font-size:10px;color:#95a5a6">(tuỳ chọn)</span></label>
+        <div id="pf-dropzone"
+          style="border:1.5px dashed #e0d8c8;border-radius:10px;padding:22px 16px;text-align:center;cursor:pointer;background:#faf6f0;transition:border-color .2s"
+          onclick="document.getElementById('pf-files').click()"
+          ondragover="event.preventDefault();this.style.borderColor='#c77b30'"
+          ondragleave="this.style.borderColor='#e0d8c8'"
+          ondrop="pfHandleDrop(event)">
+          <div style="font-size:24px;margin-bottom:6px">📎</div>
+          <div style="font-size:13px;color:#5d6d7e"><strong style="color:#c77b30">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
+          <div style="display:flex;justify-content:center;gap:6px;margin-top:8px">
+            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PNG</span>
+            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">JPG</span>
+            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">MP4</span>
+            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PDF</span>
+          </div>
+          <input type="file" id="pf-files" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="pfHandleFiles(this.files)">
+        </div>
+        <div id="pf-file-list" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
+      </div>
+      <div class="fo-field"><label class="fo-label">GHI CHÚ THÊM</label><textarea id="pf-notes" class="fo-input" rows="3" placeholder="Bất kỳ điều gì bạn muốn IT biết thêm..."></textarea></div>
+    </div>
+
+    <button id="foBtnNext" onclick="foStep1Done()" disabled style="width:100%;padding:14px;background:#d1d5db;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:not-allowed;margin-top:8px;transition:all .3s;font-family:inherit">
+      Tiếp theo — Xác nhận với Alex →
+    </button>
+  </div>
+
+  <!-- Celebrate overlay -->
+  <div id="foCelebrate" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(10,25,41,.55);backdrop-filter:blur(6px);align-items:center;justify-content:center">
+    <div style="background:#fff;border-radius:24px;padding:36px 32px;max-width:360px;width:90%;text-align:center;box-shadow:0 24px 48px rgba(10,25,41,.2)">
+      <div id="foCelRobot" style="font-size:64px;margin-bottom:4px;display:block">🤖</div>
+      <div id="foCelStars" style="font-size:20px;letter-spacing:4px;margin-bottom:14px">✨ 🎉 ✨</div>
+      <div id="foCelTitle" style="font-family:serif;font-size:22px;font-weight:800;color:#0a1929;margin-bottom:8px">Hoàn thành rồi!</div>
+      <div id="foCelMsg" style="font-size:13px;color:#5d6d7e;line-height:1.65;margin-bottom:22px"></div>
+      <button id="foCelBtn" onclick="foCelebrateDone()" style="width:100%;padding:12px;background:#0a1929;color:#faf6f0;border:none;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer">Tiếp tục →</button>
+    </div>
+  </div>
+
+  <!-- Chat AI rà soát — đồng bộ với panel3 -->
+  <div id="panelFeatureChat" style="display:none;padding:20px 0">
+    <div style="display:inline-flex;align-items:center;gap:6px;background:#f3e8ff;border:1px solid #d8b4fe;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;color:#7c3aed;margin-bottom:12px">Bước 2 / 3</div>
+    <div style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px">AI rà soát yêu cầu ✨</div>
+    <div style="font-size:14px;color:var(--text-muted);margin-bottom:20px">Để team IT hiểu đúng 100%, AI sẽ kiểm tra và hỏi lại nếu cần làm rõ thêm.</div>
+
+    <div style="background:#fff;border:1px solid var(--gray-border);border-radius:16px;overflow:hidden;margin-bottom:12px">
+      <div id="foChatMsgs" style="padding:16px;display:flex;flex-direction:column;gap:12px;min-height:160px"></div>
+      <div id="foChatInputWrap" style="border-top:1px solid var(--gray-border);display:flex;gap:0;background:#fafafa">
+        <input type="text" id="foChatInput" placeholder="Nhập câu trả lời của bạn..." onkeydown="if(event.key==='Enter')foSendChat()" style="flex:1;border:none;background:transparent;padding:14px 16px;font-size:14px;outline:none">
+        <button onclick="foSendChat()" id="foChatSendBtn" style="padding:12px 20px;background:var(--purple);color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap">Gửi →</button>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-bottom:16px">
+      <button id="foChatToSummaryBtn" onclick="foGoToSummaryFromChat()" style="display:none;width:100%;padding:14px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer">✅ Xem lại & gửi yêu cầu →</button>
+    </div>
+
+    <div class="nav-row" style="margin-top:12px">
+      <button onclick="backToFeatureForm()" class="btn-back">← Quay lại</button>
+      <div></div>
+    </div>
+  </div>
+
+  <!-- Feature summary -->
+  <div id="panelFeatureSummary" style="display:none;background:#faf6f0;padding:20px 0">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#c77b30;margin-bottom:6px">── TÓM TẮT YÊU CẦU</div>
+    <div style="font-size:22px;font-weight:800;color:#0a1929;letter-spacing:-.02em;margin-bottom:4px">Bản Order hoàn chỉnh</div>
+    <div style="font-size:13px;color:#5d6d7e;margin-bottom:20px">Cột trái là ngôn ngữ của bạn — cột phải là những gì IT cần hiểu.</div>
+
+    <!-- Meta card -->
+    <div style="background:#0a1929;border-radius:16px;padding:20px 22px;margin-bottom:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-size:20px;font-weight:800;color:#faf6f0;letter-spacing:-.02em" id="fo-s-title">—</div>
+        <div style="font-family:monospace;font-size:11px;color:#d89651;text-transform:uppercase;letter-spacing:.08em;margin-top:4px" id="fo-s-sub">—</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start" id="fo-s-badges"></div>
+    </div>
+
+    <!-- Dual table -->
+    <div style="background:#fff;border:1px solid #e0d8c8;border-radius:16px;overflow:hidden;margin-bottom:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;background:#f4ede0;border-bottom:1px solid #e0d8c8">
+        <div style="padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5d6d7e;display:flex;align-items:center;gap:8px;border-right:1px solid #e0d8c8"><div style="width:8px;height:8px;border-radius:2px;background:#c77b30"></div>🧑 Khách hàng nói</div>
+        <div style="padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5d6d7e;display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:2px;background:#1e8449"></div>⚙️ IT hiểu là</div>
+      </div>
+      <div id="fo-s-rows"></div>
+    </div>
+
+    <!-- Complexity -->
+    <div style="background:#fff;border:1px solid #e0d8c8;border-radius:16px;padding:20px 22px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <div style="font-size:14px;font-weight:700;color:#0a1929;flex-shrink:0">Ước tính độ phức tạp</div>
+      <div style="display:flex;gap:14px;flex:1;flex-wrap:wrap" id="fo-cx"></div>
+    </div>
+
+    <!-- Confirm checkbox -->
+    <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #e0d8c8;border-radius:10px;cursor:pointer;font-size:13px;color:#374151;margin-bottom:14px" id="foConfirmLabel">
+      <input type="checkbox" id="foConfirmCheck" onchange="foToggleSubmit()" style="width:18px;height:18px;accent-color:#c77b30;cursor:pointer">
+      Tôi đã đọc kỹ và xác nhận thông tin trên là chính xác
+    </label>
+
+    <div style="display:flex;gap:10px">
+      <button onclick="backToFeatureForm()" style="padding:12px 20px;background:#fff;border:1.5px solid #e0d8c8;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;color:#5d6d7e">✏️ Chỉnh sửa</button>
+      <button id="foSubmitBtn" onclick="foSubmit()" disabled style="flex:1;padding:12px;background:#d1d5db;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:not-allowed;transition:all .3s;font-family:inherit">✅ Xác nhận & Gửi IT</button>
+    </div>
+
+    <!-- Success -->
+    <div id="foSuccess" style="display:none;background:#0a1929;border-radius:16px;padding:28px;text-align:center;margin-top:16px">
+      <div style="font-size:48px;margin-bottom:12px">✓</div>
+      <div style="font-size:20px;font-weight:800;color:#faf6f0;margin-bottom:8px">Đã gửi thành công!</div>
+      <div style="font-size:13px;color:#8aaec8;margin-bottom:12px">Team IT đã nhận được yêu cầu. Chúng tôi sẽ liên hệ trong 1–2 ngày làm việc.</div>
+      <div id="foTicket" style="background:#0f2942;border:1px solid #2c5278;border-radius:8px;padding:6px 18px;display:inline-block;font-family:monospace;font-size:13px;font-weight:700;color:#d89651;margin-bottom:20px"></div>
+      <br>
+      <button onclick="resetAll()" style="background:linear-gradient(135deg,#c77b30,#d89651);color:#0a1929;border:none;padding:12px 28px;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer">+ Tạo yêu cầu mới</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<!-- ═══ BÉ CHIP MASCOT ═══ -->
+<div id="beChip">
+  <div id="chipBubble"></div>
+  <svg id="chipBody" width="64" height="80" viewBox="0 0 64 80" onclick="toggleChip()" title="Bé Chip">
+    <!-- Body -->
+    <rect x="10" y="24" width="44" height="40" rx="14" fill="#5B4FE8"/>
+    <!-- Ear antennae -->
+    <line x1="24" y1="24" x2="24" y2="11" stroke="#5B4FE8" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="24" cy="9" r="4" fill="#7C3AED"/>
+    <line x1="40" y1="24" x2="40" y2="11" stroke="#5B4FE8" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="40" cy="9" r="4" fill="#06B6D4"/>
+    <!-- Eyes -->
+    <circle cx="25" cy="40" r="7" fill="white"/>
+    <circle cx="39" cy="40" r="7" fill="white"/>
+    <circle cx="26" cy="41" r="4" fill="#312E81"/>
+    <circle cx="40" cy="41" r="4" fill="#312E81"/>
+    <circle cx="27.5" cy="39.5" r="1.5" fill="white"/>
+    <circle cx="41.5" cy="39.5" r="1.5" fill="white"/>
+    <!-- Smile -->
+    <path d="M25 53 Q32 59 39 53" stroke="white" stroke-width="2" stroke-linecap="round" fill="none"/>
+    <!-- LED chest -->
+    <rect x="19" y="56" width="26" height="8" rx="4" fill="#4338CA"/>
+    <circle cx="27" cy="60" r="2.5" fill="#06B6D4"/>
+    <circle cx="32" cy="60" r="2.5" fill="#22C55E"/>
+    <circle cx="37" cy="60" r="2.5" fill="#F59E0B"/>
+    <!-- Arms -->
+    <rect x="2" y="30" width="10" height="20" rx="5" fill="#5B4FE8"/>
+    <rect x="52" y="30" width="10" height="20" rx="5" fill="#5B4FE8"/>
+    <!-- Feet -->
+    <rect x="16" y="63" width="12" height="10" rx="5" fill="#4338CA"/>
+    <rect x="36" y="63" width="12" height="10" rx="5" fill="#4338CA"/>
+  </svg>
+</div>
+
+<script>
+const CHIP_DIALOGUES = {
+  0: "Team bạn đang gặp chuyện gì rồi? Chip nghe đây! 👂",
+  1: "Chọn loại gần nhất nhé — bước sau Chip giúp làm rõ hơn 💡",
+  2: "Điền càng chi tiết, IT fix càng nhanh! Chip tin bạn làm được 💪",
+  3: "Chip đang đọc kỹ yêu cầu... 1 giây thôi! ✨",
+  4: "Xem lại lần cuối nhé — gửi rồi không sửa được đâu đó! 👀",
+};
+let chipVisible = false;
+function toggleChip(){
+  chipVisible = !chipVisible;
+  const bubble = document.getElementById('chipBubble');
+  bubble.classList.toggle('show', chipVisible);
+}
+function updateChipDialogue(step){
+  const bubble = document.getElementById('chipBubble');
+  bubble.textContent = CHIP_DIALOGUES[step] || '';
+  if(!chipVisible){ bubble.classList.add('show'); chipVisible=true; setTimeout(()=>{ bubble.classList.remove('show'); chipVisible=false; }, 4000); }
+}
+</script>
+
+<script>
+let S = {
+  team:'', type:'', prio:'', sys:[],
+  chatAnswers:[], chatIdx:0, typeChecklist:[],
+};
+let cur = 0;
+
+// ─── Questions per type ───
+const QUESTIONS = {
+  bug:['Ngoài lỗi đã mô tả, có bước nào để tái hiện lỗi không? (VD: Mở trang X, click Y, lỗi xảy ra)', 'Lỗi này ảnh hưởng đến bao nhiêu người trong team bạn?'],
+  feature:['Hiện tại bạn đang xử lý vấn đề này bằng cách nào (dù chưa tối ưu)?','Nếu IT làm được 50% tính năng này tuần tới, phần nào quan trọng nhất bạn cần trước?'],
+  access:['Trước đây bạn có quyền truy cập này chưa? Nếu có, mất quyền từ lúc nào?','Ai trong team bạn hiện có quyền tương tự cần cấp?'],
+  perf:['Vấn đề hiệu suất này ảnh hưởng đến công việc của bạn như thế nào cụ thể?','Bạn có thể ghi lại video màn hình lúc bị chậm không?'],
+  data:['Hành động nào dẫn đến dữ liệu bị sai? Có ai khác gặp vấn đề tương tự không?','Dữ liệu sai này đã ảnh hưởng đến quyết định hay báo cáo nào chưa?'],
+};
+
+const TYPE_LABELS = {bug:'Báo lỗi hệ thống',feature:'Yêu cầu tính năng mới',access:'Đăng nhập / Quyền truy cập',perf:'Hiệu suất chậm',data:'Vấn đề dữ liệu'};
+const SLA = {P0:'2 giờ',P1:'8 giờ',P2:'3 ngày',P3:'7 ngày'};
+
+// ─── Nav ───
+function go(n) {
+  // Feature type → fullpage redirect
+  if(n===2 && S.type==='feature') { showFeaturePage(); return; }
+  if(n===2) { showFilters(); }
+  if(n===3) { showFilters(); initAI(); }
+  if(n===4) buildConfirm();
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  const el = n<=4 ? document.getElementById('panel'+n) : document.getElementById('panelDone');
+  if(el) el.classList.add('active');
+  cur = n;
+  updateNav();
+  updateChipDialogue(n);
+  window.scrollTo(0,0);
+}
+
+function updateNav() {
+  for(let i=0;i<5;i++){
+    const dot = document.getElementById('dot'+i);
+    dot.classList.remove('active','done');
+    if(i<cur) {
+      dot.classList.add('done');
+      dot.querySelector('.step-circle').innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
+    } else if(i===cur) {
+      dot.classList.add('active');
+      dot.querySelector('.step-circle').innerHTML = (i+1)+'';
+    } else {
+      dot.querySelector('.step-circle').innerHTML = (i+1)+'';
+    }
+    if(i<4){
+      const line = document.getElementById('line'+i+(i+1));
+      if(line) line.classList.toggle('done', i<cur);
+    }
+  }
+  const pct = Math.round((cur+1)/5*100);
+  document.getElementById('progBar').style.width = pct+'%';
+  document.getElementById('progStep').textContent = 'Bước '+(cur+1)+' / 5';
+  document.getElementById('progPct').textContent = pct+'%';
+}
+
+// ─── Step 0: Team ───
+function pick(key, val, el, gridId) {
+  document.getElementById(gridId).querySelectorAll('.sel-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  S[key] = val;
+  document.getElementById('btn0').disabled = false;
+}
+
+// ─── Step 1: Type ───
+function pickType(val, el, subId) {
+  document.querySelectorAll('#typeList .type-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('.sub-checklist').forEach(s=>s.classList.remove('open'));
+  document.querySelectorAll('.tc-arrow').forEach(a=>a.classList.remove('open'));
+  el.classList.add('selected');
+  S.type = val;
+
+  if(val === 'feature') {
+    // Enable btn1 immediately for feature
+    document.getElementById('btn1').disabled = false;
+    return;
+  }
+
+  if(subId) {
+    const sub = document.getElementById(subId);
+    const arrowId = subId.replace('sub','arrow');
+    const arrow = document.getElementById(arrowId);
+    if(sub) sub.classList.add('open');
+    if(arrow) arrow.classList.add('open');
+    if(subId==='subFeature') {
+      clBuild();
+    } else {
+      sub.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+        cb.addEventListener('change', checkTypeChecklist);
+      });
+    }
+    checkTypeChecklist();
+  } else {
+    document.getElementById('btn1').disabled = false;
+  }
+}
+
+function checkTypeChecklist() {
+  let hasChecked = false;
+  if(S.type === 'feature') {
+    hasChecked = true; // feature has no checklist at step 2
+    S.typeChecklist = ['Yêu cầu tính năng mới'];
+  } else {
+    const checked = document.querySelectorAll('#typeList input[type=checkbox]:checked');
+    hasChecked = checked.length > 0;
+    S.typeChecklist = [...checked].map(cb=>{
+      if(cb.value==='Khác'){
+        const other = cb.closest('.cl-other')?.querySelector('.cl-other-input')?.value;
+        return other ? 'Khác: '+other : 'Khác';
+      }
+      return cb.value;
+    });
+  }
+  document.getElementById('btn1').disabled = !hasChecked;
+}
+
+// ─── Step 2: Prio ───
+function pickPrio(val, el) {
+  document.querySelectorAll('#prioGrid .prio-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  S.prio = val;
+  checkStep2();
+}
+
+function toggleSys(val, el) {
+  el.classList.toggle('selected');
+  S.sys = [...document.querySelectorAll('#sysCards .sys-card.selected')].map(c=>c.querySelector('.sys-name').textContent.replace('...',''));
+  checkStep2();
+}
+
+function toggleChip(el, group) {
+  if(['sys','freq','bugtype','perm','slow','perftime'].includes(group)){
+    // multi
+  }
+  el.classList.toggle('selected');
+  if(group==='sys') S.sys = [...document.querySelectorAll('#sysChips .chip.selected')].map(c=>c.textContent);
+  checkStep2();
+}
+
+function showFilters() {
+  const isFeature = S.type === 'feature';
+  const foPanel = document.getElementById('fo-panel');
+  const normalPanel = document.getElementById('normal-panel');
+  const normalNav = document.getElementById('normal-nav');
+  if(foPanel) foPanel.style.display = isFeature ? 'block' : 'none';
+  if(normalPanel) normalPanel.style.display = isFeature ? 'none' : 'block';
+  if(normalNav) normalNav.style.display = isFeature ? 'none' : 'flex';
+
+  if(!isFeature) {
+    ['bug','access','perf','data'].forEach(t=>{
+      const el = document.getElementById('flt-'+t);
+      if(el) el.classList.toggle('show', S.type===t);
+    });
+    const LINK_CONFIG = {
+      bug:    { label:'Link trang đang bị lỗi',         ph:'https://nquoc.vn/trang-bi-loi...' },
+      access: { label:'Link trang không truy cập được',  ph:'https://nquoc.vn/trang-can-truy-cap...' },
+      perf:   { label:'Link trang đang bị chậm',         ph:'https://nquoc.vn/trang-bi-cham...' },
+      data:   { label:'Link trang hiển thị dữ liệu sai', ph:'https://data.nquoc.vn/...' },
+    };
+    const FILE_LABELS = {
+      bug:    'ẢNH / VIDEO / FILE MÔ TẢ LỖI',
+      access: 'ẢNH CHỤP MÀN HÌNH LỖI TRUY CẬP',
+      perf:   'VIDEO / ẢNH GHI LẠI LÚC BỊ CHẬM',
+      data:   'ẢNH CHỤP DỮ LIỆU SAI',
+    };
+    const fileLbl = document.getElementById('fileUploadLabel');
+    if(fileLbl) fileLbl.textContent = FILE_LABELS[S.type]||FILE_LABELS.bug;
+    const cfg = LINK_CONFIG[S.type]||LINK_CONFIG.bug;
+    const lbl = document.getElementById('linkLabel');
+    const inp = document.getElementById('bugLink');
+    if(lbl) lbl.innerHTML = cfg.label+' <span class="opt">(tuỳ chọn)</span>';
+    if(inp) inp.placeholder = cfg.ph;
+  }
+}
+
+function checkStep2() {
+  showFilters();
+  if(S.sys.length===0) { document.getElementById('btn2').disabled=true; return; }
+  let ok = false;
+  const t = S.type;
+  if(t==='bug') ok = val('bugExpect')&&val('bugActual')&&val('bugAction');
+  else if(t==='feature') ok = val('featProcess')&&val('featPain')&&val('featUser')&&val('featOutput')&&val('featMust')&&val('featDone');
+  else if(t==='access') ok = val('accessWhat');
+  else if(t==='perf') ok = val('perfWhere');
+  else if(t==='data') ok = val('dataWhat')&&val('dataExpected');
+  document.getElementById('btn2').disabled = !ok;
+}
+
+function val(id) {
+  const el = document.getElementById(id);
+  return el && el.value.trim().length > 3;
+}
+
+// ─── Step 3: Chat ───
+// ─── AI Mock questions ───
+const AI_QUESTIONS = {
+  bug:[
+    'Lỗi cụ thể đang xảy ra ở màn hình / chức năng nào của hệ thống?',
+    'Các bước để tái hiện lỗi là gì (ví dụ: đăng nhập bằng tài khoản nào, làm gì, lỗi xuất hiện lúc nào)?',
+  ],
+  feature:[
+    'Hiện tại bạn đang xử lý vấn đề này bằng cách nào (dù chưa tối ưu)?',
+    'Nếu IT làm được 50% tính năng này tuần tới, phần nào quan trọng nhất bạn cần trước?',
+  ],
+  access:[
+    'Trước đây bạn có quyền truy cập này chưa? Nếu có, mất quyền từ lúc nào?',
+    'Ai trong team bạn hiện có quyền tương tự cần cấp?',
+  ],
+  perf:[
+    'Vấn đề hiệu suất xảy ra ở trang / tính năng cụ thể nào?',
+    'Chậm xảy ra thường xuyên hay chỉ một số thời điểm nhất định?',
+  ],
+  data:[
+    'Dữ liệu sai xuất hiện ở đâu và so với nguồn nào bạn cho là đúng?',
+    'Hành động nào dẫn đến dữ liệu bị sai? Có ai khác trong team gặp vấn đề tương tự không?',
+  ],
+};
+
+const AI_WARNING = '> ⚠️ **Lưu ý:** Yêu cầu này **chưa đủ thông tin** để team IT xử lý. Mô tả lỗi không rõ ràng, thiếu bước tái hiện và kỳ vọng đầu ra. Đề nghị người dùng bổ sung thêm chi tiết trước khi chuyển cho dev.';
+
+function initAI() {
+  S.chatAnswers = [];
+  S.chatIdx = 0;
+  const wrap = document.getElementById('aiChatWrap');
+  wrap.innerHTML = '';
+  document.getElementById('aiInputWrap').style.display='flex';
+  document.getElementById('aiDoneWrap').style.display='none';
+  const qs = AI_QUESTIONS[S.type]||['Bạn có thêm thông tin gì muốn IT biết không?'];
+  setTimeout(()=>aiAsk(qs[0]), 400);
+}
+
+function aiAsk(q) {
+  const wrap = document.getElementById('aiChatWrap');
+  // typing indicator
+  const typing = document.createElement('div');
+  typing.style.cssText='display:flex;align-items:center;gap:10px';
+  typing.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:13px;color:var(--text-muted)">...</div>`;
+  wrap.appendChild(typing);
+  wrap.scrollTop=wrap.scrollHeight;
+  setTimeout(()=>{
+    typing.remove();
+    const msg = document.createElement('div');
+    msg.style.cssText='display:flex;align-items:flex-start;gap:10px';
+    msg.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:14px;color:var(--text-mid);max-width:85%;line-height:1.5">${q}</div>`;
+    wrap.appendChild(msg);
+    wrap.scrollTop=wrap.scrollHeight;
+  }, 800);
+}
+
+function sendAI() {
+  const input = document.getElementById('aiInput');
+  const text = input.value.trim();
+  if(!text) return;
+  const qs = AI_QUESTIONS[S.type]||['Bạn có thêm thông tin gì muốn IT biết không?'];
+  S.chatAnswers.push({q:qs[S.chatIdx], a:text});
+  const wrap = document.getElementById('aiChatWrap');
+  const reply = document.createElement('div');
+  reply.style.cssText='display:flex;justify-content:flex-end';
+  reply.innerHTML=`<div style="background:var(--purple-light);border:1px solid #c4b5fd;border-radius:12px 0 12px 12px;padding:10px 14px;font-size:14px;color:var(--purple);max-width:80%">${text}</div>`;
+  wrap.appendChild(reply);
+  input.value='';
+  S.chatIdx++;
+  if(S.chatIdx < qs.length) {
+    setTimeout(()=>aiAsk(qs[S.chatIdx]), 400);
+  } else {
+    setTimeout(()=>{
+      // Check if all answers are sufficient (>= 5 chars)
+      const allSufficient = S.chatAnswers.every(a => a.a.trim().length >= 5);
+      const msg = document.createElement('div');
+      msg.style.cssText='display:flex;align-items:flex-start;gap:10px';
+      if(allSufficient) {
+        msg.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:#dcfce7;border:1px solid #86efac;border-radius:0 12px 12px 12px;padding:10px 14px;font-size:13px;color:#15803d;max-width:85%;line-height:1.5">✅ Cảm ơn bạn! Thông tin đã đủ để team IT xử lý. Bấm tiếp tục để xem lại và gửi.</div>`;
+        document.getElementById('aiDoneWrap').innerHTML='<button onclick="go(4)" style="width:100%;padding:14px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer">✅ Xem lại & gửi yêu cầu →</button>';
+      } else {
+        msg.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:#fef9c3;border:1px solid #fde047;border-radius:0 12px 12px 12px;padding:10px 14px;font-size:13px;color:#854d0e;max-width:85%;line-height:1.5">⚠️ Một số câu trả lời còn ngắn — IT có thể chưa đủ thông tin để xử lý. Bạn có thể quay lại bổ sung hoặc gửi ngay và IT sẽ hỏi thêm.</div>`;
+        document.getElementById('aiDoneWrap').innerHTML='<button onclick="go(4)" style="width:100%;padding:14px;background:var(--orange);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer">⚠️ Gửi dù chưa đủ thông tin →</button>';
+      }
+      wrap.appendChild(msg);
+      document.getElementById('aiInputWrap').style.display='none';
+      document.getElementById('aiDoneWrap').style.display='block';
+      wrap.scrollTop=wrap.scrollHeight;
+    }, 600);
+  }
+  wrap.scrollTop=wrap.scrollHeight;
+}
+
+function skipAI() { go(4); }
+
+// ─── Step 4: Confirm ───
+function buildConfirm() {
+  // Header card
+  const now = new Date();
+  document.getElementById('rv-date').textContent = now.getDate()+'/'+(now.getMonth()+1)+'/'+now.getFullYear();
+  document.getElementById('rv-sender').textContent = S.team ? S.team+' Team' : 'Chưa điền';
+  document.getElementById('rv-team-badge').textContent = 'NhiLe Team';
+  document.getElementById('rv-type-card').textContent = (S.type==='bug'?'🐛 ':S.type==='feature'?'✨ ':S.type==='access'?'🔐 ':S.type==='perf'?'🐢 ':S.type==='data'?'📊 ':'')+( TYPE_LABELS[S.type]||'—');
+  const prioColor={'P0':'🔴 Khẩn cấp','P1':'🟠 Cao','P2':'🟡 Bình thường','P3':'⚪ Thấp'};
+  document.getElementById('rv-prio-card').textContent = S.prio ? prioColor[S.prio]||S.prio : 'Chưa chọn';
+
+  // Detail rows
+  let rows = [
+    ['LOẠI LỖI', S.typeChecklist&&S.typeChecklist.length ? S.typeChecklist.join(', ') : null],
+    ['HỆ THỐNG', S.sys.join(', ')||null],
+  ];
+  const t = S.type;
+  if(t==='bug') rows.push(...[['MÔ TẢ LỖI',gv('bugExpect')||gv('bugAction')],['KỲ VỌNG SAU FIX',gv('bugActual')]]);
+  else if(t==='feature') rows.push(...[['VẤN ĐỀ HIỆN TẠI',gv('featProcess')||gv('featPain')],['TÍNH NĂNG MUỐN CÓ',gv('featOutput')],['TIÊU CHÍ XONG',gv('featDone')]]);
+  else if(t==='access') rows.push(['VẤN ĐỀ TRUY CẬP',gv('accessWhat')]);
+  else if(t==='perf') rows.push(['TRANG BỊ CHẬM',gv('perfWhere')]);
+  else if(t==='data') rows.push(...[['DỮ LIỆU BỊ LỖI',gv('dataWhat')],['DỮ LIỆU ĐÚNG',gv('dataExpected')]]);
+
+  rows.push(['FILE ĐÍNH KÈM', document.querySelectorAll('#fileList3 div').length ? document.querySelectorAll('#fileList3 div').length+' file' : 'Không có đính kèm']);
+
+  document.getElementById('rv-summary-rows').innerHTML = rows.map(r=>`
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:10px 16px;border-bottom:1px solid var(--gray-border);font-size:13px;gap:12px">
+      <span style="font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;min-width:120px">${r[0]}</span>
+      <span style="color:${r[1]?'var(--text)':'var(--text-muted)'};text-align:right;font-weight:${r[1]?'500':'400'}">${r[1]||'—'}</span>
+    </div>`).join('').replace(/border-bottom[^}]+}\s*$/, '');
+
+  // Reset confirm checkbox
+  const cb = document.getElementById('confirmCheck');
+  if(cb) { cb.checked=false; }
+  const btn = document.getElementById('submitBtn');
+  if(btn) { btn.disabled=true; btn.style.background='#d1d5db'; btn.style.cursor='not-allowed'; }
+}
+
+function toggleSubmit() {
+  const checked = document.getElementById('confirmCheck').checked;
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = !checked;
+  btn.style.background = checked ? 'var(--purple)' : '#d1d5db';
+  btn.style.cursor = checked ? 'pointer' : 'not-allowed';
+  document.getElementById('confirmLabel').style.borderColor = checked ? 'var(--purple)' : 'var(--gray-border)';
+}
+
+function gv(id){
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+// ─── Submit ───
+function submit() {
+  const id = 'IT-'+new Date().getFullYear()+'-'+String(Math.floor(Math.random()*999)+1).padStart(3,'0');
+  document.getElementById('ticketId').textContent = id;
+  document.getElementById('successSub').textContent = S.prio ? 'IT sẽ phản hồi theo mức '+S.prio+' đã cam kết.' : 'IT sẽ phản hồi theo SLA đã cam kết.';
+  document.getElementById('slaBadge').textContent = '⏱ IT phản hồi trong '+(SLA[S.prio]||'thời gian sớm nhất');
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panelDone').classList.add('active');
+  document.getElementById('stepNav').style.display='none';
+  document.querySelector('.progress-wrap').style.display='none';
+
+  /* ── Save to localStorage for cross-dashboard sync ── */
+  const TYPE_ICONS = {bug:'🐛',feature:'✨',access:'🔑',perf:'⚡',data:'📊'};
+  const TYPE_NAMES = {bug:'Báo lỗi hệ thống',feature:'Yêu cầu tính năng mới',access:'Cấp quyền truy cập',perf:'Hiệu suất chậm',data:'Vấn đề dữ liệu'};
+  const PRI_MAP   = {'P0':'hot','P1':'hot','P2':'warm','P3':'cool'};
+  const teamMap   = {'N-EDU':'nedu','Bloom':'nhile','NhiLe System':'nhile','NQuoc':'nhile'};
+  const projTeam  = teamMap[S.team] || 'nhile';
+  const sysStr    = (S.sys||[]).join(', ') || '—';
+  const order = {
+    id: id,
+    name: (TYPE_NAMES[S.type]||'Yêu cầu IT') + (S.team ? ' — '+S.team : ''),
+    icon: TYPE_ICONS[S.type] || '📋',
+    desc: 'Mức độ ưu tiên: '+(S.prio||'P2')+'. Hệ thống liên quan: '+sysStr+'.',
+    status: 'waiting',
+    priority: PRI_MAP[S.prio] || 'warm',
+    source: 'nquoc-it-request',
+    proj: projTeam,
+    projName: projTeam==='nedu' ? 'Nedu CRM' : 'NhiLe Platform v2',
+    deadline: 'TBD',
+    submittedAt: new Date().toLocaleDateString('vi-VN'),
+    team: S.team || '',
+    tags: [S.type||'request', S.team||'IT Request'].filter(Boolean)
+  };
+  try {
+    const q = JSON.parse(localStorage.getItem('nhile_user_submitted')||'[]');
+    q.unshift(order);
+    localStorage.setItem('nhile_user_submitted', JSON.stringify(q));
+  } catch(e) {}
+}
+
+function resetAll() {
+  S = {team:'',type:'',prio:'',sys:[],chatAnswers:[],chatIdx:0,typeChecklist:[]};
+  cur=0;
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel0').classList.add('active');
+  document.getElementById('panelFeature').style.display='none';
+  document.getElementById('stepNav').style.display='flex';
+  document.querySelector('.progress-wrap').style.display='block';
+  document.querySelectorAll('.sub-checklist').forEach(s=>s.classList.remove('open'));
+  document.querySelectorAll('.tc-arrow').forEach(a=>a.classList.remove('open'));
+  document.querySelectorAll('.sel-card,.type-card,.prio-card,.sys-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('.fo-chip').forEach(c=>c.classList.remove('on'));
+  document.querySelectorAll('.fo-ui-card').forEach(c=>c.classList.remove('on'));
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('selected'));
+  document.querySelectorAll('textarea,input[type=text],input[type=date]').forEach(i=>i.value='');
+  document.querySelectorAll('select').forEach(s=>s.selectedIndex=0);
+  document.querySelectorAll('.cond').forEach(c=>c.classList.remove('show'));
+  document.getElementById('foSuccess').style.display='none';
+  document.getElementById('btn0').disabled=true;
+  document.getElementById('btn1').disabled=true;
+  document.getElementById('btn2').disabled=true;
+  updateNav();
+}
+
+function handleFiles3(files) {
+  const list = document.getElementById('fileList3');
+  [...files].forEach(f=>{
+    const item = document.createElement('div');
+    item.style.cssText='display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--gray-border);border-radius:var(--radius-sm);background:#fff;font-size:13px';
+    const ext = f.name.split('.').pop().toUpperCase();
+    item.innerHTML=`<span style="background:var(--purple-light);color:var(--purple);border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700">${ext}</span><span style="flex:1;color:var(--text-mid)">${f.name}</span><span style="color:var(--text-muted)">${(f.size/1024).toFixed(0)} KB</span><span onclick="this.parentElement.remove()" style="cursor:pointer;color:var(--text-muted);font-size:16px;padding:0 4px">×</span>`;
+    list.appendChild(item);
+  });
+}
+
+function handleDrop3(e) {
+  e.preventDefault();
+  document.getElementById('dropZone3').style.borderColor='var(--gray-border)';
+  handleFiles3(e.dataTransfer.files);
+}
+
+function addLink() {
+  const input = document.getElementById('attachLink');
+  const val = input.value.trim();
+  if(!val) return;
+  const list = document.getElementById('linkList3');
+  const item = document.createElement('div');
+  item.style.cssText='display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--gray-border);border-radius:var(--radius-sm);background:#fff;font-size:13px';
+  item.innerHTML=`<span style="font-size:14px">🔗</span><span style="flex:1;color:var(--purple);text-decoration:underline;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${val}</span><span onclick="this.parentElement.remove()" style="cursor:pointer;color:var(--text-muted);font-size:16px;padding:0 4px">×</span>`;
+  list.appendChild(item);
+  input.value='';
+}
+
+// ─── File upload ───
+const FILE_SLOTS = {
+  bug: [{id:'screenshot',label:'Screenshot màn hình lỗi'},{id:'video',label:'Video recording (nếu có)'}],
+  feature: [{id:'wireframe',label:'Sketch / wireframe (nếu có)'}],
+  access: [{id:'screenshot',label:'Screenshot màn hình lỗi'}],
+  perf: [{id:'screenshot',label:'Screenshot / video (nếu có)'}],
+  data: [{id:'screenshot',label:'Screenshot dữ liệu sai'}],
+};
+
+let uploadedFiles = {};
+
+function renderReqFiles() {
+  const grid = document.getElementById('reqFileGrid');
+  if(!grid) return;
+  const slots = FILE_SLOTS[S.type]||[];
+  grid.innerHTML = slots.map(s=>`
+    <div style="border:1.5px dashed var(--gray-border);border-radius:var(--radius);padding:16px;text-align:center;cursor:pointer;min-width:140px;flex:1;background:#fafafa;transition:all .2s" onclick="document.getElementById('req_${s.id}').click()" id="slot_${s.id}">
+      <div style="font-size:24px;margin-bottom:6px">📎</div>
+      <div style="font-size:12px;font-weight:500;color:var(--text-mid);margin-bottom:4px">${s.label}</div>
+      <div style="font-size:11px;color:var(--purple)">Tuỳ chọn</div>
+      <div style="font-size:11px;color:var(--purple)">Chọn file</div>
+      <input type="file" id="req_${s.id}" style="display:none" onchange="handleReqFile(this,'${s.id}','${s.label}')">
+    </div>`).join('');
+}
+
+function handleReqFile(input, id, label) {
+  if(!input.files[0]) return;
+  const f = input.files[0];
+  uploadedFiles[id] = f;
+  const slot = document.getElementById('slot_'+id);
+  slot.style.borderColor = 'var(--green)';
+  slot.style.background = '#f0fdf4';
+  slot.innerHTML = `<div style="font-size:20px;margin-bottom:4px">✅</div><div style="font-size:11px;font-weight:600;color:var(--green)">${label}</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px">${f.name.substring(0,20)}</div><input type="file" id="req_${id}" style="display:none" onchange="handleReqFile(this,'${id}','${label}')">`;
+}
+
+function handleFiles(files, type) {
+  const list = document.getElementById('extraFileList');
+  [...files].forEach(f=>{
+    const item = document.createElement('div');
+    item.style.cssText='display:flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid var(--gray-border);border-radius:var(--radius-sm);background:#fff;font-size:13px';
+    item.innerHTML=`<span>📄</span><span style="flex:1;color:var(--text-mid)">${f.name}</span><span style="color:var(--text-muted)">${(f.size/1024).toFixed(0)} KB</span>`;
+    list.appendChild(item);
+  });
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('dropZone').style.borderColor='var(--gray-border)';
+  handleFiles(e.dataTransfer.files,'extra');
+}
+
+let foCelebrateCallback = null;
+let foChatStep = 0;
+let foChatAnswers = {};
+
+const FO_CHAT_FLOW = [
+  {key:'dailyPain', ask: d=>`Chào ${d.name||'bạn'}! 👋 Mình đã đọc qua yêu cầu về <strong>"${d.feat||'tính năng'}"</strong> rồi!\n\nBạn có thể kể ngắn gọn <strong>một ngày làm việc điển hình</strong> mà hay gặp vấn đề này không?\n\nVí dụ: <em>"Mỗi sáng thứ 2 tôi phải..."</em>`, qr:[]},
+  {key:'workflow', ask:()=>`Cảm ơn bạn! 👍\n\nKhi tính năng này xong, bạn hình dung quy trình sẽ chạy như thế nào?\n\nKhông cần chính xác — cứ kể tự nhiên thôi. Ví dụ: <em>"Mở app → chọn đơn → bấm xác nhận → hệ thống tự gửi email"</em>`, qr:['Chưa hình dung rõ, nhờ IT tư vấn']},
+  {key:'referenceApps', ask:()=>`Bạn có app hoặc website nào thấy <strong>dễ dùng và muốn tính năng mình giống vậy</strong> không?\n\nCó thể là bất kỳ thứ gì — Shopee, Notion, hay trang nước ngoài. Không có cũng không sao!`, qr:['Không có tham khảo cụ thể']},
+  {key:'extraInfo', ask:()=>`Gần xong rồi! Bạn có <strong>thông tin bổ sung</strong> nào muốn IT biết không?\n\nVí dụ:\n• Bao nhiêu đơn/ngày?\n• Cần ai phê duyệt không?\n• Có yêu cầu bảo mật đặc biệt?\n\nNếu không có gì thêm, bấm nút bên dưới cũng được 👇`, qr:['Không có thêm gì']},
+];
+
+function foStep1Done() {
+  // Show celebrate step1
+  const msgs = [
+    'Thông tin của bạn rất rõ ràng! Alex đang đọc kỹ để hỏi thêm cho đúng nhé 💪',
+    'Xịn lắm! Bạn vừa giúp IT tiết kiệm hàng giờ đồng hồ đấy 🚀',
+    'Perfect! Bước tiếp theo sẽ nhanh thôi — chỉ vài câu hỏi nữa là xong 😊',
+  ];
+  foCelebrateCallback = () => {
+    document.getElementById('panelFeatureForm').style.display='none';
+    document.getElementById('panelFeatureChat').style.display='block';
+    foStartChat();
+  };
+  foShowCelebrate('🤖','✨ 🎉 ✨','Hoàn thành bước 1 rồi!', msgs[Math.floor(Math.random()*msgs.length)], 'Nói chuyện với Alex →');
+}
+
+function foGoToSummaryFromChat() {
+  const msgs2 = [
+    'Tuyệt vời! Mình đã có đủ thông tin để tạo bản Order chuẩn cho IT 🎯',
+    'Bạn giải thích rất tốt! IT sẽ biết chính xác cần làm gì rồi 👏',
+    'Wow, chỉ vài phút mà bản Order đã hoàn chỉnh! Xem kết quả thôi 🎉',
+  ];
+  foCelebrateCallback = () => {
+    document.getElementById('panelFeatureChat').style.display='none';
+    goFeatureSummary();
+  };
+  foShowCelebrate('🎊','⭐ 🤖 ⭐','Alex đã hiểu tất cả rồi!', msgs2[Math.floor(Math.random()*msgs2.length)], 'Xem Bản Order →');
+}
+
+function foShowCelebrate(robot, stars, title, msg, btnText) {
+  document.getElementById('foCelRobot').textContent = robot;
+  document.getElementById('foCelStars').textContent = stars;
+  document.getElementById('foCelTitle').textContent = title;
+  document.getElementById('foCelMsg').textContent = msg;
+  document.getElementById('foCelBtn').textContent = btnText;
+  const cel = document.getElementById('foCelebrate');
+  cel.style.display='flex';
+}
+
+function foCelebrateDone() {
+  document.getElementById('foCelebrate').style.display='none';
+  if(foCelebrateCallback) { foCelebrateCallback(); foCelebrateCallback=null; }
+}
+
+function foStartChat() {
+  foChatStep = 0; foChatAnswers = {};
+  document.getElementById('foChatMsgs').innerHTML='';
+  document.getElementById('foChatInput').disabled=false;
+  document.getElementById('foChatSendBtn').disabled=false;
+  document.getElementById('foChatInput').placeholder='Nhập câu trả lời của bạn...';
+  document.getElementById('foChatToSummaryBtn').style.display='none';
+  const d = { name: document.getElementById('pf-feat-name')?.value||'', feat: document.getElementById('pf-feat-name')?.value||'' };
+  setTimeout(()=>foAskNext(d), 400);
+}
+
+function foAskNext(d) {
+  if(foChatStep >= FO_CHAT_FLOW.length) { foFinishChat(); return; }
+  const q = FO_CHAT_FLOW[foChatStep];
+  foShowTyping(()=>foAddBotMsg(q.ask(d||{}), q.qr));
+}
+
+function foShowTyping(cb, delay=1000) {
+  const msgs = document.getElementById('foChatMsgs');
+  const el = document.createElement('div');
+  el.id='foTyping';
+  el.style.cssText='display:flex;align-items:center;gap:10px';
+  el.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:13px;color:var(--text-muted)">...</div>`;
+  msgs.appendChild(el); msgs.scrollTop=msgs.scrollHeight;
+  setTimeout(()=>{ const t=document.getElementById('foTyping'); if(t)t.remove(); cb(); }, delay);
+}
+
+function foAddBotMsg(text, qr=[]) {
+  const msgs = document.getElementById('foChatMsgs');
+  const el = document.createElement('div');
+  el.style.cssText='display:flex;align-items:flex-start;gap:10px';
+  const qrHtml = qr.length ? `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">${qr.map(r=>`<button onclick="foQuickReply('${r}')" style="background:var(--purple-light);border:1px solid #c4b5fd;color:var(--purple);border-radius:100px;padding:4px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">${r}</button>`).join('')}</div>` : '';
+  el.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:14px;color:var(--text-mid);max-width:85%;line-height:1.5">${text.replace(/\n/g,'<br>').replace(/<strong>/g,'<strong>').replace(/<em>/g,'<em>')}</div>${qrHtml}</div>`;
+  msgs.appendChild(el); msgs.scrollTop=msgs.scrollHeight;
+}
+
+function foAddUserMsg(text) {
+  const msgs = document.getElementById('foChatMsgs');
+  const el = document.createElement('div');
+  el.style.cssText='display:flex;justify-content:flex-end';
+  el.innerHTML=`<div style="background:var(--purple-light);border:1px solid #c4b5fd;border-radius:12px 0 12px 12px;padding:10px 14px;font-size:14px;color:var(--purple);max-width:80%">${text}</div>`;
+  msgs.appendChild(el); msgs.scrollTop=msgs.scrollHeight;
+}
+
+function foSendChat() {
+  const inp = document.getElementById('foChatInput');
+  const text = inp.value.trim(); if(!text) return;
+  inp.value=''; inp.style.height='';
+  document.querySelectorAll('#foChatMsgs button').forEach(b=>b.remove());
+  foAddUserMsg(text);
+  if(foChatStep < FO_CHAT_FLOW.length) {
+    foChatAnswers[FO_CHAT_FLOW[foChatStep].key] = text;
+    foChatStep++;
+    setTimeout(()=>foAskNext({}), 400);
+  }
+}
+
+function foQuickReply(text) {
+  document.querySelectorAll('#foChatMsgs button').forEach(b=>b.parentElement.remove());
+  foAddUserMsg(text);
+  if(foChatStep < FO_CHAT_FLOW.length) {
+    foChatAnswers[FO_CHAT_FLOW[foChatStep].key] = text;
+    foChatStep++;
+    setTimeout(()=>foAskNext({}), 400);
+  }
+}
+
+function foFinishChat() {
+  foShowTyping(()=>{
+    foAddBotMsg(`✅ Cảm ơn bạn! Thông tin đã đủ để team IT xử lý. Bấm tiếp tục để xem lại và gửi.`);
+    const inp = document.getElementById('foChatInput');
+    if(inp){ inp.disabled=true; inp.placeholder='Đã hoàn tất'; }
+    const sendBtn = document.getElementById('foChatSendBtn');
+    if(sendBtn) sendBtn.disabled=true;
+    document.getElementById('foChatInputWrap').style.display='none';
+    document.getElementById('foChatToSummaryBtn').style.display='block';
+  }, 1000);
+}
+
+// ─── Feature Order form JS ───
+function foToggle(el) { el.classList.toggle('on'); foCheck(); }
+
+function foRadio(el, containerId) {
+  document.getElementById(containerId).querySelectorAll('.fo-chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on'); foCheck();
+}
+
+function foUI(el) {
+  document.querySelectorAll('#pf-ui-grid .fo-ui-card').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+}
+
+function pfHandleFiles(files) {
+  const list = document.getElementById('pf-file-list');
+  [...files].forEach(f=>{
+    const ext = f.name.split('.').pop().toUpperCase();
+    const item = document.createElement('div');
+    item.style.cssText='display:flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid #e0d8c8;border-radius:8px;background:#fff;font-size:13px';
+    item.innerHTML=`<span style="background:#faf2e8;border:1px solid #f0d4b0;color:#a8641e;border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700">${ext}</span><span style="flex:1;color:#1b1b1b">${f.name.substring(0,40)}</span><span style="color:#95a5a6">${(f.size/1024).toFixed(0)} KB</span><span onclick="this.parentElement.remove()" style="cursor:pointer;color:#95a5a6;font-size:16px;padding:0 2px">×</span>`;
+    list.appendChild(item);
+  });
+}
+function pfHandleDrop(e) {
+  e.preventDefault();
+  document.getElementById('pf-dropzone').style.borderColor='#e0d8c8';
+  pfHandleFiles(e.dataTransfer.files);
+}
+
+function foCheck() {
+  const name = document.getElementById('pf-feat-name')?.value.trim();
+  const hasName = name && name.length > 2;
+  const btn = document.getElementById('foBtnNext');
+  if(btn) { btn.disabled=!hasName; btn.style.background=hasName?'#c77b30':'#d1d5db'; btn.style.cursor=hasName?'pointer':'not-allowed'; }
+}
+
+function showFeaturePage() {
+  document.getElementById('stepNav').style.display='none';
+  document.querySelector('.progress-wrap').style.display='none';
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panelFeature').style.display='block';
+  document.getElementById('panelFeatureForm').style.display='block';
+  document.getElementById('panelFeatureChat').style.display='none';
+  document.getElementById('panelFeatureSummary').style.display='none';
+  window.scrollTo(0,0);
+}
+
+function backFromFeature() {
+  document.getElementById('panelFeature').style.display='none';
+  document.getElementById('stepNav').style.display='flex';
+  document.querySelector('.progress-wrap').style.display='block';
+  document.getElementById('panel1').classList.add('active');
+  cur=1; updateNav();
+}
+
+function backToFeatureForm() {
+  document.getElementById('panelFeatureChat').style.display='none';
+  document.getElementById('panelFeatureSummary').style.display='none';
+  document.getElementById('panelFeatureForm').style.display='block';
+  window.scrollTo(0,0);
+}
+
+const FO_TR = {
+  '📊 Làm tay / nhập Excel':'Manual Process → Automation',
+  '💬 Zalo / Email qua lại':'Workflow Management System',
+  '🖥️ Phần mềm cũ không đủ':'System Migration / Extension',
+  '🆕 Chưa có gì cả':'Greenfield — Build from Scratch',
+  '⏰ Mất nhiều thời gian':'Performance Bottleneck → Automation',
+  '⚠️ Hay xảy ra sai sót':'Data Validation + Error Handling',
+  '🔍 Khó theo dõi':'Audit Trail + Dashboard',
+  '📉 Không có dữ liệu báo cáo':'Analytics & Reporting Module',
+  '👥 Quá nhiều thủ công':'Process Automation',
+  '✍️ Nhập liệu nhanh hơn':'Smart Forms + Auto-fill',
+  '📋 Quản lý danh sách':'CRUD Interface + Sort/Filter',
+  '📊 Báo cáo tự động':'Data Visualization + Scheduled Reports',
+  '🔔 Thông báo tự động':'Notification System (Email/Push/Webhook)',
+  '🔐 Phân quyền':'Role-Based Access Control (RBAC)',
+  '🔎 Tìm kiếm & lọc':'Full-text Search + Advanced Filters',
+};
+
+function goFeatureSummary() {
+  const d = {
+    name: document.getElementById('pf-feat-name')?.value.trim()||'',
+    org: document.getElementById('pf-org')?.value.trim()||'',
+    email: document.getElementById('pf-email')?.value.trim()||'',
+    deadline: document.getElementById('pf-deadline')?.value||'',
+    desc: document.getElementById('pf-desc')?.value.trim()||'',
+    links: document.getElementById('pf-links')?.value.trim()||'',
+    notes: document.getElementById('pf-notes')?.value.trim()||'',
+    ui: document.querySelector('#pf-ui-grid .fo-ui-card.on .fo-ui-label')?.textContent||document.getElementById('pf-ui-other')?.value||'',
+    ...foChatAnswers,
+  };
+  window._foLastSummaryData = d;
+  const chips = [...document.querySelectorAll('#panelFeature .fo-chip.on')].map(c=>c.textContent.trim());
+
+  document.getElementById('panelFeatureForm').style.display='none';
+  document.getElementById('panelFeatureSummary').style.display='block';
+  window.scrollTo(0,0);
+
+  document.getElementById('fo-s-title').textContent = d.name||'Tính năng chưa đặt tên';
+  const dl = d.deadline ? new Date(d.deadline).toLocaleDateString('vi') : 'Chưa có deadline';
+  document.getElementById('fo-s-sub').textContent = `Deadline: ${dl}`;
+  const badges = document.getElementById('fo-s-badges');
+  badges.innerHTML = '';
+  if(d.org) badges.innerHTML+=`<span style="background:#c77b30;color:#0a1929;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600">🏢 ${d.org}</span>`;
+  if(d.deadline) badges.innerHTML+=`<span style="background:#1a3a5c;color:#faf6f0;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600">📅 ${dl}</span>`;
+
+  const cont = document.getElementById('fo-s-rows');
+  cont.innerHTML = '';
+  const addCat = l => cont.innerHTML+=`<div style="padding:8px 16px;background:#faf2e8;border-bottom:1px solid #f0d4b0;font-family:monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#a8641e">${l}</div>`;
+  const addRow = (l,r) => cont.innerHTML+=`<div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #f0e8dc"><div style="padding:11px 16px;font-size:13px;color:#1b1b1b;border-right:1px solid #f0e8dc">${l}</div><div style="padding:11px 16px"><span style="background:#f5e6d3;border:1px solid #f0d4b0;color:#a8641e;border-radius:4px;padding:2px 8px;font-size:12px;font-weight:500">${r}</span></div></div>`;
+
+  addCat('📋 Yêu cầu');
+  if(d.name) addRow(d.name,'Feature Request');
+  if(d.org) addRow(d.org,'Requester identified');
+
+  const methods = chips.filter(c=>FO_TR[c]&&['Manual','Workflow','Migration','Greenfield'].some(k=>FO_TR[c].includes(k)));
+  const problems = chips.filter(c=>FO_TR[c]&&['Bottleneck','Validation','Audit','Analytics','Automation'].some(k=>FO_TR[c].includes(k)));
+  const outcomes = chips.filter(c=>FO_TR[c]&&['Forms','CRUD','Visualization','Notification','RBAC','Search'].some(k=>FO_TR[c].includes(k)));
+
+  if(chips.length||d.desc||d.dailyPain||d.workflow) {
+    addCat('🔍 Vấn đề & Bối cảnh');
+    chips.filter(c=>!outcomes.includes(c)).forEach(c=>addRow(c, FO_TR[c]||c));
+    if(d.desc) addRow(`"${d.desc}"`, 'Context noted');
+    if(d.dailyPain) addRow(`"${d.dailyPain}"`, 'User Story captured');
+    if(d.workflow) addRow(`Quy trình: ${d.workflow}`, 'Workflow mapped');
+  }
+  if(outcomes.length) { addCat('✅ Tính năng cần xây dựng'); outcomes.forEach(o=>addRow(o, FO_TR[o]||o)); }
+  if(d.ui||d.referenceApps) {
+    addCat('🎨 Giao diện & Tham khảo');
+    if(d.ui) addRow('Muốn như: '+d.ui,'UI Reference noted');
+    if(d.referenceApps) addRow('App tham khảo: '+d.referenceApps,'Design Reference noted');
+    if(d.links) addRow('Link: '+d.links,'UI/UX Reference provided');
+  }
+  if(d.extraInfo||d.notes) {
+    addCat('📎 Thông tin bổ sung');
+    if(d.extraInfo) addRow(d.extraInfo,'Additional Requirement captured');
+    if(d.notes) addRow('Ghi chú: '+d.notes,'Noted for IT');
+  }
+
+  document.getElementById('fo-cx').innerHTML=[
+    ['Giao diện',d.ui?.includes('Dashboard')||d.ui?.includes('App')?75:45,'#2c5278'],
+    ['Logic nghiệp vụ',Math.min(outcomes.length*20+20,90),'#c77b30'],
+    ['Dữ liệu & Tích hợp',35,'#1e8449'],
+  ].map(([name,score,color])=>`<div style="flex:1;min-width:100px"><div style="height:6px;background:#e0d8c8;border-radius:3px;overflow:hidden;margin-bottom:5px"><div style="height:100%;width:${score}%;background:${color};border-radius:3px;transition:width 1s ease"></div></div><div style="font-size:10px;color:#95a5a6;text-transform:uppercase;letter-spacing:.06em">${name}</div></div>`).join('');
+
+  const cb=document.getElementById('foConfirmCheck');
+  if(cb) cb.checked=false;
+  const btn=document.getElementById('foSubmitBtn');
+  if(btn){btn.disabled=true;btn.style.background='#d1d5db';btn.style.cursor='not-allowed';}
+}
+
+function foToggleSubmit() {
+  const checked=document.getElementById('foConfirmCheck').checked;
+  const btn=document.getElementById('foSubmitBtn');
+  btn.disabled=!checked;
+  btn.style.background=checked?'#c77b30':'#d1d5db';
+  btn.style.cursor=checked?'pointer':'not-allowed';
+}
+
+function foSubmit() {
+  const id='IT-'+new Date().getFullYear()+'-'+String(Math.floor(Math.random()*999)+1).padStart(3,'0');
+  document.getElementById('foTicket').textContent='🎫 '+id;
+  document.getElementById('foSuccess').style.display='block';
+  document.getElementById('foSuccess').scrollIntoView({behavior:'smooth'});
+  /* Save feature order to localStorage for cross-dashboard sync */
+  const d = window._foLastSummaryData || {};
+  const dlDisplay = d.deadline ? new Date(d.deadline).toLocaleDateString('vi-VN') : 'TBD';
+  const order = {
+    id: id,
+    name: d.name || 'Yêu cầu tính năng mới',
+    icon: '✨',
+    desc: [d.desc, d.notes].filter(Boolean).join(' — ') || 'Yêu cầu tính năng từ IT Request.',
+    status: 'waiting',
+    priority: 'warm',
+    source: 'nquoc-it-request',
+    proj: 'nhile',
+    projName: 'NhiLe Platform v2',
+    deadline: dlDisplay,
+    submittedAt: new Date().toLocaleDateString('vi-VN'),
+    team: d.org || '',
+    tags: ['feature', 'IT Request']
+  };
+  try {
+    const q = JSON.parse(localStorage.getItem('nhile_user_submitted')||'[]');
+    q.unshift(order);
+    localStorage.setItem('nhile_user_submitted', JSON.stringify(q));
+  } catch(e) {}
+}
+
+// ─── Checklist widget ───
+const CL_DATA=[
+  {id:'login',groups:[
+    {label:'Xác thực & phân quyền',items:[
+      {t:'Đăng nhập với tài khoản hợp lệ → vào được đúng trang',hard:true,n:'Test cả trên desktop và mobile'},
+      {t:'Đăng nhập sai mật khẩu → hiện thông báo lỗi rõ ràng, không crash',hard:true,n:'Không để trang trắng hoặc lỗi 500'},
+      {t:'Tài khoản không có quyền truy cập trang X → bị chặn đúng chỗ',hard:true,n:'Không được vào trang rồi mới báo lỗi'},
+      {t:'Mỗi role chỉ thấy đúng những gì được phép',n:'Test từng role riêng'},
+      {t:'Token/session hết hạn → redirect về trang đăng nhập',n:''},
+    ]},
+    {label:'Luồng đặc biệt',items:[
+      {t:'Quên mật khẩu → nhận được email reset trong vòng 2 phút',n:'Check cả spam folder'},
+      {t:'Đăng nhập nhiều thiết bị cùng lúc → hành vi đúng theo thiết kế',n:''},
+      {t:'Đăng xuất → xóa sạch session, không thể back browser để vào lại',n:''},
+      {t:'Tài khoản bị khóa → có thông báo rõ lý do và hướng dẫn liên hệ',n:''},
+    ]},
+    {label:'Bảo mật',items:[
+      {t:'Không có thông tin nhạy cảm lộ ra trong URL hoặc console',hard:true,n:'Check DevTools → Network và Console'},
+      {t:'Sau đăng nhập không lưu mật khẩu dưới dạng plain text',hard:true,n:''},
+      {t:'Sai mật khẩu quá N lần → bị block tạm thời',n:''},
+    ]},
+  ]},
+  {id:'error',groups:[
+    {label:'Phát hiện & hiển thị lỗi',items:[
+      {t:'Lỗi xảy ra → người dùng thấy thông báo rõ ràng, không phải trang trắng',hard:true,n:'Message phải nói được: lỗi gì, làm gì tiếp theo'},
+      {t:'Thông báo lỗi dùng ngôn ngữ người dùng hiểu — không phải mã lỗi kỹ thuật',hard:true,n:''},
+      {t:'Lỗi được ghi vào log đầy đủ: thời gian, user, action, stack trace',n:''},
+      {t:'Lỗi không làm mất data người dùng đang nhập',n:'Form submit lỗi → data vẫn còn trong ô'},
+    ]},
+    {label:'Phân loại & ưu tiên',items:[
+      {t:'Phân biệt: lỗi do user (nhập sai) vs lỗi hệ thống (server crash)',n:''},
+      {t:'Lỗi nghiêm trọng có alert tự động cho team IT',n:'Không đợi user báo mới biết'},
+      {t:'Lỗi đã từng xảy ra → check bug log xem đã fix chưa hay tái diễn',n:''},
+    ]},
+    {label:'Khôi phục sau lỗi',items:[
+      {t:'Sau khi fix → test lại đúng luồng xảy ra lỗi đó',n:''},
+      {t:'Có nút "thử lại" hoặc hướng dẫn tiếp theo cho user khi gặp lỗi',n:''},
+      {t:'Lỗi đã fix được ghi vào bug log: nguyên nhân, cách fix, ai fix, ngày',n:''},
+    ]},
+  ]},
+  {id:'perf',groups:[
+    {label:'Đo lường tốc độ',items:[
+      {t:'Trang chính load dưới 3 giây trên mạng bình thường',hard:true,n:'Test bằng Chrome DevTools → Network tab'},
+      {t:'Action quan trọng nhất phản hồi trong 1 giây',hard:true,n:''},
+      {t:'Có loading indicator khi action mất hơn 500ms',n:''},
+      {t:'Không bị giật/lag khi scroll danh sách dài',n:'Test với ít nhất 100 dòng'},
+    ]},
+    {label:'Tải nặng & nhiều người dùng',items:[
+      {t:'Test với dữ liệu thật hoặc mock data gần với thực tế',n:''},
+      {t:'Nhiều người dùng cùng lúc → hệ thống không bị chậm bất thường',n:''},
+      {t:'API call không bị gọi trùng lặp không cần thiết',n:'Check Network tab'},
+    ]},
+    {label:'Tối ưu & dọn dẹp',items:[
+      {t:'Ảnh, file được nén trước khi đưa lên',n:''},
+      {t:'Không có memory leak: dùng lâu hệ thống không bị chậm dần',n:''},
+      {t:'Console không có warning về hiệu suất',n:''},
+    ]},
+  ]},
+  {id:'data',groups:[
+    {label:'Tính đúng & toàn vẹn',items:[
+      {t:'Dữ liệu hiển thị khớp với dữ liệu trong database',hard:true,n:'Query thẳng vào DB rồi so sánh với màn hình'},
+      {t:'Số liệu tính toán (tổng, %, trung bình) cho ra kết quả đúng',hard:true,n:'Tính tay 2-3 case rồi đối chiếu'},
+      {t:'Dữ liệu nhập vào được validate đúng — không nhận sai định dạng',hard:true,n:''},
+      {t:'Dữ liệu cũ không bị ghi đè khi người dùng cập nhật không đúng',n:''},
+    ]},
+    {label:'Đồng bộ & nhất quán',items:[
+      {t:'Cập nhật ở màn hình A → màn hình B/C phản ánh đúng',n:''},
+      {t:'Dữ liệu nhất quán giữa các thiết bị/tab khác nhau',n:'Mở 2 tab cùng lúc'},
+      {t:'Xóa dữ liệu → xóa đúng record, không xóa nhầm dữ liệu liên quan',n:'Cẩn thận với cascade delete'},
+    ]},
+    {label:'Backup & mất mát',items:[
+      {t:'Dữ liệu quan trọng được backup trước khi deploy',n:''},
+      {t:'Mất kết nối giữa chừng → không mất data đang nhập',n:'Test: tắt mạng giữa lúc đang điền form'},
+      {t:'Dữ liệu nhạy cảm được mã hóa khi lưu trữ',hard:true,n:'Không lưu plain text trong database'},
+    ]},
+  ]},
+];
+
+const CL_CHECKS={};
+let clActiveTab=0;
+let clBuilt=false;
+
+function clBuild(){
+  if(clBuilt) return;
+  clBuilt=true;
+  const container=document.getElementById('clPanels');
+  if(!container) return;
+  CL_DATA.forEach((sec,si)=>{
+    const div=document.createElement('div');
+    div.className='cl-panel'+(si===0?' active':'');
+    div.id='clp'+si;
+    let html='';
+    sec.groups.forEach(g=>{
+      html+=`<div class="cl-group-head">${g.label}</div>`;
+      g.items.forEach(item=>{
+        const k=sec.id+'|'+g.label+'|'+item.t;
+        html+=`<div class="cl-check-item" onclick="clToggle('${k}',${si})">
+          <div class="cl-box" id="clb-${k.replace(/[|' ]/g,'_')}"></div>
+          <div>
+            <div class="cl-txt" id="clt-${k.replace(/[|' ]/g,'_')}">${item.t}${item.hard?'<span class="cl-hard">hard block</span>':''}</div>
+            ${item.n?`<div class="cl-note">${item.n}</div>`:''}
+          </div>
+        </div>`;
+      });
+    });
+    div.innerHTML=html;
+    container.appendChild(div);
+  });
+  clUpdateProg(0);
+}
+
+function clToggle(k,si){
+  CL_CHECKS[k]=!CL_CHECKS[k];
+  const safeK=k.replace(/[|' ]/g,'_');
+  const box=document.getElementById('clb-'+safeK);
+  const txt=document.getElementById('clt-'+safeK);
+  if(box) box.className='cl-box'+(CL_CHECKS[k]?' on':'');
+  if(txt) txt.className='cl-txt'+(CL_CHECKS[k]?' on':'');
+  clUpdateProg(si);
+  // also update feature typeChecklist
+  S.typeChecklist=Object.entries(CL_CHECKS).filter(([,v])=>v).map(([k])=>k.split('|')[2]);
+  checkTypeChecklist();
+}
+
+function clUpdateProg(si){
+  const sec=CL_DATA[si];
+  let done=0,total=0,hardFail=0;
+  sec.groups.forEach(g=>g.items.forEach(item=>{
+    total++;
+    const k=sec.id+'|'+g.label+'|'+item.t;
+    if(CL_CHECKS[k]) done++;
+    else if(item.hard) hardFail++;
+  }));
+  const pct=total?Math.round(done/total*100):0;
+  const fill=document.getElementById('clProgFill');
+  const lbl=document.getElementById('clProgLbl');
+  const pill=document.getElementById('clProgPill');
+  if(fill) fill.style.width=pct+'%';
+  if(lbl) lbl.textContent=done+'/'+total+' mục';
+  if(pill){
+    if(hardFail>0){pill.style.background='#fee2e2';pill.style.color='#dc2626';pill.textContent=hardFail+' hard block chưa pass';}
+    else if(done===total){pill.style.background='#dcfce7';pill.style.color='#16a34a';pill.textContent='Đạt — sẵn sàng';}
+    else if(pct>=70){pill.style.background='#fef9c3';pill.style.color='#ca8a04';pill.textContent='Gần xong';}
+    else{pill.style.background='#fee2e2';pill.style.color='#dc2626';pill.textContent='Chưa đạt';}
+  }
+}
+
+function clSwitch(i){
+  clActiveTab=i;
+  document.querySelectorAll('.cl-tab').forEach((t,idx)=>t.className='cl-tab'+(idx===i?' active':''));
+  document.querySelectorAll('.cl-panel').forEach((p,idx)=>p.className='cl-panel'+(idx===i?' active':''));
+  clUpdateProg(i);
+}
+
+function clReset(){
+  Object.keys(CL_CHECKS).forEach(k=>{
+    CL_CHECKS[k]=false;
+    const safeK=k.replace(/[|' ]/g,'_');
+    const box=document.getElementById('clb-'+safeK);
+    const txt=document.getElementById('clt-'+safeK);
+    if(box) box.className='cl-box';
+    if(txt) txt.className='cl-txt';
+  });
+  clUpdateProg(clActiveTab);
+  S.typeChecklist=[];
+  checkTypeChecklist();
+}
+
+// ─── Auto-detect env ───
+(function(){
+  const ua = navigator.userAgent;
+  let br = 'Chrome';
+  if(ua.includes('Firefox')) br='Firefox';
+  else if(ua.includes('Edg')) br='Edge';
+  else if(ua.includes('Safari')&&!ua.includes('Chrome')) br='Safari';
+  let os = 'Windows';
+  if(ua.includes('Mac')) os='macOS';
+  else if(ua.includes('Linux')) os='Linux';
+  else if(ua.includes('Android')) os='Android';
+  else if(ua.includes('iPhone')||ua.includes('iPad')) os='iOS';
+  document.getElementById('envBrowser').textContent=br;
+  document.getElementById('envOS').textContent=os;
+  document.getElementById('envRes').textContent=window.screen.width+'×'+window.screen.height;
+})();
+
+updateNav();
+</script>
+</body>
+</html>

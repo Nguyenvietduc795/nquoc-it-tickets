@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SOP Dashboard — Member Onboarding</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ═══ LIGHT THEME (member onboarding) ═══ */
+:root{
+  --bg:#F7F6F3;--surface:#FFFFFF;--border:rgba(0,0,0,0.08);--border-md:rgba(0,0,0,0.14);
+  --text:#1A1A18;--text-2:#6B6B66;--text-3:#A8A8A2;
+  --purple-bg:#EEEDFE;--purple:#7F77DD;--purple-dark:#3C3489;
+  --teal-bg:#E1F5EE;--teal:#1D9E75;--teal-dark:#085041;
+  --amber-bg:#FAEEDA;--amber:#EF9F27;--amber-dark:#633806;
+  --red-bg:#FCEBEB;--red:#E24B4A;--red-dark:#791F1F;
+  --blue-bg:#E6F1FB;--blue:#378ADD;--blue-dark:#0C447C;
+  --green-bg:#EAF3DE;--green:#639922;--green-dark:#27500A;
+  --gray-bg:#F1EFE8;--gray:#888780;--coral-bg:#FAECE7;
+  --radius-sm:6px;--radius-md:10px;--radius-lg:14px;
+  --font:'DM Sans',sans-serif;--font-mono:'DM Mono',monospace
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;min-height:100vh}
+
+/* TOPBAR */
+.topbar{height:52px;background:var(--surface);border-bottom:0.5px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:16px;position:sticky;top:0;z-index:100}
+.logo{font-size:14px;font-weight:600;letter-spacing:-0.02em}.logo span{color:var(--purple)}
+.topbar-sep{flex:1}
+.topbar-project{font-size:12px;color:var(--text-2);background:var(--bg);border:0.5px solid var(--border-md);padding:5px 12px;border-radius:20px}
+.topbar-user{width:30px;height:30px;border-radius:50%;background:var(--purple-bg);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--purple-dark)}
+.app{display:flex;height:calc(100vh - 52px)}
+.sidebar{width:220px;min-width:220px;background:var(--surface);border-right:0.5px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
+.sb-hd{padding:16px 16px 14px;border-bottom:0.5px solid var(--border)}
+.sb-project{font-size:13px;font-weight:600;letter-spacing:-0.02em}
+.sb-sub{font-size:10px;color:var(--text-3);margin-top:2px}
+.sb-user-row{display:flex;align-items:center;gap:8px;margin-top:10px}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;flex-shrink:0}
+.av-sm{width:28px;height:28px;font-size:10px}.av-md{width:36px;height:36px;font-size:13px}.av-xs{width:22px;height:22px;font-size:8px}
+.av-p{background:var(--purple-bg);color:var(--purple-dark)}.av-t{background:var(--teal-bg);color:var(--teal-dark)}.av-a{background:var(--amber-bg);color:var(--amber-dark)}.av-c{background:var(--coral-bg);color:#712B13}.av-b{background:var(--blue-bg);color:var(--blue-dark)}.av-g{background:var(--green-bg);color:var(--green-dark)}.av-r{background:var(--red-bg);color:var(--red-dark)}
+.sb-uname{font-size:12px;font-weight:500}.sb-urole{font-size:10px;color:var(--text-3)}
+.prog-section{padding:14px 16px;border-bottom:0.5px solid var(--border)}
+.prog-label{font-size:10px;color:var(--text-2);margin-bottom:6px;display:flex;justify-content:space-between}
+.prog-track{height:6px;background:var(--bg);border-radius:3px;overflow:hidden}.prog-fill{height:6px;background:var(--purple);border-radius:3px;transition:width .4s}
+.prog-sub{font-size:10px;color:var(--text-3);margin-top:4px}
+.nav-sec-label{font-size:10px;color:var(--text-3);padding:10px 16px 3px;letter-spacing:.06em;font-weight:500;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 16px;font-size:12.5px;color:var(--text-2);cursor:pointer;border-right:2px solid transparent;transition:all .12s}
+.nav-item:hover{background:var(--bg);color:var(--text)}.nav-item.active{background:var(--purple-bg);color:var(--purple-dark);font-weight:500;border-right-color:var(--purple)}
+.nav-dot{width:7px;height:7px;border-radius:2px;flex-shrink:0}
+.nav-badge{font-size:9px;padding:1px 6px;border-radius:20px;margin-left:auto;font-weight:500;background:var(--amber-bg);color:var(--amber-dark)}
+.sb-footer{margin-top:auto;padding:12px 16px;border-top:0.5px solid var(--border)}
+.contact-hint{font-size:10px;color:var(--text-3);margin-bottom:4px}.contact-name{font-size:12px;font-weight:500}.contact-handle{font-size:10px;color:var(--purple)}
+.main{flex:1;overflow-y:auto;padding:28px 32px;display:flex;flex-direction:column;gap:18px;background:var(--bg)}
+.screen{display:none;flex-direction:column;gap:18px}.screen.active{display:flex}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.ph-title{font-size:20px;font-weight:600;letter-spacing:-.03em}.ph-sub{font-size:13px;color:var(--text-2);margin-top:3px}
+.pill{display:inline-flex;align-items:center;font-size:11px;padding:3px 10px;border-radius:20px;font-weight:500;white-space:nowrap}
+.pill-p{background:var(--purple-bg);color:var(--purple-dark)}.pill-t{background:var(--teal-bg);color:var(--teal-dark)}.pill-a{background:var(--amber-bg);color:var(--amber-dark)}.pill-g{background:var(--gray-bg);color:#444441}.pill-b{background:var(--blue-bg);color:var(--blue-dark)}.pill-r{background:var(--red-bg);color:var(--red-dark)}.pill-gr{background:var(--green-bg);color:var(--green-dark)}
+.btn{font-size:12px;padding:7px 16px;border-radius:var(--radius-md);cursor:pointer;font-family:var(--font);font-weight:500;transition:all .12s;border:.5px solid transparent}
+.btn:active{transform:scale(.98)}.btn-primary{background:var(--amber);color:#412402;border-color:var(--amber)}.btn-primary:hover{background:#d08d1e}.btn-outline{background:transparent;color:var(--text-2);border-color:var(--border-md)}.btn-outline:hover{background:var(--surface);color:var(--text)}.btn-sm{font-size:11px;padding:5px 12px;border-radius:var(--radius-sm)}
+.card{background:var(--surface);border:.5px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}.card-title{font-size:13px;font-weight:600}
+.access-banner{border-radius:var(--radius-lg);padding:16px 18px;border:.5px solid;display:flex;align-items:flex-start;gap:14px}.ab-pending{background:var(--amber-bg);border-color:#FAC775}.ab-done{background:var(--teal-bg);border-color:#9FE1CB}
+.ab-icon{width:36px;height:36px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;flex-shrink:0}.ab-icon-pending{background:var(--amber)}.ab-icon-done{background:var(--teal)}
+.ab-sq{width:14px;height:14px;border:2.5px solid white;border-radius:2px}.ab-ck{width:10px;height:7px;border-left:2.5px solid white;border-bottom:2.5px solid white;transform:rotate(-45deg) translateY(-1px)}
+.ab-title-pending{font-size:13px;font-weight:600;color:var(--amber-dark)}.ab-title-done{font-size:13px;font-weight:600;color:var(--teal-dark)}
+.ab-sub-pending{font-size:11px;color:#854F0B;margin-top:2px;line-height:1.4}.ab-sub-done{font-size:11px;color:var(--teal);margin-top:2px}
+.email-row{display:flex;gap:8px;margin-top:10px}.email-inp{flex:1;font-size:12px;padding:8px 12px;border-radius:var(--radius-md);border:.5px solid #EF9F27;background:white;color:var(--text);font-family:var(--font)}.email-inp:focus{outline:none;box-shadow:0 0 0 3px rgba(239,159,39,.2)}
+.sent-row{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:11px;color:var(--teal-dark)}.sent-dot{width:6px;height:6px;border-radius:50%;background:var(--teal)}
+.phase-block{display:flex;flex-direction:column;gap:6px}.phase-header{display:flex;align-items:center;gap:10px;padding:4px 0}
+.phase-tag{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:500}.pt-d1{background:var(--purple-bg);color:#534AB7}.pt-d2{background:var(--blue-bg);color:#185FA5}.pt-w1{background:var(--amber-bg);color:#854F0B}.pt-w2{background:var(--green-bg);color:var(--green-dark)}
+.phase-title{font-size:12px;font-weight:500;color:var(--text-2)}.phase-count{font-size:11px;color:var(--text-3);margin-left:auto}
+.step-item{display:flex;gap:12px;padding:12px 14px;border-radius:var(--radius-md);border:.5px solid var(--border);background:var(--surface);cursor:pointer;transition:border-color .15s}.step-item:hover{border-color:var(--border-md)}.step-item.done{background:var(--bg);border-color:var(--border)}.step-item.current{border-color:var(--purple);border-width:1.5px}
+.chk-wrap{flex-shrink:0;padding-top:2px}.chk{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border-md);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;flex-shrink:0}.chk:hover{border-color:var(--purple)}.chk.done{background:var(--teal);border-color:var(--teal)}
+.ck-mark{width:7px;height:5px;border-left:2px solid white;border-bottom:2px solid white;transform:rotate(-45deg) translateY(-1px)}
+.step-body{flex:1;min-width:0}.step-title{font-size:13px;font-weight:500;line-height:1.3}.step-title.done{color:var(--text-3);text-decoration:line-through;font-weight:400}
+.step-desc{font-size:11px;color:var(--text-2);margin-top:3px;line-height:1.5}
+.step-links{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.step-link{font-size:10px;padding:3px 10px;border-radius:10px;border:.5px solid var(--border-md);color:var(--text-2);background:var(--bg);cursor:pointer;transition:all .12s;display:inline-flex;align-items:center;gap:4px}.step-link:hover{color:var(--purple-dark);border-color:#AFA9EC;background:var(--purple-bg)}
+.link-sq{width:7px;height:7px;border:1px solid currentColor;border-radius:1px;display:inline-block}
+.welcome-bar{background:var(--purple-bg);border-radius:var(--radius-lg);padding:16px 18px;border:.5px solid #AFA9EC}
+.wb-title{font-size:14px;font-weight:600;color:var(--purple-dark);margin-bottom:2px}.wb-sub{font-size:11px;color:#534AB7;margin-bottom:10px}
+.wb-prog-row{display:flex;align-items:center;gap:12px}.wb-bar{flex:1;height:8px;background:rgba(127,119,221,.2);border-radius:4px;overflow:hidden}.wb-fill{height:8px;background:var(--purple);border-radius:4px;transition:width .5s}.wb-pct{font-size:13px;font-weight:600;color:var(--purple-dark);min-width:36px;text-align:right}
+.doc-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:.5px solid var(--border)}.doc-row:last-child{border-bottom:none;padding-bottom:0}
+.doc-ico{width:32px;height:32px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.doc-name{font-size:12px;font-weight:500}.doc-meta{font-size:10px;color:var(--text-3)}.doc-open{font-size:11px;color:var(--purple);cursor:pointer;margin-left:auto;white-space:nowrap;font-weight:500}
+.contact-card{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:.5px solid var(--border)}.contact-card:last-child{border-bottom:none;padding-bottom:0}
+.cc-info{flex:1}.cc-name{font-size:13px;font-weight:500}.cc-role{font-size:11px;color:var(--text-2);margin-top:1px}.cc-scope{font-size:11px;color:var(--text-3);margin-top:2px}
+.cc-handles{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap}.cc-tag{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--bg);border:.5px solid var(--border-md);color:var(--text-2)}
+.pov{border-radius:var(--radius-lg);padding:24px;background:var(--bg)}
+.pov-breadcrumb{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-3);margin-bottom:18px}
+.pov-breadcrumb a{color:var(--text-3);text-decoration:none;cursor:pointer;transition:color .12s}.pov-breadcrumb a:hover{color:var(--purple-dark)}
+.pov-breadcrumb .pov-bc-current{color:var(--text);font-weight:500}
+.pov-card{background:var(--surface);border:.5px solid var(--border);border-radius:var(--radius-lg);padding:16px 20px}
+.pov-section-label{font-size:12px;color:var(--text-3);margin:0 0 6px;text-transform:uppercase;letter-spacing:.05em;font-weight:500}
+.pov-metric{text-align:center;padding:16px}
+.pov-metric-label{font-size:12px;color:var(--text-2);margin-bottom:4px}
+.pov-metric-val{font-size:22px;font-weight:500}
+.pov-bar{height:4px;background:var(--bg);border-radius:2px;margin-top:8px;overflow:hidden}.pov-bar-fill{height:4px;border-radius:2px;background:var(--purple)}
+.pov-mod-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0}
+.pov-mod-name{font-size:13px}.pov-mod-pill{font-size:11px;padding:2px 8px;border-radius:var(--radius-md);font-weight:500}
+.pov-task-row{display:flex;align-items:center;justify-content:space-between;padding:6px 0}
+.pov-task-row-icon{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;font-weight:700}
+.pov-task-label{font-size:13px;flex:1;margin-left:8px}
+.pov-task-count{font-size:14px;font-weight:500}
+.pov-team-row{display:flex;align-items:center;gap:10px;padding:6px 0}
+.pov-team-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500}
+.pov-team-name{font-size:13px;font-weight:500}.pov-team-role{font-size:11px;color:var(--text-2)}
+.pov-gl-link{display:flex;align-items:center;gap:8px;padding:5px 0;cursor:pointer;font-size:13px;color:var(--purple-dark);transition:color .12s}.pov-gl-link:hover{color:var(--purple)}
+.pov-gl-arrow{margin-left:auto;font-size:12px;color:var(--purple)}
+.pov-gl-rules{border-top:.5px solid var(--border);padding-top:8px;margin-top:6px}
+.pov-gl-rule{font-size:12px;margin:2px 0;color:var(--text)}
+.tf{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.tf-chip{font-size:11px;padding:5px 14px;border-radius:20px;cursor:pointer;border:.5px solid var(--border-md);background:var(--surface);color:var(--text-2);font-family:var(--font);transition:all .12s}.tf-chip:hover{border-color:var(--purple)}.tf-chip.on{background:var(--purple-bg);color:var(--purple-dark);border-color:transparent;font-weight:500}
+.tt{width:100%;border-collapse:separate;border-spacing:0;font-size:12.5px}
+.tt th{text-align:left;font-size:10px;color:var(--text-3);font-weight:500;padding:10px 12px;border-bottom:.5px solid var(--border);background:var(--bg);text-transform:uppercase;letter-spacing:.04em}
+.tt td{padding:11px 12px;border-bottom:.5px solid var(--border);vertical-align:middle}
+.tt-id{font-family:var(--font-mono);font-size:10px;color:var(--text-3)}.tt-name{font-weight:500}.tt-sub{font-size:10px;color:var(--text-3)}
+.tt-pri{font-size:10px;padding:3px 10px;border-radius:6px;font-weight:700;display:inline-block;min-width:28px;text-align:center}
+.tt-mod{font-size:11px;padding:3px 8px;border-radius:var(--radius-sm);background:var(--bg);border:.5px solid var(--border);display:inline-block}
+.tt-pic{width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:600}
+
+/* clickable task row */
+.tt-row-clickable{cursor:pointer;transition:background .12s}
+.tt-row-clickable:hover td{background:rgba(127,119,221,0.06)!important}
+.tt-row-clickable.selected td{background:rgba(127,119,221,0.1)!important}
+
+.ml-row{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:var(--radius-md);border:.5px solid var(--border);background:var(--surface)}
+.ml-info{flex:1;min-width:0}.ml-name{font-size:13px;font-weight:500}.ml-role{font-size:11px;color:var(--text-2)}
+.ml-prog{width:110px}.ml-pct{font-size:10px;color:var(--text-3);font-family:var(--font-mono)}.ml-track{height:5px;background:var(--bg);border-radius:3px;overflow:hidden;margin-top:3px}.ml-fill{height:5px;border-radius:3px;background:var(--purple)}
+.ml-status{font-size:10px;padding:4px 12px;border-radius:10px;font-weight:500}
+
+/* PROJECT DETAIL SIDEBAR */
+.pj-wrap{display:none;flex:1;height:100%}.pj-wrap.open{display:flex}
+.pj-side{width:230px;min-width:230px;background:var(--surface);border-right:.5px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
+.pj-back{display:flex;align-items:center;gap:6px;padding:10px 16px;font-size:11px;color:var(--text-3);cursor:pointer;border-bottom:.5px solid var(--border);transition:color .12s}.pj-back:hover{color:var(--purple-dark);background:var(--purple-bg)}
+.pj-side-hd{padding:14px 16px;border-bottom:.5px solid var(--border)}
+.pj-side-name{font-size:14px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px}
+.pj-side-stack{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
+.pj-side-stack span{font-size:9px;padding:2px 7px;border-radius:4px;background:var(--bg);border:.5px solid var(--border);color:var(--text-2);font-family:var(--font-mono)}
+.pj-tab{display:flex;align-items:center;gap:9px;padding:9px 16px;font-size:12px;color:var(--text-2);cursor:pointer;border-right:2px solid transparent;transition:all .12s}.pj-tab:hover{background:var(--bg);color:var(--text)}.pj-tab.active{background:var(--purple-bg);color:var(--purple-dark);font-weight:500;border-right-color:var(--purple)}
+.pj-share{padding:12px 16px;border-top:.5px solid var(--border);margin-top:auto}
+.pj-share-label{font-size:10px;color:var(--text-3);margin-bottom:4px}
+.pj-share-row{display:flex;gap:6px}.pj-share-url{flex:1;font-size:10px;padding:5px 8px;border-radius:var(--radius-sm);background:var(--bg);border:.5px solid var(--border);color:var(--text-2);font-family:var(--font-mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pj-share-btn{font-size:10px;padding:5px 10px;border-radius:var(--radius-sm);background:var(--purple-bg);color:var(--purple-dark);border:none;cursor:pointer;font-family:var(--font);font-weight:500;transition:all .12s}.pj-share-btn:hover{background:var(--purple);color:white}
+.pj-body{flex:1;overflow-y:auto;padding:24px 28px;background:var(--bg)}
+.pj-panel{display:none;flex-direction:column;gap:16px}.pj-panel.active{display:flex}
+
+/* ═══════════════════════════════════════════════════
+   DARK TASK DETAIL PANEL (from remixed-v3 style)
+═══════════════════════════════════════════════════ */
+#task-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0);z-index:300;
+  pointer-events:none;transition:background .25s;
+}
+#task-overlay.open{
+  background:rgba(0,0,0,0.45);pointer-events:all;
+}
+#task-detail{
+  position:fixed;top:0;right:0;bottom:0;
+  width:660px;max-width:100vw;
+  background:#13131f;
+  border-left:1px solid rgba(255,255,255,0.07);
+  display:flex;flex-direction:column;
+  z-index:301;
+  transform:translateX(100%);
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+  font-family:'Inter',system-ui,sans-serif;
+  overflow:hidden;
+}
+#task-detail.open{transform:translateX(0);}
+
+/* Dark panel internal vars */
+#task-detail{
+  --d-bg:#0d0d14;--d-surface:#13131f;--d-surface-alt:#1a1a2a;
+  --d-border:rgba(255,255,255,0.07);--d-border-strong:rgba(255,255,255,0.14);
+  --d-text:#e8eaf0;--d-text2:#a0a8b8;--d-text3:#606880;--d-text4:#3a4050;
+  --d-accent:#6c5ce7;--d-accent-m:rgba(108,92,231,0.12);
+  --d-green:#22c55e;--d-red:#ef4444;--d-orange:#f97316;
+  --d-yellow:#eab308;--d-blue:#3b82f6;--d-purple:#a855f7;
+}
+
+.td-topbar{
+  height:48px;background:#13131f;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;
+}
+.td-back-btn{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;color:#a0a8b8;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);
+  border-radius:7px;padding:5px 12px;cursor:pointer;
+  transition:all .15s;font-family:'Inter',sans-serif;
+}
+.td-back-btn:hover{background:rgba(255,255,255,0.1);color:#e8eaf0;}
+.td-project-badge{
+  font-size:10px;padding:3px 10px;border-radius:99px;
+  background:rgba(108,92,231,0.15);color:#a78bfa;
+  border:1px solid rgba(108,92,231,0.25);font-weight:600;letter-spacing:.02em;
+  font-family:'Inter',sans-serif;
+}
+.td-spacer{flex:1}
+.td-task-id{font-size:11px;color:#3a4050;font-family:'JetBrains Mono',monospace;}
+
+.td-header{
+  padding:16px 20px 0;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  flex-shrink:0;background:#13131f;
+}
+.td-breadcrumb{font-size:10px;color:#3a4050;margin-bottom:8px;display:flex;gap:4px;}
+.td-breadcrumb span{color:#a0a8b8;font-weight:500}
+.td-title-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.td-title-wrap{flex:1;min-width:0}
+.td-title-meta{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.td-title{font-size:17px;font-weight:900;letter-spacing:-.5px;color:#e8eaf0;line-height:1.3}
+.td-subtitle{font-size:11px;color:#a0a8b8;margin-top:3px}
+.td-action-row{display:flex;gap:8px;flex-shrink:0}
+
+.td-meta-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.td-status-badge{font-size:10px;font-weight:600;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.td-prog-bar{width:80px;height:3px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden}
+.td-prog-fill{height:100%;border-radius:2px}
+.td-deadline{font-size:10px;font-weight:700;white-space:nowrap}
+
+.td-tabs{display:flex;gap:2px;margin-top:2px}
+.td-tab{
+  padding:9px 12px;font-size:11px;font-weight:600;
+  border:none;border-bottom:2px solid transparent;
+  margin-bottom:-1px;background:transparent;
+  color:#606880;cursor:pointer;transition:color .15s;
+  display:flex;align-items:center;gap:5px;
+  font-family:'Inter',sans-serif;
+}
+.td-tab.active{color:#a78bfa;border-bottom-color:#6c5ce7}
+.td-tab:hover{color:#a0a8b8}
+
+.td-body{
+  flex:1;overflow-y:auto;padding:18px 20px;
+  background:#0d0d14;
+  font-family:'Inter',sans-serif;
+}
+.td-body::-webkit-scrollbar{width:4px}
+.td-body::-webkit-scrollbar-track{background:transparent}
+.td-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+
+/* priority badges */
+.pri-badge{font-size:9px;font-weight:800;padding:2px 7px;border-radius:99px;white-space:nowrap;flex-shrink:0}
+.pri-P0{background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3)}
+.pri-P1{background:rgba(249,115,22,0.15);color:#f97316;border:1px solid rgba(249,115,22,0.3)}
+.pri-P2{background:rgba(234,179,8,0.15);color:#eab308;border:1px solid rgba(234,179,8,0.3)}
+.pri-P3{background:rgba(34,197,94,0.15);color:#22c55e;border:1px solid rgba(34,197,94,0.3)}
+
+/* status badge colors in dark panel */
+.stat-InProgress{background:rgba(249,115,22,0.15);color:#f97316;border:1px solid rgba(249,115,22,0.2)}
+.stat-Done{background:rgba(34,197,94,0.15);color:#22c55e;border:1px solid rgba(34,197,94,0.2)}
+.stat-ToDo{background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.2)}
+.stat-PendingBlock{background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.2)}
+
+/* detail sections */
+.td-section{margin-bottom:22px}
+.td-section-title{font-size:10px;font-weight:700;color:#3a4050;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.td-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.td-info-cell{background:#1a1a2a;border:1px solid rgba(255,255,255,0.07);border-radius:9px;padding:11px 14px}
+.td-info-label{font-size:9px;color:#3a4050;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.td-info-val{font-size:13px;font-weight:500;color:#e8eaf0}
+
+.td-desc-box{background:#1a1a2a;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:14px 16px;font-size:13px;color:#a0a8b8;line-height:1.7}
+
+/* checklist */
+.td-cl-item{display:flex;align-items:flex-start;gap:10px;padding:10px 13px;cursor:pointer;border-radius:8px;margin-bottom:5px;border:1px solid rgba(255,255,255,0.07);background:#1a1a2a;transition:all .15s}
+.td-cl-item.done{background:rgba(34,197,94,0.05);border-color:rgba(34,197,94,0.18)}
+.td-cl-check{width:16px;height:16px;border-radius:4px;border:2px solid rgba(255,255,255,0.14);background:transparent;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;flex-shrink:0;margin-top:1px;transition:all .15s}
+.td-cl-check.checked{background:#6c5ce7;border-color:#6c5ce7}
+.td-cl-text{font-size:13px;line-height:1.5;color:#e8eaf0;transition:all .15s}
+.td-cl-text.done{color:#606880;text-decoration:line-through}
+
+/* history */
+.td-hist-item{display:flex;gap:12px;padding:8px 0}
+.td-hist-dot{width:20px;height:20px;border-radius:50%;background:#1a1a2a;border:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+.td-hist-text{font-size:12px;color:#a0a8b8;line-height:1.5}
+.td-hist-time{font-size:10px;color:#3a4050;margin-top:2px}
+
+/* action buttons */
+.td-btn{
+  height:34px;display:flex;align-items:center;justify-content:center;gap:6px;
+  font-size:11px;font-weight:700;border-radius:8px;cursor:pointer;
+  padding:0 14px;border:none;font-family:'Inter',sans-serif;transition:all .15s;
+  white-space:nowrap;
+}
+.td-btn-done{background:#16a34a;color:#fff}
+.td-btn-done:hover{background:#15803d}
+.td-btn-secondary{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:#a0a8b8}
+.td-btn-secondary:hover{background:rgba(255,255,255,0.12);color:#e8eaf0}
+.td-btn-accent{background:#6c5ce7;color:#fff}
+.td-btn-accent:hover{background:#5b4bd6}
+
+/* note area */
+.td-note-area{width:100%;background:#1a1a2a;border:1px solid rgba(255,255,255,0.08);border-radius:10px;outline:none;color:#e8eaf0;font-size:12px;padding:11px 14px;resize:none;min-height:72px;line-height:1.6;font-family:'Inter',sans-serif}
+.td-note-area::placeholder{color:#3a4050}
+.td-note-area:focus{border-color:rgba(108,92,231,0.5)}
+
+/* assign row */
+.td-assign-row{display:flex;align-items:center;gap:10px;background:#1a1a2a;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:12px 14px}
+.td-assign-av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.td-assign-name{font-size:13px;font-weight:600;color:#e8eaf0}
+.td-assign-role{font-size:11px;color:#a0a8b8;margin-top:1px}
+
+/* ─── DEPLOY TAB STYLES ─── */
+.dc-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.dc-sum-cell{background:#1a1a2a;border:1px solid rgba(255,255,255,0.07);border-radius:10px;padding:14px;text-align:center}
+.dc-sum-num{font-size:22px;font-weight:900;line-height:1;margin-bottom:4px;color:#e8eaf0}
+.dc-sum-lbl{font-size:10px;color:#606880;text-transform:uppercase;letter-spacing:.06em}
+
+.dc-sbadge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;display:inline-block;white-space:nowrap}
+.dc-yes{background:rgba(34,197,94,0.15);color:#22c55e;border:1px solid rgba(34,197,94,0.25)}
+.dc-no{background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.25)}
+.dc-partial{background:rgba(234,179,8,0.15);color:#eab308;border:1px solid rgba(234,179,8,0.25)}
+
+.dc-sect{background:#1a1a2a;border:1px solid rgba(255,255,255,0.07);border-radius:12px;overflow:hidden;margin-bottom:10px}
+.dc-shdr{display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;transition:background .12s}
+.dc-shdr:hover{background:rgba(255,255,255,0.04)}
+.dc-sico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.dc-smeta{flex:1;min-width:0}
+.dc-slayer{font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.dc-stitle{font-size:13px;font-weight:600;color:#e8eaf0}
+.dc-sright{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.dc-scnt{font-size:11px;color:#606880;font-family:'JetBrains Mono',monospace}
+.dc-chev{font-size:14px;color:#606880;transition:transform .2s;display:inline-block}
+.dc-chev.open{transform:rotate(0deg)}.dc-chev:not(.open){transform:rotate(-90deg)}
+
+.dc-spbar{height:2px;background:rgba(255,255,255,0.06);overflow:hidden}
+.dc-spfill{height:100%;border-radius:2px;transition:width .4s}
+
+.dc-sbody{overflow:hidden;transition:max-height .25s ease}
+.dc-sbody.closed{display:none}
+
+.dc-grp{padding:10px 16px 4px}
+.dc-glbl{font-size:9px;font-weight:700;color:#3a4050;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid rgba(255,255,255,0.05)}
+
+.dc-it{display:flex;align-items:flex-start;gap:10px;padding:8px 0;cursor:pointer;border-radius:6px;transition:background .1s}
+.dc-it:hover{background:rgba(255,255,255,0.03)}
+.dc-it.dc-dn .dc-itxt{color:#3a4050;text-decoration:line-through}
+.dc-it.dc-dn .dc-box{background:#6c5ce7;border-color:#6c5ce7}
+.dc-it.dc-dn .dc-box::after{content:'✓';color:#fff;font-size:9px;font-weight:900}
+
+.dc-box{width:16px;height:16px;border-radius:4px;border:2px solid rgba(255,255,255,0.14);background:transparent;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+
+.dc-itxt{font-size:12.5px;color:#e8eaf0;line-height:1.4;flex:1}
+.dc-note{font-size:10px;color:#606880;margin-top:3px;line-height:1.4}
+.dc-htag{font-size:9px;font-weight:800;padding:1px 7px;border-radius:99px;background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.25);margin-left:8px;white-space:nowrap}
+
+.dc-ship-wrap{display:none;padding:16px;border-top:1px solid rgba(255,255,255,0.07)}
+.dc-ship-wrap.vis{display:block}
+.dc-ship{width:100%;background:linear-gradient(135deg,#6c5ce7,#a855f7);border:none;border-radius:12px;padding:14px;font-size:14px;font-weight:900;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'Inter',sans-serif;letter-spacing:-.02em;transition:opacity .15s}
+.dc-ship:hover{opacity:.9}
+.dc-rocket{font-size:18px;animation:dcRocket 1.5s ease-in-out infinite}
+@keyframes dcRocket{0%,100%{transform:translateY(0) rotate(-45deg)}50%{transform:translateY(-4px) rotate(-45deg)}}
+
+/* ship modal */
+#dcModal{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:600;display:none;align-items:center;justify-content:center}
+#dcModal.show{display:flex}
+.dcm-box{background:#1a1a2a;border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:32px 28px 24px;width:360px;max-width:90vw;text-align:center;position:relative;overflow:hidden}
+.dcm-dot{position:absolute;width:8px;height:8px;border-radius:50%;animation:dcFall linear forwards}
+@keyframes dcFall{to{transform:translateY(400px);opacity:0}}
+
+/* ─── TELEGRAM PANEL ─── */
+#tg-panel{
+  position:fixed;top:0;right:0;bottom:0;
+  width:360px;max-width:100vw;
+  background:#13131f;
+  border-left:1px solid rgba(255,255,255,0.08);
+  z-index:400;
+  display:flex;flex-direction:column;
+  transform:translateX(100%);
+  transition:transform .28s cubic-bezier(.4,0,.2,1);
+  font-family:'Inter',system-ui,sans-serif;
+  box-shadow:-8px 0 40px rgba(0,0,0,0.5);
+}
+#tg-panel.open{transform:translateX(0);}
+#tg-overlay2{
+  position:fixed;inset:0;background:rgba(0,0,0,0.35);
+  z-index:399;display:none;
+}
+#tg-overlay2.open{display:block;}
+
+.tg-topbar{
+  height:52px;background:#13131f;
+  border-bottom:1px solid rgba(255,255,255,0.07);
+  display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;
+}
+.tg-av{width:34px;height:34px;border-radius:10px;background:#16a34a;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.tg-name{font-size:14px;font-weight:700;color:#e8eaf0;flex:1}
+.tg-handle{font-size:11px;color:#22c55e;margin-top:1px}
+.tg-close-btn{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#606880;font-size:16px;flex-shrink:0;transition:all .15s}
+.tg-close-btn:hover{background:rgba(255,255,255,0.1);color:#e8eaf0}
+
+.tg-timeline{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.tg-timeline::-webkit-scrollbar{width:3px}
+.tg-timeline::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.08);border-radius:2px}
+
+.tg-bubble{
+  max-width:85%;align-self:flex-start;
+  background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.15);
+  border-radius:12px 12px 12px 4px;
+  padding:10px 12px;
+}
+.tg-bubble-name{font-size:10px;font-weight:700;color:#22c55e;margin-bottom:3px}
+.tg-bubble-text{font-size:12px;color:#a0a8b8;line-height:1.5}
+
+.tg-bottom{flex-shrink:0;padding:10px 14px 14px;border-top:1px solid rgba(255,255,255,0.07);background:#13131f}
+.tg-quick-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tg-qbtn{
+  font-size:10px;font-weight:600;padding:5px 10px;border-radius:99px;
+  border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);
+  color:#a0a8b8;cursor:pointer;font-family:'Inter',sans-serif;
+  transition:all .15s;white-space:nowrap;
+}
+.tg-qbtn:hover{background:rgba(34,197,94,0.15);border-color:rgba(34,197,94,0.3);color:#22c55e}
+.tg-qbtn.active{background:rgba(34,197,94,0.2);border-color:rgba(34,197,94,0.4);color:#22c55e}
+
+.tg-textarea{
+  width:100%;background:#1a1a2a;border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px;outline:none;color:#e8eaf0;font-size:12.5px;
+  padding:10px 13px;resize:none;min-height:80px;line-height:1.6;
+  font-family:'Inter',sans-serif;margin-bottom:10px;
+  transition:border-color .15s;
+}
+.tg-textarea:focus{border-color:rgba(34,197,94,0.4)}
+.tg-textarea::placeholder{color:#3a4050}
+
+.tg-send-row{display:flex;gap:8px}
+.tg-copy-btn{
+  height:38px;padding:0 14px;border-radius:8px;
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);
+  color:#a0a8b8;font-size:12px;font-weight:600;cursor:pointer;
+  font-family:'Inter',sans-serif;transition:all .15s;white-space:nowrap;
+}
+.tg-copy-btn:hover{background:rgba(255,255,255,0.1);color:#e8eaf0}
+.tg-send-btn{
+  flex:1;height:38px;border-radius:8px;
+  background:#16a34a;border:none;
+  color:#fff;font-size:12px;font-weight:700;cursor:pointer;
+  font-family:'Inter',sans-serif;transition:opacity .15s;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.tg-send-btn:hover{opacity:.88}
+
+/* toast */
+#td-toast{
+  position:fixed;bottom:24px;right:24px;
+  background:#1e1e30;border:1px solid #6c5ce7;
+  border-radius:12px;padding:10px 18px;
+  font-size:12px;color:#e8eaf0;z-index:500;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5);
+  display:none;font-family:'Inter',sans-serif;
+  animation:tdToastIn .25s ease;
+}
+#td-toast.show{display:block}
+@keyframes tdToastIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* ── Role Switcher ── */
+.role-wrap{position:relative}
+.user-chip-role{display:flex;align-items:center;gap:7px;padding:5px 12px;border:1px solid var(--border-md);border-radius:20px;font-size:12.5px;font-weight:500;color:var(--text-2);background:var(--surface);cursor:pointer;transition:all .2s;font-family:var(--font)}
+.user-chip-role:hover{border-color:var(--purple);background:var(--purple-bg)}
+.user-chip-role svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.role-dd{position:absolute;top:calc(100% + 6px);right:0;background:#fff;border:1px solid var(--border-md);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:6px;min-width:180px;z-index:300;display:none}
+@keyframes rdFade{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.role-dd.open{display:block;animation:rdFade .15s ease both}
+.role-dd-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:12.5px;font-weight:500;color:#374151;cursor:pointer;transition:background .15s}
+.role-dd-item:hover{background:#F7F6F3}
+.role-dd-item.active{color:#1A1A18;font-weight:600}
+.role-dd-item svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+.role-dd-item .chk{color:#5B4FE8;margin-left:auto}
+.role-dd-sep{height:1px;background:var(--border);margin:4px 0}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo">SOP<span>.</span>Dashboard</div>
+  <div class="topbar-sep"></div>
+  <div class="topbar-project">NhiLe Platform v2 · Developer track</div>
+  <div class="role-wrap" id="roleWrap">
+    <button class="user-chip-role" onclick="toggleRoleMenu(event)">
+      <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      <span>Member IT</span>
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px;opacity:.4"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="role-dd" id="roleMenu">
+      <div class="role-dd-item" onclick="selectRole('order')">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Người order
+      </div>
+      <div class="role-dd-sep"></div>
+      <div class="role-dd-item active" onclick="selectRole('member_it')">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Member IT
+        <svg class="chk" viewBox="0 0 24 24" style="width:13px;height:13px;fill:none;stroke-width:2.5;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="role-dd-item" onclick="selectRole('leader_it')">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Leader IT
+      </div>
+    </div>
+  </div>
+  <div class="topbar-user">MT</div>
+</div>
+<div class="app">
+  <div class="sidebar" id="mainSidebar">
+    <div class="sb-hd">
+      <div class="sb-project">NhiLe Platform v2</div>
+      <div class="sb-sub">IT Team · Developer track</div>
+      <div class="sb-user-row">
+        <div class="av av-sm av-p">MT</div>
+        <div><div class="sb-uname">Minh Tú</div><div class="sb-urole">Dev · Tham gia 3/4/2026</div></div>
+      </div>
+    </div>
+    <div class="prog-section">
+      <div class="prog-label"><span>Tiến độ onboarding</span><span id="pct-label"></span></div>
+      <div class="prog-track"><div class="prog-fill" id="prog-bar"></div></div>
+      <div class="prog-sub" id="prog-sub"></div>
+    </div>
+    <div class="nav-sec-label">Menu</div>
+    <div class="nav-item active" id="nav-checklist" onclick="goScreen('checklist')"><div class="nav-dot" style="background:var(--purple)"></div>Checklist của tôi<span class="nav-badge" id="rem-badge"></span></div>
+    <div class="nav-item" id="nav-hub" onclick="goScreen('hub')"><div class="nav-dot" style="background:var(--teal)"></div>Projects</div>
+    <div class="nav-item" id="nav-docs" onclick="goScreen('docs')"><div class="nav-dot" style="background:var(--blue)"></div>Tài liệu</div>
+    <div class="nav-item" id="nav-contacts" onclick="goScreen('contacts')"><div class="nav-dot" style="background:#D4537E"></div>Team & contacts</div>
+    <div class="sb-footer">
+      <div class="contact-hint">Cần hỗ trợ? Liên hệ leader</div>
+      <div class="contact-name">Văn Đức Tân</div>
+      <div class="contact-handle">@tannguyen · Telegram</div>
+    </div>
+  </div>
+
+  <div class="main" id="mainContent">
+    <!-- CHECKLIST -->
+    <div id="screen-checklist" class="screen active">
+      <div class="ph"><div><div class="ph-title">Checklist của tôi</div><div class="ph-sub">Tick từng bước — mỗi bước có link tài liệu và contact cần thiết</div></div><span class="pill pill-p">Developer track</span></div>
+      <div class="access-banner ab-pending" id="access-banner"><div class="ab-icon ab-icon-pending"><div class="ab-sq"></div></div><div style="flex:1"><div class="ab-title-pending">Chưa có access — điền email để nhận invite</div><div class="ab-sub-pending">Leader nhận thông báo qua Telegram và tự động gửi invite GitHub + Supabase về email của bạn</div><div class="email-row"><input class="email-inp" id="email-inp" type="email" placeholder="email@gmail.com"/><button class="btn btn-primary btn-sm" onclick="sendEmail()">Gửi yêu cầu</button></div></div></div>
+      <div class="welcome-bar"><div class="wb-title">Tiến độ onboarding của bạn</div><div class="wb-sub" id="wb-sub"></div><div class="wb-prog-row"><div class="wb-bar"><div class="wb-fill" id="wb-fill"></div></div><div class="wb-pct" id="wb-pct"></div></div></div>
+      <div class="phase-block"><div class="phase-header"><span class="phase-tag pt-d1">Day 1</span><span class="phase-title">Ngày đầu tiên</span><span class="phase-count" id="cnt-d1"></span></div>
+        <div class="step-item done" id="s1" onclick="toggle(1)"><div class="chk-wrap"><div class="chk done" id="chk1"><div class="ck-mark"></div></div></div><div class="step-body"><div class="step-title done" id="st1">Join Telegram nhóm dự án</div><div class="step-desc">Vào nhóm, chào hỏi, đọc các tin nhắn được pin.</div><div class="step-links"><span class="step-link"><span class="link-sq"></span>Link Telegram</span></div></div></div>
+        <div class="step-item done" id="s2" onclick="toggle(2)"><div class="chk-wrap"><div class="chk done" id="chk2"><div class="ck-mark"></div></div></div><div class="step-body"><div class="step-title done" id="st2">Đọc Project Hub</div><div class="step-desc">Nắm tech stack, link GitHub, DB, task board và contacts.</div><div class="step-links"><span class="step-link" onclick="event.stopPropagation();goScreen('hub')"><span class="link-sq"></span>Project Hub</span></div></div></div>
+        <div class="step-item current" id="s3" onclick="toggle(3)"><div class="chk-wrap"><div class="chk" id="chk3"></div></div><div class="step-body"><div class="step-title" id="st3">Điền email để nhận access GitHub & Supabase</div><div class="step-desc">Gửi yêu cầu ở banner phía trên — leader sẽ approve và invite tự động.</div></div></div>
+      </div>
+      <div class="phase-block"><div class="phase-header"><span class="phase-tag pt-d2">Day 2–3</span><span class="phase-title">Setup & đọc hiểu</span><span class="phase-count" id="cnt-d2"></span></div>
+        <div class="step-item" id="s4" onclick="toggle(4)"><div class="chk-wrap"><div class="chk" id="chk4"></div></div><div class="step-body"><div class="step-title" id="st4">Clone repo & chạy được trên local</div><div class="step-desc">Làm theo hướng dẫn setup. Hay gặp lỗi .env — xem mục troubleshoot trong doc.</div><div class="step-links"><span class="step-link"><span class="link-sq"></span>Hướng dẫn setup</span><span class="step-link"><span class="link-sq"></span>GitHub repo</span></div></div></div>
+        <div class="step-item" id="s5" onclick="toggle(5)"><div class="chk-wrap"><div class="chk" id="chk5"></div></div><div class="step-body"><div class="step-title" id="st5">Đọc kiến trúc hệ thống & DB schema</div><div class="step-desc">Hiểu luồng dữ liệu chính trước khi đụng vào code.</div><div class="step-links"><span class="step-link"><span class="link-sq"></span>Architecture doc</span></div></div></div>
+        <div class="step-item" id="s6" onclick="toggle(6)"><div class="chk-wrap"><div class="chk" id="chk6"></div></div><div class="step-body"><div class="step-title" id="st6">Nắm git workflow của team</div><div class="step-desc">Branch naming, cách tạo PR, ai review, merge policy.</div><div class="step-links"><span class="step-link"><span class="link-sq"></span>Git workflow doc</span></div></div></div>
+      </div>
+      <div class="phase-block"><div class="phase-header"><span class="phase-tag pt-w1">Week 1</span><span class="phase-title">Bắt đầu làm việc</span><span class="phase-count" id="cnt-w1"></span></div>
+        <div class="step-item" id="s7" onclick="toggle(7)"><div class="chk-wrap"><div class="chk" id="chk7"></div></div><div class="step-body"><div class="step-title" id="st7">Nhận warm-up task đầu tiên</div><div class="step-desc">Task nhỏ, ít rủi ro — giúp làm quen toàn bộ flow từ code tới deploy.</div></div></div>
+        <div class="step-item" id="s8" onclick="toggle(8)"><div class="chk-wrap"><div class="chk" id="chk8"></div></div><div class="step-body"><div class="step-title" id="st8">Tạo PR đầu tiên & pass code review</div><div class="step-desc">Đọc checklist PR trước khi submit.</div></div></div>
+        <div class="step-item" id="s9" onclick="toggle(9)"><div class="chk-wrap"><div class="chk" id="chk9"></div></div><div class="step-body"><div class="step-title" id="st9">Tham gia daily standup đầu tiên</div><div class="step-desc">Lịch standup 9:00 sáng hàng ngày trên Telegram group call.</div></div></div>
+      </div>
+      <div class="phase-block"><div class="phase-header"><span class="phase-tag pt-w2">Week 2</span><span class="phase-title">Làm việc độc lập</span><span class="phase-count" id="cnt-w2"></span></div>
+        <div class="step-item" id="s10" onclick="toggle(10)"><div class="chk-wrap"><div class="chk" id="chk10"></div></div><div class="step-body"><div class="step-title" id="st10">Hoàn thành task đầu tiên từ sprint backlog</div><div class="step-desc">Task thật từ sprint — estimate, dev, test, PR, deploy.</div></div></div>
+        <div class="step-item" id="s11" onclick="toggle(11)"><div class="chk-wrap"><div class="chk" id="chk11"></div></div><div class="step-body"><div class="step-title" id="st11">Đọc & góp ý SOP quy trình team</div><div class="step-desc">Nếu thấy bước nào unclear hoặc outdated, comment thẳng vào doc.</div></div></div>
+        <div class="step-item" id="s12" onclick="toggle(12)"><div class="chk-wrap"><div class="chk" id="chk12"></div></div><div class="step-body"><div class="step-title" id="st12">Check-in 1:1 với leader — kết thúc onboarding</div><div class="step-desc">15 phút review onboarding, hỏi những gì còn thắc mắc.</div></div></div>
+      </div>
+    </div>
+
+    <!-- HUB -->
+    <div id="screen-hub" class="screen">
+      <div id="hubList">
+        <div class="ph"><div><div class="ph-title">Projects</div><div class="ph-sub">Click vào project để xem tổng quan, tasks và thành viên</div></div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px" id="projectGrid"></div>
+      </div>
+      <div id="hubOverview" style="display:none"></div>
+    </div>
+
+    <!-- DOCS -->
+    <div id="screen-docs" class="screen">
+      <div class="ph"><div><div class="ph-title">Tài liệu</div><div class="ph-sub">Đọc từ trên xuống nếu bạn mới vào</div></div><span class="pill pill-b">8 tài liệu</span></div>
+      <div class="card"><div class="card-hd"><div class="card-title">Đọc trước tiên</div></div>
+        <div class="doc-row"><div class="doc-ico" style="background:var(--purple-bg);color:var(--purple-dark)">AR</div><div><div class="doc-name">Kiến trúc hệ thống</div><div class="doc-meta">Cập nhật 3/4/2026 · PDF</div></div><div class="doc-open">Mở →</div></div>
+        <div class="doc-row"><div class="doc-ico" style="background:var(--blue-bg);color:var(--blue-dark)">SE</div><div><div class="doc-name">Setup môi trường local</div><div class="doc-meta">Cập nhật 25/3/2026 · Notion</div></div><div class="doc-open">Mở →</div></div>
+        <div class="doc-row"><div class="doc-ico" style="background:var(--amber-bg);color:var(--amber-dark)">GW</div><div><div class="doc-name">Git workflow & conventions</div><div class="doc-meta">Cập nhật 28/3/2026 · Markdown</div></div><div class="doc-open">Mở →</div></div>
+      </div>
+      <div class="card"><div class="card-hd"><div class="card-title">Tham khảo khi cần</div></div>
+        <div class="doc-row"><div class="doc-ico" style="background:var(--teal-bg);color:var(--teal-dark)">DB</div><div><div class="doc-name">Database schema & ERD</div><div class="doc-meta">Cập nhật 1/4/2026</div></div><div class="doc-open">Mở →</div></div>
+        <div class="doc-row"><div class="doc-ico" style="background:var(--coral-bg);color:#712B13">PRD</div><div><div class="doc-name">Product requirements</div><div class="doc-meta">Cập nhật 2/4/2026</div></div><div class="doc-open">Mở →</div></div>
+        <div class="doc-row"><div class="doc-ico" style="background:var(--green-bg);color:var(--green-dark)">UI</div><div><div class="doc-name">Figma UI Kit</div><div class="doc-meta">Cập nhật 4/4/2026</div></div><div class="doc-open">Mở →</div></div>
+        <div class="doc-row"><div class="doc-ico" style="background:var(--gray-bg);color:#444441">SOP</div><div><div class="doc-name">SOP quy trình làm việc</div><div class="doc-meta">Cập nhật 6/4/2026</div></div><div class="doc-open">Mở →</div></div>
+      </div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div id="screen-contacts" class="screen">
+      <div class="ph"><div><div class="ph-title">Team & contacts</div><div class="ph-sub">Không biết hỏi ai? Xem role để hỏi đúng người</div></div></div>
+      <div class="card"><div class="card-hd"><div class="card-title">Leader</div></div>
+        <div class="contact-card"><div class="av av-md av-p">VĐT</div><div class="cc-info"><div class="cc-name">Văn Đức Tân</div><div class="cc-role">Leader · Full-stack Dev</div><div class="cc-scope">Hỏi về: task, access, blockers</div><div class="cc-handles"><span class="cc-tag">@tannguyen_tg</span><span class="cc-tag">tan@nhile.vn</span></div></div></div>
+      </div>
+      <div class="card"><div class="card-hd"><div class="card-title">Developers</div></div>
+        <div class="contact-card"><div class="av av-md av-b">NL</div><div class="cc-info"><div class="cc-name">Ngọc Lan</div><div class="cc-role">Dev · Backend</div><div class="cc-scope">Hỏi về: API, DB, Supabase</div><div class="cc-handles"><span class="cc-tag">@ngoclan</span></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECT DETAIL PANEL -->
+  <div class="pj-wrap" id="pjWrap">
+    <div class="pj-side">
+      <div class="pj-back" onclick="closePjDetail()">← Quay lại Projects</div>
+      <div class="pj-side-hd">
+        <div class="pj-side-name" id="pjName"></div>
+        <div class="pj-side-stack" id="pjStack"></div>
+        <div id="pjLeader" style="display:flex;align-items:center;gap:8px"></div>
+      </div>
+      <div class="nav-sec-label" style="margin-top:6px">Project</div>
+      <div class="pj-tab active" id="pjT-ov" onclick="setPjTab('ov')"><div class="nav-dot" style="background:var(--purple)"></div>Tổng quan</div>
+      <div class="pj-tab" id="pjT-tk" onclick="setPjTab('tk')"><div class="nav-dot" style="background:var(--amber)"></div>Tasks</div>
+      <div class="pj-tab" id="pjT-mb" onclick="setPjTab('mb')"><div class="nav-dot" style="background:var(--teal)"></div>Thành viên</div>
+      <div class="pj-share"><div class="pj-share-label">Share link cho member mới</div><div class="pj-share-row"><div class="pj-share-url" id="pjShareUrl"></div><button class="pj-share-btn" onclick="copyPjLink()">Copy</button></div></div>
+    </div>
+    <div class="pj-body">
+      <div class="pj-panel active" id="pjP-ov"></div>
+      <div class="pj-panel" id="pjP-tk"></div>
+      <div class="pj-panel" id="pjP-mb"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DARK TASK DETAIL SLIDE-IN ═══ -->
+<div id="task-overlay" onclick="closeTaskDetail()"></div>
+<div id="task-detail">
+  <div class="td-topbar">
+    <button class="td-back-btn" onclick="closeTaskDetail()">← Quay lại</button>
+    <span class="td-project-badge" id="td-project-badge">NhiLe Platform v2</span>
+    <div class="td-spacer"></div>
+    <span class="td-task-id" id="td-task-id"></span>
+  </div>
+  <div class="td-header" id="td-header"></div>
+  <div class="td-body" id="td-body"></div>
+</div>
+<div id="td-toast"></div>
+
+<!-- TELEGRAM PANEL -->
+<div id="tg-overlay2" onclick="closeTgPanel()"></div>
+<div id="tg-panel">
+  <div class="tg-topbar">
+    <div class="tg-av">📱</div>
+    <div style="flex:1;min-width:0">
+      <div class="tg-name" id="tg-contact-name">Reporter</div>
+      <div class="tg-handle" id="tg-contact-handle">@reporter</div>
+    </div>
+    <div class="tg-close-btn" onclick="closeTgPanel()">×</div>
+  </div>
+  <div class="tg-timeline" id="tg-timeline"></div>
+  <div class="tg-bottom">
+    <div class="tg-quick-row" id="tg-quick-row"></div>
+    <textarea class="tg-textarea" id="tg-msg-area" rows="3" placeholder="Nhập tin nhắn gửi cho reporter..."></textarea>
+    <div class="tg-send-row">
+      <button class="tg-copy-btn" onclick="tgCopy()">📋 Copy</button>
+      <button class="tg-send-btn" onclick="tgSend()">📱 Gửi Telegram</button>
+    </div>
+  </div>
+</div>
+
+<!-- DEPLOY SHIP MODAL -->
+<div id="dcModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:600;display:none;align-items:center;justify-content:center">
+  <div class="dcm-box">
+    <div style="font-size:48px;margin-bottom:12px;display:inline-block;animation:dcRocket 1s ease-in-out infinite">🚀</div>
+    <div style="font-size:18px;font-weight:800;color:#e8eaf0;margin-bottom:8px;font-family:Inter,sans-serif">Xong rồi! Ship thôi!</div>
+    <div style="font-size:13px;color:#a0a8b8;line-height:1.7;margin-bottom:20px;font-family:Inter,sans-serif">Bạn vừa hoàn thành toàn bộ checklist.<br>Team tự hào về bạn. Deploy an toàn nhé! 🎉</div>
+    <button onclick="dcClose()" style="width:100%;padding:11px;border:1px solid rgba(255,255,255,0.12);border-radius:10px;background:rgba(255,255,255,0.07);color:#a0a8b8;font-family:Inter,sans-serif;font-size:13px;cursor:pointer">Đóng lại</button>
+  </div>
+</div>
+
+<script>
+/* ═══ CHECKLIST LOGIC ═══ */
+const screens=['checklist','hub','docs','contacts'],total=12,done=new Set([1,2]),phases={d1:[1,2,3],d2:[4,5,6],w1:[7,8,9],w2:[10,11,12]};
+function goScreen(id){closePjDetail();screens.forEach(s=>{document.getElementById('screen-'+s).classList.toggle('active',s===id);document.getElementById('nav-'+s).classList.toggle('active',s===id)})}
+function toggle(n){done.has(n)?done.delete(n):done.add(n);updateAll()}
+function firstUndone(){for(let i=1;i<=total;i++)if(!done.has(i))return i;return -1}
+function updateAll(){
+  for(let i=1;i<=total;i++){const d=done.has(i),c=!d&&i===firstUndone();
+    document.getElementById('chk'+i).className='chk'+(d?' done':'');
+    document.getElementById('chk'+i).innerHTML=d?'<div class="ck-mark"></div>':'';
+    document.getElementById('st'+i).className='step-title'+(d?' done':'');
+    document.getElementById('s'+i).className='step-item'+(d?' done':c?' current':'');
+  }
+  const p=Math.round(done.size/total*100),r=total-done.size;
+  document.getElementById('prog-bar').style.width=p+'%';
+  document.getElementById('wb-fill').style.width=p+'%';
+  document.getElementById('pct-label').textContent=done.size+'/'+total;
+  document.getElementById('wb-pct').textContent=p+'%';
+  document.getElementById('prog-sub').textContent='Còn '+r+' bước · Est. hoàn thành '+(r>6?'Tuần 2':r>3?'Tuần 1':'vài ngày nữa');
+  document.getElementById('wb-sub').textContent=r===0?'Hoàn thành onboarding!':'Còn '+r+' bước nữa — bạn đang làm tốt!';
+  const rb=document.getElementById('rem-badge');rb.textContent=r;rb.style.display=r>0?'':'none';
+  Object.entries(phases).forEach(([ph,st])=>{const dc=st.filter(s=>done.has(s)).length;document.getElementById('cnt-'+ph).textContent=dc+'/'+st.length+' xong'})
+}
+function sendEmail(){const v=document.getElementById('email-inp').value.trim();if(!v)return;const b=document.getElementById('access-banner');b.className='access-banner ab-done';b.innerHTML='<div class="ab-icon ab-icon-done"><div class="ab-ck"></div></div><div><div class="ab-title-done">Yêu cầu đã gửi tới leader</div><div class="ab-sub-done">Leader sẽ approve trong vài giờ.</div><div class="sent-row"><div class="sent-dot"></div><span>Đã gửi · '+v+'</span></div></div>';if(!done.has(3)){done.add(3);updateAll()}}
+updateAll();
+
+/* ═══ PROJECTS DATA ═══ */
+const P=[
+  {id:'nhile-plat',name:'NhiLe Platform v2',hasOverview:true,color:'var(--purple)',colorBg:'var(--purple-bg)',colorDark:'var(--purple-dark)',statusText:'Đang chạy',statusBg:'#E1F5EE',statusColor:'#0F6E56',
+   stack:['Next.js','NestJS','Supabase','TypeScript'],
+   leader:{name:'Văn Đức Tân',init:'VĐT',role:'Leader · PIC toàn dự án',av:'av-p'},
+   metrics:{progress:33,sprint:'S2',deadline:'30/6',pending:4},
+   bigPicture:{desc:'Nền tảng quản lý nội bộ NhiLe Holdings — kết nối tất cả team, project và member vào một hệ thống duy nhất.',tags:['Phục vụ: team IT, leader, member NhiLe','Kết quả: mỗi member biết rõ mình làm gì, dự án đang ở đâu']},
+   modules:[{name:'Auth & RBAC',status:'Xong',sc:'t'},{name:'Dashboard',status:'Đang làm',sc:'p'},{name:'Task Engine',status:'Đang làm',sc:'p'},{name:'Notification',status:'Chưa bắt đầu',sc:'g'},{name:'Report & Analytics',status:'Chưa bắt đầu',sc:'g'}],
+   taskSummary:{done:8,inProgress:6,pending:4,todo:6},
+   team:[{init:'VĐT',name:'Văn Đức Tân',role:'Leader · PIC toàn dự án',bg:'#EEEDFE',color:'#3C3489'},{init:'NL',name:'Ngọc Lan',role:'Dev · Backend',bg:'#E1F5EE',color:'#085041'},{init:'HN',name:'Hà Nhi',role:'Designer · UI',bg:'#FAEEDA',color:'#633806'},{init:'MT',name:'Minh Tú',role:'Dev · Frontend',bg:'#EEEDFE',color:'#3C3489'},{init:'QA',name:'Quốc An',role:'Tester',bg:'#E6F1FB',color:'#0C447C'}],
+   guidelines:[{name:'Big Picture doc',icon:'📄'},{name:'Architecture doc',icon:'🏗'}],
+   rules:['Tên task: [Module] Mô tả ngắn','Báo tiến độ: daily trên Telegram','Block: báo ngay Leader, không chờ']},
+  {id:'nedu-crm',name:'Nedu CRM',hasOverview:false,color:'var(--blue)',colorBg:'var(--blue-bg)',colorDark:'var(--blue-dark)',statusText:'Đang chạy',statusBg:'#E6F1FB',statusColor:'#0C447C',
+   stack:['React','NestJS','Supabase'],leader:{name:'Ngọc Lan',init:'NL',role:'Lead Dev',av:'av-b'},
+   metrics:{progress:15,sprint:'S1',deadline:'30/9',pending:3},
+   modules:[{name:'Lead Management',status:'Đang làm',sc:'p'},{name:'Student Pipeline',status:'Chưa bắt đầu',sc:'g'},{name:'Communication Log',status:'Chưa bắt đầu',sc:'g'}],
+   taskSummary:{done:2,inProgress:3,pending:3,todo:7},
+   team:[{init:'NL',name:'Ngọc Lan',role:'Lead Dev',bg:'#E1F5EE',color:'#085041'},{init:'MT',name:'Minh Tú',role:'Frontend Dev',bg:'#EEEDFE',color:'#3C3489'}],
+   guidelines:[],rules:[]}
+];
+
+/* ═══ TASK DATA (enriched for detail panel) ═══ */
+var TD={
+  'nhile-plat':{
+    tasks:[
+      {id:'NLP-041',name:'Build auth login flow',sub:'Auth · Supabase',module:'Auth',priority:'P0',status:'In progress',pic:{init:'VĐT',bg:'#EEEDFE',color:'#3C3489'},deadline:'08/5',
+       desc:'Xây dựng luồng đăng nhập hoàn chỉnh sử dụng Supabase Auth — bao gồm email/password, session management, và redirect sau khi login thành công.',
+       checklist:[{id:1,text:'Tạo Supabase Auth project và cấu hình',done:true},{id:2,text:'Build form login UI (email + password)',done:true},{id:3,text:'Integrate Supabase signIn function',done:false},{id:4,text:'Handle session và redirect',done:false},{id:5,text:'Test E2E happy path',done:false}],
+       hist:[{icon:'📥',actor:'Văn Đức Tân',text:'Task được tạo và assign cho VĐT',t:'10/4/2026'},{icon:'🔄',actor:'VĐT',text:'Status → In progress',t:'15/4/2026'},{icon:'📋',actor:'VĐT',text:'Cập nhật checklist: hoàn thành 2/5 bước',t:'20/4/2026'}]},
+      {id:'NLP-040',name:'Dashboard layout responsive',sub:'UI/UX',module:'Dashboard',priority:'P1',status:'Pending / Block',pic:{init:'HN',bg:'#FAEEDA',color:'#633806'},deadline:'07/5',
+       desc:'Thiết kế và implement layout dashboard responsive — hoạt động tốt trên cả desktop 1440px và mobile 375px. Đang bị block bởi Figma design chưa được approve.',
+       checklist:[{id:1,text:'Nhận Figma spec từ designer',done:false},{id:2,text:'Setup grid system và breakpoints',done:false},{id:3,text:'Build header + sidebar responsive',done:false},{id:4,text:'Implement main content area',done:false},{id:5,text:'Cross-browser test',done:false}],
+       hist:[{icon:'📥',actor:'Hà Nhi',text:'Task tạo, assign cho HN',t:'12/4/2026'},{icon:'⏸',actor:'HN',text:'Block: Chờ Figma spec được approve bởi Sơn',t:'18/4/2026'}]},
+      {id:'NLP-039',name:'Task CRUD API',sub:'REST · Node.js',module:'Task Engine',priority:'P1',status:'In progress',pic:{init:'NL',bg:'#E1F5EE',color:'#085041'},deadline:'09/5',
+       desc:'Xây dựng REST API đầy đủ cho Task engine: GET list, GET by ID, POST create, PATCH update, DELETE. Áp dụng Supabase RLS để phân quyền.',
+       checklist:[{id:1,text:'Thiết kế schema và migration',done:true},{id:2,text:'GET /tasks — list with filter/sort',done:true},{id:3,text:'POST /tasks — create',done:true},{id:4,text:'PATCH /tasks/:id — update',done:false},{id:5,text:'DELETE /tasks/:id — soft delete',done:false},{id:6,text:'Viết unit test',done:false}],
+       hist:[{icon:'📥',actor:'Ngọc Lan',text:'Task assign cho NL',t:'08/4/2026'},{icon:'🔄',actor:'NL',text:'In progress — schema done',t:'14/4/2026'},{icon:'📋',actor:'NL',text:'3/6 checklist done',t:'22/4/2026'}]},
+      {id:'NLP-038',name:'KPI widget components',sub:'Frontend',module:'Dashboard',priority:'P2',status:'Done',pic:{init:'MT',bg:'#EEEDFE',color:'#3C3489'},deadline:'03/5',
+       desc:'Build các React component hiển thị KPI metrics — Progress bar, Stat card, Trend chart. Theo chuẩn Figma UI Kit v2.',
+       checklist:[{id:1,text:'ProgressBar component',done:true},{id:2,text:'StatCard component',done:true},{id:3,text:'TrendChart (recharts)',done:true},{id:4,text:'Storybook docs',done:true}],
+       hist:[{icon:'📥',actor:'Minh Tú',text:'Assign cho MT',t:'01/4/2026'},{icon:'✅',actor:'MT',text:'Hoàn thành, PR merged',t:'03/5/2026'}]},
+      {id:'NLP-037',name:'Notification service',sub:'Telegram integration',module:'Notification',priority:'P1',status:'To do',pic:{init:'NL',bg:'#E1F5EE',color:'#085041'},deadline:'12/5',
+       desc:'Xây dựng notification service gửi thông báo qua Telegram Bot khi có sự kiện quan trọng: task được assign, deadline sắp đến, task hoàn thành.',
+       checklist:[{id:1,text:'Setup Telegram Bot token',done:false},{id:2,text:'Tạo notification service class',done:false},{id:3,text:'Implement sendMessage function',done:false},{id:4,text:'Connect các trigger events',done:false},{id:5,text:'Test với dev bot',done:false}],
+       hist:[{icon:'📥',actor:'Văn Đức Tân',text:'Task tạo, chưa assign chính thức',t:'10/4/2026'}]},
+      {id:'NLP-036',name:'RBAC middleware',sub:'Auth · Role-based',module:'Auth',priority:'P0',status:'Done',pic:{init:'VĐT',bg:'#EEEDFE',color:'#3C3489'},deadline:'01/5',
+       desc:'Implement Role-Based Access Control middleware cho NestJS backend. Các role: Admin, Leader, Member, Viewer.',
+       checklist:[{id:1,text:'Định nghĩa role enum',done:true},{id:2,text:'Build @Roles() decorator',done:true},{id:3,text:'Build RolesGuard',done:true},{id:4,text:'Apply vào các endpoint',done:true},{id:5,text:'Unit test',done:true}],
+       hist:[{icon:'✅',actor:'VĐT',text:'Done và merged vào main',t:'01/5/2026'}]},
+      {id:'NLP-035',name:'Integration test auth',sub:'E2E test',module:'Auth',priority:'P1',status:'Pending / Block',pic:{init:'QA',bg:'#E6F1FB',color:'#0C447C'},deadline:'10/5',
+       desc:'Viết integration test cho toàn bộ auth flow: login, logout, session expiry, role-based access. Đang block do auth login flow (NLP-041) chưa hoàn thành.',
+       checklist:[{id:1,text:'Test login thành công',done:false},{id:2,text:'Test login sai password',done:false},{id:3,text:'Test session expiry',done:false},{id:4,text:'Test RBAC các role',done:false},{id:5,text:'Test logout',done:false}],
+       hist:[{icon:'📥',actor:'Quốc An',text:'Assign cho QA team',t:'15/4/2026'},{icon:'⏸',actor:'QA',text:'Block: chờ NLP-041 xong',t:'20/4/2026'}]},
+      {id:'NLP-034',name:'Task board UI kanban',sub:'Drag & drop',module:'Task Engine',priority:'P1',status:'To do',pic:{init:'MT',bg:'#EEEDFE',color:'#3C3489'},deadline:'15/5',
+       desc:'Build Kanban board UI với drag-and-drop để quản lý task theo status (To do / In progress / Done). Dùng thư viện @dnd-kit.',
+       checklist:[{id:1,text:'Setup @dnd-kit',done:false},{id:2,text:'Build KanbanColumn component',done:false},{id:3,text:'Build TaskCard component',done:false},{id:4,text:'Implement drag-and-drop logic',done:false},{id:5,text:'Connect với API',done:false},{id:6,text:'Mobile touch support',done:false}],
+       hist:[{icon:'📥',actor:'Minh Tú',text:'Assign cho MT, chưa start',t:'10/4/2026'}]},
+      {id:'NLP-033',name:'Figma UI Kit v2',sub:'Design system',module:'Dashboard',priority:'P2',status:'Done',pic:{init:'HN',bg:'#FAEEDA',color:'#633806'},deadline:'28/4',
+       desc:'Cập nhật UI Kit lên v2 — bổ sung dark mode tokens, component variants mới, và export CSS variables cho dev.',
+       checklist:[{id:1,text:'Audit component hiện tại',done:true},{id:2,text:'Dark mode color tokens',done:true},{id:3,text:'New component variants',done:true},{id:4,text:'Export CSS variables',done:true},{id:5,text:'Handoff documentation',done:true}],
+       hist:[{icon:'✅',actor:'HN',text:'Figma file published, dev handoff done',t:'28/4/2026'}]},
+      {id:'NLP-032',name:'API docs swagger',sub:'Auto-gen docs',module:'Task Engine',priority:'P2',status:'To do',pic:{init:'VĐT',bg:'#EEEDFE',color:'#3C3489'},deadline:'20/5',
+       desc:'Cấu hình Swagger auto-generation cho toàn bộ NestJS API. Thêm @ApiProperty decorators và deploy docs endpoint.',
+       checklist:[{id:1,text:'Install @nestjs/swagger',done:false},{id:2,text:'Config SwaggerModule setup',done:false},{id:3,text:'Add @ApiTags cho controllers',done:false},{id:4,text:'Add @ApiProperty cho DTOs',done:false},{id:5,text:'Test swagger UI',done:false}],
+       hist:[{icon:'📥',actor:'VĐT',text:'Task planned cho sprint 2',t:'01/5/2026'}]}
+    ],
+    members:[{init:'VĐT',name:'Văn Đức Tân',role:'Leader · Full-stack',module:'Auth, Task Engine',bg:'#EEEDFE',color:'#3C3489',onboard:100,status:'Active'},{init:'NL',name:'Ngọc Lan',role:'Backend Dev',module:'Auth, Notification',bg:'#E1F5EE',color:'#085041',onboard:100,status:'Active'},{init:'HN',name:'Hà Nhi',role:'Designer',module:'Dashboard',bg:'#FAEEDA',color:'#633806',onboard:100,status:'Active'},{init:'MT',name:'Minh Tú',role:'Frontend Dev',module:'Dashboard, Task Engine',bg:'#EEEDFE',color:'#3C3489',onboard:17,status:'Onboarding'},{init:'QA',name:'Quốc An',role:'Tester',module:'Auth',bg:'#E6F1FB',color:'#0C447C',onboard:80,status:'Active'}]
+  },
+  'nedu-crm':{
+    tasks:[
+      {id:'CRM-005',name:'Lead form component',sub:'React + validation',module:'Lead Mgmt',priority:'P0',status:'In progress',pic:{init:'MT',bg:'#EEEDFE',color:'#3C3489'},deadline:'18/5',
+       desc:'Build React form component để nhập lead mới: tên, email, phone, source, ghi chú. Validation phía client trước khi submit.',
+       checklist:[{id:1,text:'Design form layout',done:true},{id:2,text:'Implement form fields',done:true},{id:3,text:'Add validation (yup)',done:false},{id:4,text:'Connect API',done:false}],
+       hist:[{icon:'📥',actor:'Ngọc Lan',text:'Assign cho MT',t:'10/5/2026'},{icon:'🔄',actor:'MT',text:'In progress',t:'12/5/2026'}]},
+      {id:'CRM-004',name:'Lead list API',sub:'CRUD + filter',module:'Lead Mgmt',priority:'P0',status:'In progress',pic:{init:'NL',bg:'#E1F5EE',color:'#085041'},deadline:'15/5',
+       desc:'GET /leads endpoint với filter theo status, source, date range. Pagination (limit/offset). Sort theo ngày tạo.',
+       checklist:[{id:1,text:'Schema & migration',done:true},{id:2,text:'GET /leads với filter',done:true},{id:3,text:'Pagination',done:false},{id:4,text:'Unit test',done:false}],
+       hist:[{icon:'🔄',actor:'NL',text:'In progress',t:'08/5/2026'}]}
+    ],
+    members:[{init:'NL',name:'Ngọc Lan',role:'Lead Dev',module:'Lead Mgmt, Pipeline',bg:'#E1F5EE',color:'#085041',onboard:100,status:'Active'},{init:'MT',name:'Minh Tú',role:'Frontend Dev',module:'Lead Mgmt',bg:'#EEEDFE',color:'#3C3489',onboard:17,status:'Onboarding'}]
+  }
+};
+
+/* ═══ PROJECT GRID ═══ */
+function renderGrid(){
+  const g=document.getElementById('projectGrid');g.innerHTML='';
+  P.forEach((p,i)=>{
+    const c=document.createElement('div');c.className='card';
+    c.style.cssText='cursor:pointer;position:relative;transition:border-color .15s,box-shadow .15s';
+    c.onmouseover=function(){c.style.borderColor=p.color;c.style.boxShadow='0 2px 12px rgba(0,0,0,.06)'};
+    c.onmouseout=function(){c.style.borderColor='';c.style.boxShadow=''};
+    c.onclick=function(){openPjDetail(i)};
+    const ts=p.taskSummary,tt=ts.done+ts.inProgress+ts.pending+ts.todo;
+    c.innerHTML='<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><div style="width:10px;height:10px;border-radius:3px;background:'+p.color+'"></div><div style="font-size:13px;font-weight:600;letter-spacing:-.01em">'+p.name+'</div></div><div style="display:flex;align-items:center;gap:6px;margin-bottom:6px"><span style="font-size:10px;padding:2px 8px;border-radius:10px;background:'+p.colorBg+';color:'+p.colorDark+';font-weight:500">'+p.statusText+'</span><span style="font-size:10px;color:var(--text-3)">'+tt+' tasks · '+ts.done+' done</span></div><div style="display:flex;align-items:center;gap:6px;margin-top:8px"><div class="av av-xs '+(p.leader.av||'av-p')+'">'+p.leader.init+'</div><span style="font-size:10px;color:var(--text-2)">'+p.leader.name+'</span><span style="font-size:10px;color:var(--teal);margin-left:auto">Xem chi tiết →</span></div>';
+    g.appendChild(c)
+  })
+}
+renderGrid();
+
+/* ═══ PROJECT DETAIL ═══ */
+var curPj=null;
+function openPjDetail(idx){
+  curPj=P[idx];var p=curPj;
+  document.getElementById('mainSidebar').style.display='none';
+  document.getElementById('mainContent').style.display='none';
+  document.getElementById('pjWrap').classList.add('open');
+  document.getElementById('pjName').textContent=p.name;
+  document.getElementById('pjStack').innerHTML=p.stack?p.stack.map(function(s){return'<span>'+s+'</span>'}).join(''):'';
+  document.getElementById('pjLeader').innerHTML='<div class="av av-sm '+(p.leader.av||'av-p')+'">'+p.leader.init+'</div><div><div class="sb-uname">'+p.leader.name+'</div><div class="sb-urole">'+(p.leader.role||'')+'</div></div>';
+  document.getElementById('pjShareUrl').textContent='nquoc.vn/join/'+p.id;
+  setPjTab('ov');renderPjOv();renderPjTasks('all');renderPjMembers();
+}
+function closePjDetail(){
+  document.getElementById('pjWrap').classList.remove('open');
+  document.getElementById('mainSidebar').style.display='';
+  document.getElementById('mainContent').style.display='';
+  curPj=null;
+}
+function setPjTab(t){
+  ['ov','tk','mb'].forEach(function(x){
+    document.getElementById('pjT-'+x).classList.toggle('active',x===t);
+    document.getElementById('pjP-'+x).classList.toggle('active',x===t);
+  })
+}
+function copyPjLink(){var t=document.getElementById('pjShareUrl').textContent;navigator.clipboard.writeText(t).catch(function(){});var b=document.querySelector('.pj-share-btn');b.textContent='Copied!';setTimeout(function(){b.textContent='Copy'},1500)}
+
+function renderPjOv(){
+  var p=curPj,el=document.getElementById('pjP-ov'),m=p.metrics,ts=p.taskSummary;
+  var mp=function(sc){return sc==='t'?'background:var(--teal-bg);color:var(--teal-dark)':sc==='p'?'background:var(--purple-bg);color:var(--purple-dark)':'background:var(--gray-bg);color:#444441'};
+  var h='';
+  if(p.hasOverview&&p.bigPicture){
+    h+='<div class="pov-card" style="margin-bottom:12px"><div class="pov-section-label">Big picture</div><p style="font-size:15px;font-weight:500;margin:0 0 6px">'+p.bigPicture.desc+'</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">'+p.bigPicture.tags.map(function(t){return'<span style="font-size:12px;background:var(--purple-bg);color:var(--purple-dark);padding:3px 10px;border-radius:var(--radius-md)">'+t+'</span>'}).join('')+'</div></div>';
+  }
+  h+='<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px"><div class="pov-card pov-metric"><div class="pov-metric-label">Tiến độ</div><div class="pov-metric-val">'+m.progress+'%</div><div class="pov-bar"><div class="pov-bar-fill" style="width:'+m.progress+'%"></div></div></div><div class="pov-card pov-metric"><div class="pov-metric-label">Sprint</div><div class="pov-metric-val">'+m.sprint+'</div></div><div class="pov-card pov-metric"><div class="pov-metric-label">Deadline</div><div class="pov-metric-val">'+m.deadline+'</div></div><div class="pov-card pov-metric"><div class="pov-metric-label">Pending</div><div class="pov-metric-val" style="color:var(--red-dark)">'+m.pending+'</div></div></div>';
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px"><div class="pov-card"><div class="pov-section-label">Cấu trúc dự án</div><div style="display:flex;flex-direction:column;gap:8px">'+p.modules.map(function(mod){return'<div class="pov-mod-row"><span class="pov-mod-name">'+mod.name+'</span><span class="pov-mod-pill" style="'+mp(mod.sc)+'">'+mod.status+'</span></div>'}).join('')+'</div></div><div class="pov-card"><div class="pov-section-label">Tasklist</div><div style="display:flex;flex-direction:column;gap:8px"><div class="pov-task-row"><div class="pov-task-row-icon" style="background:var(--teal-bg);color:var(--teal-dark)">✓</div><span class="pov-task-label">Done</span><span class="pov-task-count" style="color:var(--teal-dark)">'+ts.done+'</span></div><div class="pov-task-row"><div class="pov-task-row-icon" style="background:var(--purple-bg);color:var(--purple-dark)">⟳</div><span class="pov-task-label">In progress</span><span class="pov-task-count" style="color:var(--purple-dark)">'+ts.inProgress+'</span></div><div class="pov-task-row"><div class="pov-task-row-icon" style="background:var(--red-bg);color:var(--red-dark)">!</div><span class="pov-task-label">Pending</span><span class="pov-task-count" style="color:var(--red-dark)">'+ts.pending+'</span></div><div class="pov-task-row"><div class="pov-task-row-icon" style="background:var(--gray-bg);color:var(--gray)">○</div><span class="pov-task-label">To do</span><span class="pov-task-count" style="color:var(--text-3)">'+ts.todo+'</span></div></div></div></div>';
+  el.innerHTML=h;
+}
+
+/* ═══ TASK TABLE + CLICK → DARK DETAIL ═══ */
+var taskChecks={};
+var currentTaskTab={};
+
+function renderPjTasks(f){
+  var p=curPj,d=TD[p.id],el=document.getElementById('pjP-tk');
+  if(!d||!d.tasks.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-3)">Chưa có task nào</div>';return}
+  var tasks=d.tasks;
+  if(f==='mine')tasks=tasks.filter(function(t){return t.pic.init==='MT'});
+  else if(f!=='all')tasks=tasks.filter(function(t){return t.status===f});
+  var fs=['all','To do','In progress','Pending / Block','Done','mine'],ls=['Tất cả','To do','In progress','Pending / Block','Done','Của tôi'];
+  var priC=function(pr){return pr==='P0'?'background:var(--red-bg);color:var(--red-dark)':pr==='P1'?'background:var(--amber-bg);color:var(--amber-dark)':'background:var(--gray-bg);color:#444441'};
+  var stC=function(s){return s==='Done'?'pill-t':s==='In progress'?'pill-b':s==='To do'?'pill-g':'pill-r'};
+  el.innerHTML='<div class="ph" style="margin-bottom:4px"><div><div class="ph-title">Tasks</div><div class="ph-sub">'+p.name+' · '+(f==='all'?'tất cả task':f==='mine'?'task của tôi':f)+'</div></div></div>'+
+    '<div class="tf">'+fs.map(function(fi,i){return'<span class="tf-chip'+(fi===f?' on':'')+'" onclick="renderPjTasks(\''+fi+'\')">'+ls[i]+'</span>'}).join('')+'</div>'+
+    '<div class="card" style="padding:0;overflow-x:auto"><table class="tt"><thead><tr><th>ID</th><th>Task</th><th>Module</th><th>Ưu tiên</th><th>Trạng thái</th><th>PIC</th><th>Deadline</th></tr></thead><tbody>'+
+    (tasks.length?tasks.map(function(t){
+      return '<tr class="tt-row-clickable" onclick="openTaskDetail(\''+p.id+'\',\''+t.id+'\')"><td class="tt-id">'+t.id+'</td><td><div class="tt-name">'+t.name+'</div><div class="tt-sub">'+t.sub+'</div></td><td><span class="tt-mod">'+t.module+'</span></td><td><span class="tt-pri" style="'+priC(t.priority)+'">'+t.priority+'</span></td><td><span class="pill '+stC(t.status)+'" style="font-size:10px">'+t.status+'</span></td><td><div class="tt-pic" style="background:'+t.pic.bg+';color:'+t.pic.color+'">'+t.pic.init+'</div></td><td style="font-size:11px;white-space:nowrap">'+t.deadline+'</td></tr>';
+    }).join(''):'<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--text-3)">Không có task nào khớp filter</td></tr>')+
+    '</tbody></table></div>';
+}
+
+function renderPjMembers(){
+  var p=curPj,d=TD[p.id],el=document.getElementById('pjP-mb');
+  if(!d||!d.members.length){el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-3)">Chưa có thành viên</div>';return}
+  var stS=function(s){return s==='Active'?'background:var(--teal-bg);color:var(--teal-dark)':s==='Onboarding'?'background:var(--amber-bg);color:var(--amber-dark)':'background:var(--gray-bg);color:#444441'};
+  el.innerHTML='<div style="font-size:16px;font-weight:600;margin-bottom:12px">'+d.members.length+' thành viên</div><div style="display:flex;flex-direction:column;gap:10px">'+
+    d.members.map(function(m){return'<div class="ml-row"><div class="av av-md" style="background:'+m.bg+';color:'+m.color+'">'+m.init+'</div><div class="ml-info"><div class="ml-name">'+m.name+'</div><div class="ml-role">'+m.role+' · '+m.module+'</div></div><div class="ml-prog"><div class="ml-pct">Onboard '+m.onboard+'%</div><div class="ml-track"><div class="ml-fill" style="width:'+m.onboard+'%"></div></div></div><span class="ml-status" style="'+stS(m.status)+'">'+m.status+'</span></div>'}).join('')+'</div>';
+}
+
+/* ═══ DARK TASK DETAIL PANEL ═══ */
+var activeTaskPjId=null;
+var activeTaskId=null;
+var activeDetailTab='overview';
+
+function openTaskDetail(pjId, taskId){
+  activeTaskPjId=pjId;
+  activeTaskId=taskId;
+  activeDetailTab='overview';
+  // Highlight selected row
+  document.querySelectorAll('.tt-row-clickable').forEach(function(r){r.classList.remove('selected')});
+  var row=document.querySelector('.tt-row-clickable[onclick*="\''+taskId+'\'"]');
+  if(row) row.classList.add('selected');
+  renderTaskDetail();
+  document.getElementById('task-overlay').classList.add('open');
+  document.getElementById('task-detail').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeTaskDetail(){
+  document.getElementById('task-overlay').classList.remove('open');
+  document.getElementById('task-detail').classList.remove('open');
+  document.body.style.overflow='';
+  document.querySelectorAll('.tt-row-clickable').forEach(function(r){r.classList.remove('selected')});
+}
+
+function switchDetailTab(tab){
+  activeDetailTab=tab;
+  renderTaskDetailBody();
+  // update tab active state
+  document.querySelectorAll('.td-tab').forEach(function(t){
+    t.classList.toggle('active', t.dataset.tab===tab);
+  });
+}
+
+function getTask(){
+  var d=TD[activeTaskPjId];
+  if(!d) return null;
+  return d.tasks.find(function(t){return t.id===activeTaskId});
+}
+
+function getPriBadgeHTML(p){
+  return '<span class="pri-badge pri-'+p+'">'+p+'</span>';
+}
+
+function getStatusBadgeHTML(s){
+  var cls='stat-ToDo';
+  if(s==='In progress') cls='stat-InProgress';
+  else if(s==='Done') cls='stat-Done';
+  else if(s==='Pending / Block') cls='stat-PendingBlock';
+  return '<span class="td-status-badge '+cls+'">'+he(s)+'</span>';
+}
+
+function getProgColor(s){
+  if(s==='Done') return '#22c55e';
+  if(s==='Pending / Block') return '#ef4444';
+  if(s==='In progress') return '#f97316';
+  return '#606880';
+}
+
+function getProgWidth(task){
+  if(task.status==='Done') return 100;
+  if(!task.checklist||!task.checklist.length) return 20;
+  var doneCount=task.checklist.filter(function(c){return getCheckState(task.id,c.id,c.done)}).length;
+  return Math.max(5, Math.round(doneCount/task.checklist.length*100));
+}
+
+function getCheckState(taskId, itemId, originalDone){
+  var key=taskId+'-'+itemId;
+  return taskChecks[key]!==undefined ? taskChecks[key] : originalDone;
+}
+
+function he(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+function renderTaskDetail(){
+  var t=getTask();
+  if(!t) return;
+  var pj=P.find(function(p){return p.id===activeTaskPjId});
+  document.getElementById('td-project-badge').textContent=pj?pj.name:'Project';
+  document.getElementById('td-task-id').textContent=t.id;
+  renderTaskDetailHeader(t);
+  renderTaskDetailBody();
+}
+
+function renderTaskDetailHeader(t){
+  var progW=getProgWidth(t);
+  var progC=getProgColor(t.status);
+  var h='<div class="td-breadcrumb"><span>Tasks</span><span style="color:#3a4050">›</span><span>'+he(t.module)+'</span><span style="color:#3a4050">›</span><span style="color:#a0a8b8">'+he(t.id)+'</span></div>';
+  h+='<div class="td-title-row"><div class="td-title-wrap"><div class="td-title-meta">'+getPriBadgeHTML(t.priority)+'</div><div class="td-title">'+he(t.name)+'</div><div class="td-subtitle">'+he(t.sub)+' · PIC: '+he(t.pic.init)+'</div></div>';
+  h+='<div class="td-action-row">';
+  h+='<button class="td-btn td-btn-secondary" onclick="openTgPanel(\''+t.id+'\')">📱 Telegram</button>';
+  if(t.status==='Done'){
+    h+='<span style="font-size:11px;font-weight:700;color:#22c55e;padding:6px 14px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);border-radius:8px;display:flex;align-items:center;gap:5px;">✓ Hoàn tất</span>';
+  } else if(t.status==='To do'){
+    h+='<button class="td-btn td-btn-accent" onclick="claimTask()">🙋 Nhận</button>';
+  } else {
+    h+='<button class="td-btn td-btn-done" onclick="markTaskDone()">✓ Hoàn tất</button>';
+  }
+  h+='</div></div>';
+  h+='<div class="td-meta-row">'+getStatusBadgeHTML(t.status)+'<div class="td-prog-bar"><div class="td-prog-fill" style="width:'+progW+'%;background:'+progC+'"></div></div><span class="td-deadline" style="color:'+progC+'">⏱ '+he(t.deadline)+'</span></div>';
+  h+='<div class="td-tabs">';
+  var tabs=[{k:'overview',label:'📋 Tổng quan'},{k:'checklist',label:'✅ Checklist'},{k:'history',label:'📜 Lịch sử'},{k:'deploy',label:'🚀 Deploy'}];
+  tabs.forEach(function(tab){
+    h+='<button class="td-tab'+(activeDetailTab===tab.k?' active':'')+'" data-tab="'+tab.k+'" onclick="switchDetailTab(\''+tab.k+'\')">'+tab.label+'</button>';
+  });
+  h+='</div>';
+  document.getElementById('td-header').innerHTML=h;
+}
+
+function renderTaskDetailBody(){
+  var t=getTask();
+  if(!t) return;
+  var el=document.getElementById('td-body');
+  if(activeDetailTab==='overview') el.innerHTML=renderTaskOverview(t);
+  else if(activeDetailTab==='checklist') el.innerHTML=renderTaskChecklist(t);
+  else if(activeDetailTab==='history') el.innerHTML=renderTaskHistory(t);
+  else if(activeDetailTab==='deploy') el.innerHTML=renderTaskDeploy(t);
+}
+
+function renderTaskOverview(t){
+  var h='';
+  // Mô tả
+  h+='<div class="td-section"><div class="td-section-title">Mô tả task</div><div class="td-desc-box">'+he(t.desc||'Chưa có mô tả chi tiết.')+'</div></div>';
+  // Info grid
+  h+='<div class="td-section"><div class="td-section-title">Thông tin</div><div class="td-info-grid">';
+  h+='<div class="td-info-cell"><div class="td-info-label">Module</div><div class="td-info-val">'+he(t.module)+'</div></div>';
+  h+='<div class="td-info-cell"><div class="td-info-label">Deadline</div><div class="td-info-val" style="color:#eab308">'+he(t.deadline)+'</div></div>';
+  h+='<div class="td-info-cell"><div class="td-info-label">Ưu tiên</div><div class="td-info-val">'+getPriBadgeHTML(t.priority)+'</div></div>';
+  h+='<div class="td-info-cell"><div class="td-info-label">Trạng thái</div><div class="td-info-val">'+getStatusBadgeHTML(t.status)+'</div></div>';
+  h+='</div></div>';
+  // PIC
+  h+='<div class="td-section"><div class="td-section-title">Người phụ trách</div>';
+  h+='<div class="td-assign-row"><div class="td-assign-av" style="background:'+he(t.pic.bg)+';color:'+he(t.pic.color)+'">'+he(t.pic.init)+'</div><div><div class="td-assign-name">'+he(t.pic.init)+'</div><div class="td-assign-role">'+he(t.sub)+'</div></div></div>';
+  h+='</div>';
+  // Checklist preview
+  if(t.checklist&&t.checklist.length){
+    var doneCount=t.checklist.filter(function(c){return getCheckState(t.id,c.id,c.done)}).length;
+    var pct=Math.round(doneCount/t.checklist.length*100);
+    h+='<div class="td-section"><div class="td-section-title">Tiến độ checklist ('+doneCount+'/'+t.checklist.length+')</div>';
+    h+='<div style="height:6px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;margin-bottom:10px"><div style="height:100%;width:'+pct+'%;background:'+(pct===100?'#22c55e':'#6c5ce7')+';border-radius:3px;transition:width .4s"></div></div>';
+    h+='<button onclick="switchDetailTab(\'checklist\')" style="font-size:12px;color:#a78bfa;background:rgba(108,92,231,0.1);border:1px solid rgba(108,92,231,0.2);border-radius:8px;padding:7px 14px;cursor:pointer;font-family:\'Inter\',sans-serif;">Xem toàn bộ checklist →</button>';
+    h+='</div>';
+  }
+  return h;
+}
+
+function renderTaskChecklist(t){
+  if(!t.checklist||!t.checklist.length){
+    return '<div style="text-align:center;padding-top:48px;color:#3a4050;font-size:13px">Chưa có checklist cho task này.</div>';
+  }
+  var doneCount=t.checklist.filter(function(c){return getCheckState(t.id,c.id,c.done)}).length;
+  var pct=Math.round(doneCount/t.checklist.length*100);
+  var barColor=doneCount===t.checklist.length?'#22c55e':'#6c5ce7';
+  var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:18px"><div style="flex:1;height:6px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden"><div style="height:100%;width:'+pct+'%;background:'+barColor+';border-radius:3px;transition:width .4s"></div></div><span style="font-size:11px;color:#606880;white-space:nowrap">'+doneCount+'/'+t.checklist.length+' ('+pct+'%)</span></div>';
+  t.checklist.forEach(function(item){
+    var isDone=getCheckState(t.id,item.id,item.done);
+    h+='<div class="td-cl-item'+(isDone?' done':'')+'" onclick="toggleTaskCheck(\''+t.id+'\','+item.id+','+item.done+')">';
+    h+='<div class="td-cl-check'+(isDone?' checked':'')+'">'+( isDone?'✓':'' )+'</div>';
+    h+='<span class="td-cl-text'+(isDone?' done':'')+'">'+he(item.text)+'</span>';
+    h+='</div>';
+  });
+  return h;
+}
+
+function renderTaskHistory(t){
+  var h='<div class="td-section"><div class="td-section-title">Ghi chú nội bộ</div>';
+  h+='<div style="background:#1a1a2a;border:1px solid rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;margin-bottom:20px">';
+  h+='<textarea class="td-note-area" placeholder="Root cause, progress note, blockers..." rows="3"></textarea>';
+  h+='<div style="display:flex;justify-content:flex-end;padding:8px 12px;border-top:1px solid rgba(255,255,255,0.07);background:#13131f">';
+  h+='<button onclick="saveTaskNote()" style="background:#6c5ce7;border:none;border-radius:7px;padding:6px 14px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;font-family:\'Inter\',sans-serif">Lưu ghi chú</button>';
+  h+='</div></div></div>';
+  h+='<div class="td-section"><div class="td-section-title">Lịch sử hoạt động</div>';
+  if(!t.hist||!t.hist.length){
+    h+='<div style="color:#3a4050;font-size:13px">Chưa có lịch sử.</div>';
+  } else {
+    t.hist.forEach(function(entry,i){
+      h+='<div class="td-hist-item">';
+      h+='<div class="td-hist-dot">'+entry.icon+'</div>';
+      h+='<div><div class="td-hist-text">'+he(entry.actor)+' — '+he(entry.text)+'</div><div class="td-hist-time">'+he(entry.t)+'</div></div>';
+      h+='</div>';
+    });
+  }
+  h+='</div>';
+  return h;
+}
+
+function toggleTaskCheck(taskId, itemId, originalDone){
+  var key=taskId+'-'+itemId;
+  var current=taskChecks[key]!==undefined ? taskChecks[key] : originalDone;
+  taskChecks[key]=!current;
+  renderTaskDetailBody();
+  // update header progress
+  var t=getTask();
+  if(t) renderTaskDetailHeader(t);
+  var doneCount=t.checklist.filter(function(c){return getCheckState(t.id,c.id,c.done)}).length;
+  showTdToast('📋 '+doneCount+'/'+t.checklist.length+' bước hoàn thành');
+}
+
+function claimTask(){
+  var t=getTask();if(!t)return;
+  t.status='In progress';
+  t.hist.push({icon:'🙋',actor:'Minh Tú',text:'Nhận và bắt đầu task',t:'vừa xong'});
+  renderTaskDetail();
+  showTdToast('✅ Đã nhận task!');
+  renderPjTasks('all');
+}
+
+function markTaskDone(){
+  var t=getTask();if(!t)return;
+  t.status='Done';t.deadline='Hoàn thành';
+  t.hist.push({icon:'✅',actor:'Minh Tú',text:'Đánh dấu hoàn tất',t:'vừa xong'});
+  renderTaskDetail();
+  showTdToast('✅ Task đã hoàn tất!');
+  renderPjTasks('all');
+}
+
+function saveTaskNote(){showTdToast('💾 Đã lưu ghi chú!');}
+
+var toastTimer=null;
+function showTdToast(msg){
+  var el=document.getElementById('td-toast');
+  el.textContent=msg;el.classList.add('show');
+  if(toastTimer)clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){el.classList.remove('show')},2800);
+}
+
+/* ═══ TELEGRAM PANEL ═══ */
+var tgActiveTid=null;
+var tgActiveQR=null;
+
+var TG_QUICK=[
+  {
+    label:'📩 Đã nhận',
+    fn:function(t){
+      return he(t.reporter||'HR Team')+' — ticket đang được xử lý. Sẽ cập nhật sớm!';
+    }
+  },
+  {
+    label:'🔧 Đang xử lý',
+    fn:function(t){
+      return he(t.reporter||'HR Team')+' — ticket đang được xử lý. Sẽ cập nhật sớm!';
+    }
+  },
+  {
+    label:'❓ Cần thêm info',
+    fn:function(t){
+      return he(t.reporter||'HR Team')+' — cần thêm thông tin:\n[điền yêu cầu]\nVui lòng reply nhé!';
+    }
+  },
+  {
+    label:'✅ Đã fix',
+    fn:function(t){
+      var pj=P.find(function(p){return p.id===activeTaskPjId});
+      var url=pj?'https://nquoc.vn/'+pj.id:'N/A';
+      return he(t.reporter||'HR Team')+' — đã fix xong!\nTest lại tại: '+url+'\nCòn lỗi thì reply ngay nhé!';
+    }
+  }
+];
+
+function openTgPanel(taskId){
+  var t=getTask();
+  if(!t) return;
+  tgActiveTid=taskId;
+  tgActiveQR=null;
+
+  // Contact info
+  var contactName=t.reporter||(t.pic&&t.pic.init)||'Reporter';
+  var pj=P.find(function(p){return p.id===activeTaskPjId});
+  var contactHandle='@'+(contactName.toLowerCase().replace(/\s+/g,'_'));
+  document.getElementById('tg-contact-name').textContent=contactName;
+  document.getElementById('tg-contact-handle').textContent=contactHandle;
+
+  // Timeline
+  var tlEl=document.getElementById('tg-timeline');
+  var tlHtml='';
+  if(t.hist&&t.hist.length){
+    t.hist.forEach(function(entry){
+      tlHtml+='<div class="tg-bubble">';
+      tlHtml+='<div class="tg-bubble-name">'+he(entry.actor)+'</div>';
+      var action=entry.icon==='📥'?'ticket created':entry.icon==='🙋'?'ticket claimed':entry.icon==='🔄'?'status changed':'note added';
+      tlHtml+='<div class="tg-bubble-text">'+action+'</div>';
+      tlHtml+='</div>';
+    });
+  } else {
+    tlHtml='<div class="tg-bubble"><div class="tg-bubble-name">'+he(contactName)+'</div><div class="tg-bubble-text">ticket created</div></div>';
+  }
+  tlEl.innerHTML=tlHtml;
+  tlEl.scrollTop=tlEl.scrollHeight;
+
+  // Quick reply buttons
+  var qrEl=document.getElementById('tg-quick-row');
+  qrEl.innerHTML=TG_QUICK.map(function(q,i){
+    return '<button class="tg-qbtn" onclick="tgSetQR('+i+')">'+q.label+'</button>';
+  }).join('');
+
+  // Default message
+  var pjName=pj?pj.name:'NhiLe Platform';
+  var url=pj?'https://nquoc.vn/'+pj.id:'N/A';
+  document.getElementById('tg-msg-area').value=
+    'Xin chào '+contactName+'!\n'+
+    'IT Team đang xử lý ticket ('+t.name+').\n'+
+    'Component: '+t.sub+' | SLA: 2 giờ\n'+
+    'URL: '+url+'\n'+
+    'Sẽ cập nhật khi có tiến triển.';
+
+  document.getElementById('tg-overlay2').classList.add('open');
+  document.getElementById('tg-panel').classList.add('open');
+}
+
+function closeTgPanel(){
+  document.getElementById('tg-overlay2').classList.remove('open');
+  document.getElementById('tg-panel').classList.remove('open');
+  tgActiveTid=null;tgActiveQR=null;
+}
+
+function tgSetQR(idx){
+  tgActiveQR=idx;
+  var t=getTask();
+  if(!t) return;
+  document.getElementById('tg-msg-area').value=TG_QUICK[idx].fn(t);
+  // update button states
+  document.querySelectorAll('.tg-qbtn').forEach(function(btn,i){
+    btn.classList.toggle('active',i===idx);
+  });
+}
+
+function tgCopy(){
+  var val=document.getElementById('tg-msg-area').value;
+  navigator.clipboard&&navigator.clipboard.writeText(val);
+  showTdToast('📋 Đã copy tin nhắn!');
+}
+
+function tgSend(){
+  var t=getTask();
+  if(!t) return;
+  // add to history
+  t.hist.push({icon:'📱',actor:'Minh Tú',text:'Đã gửi Telegram cho '+he(t.reporter||'reporter'),t:'vừa xong'});
+  showTdToast('📱 Đã gửi Telegram!');
+  closeTgPanel();
+  // refresh detail if history tab is open
+  if(activeDetailTab==='history') renderTaskDetailBody();
+}
+
+// ESC to close
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    if(document.getElementById('tg-panel').classList.contains('open')){
+      closeTgPanel();
+    } else if(document.getElementById('task-detail').classList.contains('open')){
+      closeTaskDetail();
+    }
+  }
+});
+
+/* ═══ DEPLOY TAB ═══ */
+var DC_DATA=[
+  {id:'tech',emoji:'⚙️',layer:'Lớp 1 — Kỹ thuật',title:'Kỹ thuật & code',color:'#4a90e2',groups:[
+    {label:'Hard block — không pass = không ship',items:[
+      {text:'Chạy được trên localhost, không có lỗi đỏ trong console',hard:true,note:'Mở DevTools → kiểm tra tab Console'},
+      {text:'Không có key / secret / password hardcode trong code',hard:true,note:'Dùng .env — không commit credential lên git'},
+      {text:'Đang code trên feature branch, không phải nhánh main',hard:true,note:'Không có ngoại lệ'},
+      {text:'Tên nhánh đúng convention: feature/... hoặc fix/...',hard:true,note:''},
+    ]},
+    {label:'Kiểm tra tính năng',items:[
+      {text:'Từng tính năng đã test tay ít nhất 1 lần',note:'Happy path + 1–2 edge case'},
+      {text:'Không có lỗi tái diễn từ sprint trước',note:'Check bug log'},
+      {text:'Data test đã xóa hoặc reset về trạng thái sạch',note:''},
+      {text:'Các luồng liên quan không bị ảnh hưởng bởi thay đổi mới',note:'Regression test nhanh'},
+    ]},
+    {label:'Code quality',items:[
+      {text:'Không còn console.log / debug code sót lại',note:''},
+      {text:'Tên file, function, variable nhất quán theo convention team',note:''},
+      {text:'Không có đoạn code chết (dead code) hoặc file thừa',note:''},
+      {text:'Mọi đoạn code AI generate đã được đọc hiểu trước khi commit',note:'AI không biết context và edge case của hệ thống'},
+    ]},
+  ]},
+  {id:'process',emoji:'🔁',layer:'Lớp 2 — Deploy & môi trường',title:'Deploy & kiểm tra môi trường',color:'#22c55e',groups:[
+    {label:'Hard block — bắt buộc trước khi merge',items:[
+      {text:'Đã push lên đúng nhánh — không phải main',hard:true,note:''},
+      {text:'Đã test trên môi trường staging, không chỉ localhost',hard:true,note:'Staging phải gần nhất với production'},
+      {text:'Có rollback plan — biết cách revert về version trước trong < 10 phút',hard:true,note:''},
+    ]},
+    {label:'Chuẩn bị pull request',items:[
+      {text:'Commit message rõ ràng: feat: / fix: / chore:...',note:''},
+      {text:'Đã đọc lại toàn bộ diff trước khi tạo PR',note:'Không merge mù'},
+      {text:'Pull request có mô tả: làm gì, tại sao, cách test',note:''},
+    ]},
+    {label:'Bảo mật & dữ liệu',items:[
+      {text:'Dữ liệu nhạy cảm được mã hóa khi lưu',note:'Không lưu plain text trong database'},
+      {text:'API không trả về thông tin thừa / nhạy cảm',note:'Check Network tab'},
+      {text:'Phân quyền đúng — user chỉ truy cập được dữ liệu của mình',note:''},
+      {text:'Không có lỗ hổng inject cơ bản: SQL injection, XSS',note:''},
+    ]},
+  ]},
+  {id:'quality',emoji:'✅',layer:'Lớp 3 — Chất lượng sản phẩm',title:'UI, hiệu suất & trải nghiệm',color:'#a78bfa',groups:[
+    {label:'Hiệu suất',items:[
+      {text:'Trang chính load dưới 3 giây trên mạng bình thường',hard:true,note:'Chrome DevTools → Network tab'},
+      {text:'Action quan trọng phản hồi trong 1 giây',note:''},
+      {text:'Có loading indicator khi action mất hơn 500ms',note:''},
+      {text:'Không bị giật/lag khi scroll danh sách dài',note:'Test với ít nhất 100 dòng'},
+    ]},
+    {label:'UI & trải nghiệm',items:[
+      {text:'Giao diện hiển thị đúng trên cả desktop và mobile',note:''},
+      {text:'Thông báo lỗi dùng ngôn ngữ người dùng hiểu',note:''},
+      {text:'Form submit lỗi → data người dùng không bị mất',note:''},
+      {text:'Các nút / link quan trọng hoạt động đúng',note:''},
+    ]},
+    {label:'Dữ liệu',items:[
+      {text:'Số liệu hiển thị khớp với dữ liệu thực trong database',note:''},
+      {text:'Validate input đúng — không nhận sai định dạng',note:''},
+      {text:'Xóa dữ liệu → xóa đúng record, không xóa nhầm',note:'Cẩn thận với cascade delete'},
+    ]},
+  ]},
+];
+
+var dcChk={};
+var dcOpen={};
+
+function dcKey(tid,sid,gl,tx){return tid+'||'+sid+'||'+gl+'||'+tx;}
+
+function dcCount(tid,sec){
+  var d=0,n=0;
+  sec.groups.forEach(function(g){g.items.forEach(function(i){n++;if(dcChk[dcKey(tid,sec.id,g.label,i.text)])d++;});});
+  return{d:d,n:n};
+}
+
+function dcSummary(tid){
+  var td=0,ta=0,hf=0;
+  DC_DATA.forEach(function(s){s.groups.forEach(function(g){g.items.forEach(function(i){ta++;if(dcChk[dcKey(tid,s.id,g.label,i.text)])td++;else if(i.hard)hf++;});});});
+  return{td:td,ta:ta,hf:hf};
+}
+
+function dcTick(tid,sid,gl,tx){
+  var k=dcKey(tid,sid,gl,tx);
+  dcChk[k]=!dcChk[k];
+  // re-render deploy tab
+  renderTaskDetailBody();
+}
+
+function dcTogSect(tid,sid){
+  var key=tid+'-'+sid;
+  dcOpen[key]=dcOpen[key]===false?true:false;
+  renderTaskDetailBody();
+}
+
+function dcShip(tid){
+  var m=document.getElementById('dcModal');
+  m.classList.add('show');
+  var box=m.querySelector('.dcm-box');
+  var cols=['#22c55e','#4a90e2','#eab308','#ef4444','#a78bfa'];
+  for(var i=0;i<20;i++){
+    var d=document.createElement('div');
+    d.className='dcm-dot';
+    d.style.cssText='left:'+Math.random()*100+'%;top:-10px;background:'+cols[i%cols.length]+';animation-duration:'+(1.2+Math.random()*1.3)+'s;animation-delay:'+Math.random()*.5+'s';
+    box.appendChild(d);
+    setTimeout(function(el){return function(){el.remove()}}(d),3000);
+  }
+}
+function dcClose(){document.getElementById('dcModal').classList.remove('show');}
+
+function renderTaskDeploy(t){
+  var tid=t.id;
+  var sum=dcSummary(tid);
+  var td=sum.td,ta=sum.ta,hf=sum.hf;
+  var bc='dc-sbadge dc-no',bt='Chưa sẵn sàng';
+  if(hf>0) bt=hf+' hard block chưa pass';
+  else if(td===ta&&ta>0){bc='dc-sbadge dc-yes';bt='Sẵn sàng deploy ✓';}
+  else if(ta>0&&td/ta>=0.8){bc='dc-sbadge dc-partial';bt='Gần xong';}
+  var shipVis=(!hf&&td===ta&&ta>0)?'vis':'';
+
+  var h='<div class="dc-summary">';
+  h+='<div class="dc-sum-cell"><div class="dc-sum-num" style="color:#22c55e">'+td+'</div><div class="dc-sum-lbl">Đã check</div></div>';
+  h+='<div class="dc-sum-cell"><div class="dc-sum-num" style="color:#a0a8b8">'+ta+'</div><div class="dc-sum-lbl">Tổng mục</div></div>';
+  h+='<div class="dc-sum-cell"><div class="dc-sum-num" style="font-size:11px;padding-top:6px"><span class="'+bc+'">'+he(bt)+'</span></div><div class="dc-sum-lbl">Trạng thái</div></div>';
+  h+='</div>';
+
+  DC_DATA.forEach(function(sec){
+    var cnt=dcCount(tid,sec);
+    var pct=cnt.n?Math.round(cnt.d/cnt.n*100):0;
+    var isOpen=dcOpen[tid+'-'+sec.id]!==false;
+    var chevCls=isOpen?'open':'';
+    h+='<div class="dc-sect">';
+    h+='<div class="dc-shdr" onclick="dcTogSect(\''+he(tid)+'\',\''+he(sec.id)+'\')">';
+    h+='<div class="dc-sico" style="background:'+sec.color+'22">'+sec.emoji+'</div>';
+    h+='<div class="dc-smeta"><div class="dc-slayer" style="color:'+sec.color+'">'+he(sec.layer)+'</div><div class="dc-stitle">'+he(sec.title)+'</div></div>';
+    h+='<div class="dc-sright"><span class="dc-scnt">'+cnt.d+'/'+cnt.n+'</span><span class="dc-chev '+chevCls+'">▾</span></div>';
+    h+='</div>';
+    h+='<div class="dc-spbar"><div class="dc-spfill" style="width:'+pct+'%;background:'+sec.color+'"></div></div>';
+    h+='<div class="dc-sbody'+(isOpen?'':' closed')+'">';
+    sec.groups.forEach(function(g){
+      h+='<div class="dc-grp"><div class="dc-glbl">'+he(g.label)+'</div>';
+      g.items.forEach(function(item){
+        var k=dcKey(tid,sec.id,g.label,item.text);
+        var isDone=!!dcChk[k];
+        var glE=g.label.replace(/'/g,"\\'");
+        var txE=item.text.replace(/'/g,"\\'");
+        h+='<div class="dc-it'+(isDone?' dc-dn':'')+'" onclick="dcTick(\''+he(tid)+'\',\''+he(sec.id)+'\',\''+glE+'\',\''+txE+'\')">';
+        h+='<div class="dc-box"></div>';
+        h+='<div style="flex:1;min-width:0">';
+        h+='<div class="dc-itxt">'+he(item.text)+(item.hard?'<span class="dc-htag">hard block</span>':'')+'</div>';
+        if(item.note) h+='<div class="dc-note">'+he(item.note)+'</div>';
+        h+='</div></div>';
+      });
+      h+='</div>';
+    });
+    h+='</div></div>';
+  });
+
+  h+='<div class="dc-ship-wrap '+shipVis+'">';
+  h+='<button class="dc-ship" onclick="dcShip(\''+he(tid)+'\')">';
+  h+='<span class="dc-rocket">🚀</span>Gửi sản phẩm — Ship it!';
+  h+='</button></div>';
+  return h;
+}
+function toggleRoleMenu(e){
+  e.stopPropagation();
+  document.getElementById('roleMenu').classList.toggle('open');
+}
+document.addEventListener('click',function(){
+  var m=document.getElementById('roleMenu');
+  if(m) m.classList.remove('open');
+});
+function selectRole(role){
+  document.getElementById('roleMenu').classList.remove('open');
+  if(role==='order') window.location.href='order-dashboard-merged (2).html';
+  else if(role==='leader_it') window.location.href='leader_dashboard_v2.html';
+}
+</script>
+</body>
+</html>
