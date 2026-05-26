@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IT Communication Guide — NhiLe Holding</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#F7F6F2;--surface:#FFFFFF;--border:#E8E6DF;
+  --text-primary:#1A1916;--text-secondary:#6B6860;--text-hint:#A8A69F;
+  --en-bg:#F0EDE6;--en-border:#D4CFBF;--en-text:#4A4740;
+  --vi-bg:#EEF2F8;--vi-border:#BDC9E0;--vi-text:#2A3A5C;
+  --human-bg:#EAF3EE;--human-border:#B8D9C4;--human-text:#1E4D32;
+  --reply-bg:#FDF6EE;--reply-border:#E8C99A;--reply-text:#5C3D0E;
+  --accent:#2D6A4F;--tag-bg:#E8F4ED;--tag-text:#1E5C3A;
+  --radius:10px;--mono:'JetBrains Mono',monospace;--sans:'Be Vietnam Pro',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--text-primary);font-size:14px;line-height:1.6}
+header{background:var(--surface);border-bottom:1px solid var(--border);padding:1.25rem 2rem;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.header-left h1{font-size:15px;font-weight:600;letter-spacing:-0.02em}
+.header-left p{font-size:12px;color:var(--text-hint);margin-top:2px}
+.tabs{display:flex;gap:4px;background:var(--bg);border-radius:8px;padding:3px}
+.tab-btn{padding:6px 16px;font-size:13px;border-radius:6px;border:none;cursor:pointer;font-family:var(--sans);background:transparent;color:var(--text-secondary);font-weight:400;transition:all .15s}
+.tab-btn.active{background:var(--surface);color:var(--text-primary);font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.search-wrap{position:relative;flex:1;max-width:260px}
+.search-wrap input{width:100%;padding:7px 12px 7px 32px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;font-family:var(--sans);background:var(--bg);color:var(--text-primary);outline:none}
+.search-wrap input:focus{border-color:var(--accent)}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--text-hint);font-size:14px}
+.layout{display:grid;grid-template-columns:200px 1fr;min-height:calc(100vh - 60px)}
+nav{background:var(--surface);border-right:1px solid var(--border);padding:1.25rem 0;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
+.nav-section{padding:0 1rem .75rem}
+.nav-section-label{font-size:10px;font-weight:600;color:var(--text-hint);letter-spacing:.08em;text-transform:uppercase;padding:0 .5rem;margin-bottom:.4rem}
+.nav-item{display:block;padding:5px 10px;border-radius:6px;font-size:12px;color:var(--text-secondary);cursor:pointer;text-decoration:none;transition:all .15s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-item:hover{background:var(--bg);color:var(--text-primary)}
+.nav-item.active{background:var(--tag-bg);color:var(--accent);font-weight:500}
+.nav-divider{height:1px;background:var(--border);margin:.5rem 1rem}
+main{padding:1.75rem 2rem}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.product-section{margin-bottom:3rem}
+.product-header{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.product-icon{width:34px;height:34px;border-radius:8px;background:var(--tag-bg);display:flex;align-items:center;justify-content:center;font-size:17px}
+.product-title{font-size:16px;font-weight:600;letter-spacing:-0.02em}
+.product-sub{font-size:12px;color:var(--text-hint);margin-top:2px}
+.group-section{margin-bottom:1.5rem}
+.group-label{font-size:11px;font-weight:600;color:var(--text-hint);letter-spacing:.07em;text-transform:uppercase;margin-bottom:.6rem;display:flex;align-items:center;gap:8px}
+.group-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.col-headers-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:6px}
+.col-headers-2{display:grid;grid-template-columns:1fr 2fr;gap:8px;margin-bottom:6px}
+.col-header{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:5px 12px;border-radius:6px}
+.col-header.en{background:var(--en-bg);color:var(--en-text);font-family:var(--mono)}
+.col-header.vi{background:var(--vi-bg);color:var(--vi-text)}
+.col-header.human{background:var(--human-bg);color:var(--human-text)}
+.col-header.reply{background:var(--reply-bg);color:var(--reply-text)}
+.q-triple{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:6px}
+.r-pair{display:grid;grid-template-columns:1fr 2fr;gap:8px;margin-bottom:8px}
+.q-box{padding:10px 12px;border-radius:var(--radius);font-size:13px;line-height:1.55;border:1px solid transparent;position:relative}
+.q-box.en-style{background:var(--en-bg);border-color:var(--en-border);color:var(--en-text);font-family:var(--mono);font-size:12px}
+.q-box.vi-style{background:var(--vi-bg);border-color:var(--vi-border);color:var(--vi-text)}
+.q-box.human-style{background:var(--human-bg);border-color:var(--human-border);color:var(--human-text)}
+.q-box.reply-style{background:var(--reply-bg);border-color:var(--reply-border);color:var(--reply-text)}
+.q-box.it-raw{background:var(--en-bg);border-color:var(--en-border);color:var(--en-text);font-family:var(--mono);font-size:12px}
+.copy-btn{position:absolute;top:6px;right:6px;padding:2px 7px;font-size:11px;border-radius:4px;border:1px solid var(--human-border);background:white;color:var(--accent);cursor:pointer;opacity:0;transition:opacity .15s;font-family:var(--sans)}
+.q-box.human-style:hover .copy-btn,.q-box.reply-style:hover .copy-btn{opacity:1}
+.copy-btn.copied{background:var(--accent);color:white;border-color:var(--accent)}
+.level-tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;margin-bottom:6px;letter-spacing:.04em;text-transform:uppercase}
+.level-short{background:#FEF9C3;color:#854D0E}
+.level-full{background:#DCFCE7;color:#166534}
+.level-complex{background:#FEE2E2;color:#991B1B}
+.no-result{text-align:center;padding:3rem;color:var(--text-hint);font-size:14px}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <h1>IT Communication Guide</h1>
+    <p>NhiLe Holding · Team IT</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('questions',this)">Câu hỏi tiếp nhận</button>
+    <button class="tab-btn" onclick="switchTab('replies',this)">Câu trả lời & phản hồi</button>
+  </div>
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Tìm nội dung..." oninput="filterContent()">
+  </div>
+</header>
+
+<div class="layout">
+  <nav id="sideNav">
+    <div id="nav-questions">
+      <div class="nav-section">
+        <div class="nav-section-label">Loại sản phẩm</div>
+        <a class="nav-item active" onclick="goTo('website',this)">🌐 Website / Landing page</a>
+        <a class="nav-item" onclick="goTo('tool',this)">📊 Tool nội bộ</a>
+        <a class="nav-item" onclick="goTo('infra',this)">🖥️ Hạ tầng / Server</a>
+      </div>
+      <div class="nav-divider"></div>
+      <div class="nav-section">
+        <div class="nav-section-label">Website</div>
+        <a class="nav-item" onclick="goTo('w-purpose',this)">Mục đích & đối tượng</a>
+        <a class="nav-item" onclick="goTo('w-content',this)">Nội dung</a>
+        <a class="nav-item" onclick="goTo('w-brand',this)">Hình ảnh & thương hiệu</a>
+        <a class="nav-item" onclick="goTo('w-tech',this)">Kỹ thuật</a>
+        <a class="nav-item" onclick="goTo('w-time',this)">Thời gian</a>
+      </div>
+      <div class="nav-divider"></div>
+      <div class="nav-section">
+        <div class="nav-section-label">Tool nội bộ</div>
+        <a class="nav-item" onclick="goTo('t-purpose',this)">Mục đích & người dùng</a>
+        <a class="nav-item" onclick="goTo('t-data',this)">Dữ liệu</a>
+        <a class="nav-item" onclick="goTo('t-display',this)">Hiển thị</a>
+        <a class="nav-item" onclick="goTo('t-access',this)">Quyền truy cập</a>
+        <a class="nav-item" onclick="goTo('t-time',this)">Thời gian</a>
+      </div>
+      <div class="nav-divider"></div>
+      <div class="nav-section">
+        <div class="nav-section-label">Hạ tầng</div>
+        <a class="nav-item" onclick="goTo('i-problem',this)">Mô tả vấn đề</a>
+        <a class="nav-item" onclick="goTo('i-scope',this)">Phạm vi ảnh hưởng</a>
+        <a class="nav-item" onclick="goTo('i-device',this)">Thông tin thiết bị</a>
+        <a class="nav-item" onclick="goTo('i-priority',this)">Mức độ ưu tiên</a>
+      </div>
+    </div>
+    <div id="nav-replies" style="display:none">
+      <div class="nav-section">
+        <div class="nav-section-label">Tình huống</div>
+        <a class="nav-item active" onclick="goTo('r-confirm',this)">✅ Xác nhận nhận order</a>
+        <a class="nav-item" onclick="goTo('r-progress',this)">🔄 Báo tiến độ</a>
+        <a class="nav-item" onclick="goTo('r-late',this)">⏰ Báo trễ deadline</a>
+        <a class="nav-item" onclick="goTo('r-done',this)">📦 Bàn giao xong</a>
+        <a class="nav-item" onclick="goTo('r-incident',this)">🔧 Báo lỗi / sự cố</a>
+        <a class="nav-item" onclick="goTo('r-reject',this)">🚫 Từ chối / không làm được</a>
+      </div>
+      <div class="nav-divider"></div>
+      <div class="nav-section">
+        <div class="nav-section-label">Lý do trễ</div>
+        <a class="nav-item" onclick="goTo('r-late-reason',this)">Nguyên nhân thường gặp</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="mainContent">
+
+    <!-- TAB 1: CÂU HỎI -->
+    <div id="tab-questions" class="tab-content active">
+
+      <div class="product-section" id="website">
+        <div class="product-header">
+          <div class="product-icon">🌐</div>
+          <div><div class="product-title">Website / Landing page</div><div class="product-sub">Trang web, landing page, microsite</div></div>
+        </div>
+        <div class="col-headers-3">
+          <div class="col-header en">Tiếng Anh (IT)</div>
+          <div class="col-header vi">Tiếng Việt (IT)</div>
+          <div class="col-header human">Ngôn ngữ thân thiện</div>
+        </div>
+        <div class="group-section" id="w-purpose">
+          <div class="group-label">Mục đích & đối tượng</div>
+          <div class="q-triple"><div class="q-box en-style">purpose?</div><div class="q-box vi-style">mục đích trang là gì?</div><div class="q-box human-style">Trang này anh/chị tạo ra để làm gì ạ — giới thiệu sản phẩm, thu thập thông tin, hay mục đích khác?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">target audience?</div><div class="q-box vi-style">người xem là ai?</div><div class="q-box human-style">Người sẽ xem trang này chủ yếu là ai ạ — khách bên ngoài hay nội bộ thôi?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+        <div class="group-section" id="w-content">
+          <div class="group-label">Nội dung</div>
+          <div class="q-triple"><div class="q-box en-style">sections needed?</div><div class="q-box vi-style">cần có mấy phần?</div><div class="q-box human-style">Trang cần có những phần nào ạ — ví dụ giới thiệu, tính năng, liên hệ...?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">content ready or copywriting?</div><div class="q-box vi-style">nội dung có sẵn chưa?</div><div class="q-box human-style">Nội dung chữ anh/chị đã có sẵn chưa, hay để em tự viết ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">CTA type?</div><div class="q-box vi-style">muốn khách làm gì?</div><div class="q-box human-style">Anh/chị muốn khách làm gì khi vào trang — bấm nút, điền form, gọi điện...?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">language: vi/en/both?</div><div class="q-box vi-style">tiếng Việt hay Anh?</div><div class="q-box human-style">Trang hiển thị tiếng Việt, tiếng Anh hay cả hai ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+        <div class="group-section" id="w-brand">
+          <div class="group-label">Hình ảnh & thương hiệu</div>
+          <div class="q-triple"><div class="q-box en-style">logo file available?</div><div class="q-box vi-style">có logo chưa?</div><div class="q-box human-style">Anh/chị có logo sẵn để em dùng không ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">brand color hex?</div><div class="q-box vi-style">màu sắc muốn dùng?</div><div class="q-box human-style">Màu sắc chủ đạo anh/chị muốn dùng là gì ạ — hay để em tự chọn theo thương hiệu?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">assets ready? need stock?</div><div class="q-box vi-style">có hình ảnh sẵn chưa?</div><div class="q-box human-style">Anh/chị có hình ảnh sẵn không, hay em cần tìm ảnh giúp ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">reference URL?</div><div class="q-box vi-style">có trang mẫu nào không?</div><div class="q-box human-style">Anh/chị có trang nào muốn lấy làm mẫu tham khảo không ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+        <div class="group-section" id="w-tech">
+          <div class="group-label">Kỹ thuật</div>
+          <div class="q-triple"><div class="q-box en-style">responsive: desktop/mobile/both?</div><div class="q-box vi-style">dùng máy tính hay điện thoại?</div><div class="q-box human-style">Trang này anh/chị dùng trên máy tính, điện thoại hay cả hai ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">special features?</div><div class="q-box vi-style">có chức năng đặc biệt không?</div><div class="q-box human-style">Có chức năng gì đặc biệt không ạ — ví dụ form đăng ký, video, chatbot...?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">domain ready?</div><div class="q-box vi-style">tên miền có chưa?</div><div class="q-box human-style">Tên miền anh/chị đã có chưa, hay cần em xử lý luôn ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">3rd party integration?</div><div class="q-box vi-style">cần kết nối hệ thống nào không?</div><div class="q-box human-style">Trang có cần kết nối với hệ thống nào khác không ạ — email, CRM...?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+        <div class="group-section" id="w-time">
+          <div class="group-label">Thời gian</div>
+          <div class="q-triple"><div class="q-box en-style">deadline?</div><div class="q-box vi-style">cần xong ngày nào?</div><div class="q-box human-style">Anh/chị cần xong trước ngày nào ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">hard deadline?</div><div class="q-box vi-style">có ngày không được trễ không?</div><div class="q-box human-style">Có ngày nào tuyệt đối không được trễ không ạ — ví dụ ngày ra mắt sự kiện?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+      </div>
+
+      <div class="product-section" id="tool">
+        <div class="product-header">
+          <div class="product-icon">📊</div>
+          <div><div class="product-title">Tool nội bộ</div><div class="product-sub">Dashboard, báo cáo, hệ thống quản lý</div></div>
+        </div>
+        <div class="col-headers-3">
+          <div class="col-header en">Tiếng Anh (IT)</div>
+          <div class="col-header vi">Tiếng Việt (IT)</div>
+          <div class="col-header human">Ngôn ngữ thân thiện</div>
+        </div>
+        <div class="group-section" id="t-purpose">
+          <div class="group-label">Mục đích & người dùng</div>
+          <div class="q-triple"><div class="q-box en-style">use case?</div><div class="q-box vi-style">tool này dùng để làm gì?</div><div class="q-box human-style">Tool này anh/chị dùng để theo dõi hay quản lý cái gì ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">end users? headcount?</div><div class="q-box vi-style">ai dùng, bao nhiêu người?</div><div class="q-box human-style">Ai sẽ dùng tool này hàng ngày ạ — và khoảng bao nhiêu người?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">platform: desktop/mobile?</div><div class="q-box vi-style">dùng máy hay điện thoại?</div><div class="q-box human-style">Anh/chị dùng trên máy tính hay điện thoại ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+        <div class="group-section" id="t-data">
+          <div class="group-label">Dữ liệu</div>
+          <div class="q-triple"><div class="q-box en-style">data source?</div><div class="q-box vi-style">dữ liệu lấy từ đâu?</div><div class="q-box human-style">Số liệu lấy từ đâu ạ — Excel, phần mềm có sẵn, hay nhập tay?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">sample data file?</div><div class="q-box vi-style">có file mẫu gửi xem không?</div><div class="q-box human-style">Anh/chị có file dữ liệu mẫu gửi em xem trước được không ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">refresh rate?</div><div class="q-box vi-style">cập nhật theo ngày/tuần/tháng?</div><div class="q-box human-style">Số liệu cần cập nhật liên tục hay theo ngày/tuần/tháng ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+        <div class="group-section" id="t-display">
+          <div class="group-label">Hiển thị</div>
+          <div class="q-triple"><div class="q-box en-style">viz type: table/chart/KPI?</div><div class="q-box vi-style">xem theo dạng gì?</div><div class="q-box human-style">Anh/chị muốn xem số liệu theo dạng gì ạ — bảng, biểu đồ, hay số tóm tắt?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">key metrics?</div><div class="q-box vi-style">chỉ số quan trọng nhất là gì?</div><div class="q-box human-style">Những con số quan trọng nhất anh/chị cần thấy ngay là gì ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">filter params?</div><div class="q-box vi-style">cần lọc theo tiêu chí gì?</div><div class="q-box human-style">Cần lọc theo tiêu chí gì không ạ — theo tháng, phòng ban, nhân viên...?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">export: Excel/PDF?</div><div class="q-box vi-style">cần xuất file không?</div><div class="q-box human-style">Cần xuất ra file không ạ — Excel hay PDF?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+        <div class="group-section" id="t-access">
+          <div class="group-label">Quyền truy cập</div>
+          <div class="q-triple"><div class="q-box en-style">read/write permission?</div><div class="q-box vi-style">ai xem, ai chỉnh sửa?</div><div class="q-box human-style">Ai được xem, ai được chỉnh sửa ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">role-based access?</div><div class="q-box vi-style">phân quyền theo chức vụ không?</div><div class="q-box human-style">Có cần phân quyền theo chức vụ hoặc phòng ban không ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+        <div class="group-section" id="t-time">
+          <div class="group-label">Thời gian</div>
+          <div class="q-triple"><div class="q-box en-style">deadline?</div><div class="q-box vi-style">cần xong ngày nào?</div><div class="q-box human-style">Anh/chị cần xong trước ngày nào ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">hard deadline?</div><div class="q-box vi-style">có ngày không được trễ không?</div><div class="q-box human-style">Có ngày nào tuyệt đối không được trễ không ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+      </div>
+
+      <div class="product-section" id="infra">
+        <div class="product-header">
+          <div class="product-icon">🖥️</div>
+          <div><div class="product-title">Hạ tầng / Server / Network</div><div class="product-sub">Sự cố kỹ thuật, lỗi hệ thống, hạ tầng mạng</div></div>
+        </div>
+        <div class="col-headers-3">
+          <div class="col-header en">Tiếng Anh (IT)</div>
+          <div class="col-header vi">Tiếng Việt (IT)</div>
+          <div class="col-header human">Ngôn ngữ thân thiện</div>
+        </div>
+        <div class="group-section" id="i-problem">
+          <div class="group-label">Mô tả vấn đề</div>
+          <div class="q-triple"><div class="q-box en-style">describe the issue</div><div class="q-box vi-style">đang gặp vấn đề gì?</div><div class="q-box human-style">Anh/chị mô tả cụ thể hơn được không ạ — đang gặp vấn đề gì, thấy hiện tượng gì?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">when did it start?</div><div class="q-box vi-style">xảy ra từ khi nào?</div><div class="q-box human-style">Vấn đề này bắt đầu từ khi nào ạ — hôm nay hay đã xảy ra lâu rồi?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">intermittent or persistent?</div><div class="q-box vi-style">liên tục hay thỉnh thoảng?</div><div class="q-box human-style">Lỗi này xảy ra liên tục hay chỉ thỉnh thoảng ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">screenshot/error log?</div><div class="q-box vi-style">chụp màn hình lỗi được không?</div><div class="q-box human-style">Anh/chị chụp màn hình lỗi gửi em được không ạ — em xem sẽ nhanh hơn nhiều?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+        <div class="group-section" id="i-scope">
+          <div class="group-label">Phạm vi ảnh hưởng</div>
+          <div class="q-triple"><div class="q-box en-style">isolated or widespread?</div><div class="q-box vi-style">chỉ mình hay cả team bị?</div><div class="q-box human-style">Chỉ mình anh/chị gặp hay cả team cũng bị ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">affected dept?</div><div class="q-box vi-style">ảnh hưởng bộ phận nào?</div><div class="q-box human-style">Vấn đề này đang ảnh hưởng đến bộ phận nào ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">blocker or workaround?</div><div class="q-box vi-style">vẫn làm việc được không?</div><div class="q-box human-style">Hiện tại anh/chị vẫn làm việc được không hay đang bị chặn hoàn toàn ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+        <div class="group-section" id="i-device">
+          <div class="group-label">Thông tin thiết bị</div>
+          <div class="q-triple"><div class="q-box en-style">hostname/room/floor?</div><div class="q-box vi-style">máy tên gì, phòng nào, tầng mấy?</div><div class="q-box human-style">Máy anh/chị tên gì, ở phòng nào tầng mấy ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">OS version?</div><div class="q-box vi-style">Windows mấy?</div><div class="q-box human-style">Máy đang dùng Windows mấy ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="q-triple"><div class="q-box en-style">affected application?</div><div class="q-box vi-style">phần mềm liên quan là gì?</div><div class="q-box human-style">Phần mềm nào liên quan đến vấn đề này ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+        <div class="group-section" id="i-priority">
+          <div class="group-label">Mức độ ưu tiên</div>
+          <div class="q-triple"><div class="q-box en-style">urgent or normal queue?</div><div class="q-box vi-style">cần xử lý trong ngày không?</div><div class="q-box human-style">Việc này cần xử lý trong ngày hay theo lịch bình thường được ạ?<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+
+      </div>
+      <div id="noResult1" class="no-result" style="display:none">Không tìm thấy kết quả.</div>
+    </div>
+
+    <!-- TAB 2: CÂU TRẢ LỜI -->
+    <div id="tab-replies" class="tab-content">
+
+      <div class="product-section" id="r-confirm">
+        <div class="product-header">
+          <div class="product-icon">✅</div>
+          <div><div class="product-title">Xác nhận nhận order</div><div class="product-sub">Gửi ngay sau khi nhận yêu cầu từ khách</div></div>
+        </div>
+        <div class="col-headers-2"><div class="col-header en">IT nghĩ (thô)</div><div class="col-header reply">Tin nhắn hoàn chỉnh gửi khách</div></div>
+        <div class="group-section">
+          <div class="r-pair"><div class="q-box it-raw"><span class="level-tag level-short">Ngắn</span><br>ok nhận rồi</div><div class="q-box reply-style"><span class="level-tag level-short">Ngắn gọn</span><br>Em nhận yêu cầu rồi ạ. Em sẽ phản hồi lại trước [giờ/ngày] nhé.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw"><span class="level-tag level-full">Đầy đủ</span><br>nhận order [tên task], sẽ xem và phản hồi</div><div class="q-box reply-style"><span class="level-tag level-full">Đầy đủ</span><br>Anh/chị ơi, em đã nhận yêu cầu [tên task] rồi ạ. Em sẽ xem qua và phản hồi chi tiết trước [giờ/ngày]. Nếu cần gì gấp anh/chị cứ nhắn em nhé.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+
+        </div>
+      </div>
+
+      <div class="product-section" id="r-progress">
+        <div class="product-header">
+          <div class="product-icon">🔄</div>
+          <div><div class="product-title">Báo tiến độ đang làm</div><div class="product-sub">Chủ động cập nhật — đừng đợi khách hỏi</div></div>
+        </div>
+        <div class="col-headers-2"><div class="col-header en">IT nghĩ (thô)</div><div class="col-header reply">Tin nhắn hoàn chỉnh gửi khách</div></div>
+        <div class="group-section">
+          <div class="r-pair"><div class="q-box it-raw"><span class="level-tag level-short">Ngắn</span><br>đang làm, sắp xong</div><div class="q-box reply-style"><span class="level-tag level-short">Ngắn gọn</span><br>Anh/chị ơi, [tên task] em đang làm rồi ạ, dự kiến xong [ngày].<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw"><span class="level-tag level-full">Đầy đủ</span><br>đang ở bước X, đúng tiến độ</div><div class="q-box reply-style"><span class="level-tag level-full">Đầy đủ</span><br>Anh/chị ơi, em update tiến độ: [tên task] đang ở bước [X] rồi ạ. Dự kiến xong đúng hạn [ngày] như đã hẹn. Anh/chị yên tâm nhé.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+
+        </div>
+      </div>
+
+      <div class="product-section" id="r-late">
+        <div class="product-header">
+          <div class="product-icon">⏰</div>
+          <div><div class="product-title">Báo trễ deadline</div><div class="product-sub">Báo sớm — đừng đợi đến ngày hạn</div></div>
+        </div>
+        <div class="col-headers-2"><div class="col-header en">IT nghĩ (thô)</div><div class="col-header reply">Tin nhắn hoàn chỉnh gửi khách</div></div>
+        <div class="group-section">
+          <div class="r-pair"><div class="q-box it-raw"><span class="level-tag level-short">Ngắn</span><br>trễ vài ngày</div><div class="q-box reply-style"><span class="level-tag level-short">Ngắn gọn</span><br>Anh/chị ơi, phần [X] cần thêm [số ngày] nữa ạ. Em sẽ xong trước [ngày mới].<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw"><span class="level-tag level-full">Đầy đủ</span><br>trễ do [lý do], xong ngày [X]</div><div class="q-box reply-style"><span class="level-tag level-full">Đầy đủ</span><br>Anh/chị ơi, em báo trước: [tên task] cần thêm [số ngày] nữa ạ vì [lý do ngắn]. Em sẽ hoàn thành trước [ngày mới] và gửi ngay khi xong. Xin lỗi anh/chị vì sự chậm trễ này ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+
+        </div>
+      </div>
+
+      <div class="product-section" id="r-late-reason">
+        <div class="product-header">
+          <div class="product-icon">📋</div>
+          <div><div class="product-title">Lý do trễ deadline hay gặp</div><div class="product-sub">Dùng để điền vào [lý do] trong tin nhắn báo trễ</div></div>
+        </div>
+        <div class="col-headers-2"><div class="col-header en">Nguyên nhân (ngôn ngữ IT)</div><div class="col-header reply">Giải thích cho khách hiểu</div></div>
+        <div class="group-section">
+          <div class="group-label">Do khách hàng</div>
+          <div class="r-pair"><div class="q-box it-raw">requirement không rõ, phải redo</div><div class="q-box reply-style">Lúc đầu thông tin chưa đủ nên em hiểu chưa đúng ý anh/chị, phần này em cần làm lại từ đầu ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw">requirement thay đổi giữa chừng</div><div class="q-box reply-style">Yêu cầu có thay đổi so với ban đầu nên em cần thêm thời gian để điều chỉnh cho đúng ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw">chờ khách approve/feedback</div><div class="q-box reply-style">Em đang chờ anh/chị xác nhận phần [X] để tiếp tục ạ — khi nào anh/chị confirm em làm ngay.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+        <div class="group-section">
+          <div class="group-label">Do kỹ thuật phát sinh</div>
+          <div class="r-pair"><div class="q-box it-raw">bug phức tạp hơn dự kiến</div><div class="q-box reply-style">Khi làm đến phần này em phát hiện lỗi phức tạp hơn ban đầu, cần thêm thời gian xử lý cho đúng ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw">3rd party API integration issue</div><div class="q-box reply-style">Phần kết nối với hệ thống [tên] đang có vấn đề ngoài dự kiến, em đang xử lý ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw">dev/staging env có sự cố</div><div class="q-box reply-style">Hệ thống dùng để kiểm tra đang gặp sự cố, em cần chờ khắc phục xong mới test tiếp được ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw">dirty data từ input</div><div class="q-box reply-style">Dữ liệu đầu vào có một số chỗ chưa đúng định dạng, em đang mất thêm thời gian xử lý lại ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw">cần regression test kỹ vì high impact</div><div class="q-box reply-style">Phần này ảnh hưởng đến nhiều người nên em cần kiểm tra kỹ hơn trước khi đưa ra dùng thật ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw">dev khác production environment</div><div class="q-box reply-style">Lúc test thì chạy được nhưng khi đưa ra thật lại bị lỗi, em đang tìm nguyên nhân chênh lệch ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+        <div class="group-section">
+          <div class="group-label">Do nguồn lực nội bộ</div>
+          <div class="r-pair"><div class="q-box it-raw">team overload nhiều task</div><div class="q-box reply-style">Tuần này team IT đang có nhiều việc cùng lúc, em cần sắp xếp lại thứ tự ưu tiên ạ — task của anh/chị dự kiến xong [ngày].<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw">người phụ trách bị sick/absent</div><div class="q-box reply-style">Bạn phụ trách phần này đang không có mặt, em đang sắp xếp người khác hỗ trợ ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw">blocked bởi vendor/3rd party</div><div class="q-box reply-style">Phần này em đang chờ phản hồi từ [bên cung cấp], chưa phụ thuộc vào em hoàn toàn ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+        <div class="group-section">
+          <div class="group-label">Do đánh giá ban đầu chưa đúng</div>
+          <div class="r-pair"><div class="q-box it-raw">estimate sai</div><div class="q-box reply-style">Lúc đầu em đánh giá task này nhanh hơn thực tế, xin lỗi anh/chị vì điều này ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw">task phức tạp hơn khi bắt tay vào</div><div class="q-box reply-style">Khi bắt đầu làm em mới thấy phần này cần nhiều bước hơn dự kiến ban đầu ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw">blocked bởi dependency task khác</div><div class="q-box reply-style">Phần này cần chờ phần [X] hoàn thành trước mới làm được ạ — em đang đẩy nhanh phần đó ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+        </div>
+      </div>
+
+      <div class="product-section" id="r-done">
+        <div class="product-header">
+          <div class="product-icon">📦</div>
+          <div><div class="product-title">Bàn giao sản phẩm xong</div><div class="product-sub">Gửi kèm link/file và mở cửa cho feedback</div></div>
+        </div>
+        <div class="col-headers-2"><div class="col-header en">IT nghĩ (thô)</div><div class="col-header reply">Tin nhắn hoàn chỉnh gửi khách</div></div>
+        <div class="group-section">
+          <div class="r-pair"><div class="q-box it-raw"><span class="level-tag level-short">Ngắn</span><br>xong rồi đây</div><div class="q-box reply-style"><span class="level-tag level-short">Ngắn gọn</span><br>Anh/chị ơi, [tên task] xong rồi ạ. [Link/file]. Anh/chị xem thử nhé.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw"><span class="level-tag level-full">Đầy đủ</span><br>done, link đây, cần gì nhắn</div><div class="q-box reply-style"><span class="level-tag level-full">Đầy đủ</span><br>Anh/chị ơi, em đã hoàn thành [tên task] rồi ạ. [Link/file đính kèm]. Anh/chị dùng thử xem, nếu cần điều chỉnh gì cứ nhắn em nhé — em sẽ hỗ trợ trong [X ngày] tới ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+
+        </div>
+      </div>
+
+      <div class="product-section" id="r-incident">
+        <div class="product-header">
+          <div class="product-icon">🔧</div>
+          <div><div class="product-title">Báo lỗi / sự cố đang xử lý</div><div class="product-sub">Báo ngay khi phát hiện — đừng chờ xử lý xong mới nói</div></div>
+        </div>
+        <div class="col-headers-2"><div class="col-header en">IT nghĩ (thô)</div><div class="col-header reply">Tin nhắn hoàn chỉnh gửi khách</div></div>
+        <div class="group-section">
+          <div class="r-pair"><div class="q-box it-raw"><span class="level-tag level-short">Ngắn</span><br>bị lỗi, đang fix</div><div class="q-box reply-style"><span class="level-tag level-short">Ngắn gọn</span><br>Anh/chị ơi, hệ thống đang có sự cố ở phần [X] ạ. Em đang xử lý, dự kiến xong trong [thời gian].<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw"><span class="level-tag level-full">Đầy đủ</span><br>lỗi ở [X], đang fix, xong lúc [Y]</div><div class="q-box reply-style"><span class="level-tag level-full">Đầy đủ</span><br>Anh/chị ơi, em phát hiện sự cố ở phần [X] ạ — [mô tả đơn giản]. Em đang xử lý và dự kiến xong trong [thời gian]. Em sẽ báo lại ngay khi ổn ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+
+        </div>
+      </div>
+
+      <div class="product-section" id="r-reject">
+        <div class="product-header">
+          <div class="product-icon">🚫</div>
+          <div><div class="product-title">Từ chối hoặc không làm được</div><div class="product-sub">Luôn đề xuất hướng thay thế — đừng chỉ nói không</div></div>
+        </div>
+        <div class="col-headers-2"><div class="col-header en">IT nghĩ (thô)</div><div class="col-header reply">Tin nhắn hoàn chỉnh gửi khách</div></div>
+        <div class="group-section">
+          <div class="r-pair"><div class="q-box it-raw"><span class="level-tag level-short">Ngắn</span><br>không làm được</div><div class="q-box reply-style"><span class="level-tag level-short">Ngắn gọn</span><br>Anh/chị ơi, phần này team em chưa xử lý được ạ. Anh/chị thử liên hệ [bộ phận/người] xem ạ.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+          <div class="r-pair"><div class="q-box it-raw"><span class="level-tag level-full">Đầy đủ</span><br>không làm được vì [lý do], chuyển qua [bộ phận X]</div><div class="q-box reply-style"><span class="level-tag level-full">Đầy đủ</span><br>Anh/chị ơi, yêu cầu này hiện tại team em chưa thể thực hiện được vì [lý do ngắn] ạ. Anh/chị có thể liên hệ [bộ phận/người] để được hỗ trợ. Nếu sau này có thể làm được em sẽ chủ động báo lại anh/chị nhé.<button class="copy-btn" onclick="copyText(this)">copy</button></div></div>
+
+        </div>
+      </div>
+
+      <div id="noResult2" class="no-result" style="display:none">Không tìm thấy kết quả.</div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+let currentTab = 'questions';
+
+function switchTab(tab, btn) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('nav-questions').style.display = tab === 'questions' ? 'block' : 'none';
+  document.getElementById('nav-replies').style.display = tab === 'replies' ? 'block' : 'none';
+  document.getElementById('searchInput').value = '';
+  filterContent();
+}
+
+function goTo(id, el) {
+  const target = document.getElementById(id);
+  if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+}
+
+function copyText(btn) {
+  const box = btn.parentElement;
+  let text = box.innerText;
+  text = text.replace(/^(Ngắn|Đầy đủ|Cần hỏi thêm|Có phát sinh|Trễ nhiều|Có hướng dẫn|Diện rộng|Có điều kiện)\n/, '');
+  text = text.replace(/copy$/, '').replace(/đã copy$/, '').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'đã copy';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function filterContent() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const activeTab = currentTab;
+  const containers = activeTab === 'questions'
+    ? { items: document.querySelectorAll('#tab-questions .q-triple'), groups: document.querySelectorAll('#tab-questions .group-section'), sections: document.querySelectorAll('#tab-questions .product-section'), noResult: 'noResult1' }
+    : { items: document.querySelectorAll('#tab-replies .r-pair'), groups: document.querySelectorAll('#tab-replies .group-section'), sections: document.querySelectorAll('#tab-replies .product-section'), noResult: 'noResult2' };
+
+  let any = false;
+  containers.items.forEach(t => {
+    const show = !q || t.innerText.toLowerCase().includes(q);
+    t.style.display = show ? '' : 'none';
+    if (show) any = true;
+  });
+  containers.groups.forEach(g => {
+    g.style.display = [...g.querySelectorAll(activeTab === 'questions' ? '.q-triple' : '.r-pair')].some(t => t.style.display !== 'none') ? '' : 'none';
+  });
+  containers.sections.forEach(s => {
+    s.style.display = [...s.querySelectorAll(activeTab === 'questions' ? '.q-triple' : '.r-pair')].some(t => t.style.display !== 'none') ? '' : 'none';
+  });
+  document.getElementById(containers.noResult).style.display = any ? 'none' : 'block';
+}
+</script>
+</body>
+</html>

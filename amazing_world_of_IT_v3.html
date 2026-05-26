@@ -864,6 +864,11 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 .tg-compose-wrap{padding:12px 14px;border-top:1px solid rgba(255,255,255,.08);flex-shrink:0}
 .tg-compose-box{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;font-size:11.5px;color:rgba(255,255,255,.75);line-height:1.55;margin-bottom:10px;box-sizing:border-box;resize:none;font-family:var(--f);outline:none}
 .tg-compose-box:focus{border-color:rgba(46,204,113,.3)}
+.tg-suggest{background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.25);border-radius:9px;padding:8px 11px;margin-bottom:8px;cursor:pointer;transition:all .15s;animation:sgFd .18s ease both}
+.tg-suggest:hover{background:rgba(46,204,113,.15);border-color:rgba(46,204,113,.45)}
+.tg-suggest-lbl{font-size:9px;font-weight:700;color:rgba(46,204,113,.65);letter-spacing:.6px;text-transform:uppercase;margin-bottom:4px}
+.tg-suggest-txt{font-size:11.5px;color:rgba(255,255,255,.82);line-height:1.45}
+@keyframes sgFd{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 .tg-compose-btns{display:flex;gap:8px}
 .tg-btn-copy{padding:10px 16px;border-radius:9px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:rgba(255,255,255,.7);font-size:12px;font-weight:700;cursor:pointer;font-family:var(--f);transition:all .15s;white-space:nowrap}
 .tg-btn-copy:hover{background:rgba(255,255,255,.1)}
@@ -2898,6 +2903,10 @@ function selectRoleV3(role){
     </div>
     <div class="tg-compose-wrap">
       <textarea class="tg-compose-box" id="tdTgCompose" rows="4"></textarea>
+      <div class="tg-suggest" id="tgSuggest" style="display:none" onclick="itApplySuggest()">
+        <div class="tg-suggest-lbl">💡 Gợi ý câu thân thiện</div>
+        <div class="tg-suggest-txt" id="tgSuggestTxt"></div>
+      </div>
       <div class="tg-compose-btns">
         <button class="tg-btn-copy" onclick="copyTdTgMsg()">📋 Copy</button>
         <button class="tg-btn-send" onclick="sendTdTgMsg()">🔗 Gửi Telegram</button>
@@ -3346,6 +3355,492 @@ function sendTdTgMsg() {
   showToast('Đã gửi Telegram cho người phụ trách!');
 }
 
+/* ═══════════════════════════════════════════════════════════
+   IT LANGUAGE ASSISTANT
+   Gợi ý câu thân thiện real-time khi IT soạn tin — offline,
+   fuzzy match trên data tĩnh, không cần API.
+═══════════════════════════════════════════════════════════ */
+
+/* ─── GUIDE DATA v2 ─────────────────────────────────────────
+   50 items gốc → gom còn 47 → thêm 7 mới = 54 item tổng
+   Mỗi item có keywords[] đa alias cho fuzzy match tốt hơn
+──────────────────────────────────────────────────────────── */
+var GUIDE_DATA = [
+
+  /* ── THỜI GIAN ── */
+  {
+    it: 'deadline',
+    keywords: ['deadline','ngay xong','can xong ngay nao','bao gio xong','khi nao xong',
+               'han chot','timeline','du kien xong','thoi han','ngay het han','xong truoc ngay nao'],
+    friendly: 'Anh/chị cần xong trước ngày nào ạ?'
+  },
+  {
+    it: 'hard deadline',
+    keywords: ['hard deadline','ngay khong duoc tre','ngay su kien','bat buoc xong',
+               'tuyet doi khong cham','fixed date','launch date','ngay ra mat','ngay event',
+               'khong the doi them','ngay cung khong duoc'],
+    friendly: 'Có ngày nào tuyệt đối không được trễ không ạ — ví dụ ngày ra mắt sự kiện?'
+  },
+
+  /* ── THƯƠNG HIỆU / DESIGN ── */
+  {
+    it: 'logo',
+    keywords: ['logo','logo file','co logo chua','logo san co','file logo',
+               'logo available','anh logo','logo png','logo svg','thuong hieu logo',
+               'tai san thuong hieu','brand asset logo'],
+    friendly: 'Anh/chị có logo sẵn để em dùng không ạ?'
+  },
+  {
+    it: 'brand color',
+    keywords: ['brand color','mau sac','color hex','hex code','mau chu dao',
+               'palette','bo mau','mau cong ty','mau thuong hieu','color scheme',
+               'mau muon dung','mau chinh'],
+    friendly: 'Màu sắc chủ đạo anh/chị muốn dùng là gì ạ — hay để em tự chọn theo thương hiệu?'
+  },
+  {
+    it: 'assets images',
+    keywords: ['assets','hinh anh','assets ready','stock photo','anh san co',
+               'hinh san co','can tim anh','design assets','hinh nen','banner',
+               'media','anh minh hoa'],
+    friendly: 'Anh/chị có hình ảnh sẵn không, hay em cần tìm ảnh giúp ạ?'
+  },
+  {
+    it: 'reference',
+    keywords: ['reference','trang mau','url tham khao','website mau','inspiration',
+               'vi du lam giong','mau thiet ke','example site','benchmark',
+               'link tham khao','trang tuong tu','mau nao thich'],
+    friendly: 'Anh/chị có trang nào muốn lấy làm mẫu tham khảo không ạ?'
+  },
+
+  /* ── KỸ THUẬT WEBSITE ── */
+  {
+    it: 'domain',
+    keywords: ['domain','ten mien','domain ready','co ten mien chua','url website',
+               'dia chi web','mua domain','domain name','hosting','dang ky domain',
+               'subdomain','ten mien san co chua'],
+    friendly: 'Tên miền anh/chị đã có chưa, hay cần em xử lý luôn ạ?'
+  },
+  {
+    it: 'integration',
+    keywords: ['integration','ket noi he thong','3rd party','api','third party',
+               'tich hop','crm','ket noi phan mem','webhook','embed','plugin',
+               'lien ket he thong','can ket noi cai gi'],
+    friendly: 'Trang có cần kết nối với hệ thống nào khác không ạ — email, CRM...?'
+  },
+  /* GOM: responsive desktop mobile (web) + platform desktop mobile (tool) */
+  {
+    it: 'platform device',
+    keywords: ['responsive','desktop','mobile','dien thoai','may tinh','platform',
+               'device','dung tren may nao','tablet','man hinh nho',
+               'mobile friendly','xem tren dien thoai','dung may hay dien thoai'],
+    friendly: 'Anh/chị dùng trên máy tính, điện thoại hay cả hai ạ?'
+  },
+  {
+    it: 'special features',
+    keywords: ['special features','chuc nang dac biet','tinh nang','feature','chatbot',
+               'form dang ky','payment','login','video','animation','popup',
+               'chuc nang gi them','them gi dac biet'],
+    friendly: 'Có chức năng gì đặc biệt không ạ — ví dụ form đăng ký, video, chatbot...?'
+  },
+  {
+    it: 'language',
+    keywords: ['language','ngon ngu','tieng viet','tieng anh','bilingual',
+               'song ngu','bao nhieu ngon ngu','hien thi tieng gi',
+               'multilingual','localization','i18n','vi en ca hai'],
+    friendly: 'Trang hiển thị tiếng Việt, tiếng Anh hay cả hai ạ?'
+  },
+
+  /* ── NỘI DUNG WEBSITE ── */
+  {
+    it: 'purpose',
+    keywords: ['purpose','muc dich','landing page','gioi thieu san pham','website la gi',
+               'trang de lam gi','objective','goal','muc tieu trang web',
+               'thu thap thong tin','ban hang','muc dich chinh'],
+    friendly: 'Trang này anh/chị tạo ra để làm gì ạ — giới thiệu sản phẩm, thu thập thông tin, hay mục đích khác?'
+  },
+  {
+    it: 'target audience',
+    keywords: ['target audience','nguoi xem','khach hang','doi tuong','user',
+               'ai xem trang','noi bo hay ben ngoai','nguoi dung cuoi',
+               'khach muc tieu','ai la nguoi dung','internal external'],
+    friendly: 'Người sẽ xem trang này chủ yếu là ai ạ — khách bên ngoài hay nội bộ thôi?'
+  },
+  {
+    it: 'sections layout',
+    keywords: ['sections','layout','bao nhieu phan','section','bo cuc',
+               'cau truc trang','trang co nhung gi','noi dung can co',
+               'page structure','block noi dung','phan nao can','cau truc web'],
+    friendly: 'Trang cần có những phần nào ạ — ví dụ giới thiệu, tính năng, liên hệ...?'
+  },
+  {
+    it: 'content copywriting',
+    keywords: ['content','noi dung','van ban','copy','copywriting','noi dung co san',
+               'chu viet','text co san chua','noi dung san co','writing',
+               'bai viet san co chua','can viet noi dung khong'],
+    friendly: 'Nội dung chữ anh/chị đã có sẵn chưa, hay để em tự viết ạ?'
+  },
+  {
+    it: 'CTA',
+    keywords: ['cta','call to action','nut bam','button','khach lam gi',
+               'hanh dong mong muon','dien form','goi dien','mua hang',
+               'dang ky','conversion','muon khach bam gi'],
+    friendly: 'Anh/chị muốn khách làm gì khi vào trang — bấm nút, điền form, gọi điện...?'
+  },
+
+  /* ── TOOL NỘI BỘ ── */
+  {
+    it: 'use case',
+    keywords: ['use case','tool de lam gi','dashboard','quan ly gi','theo doi gi',
+               'bao cao','report','giam sat','quan ly nhan vien','quan ly don hang',
+               'tool noi bo','he thong quan ly','system'],
+    friendly: 'Tool này anh/chị dùng để theo dõi hay quản lý cái gì ạ?'
+  },
+  {
+    it: 'end users',
+    keywords: ['end users','ai dung','nguoi dung','headcount','bao nhieu nguoi',
+               'so luong user','dung hang ngay','team nao dung','phong ban dung',
+               'user count','bao nhieu nhan vien dung','who uses'],
+    friendly: 'Ai sẽ dùng tool này hàng ngày ạ — và khoảng bao nhiêu người?'
+  },
+  {
+    it: 'data source',
+    keywords: ['data source','du lieu tu dau','nguon du lieu','excel','google sheet',
+               'nhap tay','database','phan mem co san','data dau vao','du lieu o dau',
+               'import data','erp','so lieu lay o dau'],
+    friendly: 'Số liệu lấy từ đâu ạ — Excel, phần mềm có sẵn, hay nhập tay?'
+  },
+  {
+    it: 'sample data',
+    keywords: ['sample data','file mau','du lieu mau','file excel mau','data mau',
+               'gui file xem truoc','co file du lieu khong','xem truoc du lieu',
+               'example data','du lieu thu','template data','file thu'],
+    friendly: 'Anh/chị có file dữ liệu mẫu gửi em xem trước được không ạ?'
+  },
+  {
+    it: 'refresh rate',
+    keywords: ['refresh rate','cap nhat','real time','theo ngay','theo tuan',
+               'theo thang','update frequency','dong bo du lieu','bao lau cap nhat',
+               'live data','sync','tan suat cap nhat'],
+    friendly: 'Số liệu cần cập nhật liên tục hay theo ngày/tuần/tháng ạ?'
+  },
+  {
+    it: 'visualization',
+    keywords: ['viz','chart','bieu do','table','bang','kpi','dashboard',
+               'hien thi du lieu','pie chart','bar chart','so lieu theo dang nao',
+               'xem theo kieu gi','dang bieu do gi'],
+    friendly: 'Anh/chị muốn xem số liệu theo dạng gì ạ — bảng, biểu đồ, hay số tóm tắt?'
+  },
+  {
+    it: 'metrics',
+    keywords: ['metrics','chi so','kpi','chi tieu','so lieu quan trong',
+               'con so can thay','quan trong nhat','indicator','measure',
+               'thong ke chinh','don vi do luong','so lieu chot'],
+    friendly: 'Những con số quan trọng nhất anh/chị cần thấy ngay là gì ạ?'
+  },
+  {
+    it: 'filter',
+    keywords: ['filter','loc du lieu','filter theo','search','tim kiem',
+               'theo thang','theo phong ban','theo nhan vien','tieu chi loc',
+               'dropdown loc','bo loc','loc theo dieu kien'],
+    friendly: 'Cần lọc theo tiêu chí gì không ạ — theo tháng, phòng ban, nhân viên...?'
+  },
+  {
+    it: 'export',
+    keywords: ['export','xuat file','download','bao cao xuat ra','xuat excel',
+               'xuat pdf','in bao cao','report download','save file',
+               'xuat du lieu ra','in ra','tai file'],
+    friendly: 'Cần xuất ra file không ạ — Excel hay PDF?'
+  },
+  {
+    it: 'permission',
+    keywords: ['permission','quyen truy cap','read write','ai duoc xem','ai duoc sua',
+               'read only','edit access','access control','quyen han',
+               'gioi han quyen','ai co quyen','quyen xem sua'],
+    friendly: 'Ai được xem, ai được chỉnh sửa ạ?'
+  },
+  {
+    it: 'role based access',
+    keywords: ['role','phan quyen theo chuc vu','role based','cap bac','chuc danh',
+               'phan quyen theo phong ban','admin manager','cap quyen',
+               'nguoi quan tri','quyen admin','group permission','access level'],
+    friendly: 'Có cần phân quyền theo chức vụ hoặc phòng ban không ạ?'
+  },
+
+  /* ── HẠ TẦNG / SỰ CỐ — CHẨN ĐOÁN ── */
+  {
+    it: 'describe issue',
+    keywords: ['describe issue','mo ta loi','van de gi','hien tuong gi','bug la gi',
+               'gap phai gi','loi nhu the nao','dang gap van de gi',
+               'error message','thay gi','bieu hien loi','loi hien ra the nao'],
+    friendly: 'Anh/chị mô tả cụ thể hơn được không ạ — đang gặp vấn đề gì, thấy hiện tượng gì?'
+  },
+  {
+    it: 'when start',
+    keywords: ['when did it start','xay ra tu khi nao','bat dau tu bao gio',
+               'hom nay moi bi','bi lau chua','tu bao gio bi vay','khi nao bat dau',
+               'first occurrence','loi tu khi nao','gap lan dau khi nao'],
+    friendly: 'Vấn đề này bắt đầu từ khi nào ạ — hôm nay hay đã xảy ra lâu rồi?'
+  },
+  {
+    it: 'intermittent',
+    keywords: ['intermittent','lien tuc hay thinh thoang','flicker','random',
+               'luc bi luc khong','thinh thoang loi','loi lien tuc','persistent',
+               'co dinh hay ngau nhien','error frequency','loi may lan roi'],
+    friendly: 'Lỗi này xảy ra liên tục hay chỉ thỉnh thoảng ạ?'
+  },
+  /* GOM: screenshot error log + screenshot loi */
+  {
+    it: 'screenshot',
+    keywords: ['screenshot','chup man hinh','error log','chup loi','anh chup man hinh',
+               'gui anh loi','log file','capture screen','chup anh loi gui',
+               'printscreen','error image','chup hinh loi'],
+    friendly: 'Anh/chị chụp màn hình lỗi gửi em được không ạ — em xem sẽ nhanh hơn nhiều?'
+  },
+  {
+    it: 'scope affected',
+    keywords: ['isolated','widespread','chi minh bi','ca team bi','bao nhieu nguoi bi',
+               'scope','pham vi anh huong','mot nguoi hay nhieu nguoi',
+               'team affected','toan cong ty bi','bao nhieu nguoi gap'],
+    friendly: 'Chỉ mình anh/chị gặp hay cả team cũng bị ạ?'
+  },
+  {
+    it: 'affected dept',
+    keywords: ['affected dept','bo phan nao bi','phong ban anh huong','department',
+               'team nao bi loi','anh huong pham vi nao','bao nhieu bo phan',
+               'org impact','phong ban lien quan','cac phong nao bi anh huong'],
+    friendly: 'Vấn đề này đang ảnh hưởng đến bộ phận nào ạ?'
+  },
+  {
+    it: 'blocker',
+    keywords: ['blocker','workaround','van lam viec duoc khong','bi chan hoan toan',
+               'con lam duoc khong','khong dung duoc may','stuck','blocking work',
+               'lam viec binh thuong duoc khong','con dung may duoc khong'],
+    friendly: 'Hiện tại anh/chị vẫn làm việc được không hay đang bị chặn hoàn toàn ạ?'
+  },
+  {
+    it: 'hostname device',
+    keywords: ['hostname','may ten gi','phong nao tang may','computer name',
+               'device name','may o dau','tang nao phong nao','may nao',
+               'pc name','workstation','vi tri may','dia chi may'],
+    friendly: 'Máy anh/chị tên gì, ở phòng nào tầng mấy ạ?'
+  },
+  {
+    it: 'OS version',
+    keywords: ['os version','windows may','he dieu hanh','windows 10','windows 11',
+               'macos','version may','w10','w11','he thong may tinh',
+               'windows gi','dang chay windows nao'],
+    friendly: 'Máy đang dùng Windows mấy ạ?'
+  },
+  {
+    it: 'application',
+    keywords: ['application','phan mem','app','software','chuong trinh nao loi',
+               'phan mem gi','loi o phan mem nao','browser','office','program',
+               'he thong gi bi loi','ten phan mem'],
+    friendly: 'Phần mềm nào liên quan đến vấn đề này ạ?'
+  },
+  {
+    it: 'urgent priority',
+    keywords: ['urgent','priority','khan cap','gap','trong ngay','can xu ly ngay',
+               'uu tien cao','critical','emergency','high priority','ngay hom nay',
+               'can lam ngay','xu ly nhanh'],
+    friendly: 'Việc này cần xử lý trong ngày hay theo lịch bình thường được ạ?'
+  },
+
+  /* ── TRẠNG THÁI SỰ CỐ ── */
+  /* GOM: server down + bi loi dang fix loi he thong */
+  {
+    it: 'server down incident',
+    keywords: ['server down','he thong down','loi he thong','su co','incident',
+               'he thong bi loi','web khong vao duoc','app bi loi','dung hoat dong',
+               'outage','chet server','he thong gap su co'],
+    friendly: 'Hệ thống đang gặp sự cố, IT Team đang kiểm tra và sẽ cập nhật sớm nhất ạ.'
+  },
+  {
+    it: 'dang fix',
+    keywords: ['dang fix','dang xu ly','dang sua','fixing','in progress',
+               'dang kiem tra','cho xu ly','working on it','dang handle',
+               'dang check','cho em xiu','dang lo roi'],
+    friendly: 'IT Team đang xử lý rồi ạ, anh/chị chờ em một chút nhé.'
+  },
+  {
+    it: 'fix done',
+    keywords: ['fix done','sua xong','da fix','resolved','fixed','update xong',
+               'patch xong','deploy xong','release xong','kiem tra lai giup',
+               'da update','sua lai roi'],
+    friendly: 'Anh/chị kiểm tra lại giúp em được không ạ, em vừa cập nhật xong.'
+  },
+
+  /* ── TRẠNG THÁI TASK ── */
+  {
+    it: 'nhan yeu cau',
+    keywords: ['ok nhan roi','da nhan','received','confirmed','nhan ticket',
+               'nhan order','ghi nhan roi','da tiep nhan','roger','acknowledged',
+               'nhan duoc roi','ok received'],
+    friendly: 'Em nhận yêu cầu rồi ạ. Em sẽ phản hồi lại trước [giờ/ngày] nhé.'
+  },
+  {
+    it: 'dang lam tien do',
+    keywords: ['dang lam','in progress','sap xong','tien do','update tien do',
+               'dang o buoc nao','working on','progress update','status update',
+               'dang chay roi','dang xu ly task','bao tien do'],
+    friendly: 'Anh/chị ơi, [tên task] em đang làm rồi ạ, dự kiến xong [ngày].'
+  },
+  {
+    it: 'tre deadline',
+    keywords: ['tre','late','delay','cham','khong kip han','khong xong ung han',
+               'push deadline','xin them thoi gian','deadline lui','tre vai ngay',
+               'xin gia han','can them thoi gian'],
+    friendly: 'Anh/chị ơi, phần [X] cần thêm [số ngày] nữa ạ. Em sẽ xong trước [ngày mới].'
+  },
+  {
+    it: 'xong roi ban giao',
+    keywords: ['xong roi','done','hoan thanh','ban giao','delivery','complete',
+               'finished','xong task','nop hang','gui link','deploy xong',
+               'release done','gui file roi'],
+    friendly: 'Anh/chị ơi, [tên task] xong rồi ạ. [Link/file]. Anh/chị xem thử nhé.'
+  },
+  {
+    it: 'khong lam duoc',
+    keywords: ['khong lam duoc','reject','tu choi','out of scope','khong the',
+               'ngoai kha nang','chuyen sang bo phan khac','escalate','khong support',
+               'vuot qua kha nang','khong xu ly duoc','khong trong pham vi'],
+    friendly: 'Anh/chị ơi, phần này team em chưa xử lý được ạ. Anh/chị thử liên hệ [bộ phận/người] xem ạ.'
+  },
+  {
+    it: 'can them thong tin',
+    keywords: ['can them info','them thong tin','missing info','thieu thong tin',
+               'chua du thong tin','can cung cap them','provide more info',
+               'clarification','cung cap chi tiet','bo sung thong tin','info request'],
+    friendly: 'Anh/chị bổ sung thêm thông tin giúp em được không ạ?'
+  },
+
+  /* ── MỚI: TỪ GUIDE — LÝ DO TRỄ ── */
+  {
+    it: 'requirement unclear',
+    keywords: ['requirement khong ro','redo','hieu sai y','lam lai','misunderstood',
+               'chua hieu dung','khong ro yeu cau','lam lai tu dau','chua dung y',
+               'phai viet lai','misunderstanding','hieu nham yeu cau'],
+    friendly: 'Lúc đầu thông tin chưa đủ nên em hiểu chưa đúng ý anh/chị, phần này em cần làm lại từ đầu ạ.'
+  },
+  {
+    it: 'requirement changed',
+    keywords: ['requirement thay doi','change request','doi yeu cau','scope change',
+               'thay doi giua chung','yeu cau moi','revised spec','change spec',
+               'doi noi dung','them yeu cau moi','scope creep','yeu cau thay doi'],
+    friendly: 'Yêu cầu có thay đổi so với ban đầu nên em cần thêm thời gian để điều chỉnh cho đúng ạ.'
+  },
+  {
+    it: 'cho khach approve',
+    keywords: ['cho approve','cho feedback','waiting feedback','pending approval',
+               'cho confirm','cho xac nhan','chua duyet','waiting client',
+               'pending review','cho phan hoi','chua co duyet','block boi khach'],
+    friendly: 'Em đang chờ anh/chị xác nhận phần [X] để tiếp tục ạ — khi nào anh/chị confirm em làm ngay.'
+  },
+  {
+    it: 'bug phuc tap',
+    keywords: ['bug phuc tap','phuc tap hon du kien','harder than expected','mat nhieu thoi gian',
+               'complex bug','kho hon tuong','edge case','unexpected complexity',
+               'bug sau hon','fix lau hon','bug kho hon nghi'],
+    friendly: 'Khi làm đến phần này em phát hiện lỗi phức tạp hơn ban đầu, cần thêm thời gian xử lý cho đúng ạ.'
+  },
+  {
+    it: 'team overload',
+    keywords: ['overload','nhieu viec qua','ban qua','too many tasks','backlog lon',
+               'prioritize','xep uu tien lai','capacity','resource limited',
+               'team busy','nhieu task cung luc','qua tai'],
+    friendly: 'Tuần này team IT đang có nhiều việc cùng lúc, em cần sắp xếp lại thứ tự ưu tiên ạ — task của anh/chị dự kiến xong [ngày].'
+  },
+  {
+    it: 'estimate sai',
+    keywords: ['estimate sai','tinh thieu gio','danh gia sai','estimation wrong',
+               'under estimate','sai thoi gian','oc tinh thieu','wrong estimate',
+               'tinh thieu','sai so voi du kien','du kien sai'],
+    friendly: 'Lúc đầu em đánh giá task này nhanh hơn thực tế, xin lỗi anh/chị vì điều này ạ.'
+  },
+  {
+    it: 'blocked dependency',
+    keywords: ['blocked','dependency','phu thuoc task khac','cho task khac',
+               'chua lam duoc vi phan kia','waiting dependency','block boi phan khac',
+               'blocking task','phan nay can phan kia xong','chain dependency'],
+    friendly: 'Phần này cần chờ phần [X] hoàn thành trước mới làm được ạ — em đang đẩy nhanh phần đó ạ.'
+  }
+];
+
+/* Bảng chuyển đổi dấu tiếng Việt sang không dấu */
+var VI_MAP = [
+  [/[àáạảãâầấậẩẫăằắặẳẵ]/g,'a'],[/[èéẹẻẽêềếệểễ]/g,'e'],
+  [/[ìíịỉĩ]/g,'i'],[/[òóọỏõôồốộổỗơờớợởỡ]/g,'o'],
+  [/[ùúụủũưừứựửữ]/g,'u'],[/[ỳýỵỷỹ]/g,'y'],[/đ/g,'d'],
+  [/[ÀÁẠẢÃÂẦẤẬẨẪĂẰẮẶẲẴ]/g,'a'],[/[ÈÉẸẺẼÊỀẾỆỂỄ]/g,'e'],
+  [/[ÌÍỊỈĨ]/g,'i'],[/[ÒÓỌỎÕÔỒỐỘỔỖƠỜỚỢỞỠ]/g,'o'],
+  [/[ÙÚỤỦŨƯỪỨỰỬỮ]/g,'u'],[/[ỲÝỴỶỸ]/g,'y'],[/Đ/g,'d']
+];
+
+/* Bỏ dấu tiếng Việt, lowercase, xóa ký tự đặc biệt */
+function itNormalize(str) {
+  var s = str.toLowerCase();
+  VI_MAP.forEach(function(p){ s = s.replace(p[0], p[1]); });
+  return s.replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, ' ').trim();
+}
+
+/* Đếm từ input khớp với keywords[] — gộp tất cả keywords thành 1 chuỗi tìm kiếm */
+function itScoreMatch(inputWords, keywords) {
+  var space = itNormalize(keywords.join(' '));
+  var score = 0;
+  inputWords.forEach(function(w){ if (space.indexOf(w) !== -1) score++; });
+  return score;
+}
+
+/* Tìm câu thân thiện tốt nhất — trả null nếu không đủ điểm */
+function itTranslate(rawInput) {
+  var words = itNormalize(rawInput).split(' ').filter(function(w){ return w.length > 1; });
+  var best = null, bestScore = 0;
+  GUIDE_DATA.forEach(function(item) {
+    var score = itScoreMatch(words, item.keywords);
+    if (score > bestScore) { bestScore = score; best = item.friendly; }
+  });
+  return bestScore >= 1 ? best : null;
+}
+
+/* Biến lưu timer debounce */
+var _itDebounce = null;
+
+/* Gán listener sau khi DOM sẵn sàng */
+document.addEventListener('DOMContentLoaded', function() {
+  var box  = document.getElementById('tdTgCompose');
+  var wrap = document.getElementById('tgSuggest');
+  var txt  = document.getElementById('tgSuggestTxt');
+  if (!box) return;
+
+  box.addEventListener('input', function() {
+    clearTimeout(_itDebounce);
+    _itDebounce = setTimeout(function() {
+      var val = box.value.trim();
+
+      /* Xóa hết chữ → ẩn gợi ý */
+      if (!val) { wrap.style.display = 'none'; return; }
+
+      var result = itTranslate(val);
+      if (result) {
+        txt.textContent = result;
+        wrap.style.display = 'block';
+      } else {
+        wrap.style.display = 'none';
+      }
+    }, 400); /* debounce 400ms — tránh chạy mỗi lần gõ phím */
+  });
+});
+
+/* Click vào gợi ý → điền vào ô soạn thảo, ẩn suggestion */
+function itApplySuggest() {
+  var box  = document.getElementById('tdTgCompose');
+  var wrap = document.getElementById('tgSuggest');
+  var txt  = document.getElementById('tgSuggestTxt');
+  if (!box || !txt) return;
+  box.value = txt.textContent;
+  wrap.style.display = 'none';
+  box.focus();
+}
 
 </script>
 </body>
