@@ -105,7 +105,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 
 /* FEED */
 .feed-wrap{padding:12px 15px;max-width:700px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:11px}
-.post{border-radius:16px;overflow:hidden;box-shadow:0 2px 10px rgba(44,31,14,.07);transition:transform .2s,box-shadow .2s;border:2.5px solid}
+.post{border-radius:16px;overflow:visible;box-shadow:0 2px 10px rgba(44,31,14,.07);transition:transform .2s,box-shadow .2s;border:2.5px solid;position:relative}
 .post:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(44,31,14,.11)}
 .post.pending{border-color:var(--terra)}
 .post.done{border-color:var(--forest)}
@@ -114,6 +114,29 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 .post.done .post-hbar{background:var(--forest);color:rgba(255,255,255,.92)}
 .post-hbar i{font-size:13px;flex-shrink:0}
 .hbar-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+
+/* ── POST CONFLICT BADGE "!" ── */
+.post-conflict-badge{position:absolute;top:-10px;right:14px;z-index:20;display:none;align-items:flex-end;gap:3px;cursor:pointer}
+.post-conflict-badge.show{display:flex}
+.pcb-mark{display:flex;flex-direction:column;align-items:center;gap:2px}
+.pcb-bar{background:#991111;border:2.5px solid #fff;border-radius:3px 3px 2px 2px;box-shadow:2px 2px 0 rgba(0,0,0,.32)}
+.pcb-dot{background:#991111;border:2.5px solid #fff;border-radius:2px;box-shadow:1px 1px 0 rgba(0,0,0,.32)}
+.pcb-mark.lg .pcb-bar{width:11px;height:30px}
+.pcb-mark.lg .pcb-dot{width:11px;height:11px}
+.pcb-mark.sm .pcb-bar{width:8px;height:21px}
+.pcb-mark.sm .pcb-dot{width:8px;height:8px}
+@keyframes pcbPulse{0%,100%{transform:translateY(0)}40%{transform:translateY(-3px)}70%{transform:translateY(-1px)}}
+.post-conflict-badge.show{animation:pcbPulse 1.8s ease infinite}
+/* conflict tooltip */
+.pcb-tip{position:absolute;top:calc(100% + 10px);right:0;width:250px;background:#fff;border:2px solid #991111;border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.18);padding:12px 14px;z-index:30;display:none}
+.pcb-tip.show{display:block;animation:pop-in .2s ease}
+.pcb-tip-title{font-size:12px;font-weight:800;color:#7A0000;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.pcb-tip-row{display:flex;gap:6px;margin-bottom:5px;font-size:11px;line-height:1.4}
+.pcb-tip-ico{flex-shrink:0;margin-top:1px}
+.pcb-tip-txt{color:#333;font-weight:600}
+.pcb-tip-txt b{color:#991111}
+.pcb-tip-close{margin-top:8px;font-size:10px;color:#999;text-align:right;cursor:pointer;font-weight:700}
+.pcb-tip-close:hover{color:#991111}
 .ship-btn{flex-shrink:0;background:rgba(255,255,255,.22);border:1.5px solid rgba(255,255,255,.42);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;color:#fff;cursor:pointer;display:none;align-items:center;gap:3px;font-family:var(--f);transition:all .17s;white-space:nowrap}
 .ship-btn.vis{display:flex;animation:pulse-s 2.2s infinite}
 @keyframes pulse-s{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.28)}55%{box-shadow:0 0 0 4px rgba(255,255,255,0)}}
@@ -1087,6 +1110,12 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
       <div class="feed-wrap" id="feedWrap">
         <!-- POST 1 — READY TO SHIP -->
         <div class="post done" id="post-1">
+          <div class="post-conflict-badge" id="pcb-1" onclick="toggleConflictTip(1,event)">
+            <div class="pcb-mark sm"><div class="pcb-bar"></div><div class="pcb-dot"></div></div>
+            <div class="pcb-mark lg"><div class="pcb-bar"></div><div class="pcb-dot"></div></div>
+            <div class="pcb-mark sm"><div class="pcb-bar"></div><div class="pcb-dot"></div></div>
+            <div class="pcb-tip" id="pcb-tip-1"></div>
+          </div>
           <div class="post-hbar"><i class="ti ti-circle-check"></i><span class="hbar-text">Đã review & done xong — sẵn sàng ship!</span><div class="ship-btn vis" onclick="doShip(1)"><i class="ti ti-rocket"></i> Ship</div><div class="save-cs-btn" id="scs-1" onclick="saveCS(1)"><i class="ti ti-archive"></i> Lưu CS</div></div>
           <div class="post-body">
             <div class="post-auth"><div class="post-av" style="background:linear-gradient(135deg,#2E4A38,#4A6E56)">ĐH</div><div><div class="post-aname">Đức Hiếu</div><div class="post-astatus">hoàn thành task trong <strong>hứng khởi</strong> 🔥 · 2 giờ trước</div></div></div>
@@ -1137,6 +1166,12 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
         </div>
         <!-- POST 3 PENDING 0 reviews -->
         <div class="post pending" id="post-3">
+          <div class="post-conflict-badge" id="pcb-3" onclick="toggleConflictTip(3,event)">
+            <div class="pcb-mark sm"><div class="pcb-bar"></div><div class="pcb-dot"></div></div>
+            <div class="pcb-mark lg"><div class="pcb-bar"></div><div class="pcb-dot"></div></div>
+            <div class="pcb-mark sm"><div class="pcb-bar"></div><div class="pcb-dot"></div></div>
+            <div class="pcb-tip" id="pcb-tip-3"></div>
+          </div>
           <div class="post-hbar"><i class="ti ti-clock"></i><span class="hbar-text">Chờ review — cần 2 reviews</span><div class="ship-btn" id="ship-3" onclick="doShip(3)"><i class="ti ti-rocket"></i> Ship</div><div class="save-cs-btn" id="scs-3" onclick="saveCS(3)"><i class="ti ti-archive"></i> Lưu CS</div></div>
           <div class="post-body">
             <div class="post-auth"><div class="post-av" style="background:linear-gradient(135deg,#2E4A38,#4A6E56)">PK</div><div><div class="post-aname">Phúc Khang</div><div class="post-astatus">hoàn thành task trong <strong>bình thản như Thái Sơn</strong> 😌 · 5 giờ trước</div></div></div>
@@ -2165,6 +2200,12 @@ function submitPost() {
 
   var html =
     '<div class="post pending" id="post-'+pid+'" style="animation:pop-in .35s ease">' +
+      '<div class="post-conflict-badge" id="pcb-'+pid+'" onclick="toggleConflictTip('+pid+',event)">' +
+        '<div class="pcb-mark sm"><div class="pcb-bar"></div><div class="pcb-dot"></div></div>' +
+        '<div class="pcb-mark lg"><div class="pcb-bar"></div><div class="pcb-dot"></div></div>' +
+        '<div class="pcb-mark sm"><div class="pcb-bar"></div><div class="pcb-dot"></div></div>' +
+        '<div class="pcb-tip" id="pcb-tip-'+pid+'"></div>' +
+      '</div>' +
       '<div class="post-hbar"><i class="ti ti-clock"></i><span class="hbar-text">Chờ review — cần 2 reviews</span>' +
         '<div class="ship-btn" id="ship-'+pid+'" onclick="doShip('+pid+')"><i class="ti ti-rocket"></i> Ship</div>' +
         '<div class="save-cs-btn" id="scs-'+pid+'" onclick="saveCS('+pid+')"><i class="ti ti-archive"></i> Lưu CS</div></div>' +
@@ -2293,6 +2334,10 @@ function submitCmt(pid, tid) {
   list.appendChild(cmtDiv);
   ta.value = '';
   document.getElementById('cwc-'+pid) && (document.getElementById('cwc-'+pid).textContent = '0/20 từ');
+
+  /* Kiểm tra xung đột checklist — phát hiện tester báo lỗi trùng item đã tick */
+  var isQA = badge.indexOf('Tester') !== -1 || badge.indexOf('QA') !== -1;
+  checkConflictOnSubmit(pid, ta.value || cmtDiv.querySelector('.cmt-text').textContent, myName, isQA);
 
   updatePostStatus(pid);
   showToast('💬 Review gửi rồi! Post author hãy tick Done khi sửa xong nhé!');
@@ -2969,6 +3014,126 @@ function notifyGao(msg) {
   addNotif(msg);
 }
 
+/* ── CHECKLIST CONFLICT DETECTION ── */
+
+/* Map post → task ID (dùng để tra checklist của task khi reviewer gửi comment) */
+var POST_TASK_MAP = { '1':'TASK-042', '2':'TASK-038', '3':'TASK-051' };
+/* Map task → post (dùng khi tick checklist để kiểm tra ngược lại) */
+var TASK_POST_MAP = { 'TASK-042':'1', 'TASK-051':'3' };
+
+/* Từ khóa lỗi — tiếng Việt + English */
+var CONFLICT_ERR_KEYS = [
+  'lỗi','bug','error','fail','không hoạt động','vẫn bị','sai','crash',
+  'chưa fix','còn lỗi','không pass','không đúng','bị lỗi','báo lỗi',
+  'exception','không chạy','không work','thất bại','broken','incorrect',
+  'vẫn lỗi','phát hiện lỗi','test fail','không đúng','chưa hoạt động'
+];
+
+/* Lưu thông tin conflict của từng post để hiển thị tooltip */
+var _conflictData = {};
+
+function _extractWords(text) {
+  return text.toLowerCase().split(/[\s\-\→\/\.,:;]+/).filter(function(w){ return w.length > 3; });
+}
+
+/* Kiểm tra comment có error keyword không */
+function _hasErrorKeyword(text) {
+  var lower = text.toLowerCase();
+  return CONFLICT_ERR_KEYS.filter(function(k){ return lower.indexOf(k) !== -1; });
+}
+
+/* Tìm checklist items đã done bị trùng với nội dung comment lỗi */
+function _findConflictItems(taskId, cmtText) {
+  var t = (typeof TD_DATA !== 'undefined') && TD_DATA[taskId];
+  if (!t || !t.checklist) return [];
+  var doneItems = t.checklist.filter(function(c){ return c.done; });
+  if (!doneItems.length) return [];
+  var cmtWords = _extractWords(cmtText);
+  return doneItems.filter(function(item) {
+    var itemWords = _extractWords(item.text);
+    return itemWords.some(function(iw){ return cmtWords.indexOf(iw) !== -1; });
+  });
+}
+
+/* Gọi từ submitCmt() sau khi tester/reviewer gửi comment */
+function checkConflictOnSubmit(pid, cmtText, reviewerName, isQA) {
+  var taskId = POST_TASK_MAP[String(pid)];
+  if (!taskId) return;
+  var errKeys = _hasErrorKeyword(cmtText);
+  if (!errKeys.length) return;
+  var conflicted = _findConflictItems(taskId, cmtText);
+  /* Nếu là QA/Tester gặp lỗi mà task có item đã tick → cảnh báo luôn */
+  var t = (typeof TD_DATA !== 'undefined') && TD_DATA[taskId];
+  var doneItems = t ? t.checklist.filter(function(c){ return c.done; }) : [];
+  if (!conflicted.length && !(isQA && doneItems.length)) return;
+  var items = conflicted.length ? conflicted : doneItems.slice(0, 2);
+  _conflictData[pid] = {
+    reviewer: reviewerName,
+    errors: errKeys.slice(0, 3),
+    items: items.map(function(i){ return i.text; })
+  };
+  showConflictBadge(pid);
+}
+
+/* Gọi từ toggleTdClCard() khi tick thêm item → kiểm tra post liên quan */
+function checkConflictOnChecklistTick(taskId) {
+  var pid = TASK_POST_MAP[taskId];
+  if (!pid) return;
+  /* Quét comments hiện có trong post tìm error keyword */
+  var cmtList = document.getElementById('clist-' + pid);
+  if (!cmtList) return;
+  var cmtEls = cmtList.querySelectorAll('.cmt-text');
+  cmtEls.forEach(function(el) {
+    var text = el.textContent || '';
+    var nameEl = el.closest('.cmt-bub') && el.closest('.cmt-bub').querySelector('.cmt-name');
+    var reviewer = nameEl ? nameEl.textContent.split('\n')[0].trim() : 'Reviewer';
+    var isQA = nameEl && (nameEl.textContent.indexOf('Tester') !== -1 || nameEl.textContent.indexOf('QA') !== -1);
+    checkConflictOnSubmit(pid, text, reviewer, isQA);
+  });
+}
+
+function showConflictBadge(pid) {
+  var badge = document.getElementById('pcb-' + pid);
+  if (badge) badge.classList.add('show');
+}
+
+function clearConflictBadge(pid) {
+  var badge = document.getElementById('pcb-' + pid);
+  if (badge) badge.classList.remove('show');
+  delete _conflictData[pid];
+}
+
+function toggleConflictTip(pid, e) {
+  if (e) e.stopPropagation();
+  var tip = document.getElementById('pcb-tip-' + pid);
+  if (!tip) return;
+  var isOpen = tip.classList.contains('show');
+  /* Đóng tất cả tooltip đang mở */
+  document.querySelectorAll('.pcb-tip.show').forEach(function(t){ t.classList.remove('show'); });
+  if (isOpen) return;
+  var info = _conflictData[pid];
+  if (!info) return;
+  var itemsHtml = info.items.map(function(txt) {
+    return '<div class="pcb-tip-row"><span class="pcb-tip-ico">✅</span>' +
+           '<span class="pcb-tip-txt">Đã tick: <b>' + txt + '</b></span></div>';
+  }).join('');
+  tip.innerHTML =
+    '<div class="pcb-tip-title">⚠ Xung đột checklist phát hiện!</div>' +
+    '<div class="pcb-tip-row"><span class="pcb-tip-ico">🔍</span>' +
+    '<span class="pcb-tip-txt">Tester <b>' + info.reviewer + '</b> báo lỗi: ' +
+    '<b>' + info.errors.join(', ') + '</b></span></div>' +
+    itemsHtml +
+    '<div style="font-size:10px;color:#991111;margin-top:6px;font-weight:700">' +
+    '⚡ Các mục này có thể được tick mà chưa thực sự kiểm tra!</div>' +
+    '<div class="pcb-tip-close" onclick="toggleConflictTip(' + pid + ',event)">✕ Đóng</div>';
+  tip.classList.add('show');
+}
+
+/* Đóng tooltip khi click ra ngoài */
+document.addEventListener('click', function() {
+  document.querySelectorAll('.pcb-tip.show').forEach(function(t){ t.classList.remove('show'); });
+});
+
 /* ── INIT ── */
 renderMoodSwitches();
 renderOb();
@@ -3352,6 +3517,8 @@ function toggleTdClCard(taskId, idx, cardEl) {
   var bar = document.getElementById('clBar');
   if(counter) counter.textContent = done+'/'+total+' ('+pct+'%)';
   if(bar) bar.style.width = pct+'%';
+  /* Khi tick thêm item, kiểm tra ngược lại xem post có comment lỗi không */
+  if (t.checklist[idx].done) checkConflictOnChecklistTick(taskId);
 }
 
 function toggleDeployLayer(li) {
