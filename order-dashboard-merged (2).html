@@ -438,6 +438,46 @@ body::before{
 .proj-modal-sub{font-size:12px;color:var(--text-muted);margin-bottom:14px}
 .proj-modal-close{position:absolute;top:16px;right:18px;width:28px;height:28px;border-radius:50%;border:none;background:var(--bg);cursor:pointer;font-size:14px;color:var(--text-mid);display:flex;align-items:center;justify-content:center}
 .proj-modal-close:hover{background:var(--border)}
+/* Notification dropdown */
+.notif-wrap{position:relative}
+.notif-panel{position:absolute;top:calc(100% + 8px);right:0;width:310px;background:#fff;border-radius:14px;border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,.13);z-index:900;overflow:hidden;display:none}
+.notif-panel.open{display:block;animation:npFd .18s ease}
+@keyframes npFd{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.notif-panel-hd{padding:11px 16px 9px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;justify-content:space-between}
+.notif-panel-title{font-size:13px;font-weight:700;color:var(--text)}
+.notif-panel-all{font-size:11px;color:#5B4FE8;font-weight:600;cursor:pointer}
+.notif-it{display:flex;gap:10px;padding:11px 16px;cursor:pointer;transition:background .15s;border-bottom:1px solid var(--border-soft)}
+.notif-it:hover{background:var(--bg)}
+.notif-it.unread{border-left:3px solid #22C55E;padding-left:13px}
+.notif-it-dot{width:7px;height:7px;border-radius:50%;background:#22C55E;flex-shrink:0;margin-top:5px}
+.notif-it-body{flex:1}
+.notif-it-title{font-size:12px;font-weight:600;color:var(--text);line-height:1.45;margin-bottom:2px}
+.notif-it-sub{font-size:11px;color:var(--text-muted);margin-bottom:3px}
+.notif-it-cta{font-size:11px;color:#5B4FE8;font-weight:700}
+.notif-it-time{font-size:10px;color:var(--text-faint)}
+/* QA Checklist inside proj modal */
+.pm-qa-section{margin-bottom:20px}
+.pm-qa-group{margin-bottom:13px}
+.pm-qa-group-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
+.pm-qa-group-nm{font-size:10.5px;font-weight:700;color:var(--text-faint);text-transform:uppercase;letter-spacing:.5px}
+.pm-qa-badge{font-size:9px;padding:2px 8px;border-radius:20px;font-weight:800}
+.pm-qa-badge.hard{background:#FEE2E2;color:#DC2626}
+.pm-qa-badge.soft{background:#D1FAE5;color:#065F46}
+.pm-qa-item{display:flex;align-items:flex-start;gap:9px;padding:8px 10px;background:#F8FAFC;border-radius:8px;margin-bottom:5px;cursor:pointer;transition:all .15s;border:1.5px solid transparent}
+.pm-qa-item:hover{background:#F1F5F9}
+.pm-qa-item.chk{background:#F0FDF4;border-color:#86EFAC}
+.pm-qa-box{width:17px;height:17px;border:2px solid #CBD5E1;border-radius:4px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:transparent;transition:all .15s}
+.pm-qa-item.chk .pm-qa-box{background:#22C55E;border-color:#22C55E;color:#fff}
+.pm-qa-txt{font-size:12px;color:var(--text);line-height:1.45;flex:1}
+.pm-qa-prog-row{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#F8FAFC;border-radius:8px;margin-top:6px}
+.pm-qa-prog-bar{flex:1;height:5px;background:#E2E8F0;border-radius:3px;overflow:hidden}
+.pm-qa-prog-fill{height:100%;background:#22C55E;border-radius:3px;transition:width .3s}
+.pm-qa-prog-lbl{font-size:11px;font-weight:700;color:var(--text-muted);white-space:nowrap}
+/* Complete button */
+.pm-complete-btn{width:100%;padding:12px;border-radius:10px;border:none;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.2px;margin-top:2px}
+.pm-complete-btn.active-btn{background:#22C55E;color:#fff;box-shadow:0 4px 14px rgba(34,197,94,.28)}
+.pm-complete-btn.active-btn:hover{background:#16A34A;transform:translateY(-1px)}
+.pm-complete-btn.disabled-btn{background:#F1F5F9;color:#94A3B8;cursor:not-allowed}
 .proj-modal-body{padding:18px 22px 24px;flex:1;overflow-y:auto}
 .pm-chat-footer{border-top:1px solid var(--border);flex-shrink:0;background:#fff}
 .pm-chat-hd{padding:10px 22px 6px;display:flex;align-items:center;gap:6px}
@@ -530,10 +570,27 @@ body::before{
         </div>
       </div>
     </div>
-    <button class="notif-btn">
-      <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-      <div class="notif-badge">3</div>
-    </button>
+    <div class="notif-wrap">
+      <button class="notif-btn" id="notifBtn" onclick="toggleNotifPanel()">
+        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <div class="notif-badge" id="notifBadge">1</div>
+      </button>
+      <div class="notif-panel" id="notifPanel">
+        <div class="notif-panel-hd">
+          <span class="notif-panel-title">🔔 Thông báo</span>
+          <span class="notif-panel-all" onclick="document.getElementById('notifPanel').classList.remove('open')">Đóng</span>
+        </div>
+        <div class="notif-it unread" id="notif-ship-042" onclick="handleNotifShip()">
+          <div class="notif-it-dot"></div>
+          <div class="notif-it-body">
+            <div class="notif-it-title">✅ <b>TASK-042: Fix JWT Auth Bug</b> đã được ship!</div>
+            <div class="notif-it-sub">IT Team đã hoàn thành và ship tính năng. Bạn vui lòng kiểm tra và nghiệm thu.</div>
+            <div class="notif-it-cta">👁 Bấm để xem chi tiết &amp; nghiệm thu →</div>
+          </div>
+          <div class="notif-it-time">Vừa xong</div>
+        </div>
+      </div>
+    </div>
     <button class="btn-create" onclick="openPick()">
       <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       Tạo order
@@ -3230,6 +3287,13 @@ function projClickGuard(el, state) {
           </div>
         </div>
       </div>
+      <div id="pmQASection" style="display:none">
+        <div class="pm-label" style="margin-bottom:10px">📋 Nghiệm thu sản phẩm</div>
+        <div id="pmQABody"></div>
+        <button class="pm-complete-btn disabled-btn" id="pmCompleteBtn"
+          title="Vui lòng kiểm tra đủ các mục bắt buộc trước"
+          onclick="completeProjOrder()">Hoàn thành</button>
+      </div>
     </div>
     <div class="pm-chat-footer">
       <div class="pm-chat-hd">
@@ -3321,12 +3385,12 @@ var MOCK_PROJ_ORDERS = [
     status:'approved', priority:'cool',
     proj:'nhile', projName:'NhiLe Platform v2',
     deadline:'10/06/2026', submittedAt:'20/05/2026',
-    approvedAt:'24/05/2026', taskId:'TASK-051', progress:33,
+    approvedAt:'24/05/2026', taskId:'TASK-042', progress:80,
     stages:[
       {name:'Phân tích & Scope',status:'done'},
       {name:'Thiết kế UI',status:'done'},
-      {name:'Implement',status:'active'},
-      {name:'QA & Test',status:'todo'},
+      {name:'Implement',status:'done'},
+      {name:'QA & Test',status:'active'},
       {name:'Deploy',status:'todo'}
     ]
   }
@@ -3339,7 +3403,7 @@ function saveOrders(orders) {
   try { localStorage.setItem(LS_ORDERS,JSON.stringify(orders)); } catch(e){}
 }
 
-var ORDERS_VERSION = 'v2';
+var ORDERS_VERSION = 'v3';
 function initOrders() {
   var orders = getOrders();
   /* Reset mock data if version mismatch — but preserve user-submitted orders */
@@ -3449,6 +3513,14 @@ function openProjDetail(orderId) {
     tlHtml+='<div class="pm-tl-meta">'+meta+'</div></div></div>';
   });
   document.getElementById('pmTimeline').innerHTML=tlHtml;
+  /* QA checklist */
+  var qaSection = document.getElementById('pmQASection');
+  if (isQAStage(o)) {
+    qaSection.style.display = '';
+    renderQABody(orderId);
+  } else {
+    qaSection.style.display = 'none';
+  }
   _activeProjId = orderId;
   renderProjMsgs(orderId);
   document.getElementById('projDetailOverlay').classList.add('open');
@@ -3462,6 +3534,132 @@ function closeProjDetail(e) {
 function closeProjDetailBtn() {
   document.getElementById('projDetailOverlay').classList.remove('open');
   document.body.style.overflow='';
+}
+
+/* ── NOTIFICATION PANEL ── */
+function toggleNotifPanel() {
+  document.getElementById('notifPanel').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  var btn = document.getElementById('notifBtn');
+  var panel = document.getElementById('notifPanel');
+  if (panel && panel.classList.contains('open') && btn &&
+      !btn.contains(e.target) && !panel.contains(e.target)) {
+    panel.classList.remove('open');
+  }
+});
+function handleNotifShip() {
+  document.getElementById('notifPanel').classList.remove('open');
+  var notifEl = document.getElementById('notif-ship-042');
+  if (notifEl) notifEl.classList.remove('unread');
+  var badge = document.getElementById('notifBadge');
+  if (badge) badge.style.display = 'none';
+  openProjDetail('ORDER-003');
+}
+
+/* ── QA CHECKLIST ── */
+var QA_CHECKLIST = {
+  a: [
+    { id:'a1', text:'Các chỉ số KPI hiển thị đúng số liệu thực tế (doanh thu, tiến độ, nhân sự)' },
+    { id:'a2', text:'Bộ lọc theo thời gian (ngày / tuần / tháng / quý) hoạt động chính xác' },
+    { id:'a3', text:'Biểu đồ cập nhật đúng chu kỳ đã thống nhất với IT Team' },
+    { id:'a4', text:'Phân quyền xem đúng — leader thấy toàn bộ, member chỉ thấy dữ liệu của mình' },
+    { id:'a5', text:'Xuất báo cáo (PDF / Excel) ra đúng định dạng, đủ dữ liệu cần thiết' }
+  ],
+  b: [
+    { id:'b1', text:'Giao diện trực quan, dễ đọc số liệu ngay ở cái nhìn đầu tiên' },
+    { id:'b2', text:'Tốc độ tải dashboard dưới 3 giây với dữ liệu thực tế' },
+    { id:'b3', text:'Hiển thị đẹp trên màn hình lớn (desktop) và tablet' },
+    { id:'b4', text:'Màu sắc KPI rõ ràng, phân biệt được trạng thái tốt / cần cải thiện' }
+  ]
+};
+var _qaChecked = {};
+
+function isQAStage(o) {
+  return o && (o.stages||[]).some(function(s){ return s.name==='QA & Test' && s.status==='active'; });
+}
+
+function renderQABody(orderId) {
+  var checked = _qaChecked[orderId] || {};
+  var aAll = QA_CHECKLIST.a.every(function(i){ return checked[i.id]; });
+  var total = QA_CHECKLIST.a.length + QA_CHECKLIST.b.length;
+  var done  = Object.keys(checked).filter(function(k){ return checked[k]; }).length;
+  var pct   = Math.round(done / total * 100);
+  var html  = '';
+
+  /* Group A */
+  html += '<div class="pm-qa-group">';
+  html += '<div class="pm-qa-group-hd"><span class="pm-qa-group-nm">Tính năng hoạt động đúng</span><span class="pm-qa-badge hard">Bắt buộc ✓</span></div>';
+  QA_CHECKLIST.a.forEach(function(item) {
+    var c = checked[item.id] ? ' chk' : '';
+    html += '<div class="pm-qa-item'+c+'" onclick="toggleQAItem(\''+orderId+'\',\''+item.id+'\')">';
+    html += '<div class="pm-qa-box">'+(checked[item.id]?'✓':'')+'</div>';
+    html += '<div class="pm-qa-txt">'+item.text+'</div></div>';
+  });
+  html += '</div>';
+
+  /* Group B */
+  html += '<div class="pm-qa-group">';
+  html += '<div class="pm-qa-group-hd"><span class="pm-qa-group-nm">Trải nghiệm & giao diện</span><span class="pm-qa-badge soft">Khuyến khích</span></div>';
+  QA_CHECKLIST.b.forEach(function(item) {
+    var c = checked[item.id] ? ' chk' : '';
+    html += '<div class="pm-qa-item'+c+'" onclick="toggleQAItem(\''+orderId+'\',\''+item.id+'\')">';
+    html += '<div class="pm-qa-box">'+(checked[item.id]?'✓':'')+'</div>';
+    html += '<div class="pm-qa-txt">'+item.text+'</div></div>';
+  });
+  html += '</div>';
+
+  /* Progress bar */
+  html += '<div class="pm-qa-prog-row"><div class="pm-qa-prog-bar"><div class="pm-qa-prog-fill" style="width:'+pct+'%"></div></div>';
+  html += '<span class="pm-qa-prog-lbl">'+done+'/'+total+' mục</span></div>';
+
+  document.getElementById('pmQABody').innerHTML = html;
+
+  /* Toggle complete button state */
+  var btn = document.getElementById('pmCompleteBtn');
+  if (btn) {
+    if (aAll) {
+      btn.className = 'pm-complete-btn active-btn';
+      btn.textContent = '✓ Xác nhận hoàn thành';
+      btn.removeAttribute('title');
+    } else {
+      btn.className = 'pm-complete-btn disabled-btn';
+      btn.textContent = 'Hoàn thành';
+      btn.title = 'Vui lòng kiểm tra đủ các mục bắt buộc trước';
+    }
+  }
+}
+
+function toggleQAItem(orderId, itemId) {
+  if (!_qaChecked[orderId]) _qaChecked[orderId] = {};
+  _qaChecked[orderId][itemId] = !_qaChecked[orderId][itemId];
+  renderQABody(orderId);
+}
+
+function completeProjOrder() {
+  var btn = document.getElementById('pmCompleteBtn');
+  if (!btn || !btn.classList.contains('active-btn')) return;
+  var orderId = _activeProjId;
+  var orders = getOrders();
+  var o = orders && orders.find(function(x){ return x.id === orderId; });
+  if (!o) return;
+  (o.stages||[]).forEach(function(s){ s.status = 'done'; });
+  o.progress = 100;
+  o.status = 'done';
+  saveOrders(orders);
+  /* Update modal UI */
+  document.getElementById('pmProgress').textContent = '100%';
+  document.getElementById('pmProgFill').style.width = '100%';
+  var tlHtml = '';
+  (o.stages||[]).forEach(function(s) {
+    tlHtml += '<div class="pm-tl-item"><div class="pm-tl-dot done">✓</div>';
+    tlHtml += '<div class="pm-tl-content"><div class="pm-tl-name">'+s.name+'</div>';
+    tlHtml += '<div class="pm-tl-meta">Đã hoàn thành</div></div></div>';
+  });
+  document.getElementById('pmTimeline').innerHTML = tlHtml;
+  document.getElementById('pmQASection').style.display = 'none';
+  showOrderToast('🎉 Nghiệm thu hoàn tất! Cảm ơn bạn đã xác nhận.');
+  renderOrders();
 }
 
 var _projChatStore = {};
