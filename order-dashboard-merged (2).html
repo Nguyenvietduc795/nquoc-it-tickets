@@ -432,13 +432,29 @@ body::before{
 .proj-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
 .proj-modal-overlay.open{display:flex;animation:fadeIn .2s ease}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.proj-modal{background:#fff;border-radius:18px;width:100%;max-width:560px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.18)}
-.proj-modal-hd{padding:20px 22px 0;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:1}
+.proj-modal{background:#fff;border-radius:18px;width:100%;max-width:560px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.18);display:flex;flex-direction:column}
+.proj-modal-hd{padding:20px 22px 0;border-bottom:1px solid var(--border);background:#fff;z-index:1;flex-shrink:0}
 .proj-modal-title{font-size:16px;font-weight:800;color:var(--text);margin-bottom:4px}
 .proj-modal-sub{font-size:12px;color:var(--text-muted);margin-bottom:14px}
 .proj-modal-close{position:absolute;top:16px;right:18px;width:28px;height:28px;border-radius:50%;border:none;background:var(--bg);cursor:pointer;font-size:14px;color:var(--text-mid);display:flex;align-items:center;justify-content:center}
 .proj-modal-close:hover{background:var(--border)}
-.proj-modal-body{padding:18px 22px 24px}
+.proj-modal-body{padding:18px 22px 24px;flex:1;overflow-y:auto}
+.pm-chat-footer{border-top:1px solid var(--border);flex-shrink:0;background:#fff}
+.pm-chat-hd{padding:10px 22px 6px;display:flex;align-items:center;gap:6px}
+.pm-chat-hd-lbl{font-size:11px;font-weight:700;color:var(--text-faint);letter-spacing:.5px;text-transform:uppercase}
+.pm-chat-count{font-size:10px;color:#fff;background:var(--primary);border-radius:20px;padding:1px 7px;font-weight:700}
+.pm-chat-msgs{max-height:160px;overflow-y:auto;padding:0 22px 6px;display:flex;flex-direction:column;gap:6px}
+.pm-chat-msgs-empty{text-align:center;color:var(--text-faint);font-size:12px;padding:10px 0}
+.pm-chat-input-wrap{display:flex;gap:8px;align-items:flex-end;padding:8px 22px 14px}
+.pm-chat-input{flex:1;border:1.5px solid var(--border);border-radius:16px;padding:8px 13px;font-size:13px;resize:none;font-family:inherit;outline:none;line-height:1.4;max-height:80px;transition:border-color .15s}
+.pm-chat-input:focus{border-color:var(--primary-light)}
+.pm-chat-send{background:var(--primary);color:#fff;border:none;border-radius:16px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0;transition:background .15s;height:36px}
+.pm-chat-send:hover{background:#15803D}
+.pm-msg-row{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.pm-msg-row.mine{align-items:flex-end}
+.pm-msg-bubble{background:#F3F4F6;padding:7px 12px;border-radius:14px;font-size:12.5px;line-height:1.45;max-width:82%;color:var(--text);word-break:break-word}
+.pm-msg-row.mine .pm-msg-bubble{background:#DCFCE7;color:#14532D}
+.pm-msg-time{font-size:10px;color:var(--text-faint);padding:0 4px}
 .pm-section{margin-bottom:20px}
 .pm-label{font-size:11px;font-weight:700;color:var(--text-faint);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
 .pm-timeline{display:flex;flex-direction:column;gap:0}
@@ -3215,6 +3231,20 @@ function projClickGuard(el, state) {
         </div>
       </div>
     </div>
+    <div class="pm-chat-footer">
+      <div class="pm-chat-hd">
+        <span class="pm-chat-hd-lbl">Trao đổi</span>
+        <span class="pm-chat-count" id="pmChatCount">0</span>
+      </div>
+      <div class="pm-chat-msgs" id="pmChatMsgs">
+        <div class="pm-chat-msgs-empty">Chưa có tin nhắn. Bắt đầu trao đổi về dự án!</div>
+      </div>
+      <div class="pm-chat-input-wrap">
+        <textarea class="pm-chat-input" id="pmChatInput" placeholder="Nhắn tin về dự án này..." rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendProjMsg();}"></textarea>
+        <button class="pm-chat-send" onclick="sendProjMsg()">Gửi</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -3419,6 +3449,8 @@ function openProjDetail(orderId) {
     tlHtml+='<div class="pm-tl-meta">'+meta+'</div></div></div>';
   });
   document.getElementById('pmTimeline').innerHTML=tlHtml;
+  _activeProjId = orderId;
+  renderProjMsgs(orderId);
   document.getElementById('projDetailOverlay').classList.add('open');
   document.body.style.overflow='hidden';
 }
@@ -3430,6 +3462,40 @@ function closeProjDetail(e) {
 function closeProjDetailBtn() {
   document.getElementById('projDetailOverlay').classList.remove('open');
   document.body.style.overflow='';
+}
+
+var _projChatStore = {};
+var _activeProjId = null;
+function renderProjMsgs(projId) {
+  var msgs = _projChatStore[projId] || [];
+  var el = document.getElementById('pmChatMsgs');
+  var cnt = document.getElementById('pmChatCount');
+  if (!el) return;
+  if (msgs.length === 0) {
+    el.innerHTML = '<div class="pm-chat-msgs-empty">Chưa có tin nhắn. Bắt đầu trao đổi về dự án!</div>';
+  } else {
+    el.innerHTML = msgs.map(function(m) {
+      return '<div class="pm-msg-row ' + (m.mine ? 'mine' : 'theirs') + '">' +
+        '<div class="pm-msg-bubble">' + m.text.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div>' +
+        '<div class="pm-msg-time">' + m.time + '</div></div>';
+    }).join('');
+    el.scrollTop = el.scrollHeight;
+  }
+  if (cnt) cnt.textContent = msgs.length;
+}
+function sendProjMsg() {
+  var inp = document.getElementById('pmChatInput');
+  if (!inp || !_activeProjId) return;
+  var text = inp.value.trim();
+  if (!text) return;
+  if (!_projChatStore[_activeProjId]) _projChatStore[_activeProjId] = [];
+  var now = new Date();
+  var hh = now.getHours().toString().padStart(2,'0');
+  var mm = now.getMinutes().toString().padStart(2,'0');
+  _projChatStore[_activeProjId].push({ text: text, time: hh + ':' + mm, mine: true });
+  inp.value = '';
+  inp.style.height = '';
+  renderProjMsgs(_activeProjId);
 }
 
 /* ── NEW PROJECT FORM ── */

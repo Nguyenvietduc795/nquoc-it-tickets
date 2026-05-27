@@ -133,6 +133,11 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 .task-lnk{display:inline-flex;align-items:center;gap:5px;background:var(--gold-bg);border:1.5px solid var(--gold);border-radius:9px;padding:4px 10px;font-size:12px;font-weight:700;color:var(--gold-d);cursor:pointer;text-decoration:none;margin-bottom:9px;transition:background .17s}
 .task-lnk:hover{background:#F5EFC0}
 .post-stk{font-size:19px;margin-bottom:7px;letter-spacing:3px}
+.post-reviewer-tags{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+.post-rr-tag{display:inline-flex;align-items:center;gap:5px;background:var(--cream);border:1.5px solid var(--bd);border-radius:20px;padding:3px 10px;font-size:11px;line-height:1.4}
+.post-rr-av{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:#fff;flex-shrink:0}
+.post-rr-name{font-weight:700;color:var(--forest)}
+.post-rr-role{color:var(--ink4)}
 .post-meta{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--ink4);padding-top:7px;border-top:1.5px dashed var(--cream3)}
 .rev-chip{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-weight:800;font-size:10px}
 .rev-chip.need{background:var(--terra-bg);color:var(--terra-d);border:1px solid #F0C0A8}
@@ -619,6 +624,8 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 .notif-it:hover{background:var(--cream2);border-radius:8px}
 /* task deadline label */
 .task-urg-dlabel{font-size:8px;color:var(--ink4);margin-top:2px;text-align:right;font-weight:700;letter-spacing:.5px}
+.urg-done-btn{display:block;margin-top:8px;background:var(--forest);color:#fff;border:none;border-radius:8px;padding:5px 11px;font-size:10.5px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .15s;letter-spacing:.2px;width:100%}
+.urg-done-btn:hover{background:#1a5c3e}
 .task-urg-days{font-size:16px;font-weight:900;text-align:right;line-height:1.1}
 .task-urg-days.hot{color:#E8492A}
 .task-urg-days.warm{color:#F5A623}
@@ -1078,15 +1085,15 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
     <!-- FEED -->
     <div class="view act" id="view-feed" style="overflow-y:auto">
       <div class="feed-wrap" id="feedWrap">
-        <!-- POST 1 PENDING -->
-        <div class="post pending" id="post-1">
-          <div class="post-hbar"><i class="ti ti-clock"></i><span class="hbar-text">Chờ review — cần thêm 1 review</span><div class="ship-btn" id="ship-1" onclick="doShip(1)"><i class="ti ti-rocket"></i> Ship</div><div class="save-cs-btn" id="scs-1" onclick="saveCS(1)"><i class="ti ti-archive"></i> Lưu CS</div></div>
+        <!-- POST 1 — READY TO SHIP -->
+        <div class="post done" id="post-1">
+          <div class="post-hbar"><i class="ti ti-circle-check"></i><span class="hbar-text">Đã review & done xong — sẵn sàng ship!</span><div class="ship-btn vis" onclick="doShip(1)"><i class="ti ti-rocket"></i> Ship</div><div class="save-cs-btn" id="scs-1" onclick="saveCS(1)"><i class="ti ti-archive"></i> Lưu CS</div></div>
           <div class="post-body">
-            <div class="post-auth"><div class="post-av" style="background:linear-gradient(135deg,#C97550,#8B4A2F)">NH</div><div><div class="post-aname">Ngọc Hân</div><div class="post-astatus">hoàn thành task trong <strong>hứng khởi</strong> 🔥 · 2 giờ trước</div></div></div>
+            <div class="post-auth"><div class="post-av" style="background:linear-gradient(135deg,#2E4A38,#4A6E56)">ĐH</div><div><div class="post-aname">Đức Hiếu</div><div class="post-astatus">hoàn thành task trong <strong>hứng khởi</strong> 🔥 · 2 giờ trước</div></div></div>
             <div class="post-content">Cuối cùng cũng xong cái API authentication! Bug lúc đầu tưởng đơn giản nhưng mà mất tới 3 tiếng debug. Hóa ra là do JWT token bị expired nhưng frontend không handle lỗi đúng cách. Đã fix và thêm refresh token mechanism luôn. Cảm giác resolve được con bug khó thật sự rất thỏa mãn!</div>
             <a class="task-lnk" href="#" onclick="return false"><i class="ti ti-external-link"></i> TASK-042: Fix JWT Auth Bug</a>
             <div class="post-stk">🎉 🔥 💪</div>
-            <div class="post-meta"><div class="rev-chip need" id="rc-1"><i class="ti ti-message-circle"></i> 1/2 reviews</div><span style="color:var(--terra);font-size:11px;font-weight:700" id="rn-1">Cần thêm 1 review · rồi tick Done!</span></div>
+            <div class="post-meta"><div class="rev-chip ok" id="rc-1"><i class="ti ti-circle-check"></i> 2 reviews · tất cả done ✓</div><span style="color:var(--forest);font-size:11px;font-weight:700" id="rn-1">Sẵn sàng ship! 🚀</span></div>
           </div>
           <div class="cmt-sec" id="cmts-1">
             <div class="cmt-list" id="clist-1">
@@ -1094,10 +1101,20 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
                 <div class="cmt-av" style="background:#4A6E56">MT</div>
                 <div class="cmt-bub">
                   <div class="cmt-name">Minh Tú <span class="expert-badge dev">⚡ Dev</span></div>
-                  <div class="cmt-text">Code nhìn ổn đó Hân ơi! Mình check qua flow refresh token rồi, logic đúng hướng. Nhưng bạn có thể thêm unit test cho case token expired không? Để đảm bảo regression về sau nhé. Nhìn chung rất sạch!</div>
+                  <div class="cmt-text">Code nhìn ổn đó Hiếu ơi! Mình check qua flow refresh token rồi, logic đúng hướng. Nhưng bạn có thể thêm unit test cho case token expired không? Để đảm bảo regression về sau nhé. Nhìn chung rất sạch!</div>
                   <div class="cmt-stk">🔍 🧪</div>
                   <div class="cmt-done-row">
-                    <button class="cmt-done-btn" id="cdone-1-0" onclick="tickDone(1,0)"><i class="ti ti-check"></i> Đã sửa theo góp ý này</button>
+                    <button class="cmt-done-btn ticked" id="cdone-1-0"><i class="ti ti-circle-check"></i> Đã sửa ✓</button>
+                  </div>
+                </div>
+              </div>
+              <div class="cmt-it" id="cmt-1-1">
+                <div class="cmt-av" style="background:linear-gradient(135deg,#C97550,#8B4A2F)">NH</div>
+                <div class="cmt-bub">
+                  <div class="cmt-name">Ngọc Hân <span class="expert-badge qa">🧪 Tester</span></div>
+                  <div class="cmt-text">Mình test qua các case rồi, flow hoạt động ổn! Token expired trả đúng 401, refresh hoạt động ngon. Suggest thêm test case cho concurrent request để chắc chắn hơn nhé. Overall approve! 🎉</div>
+                  <div class="cmt-done-row">
+                    <button class="cmt-done-btn ticked" id="cdone-1-1"><i class="ti ti-circle-check"></i> Đã sửa ✓</button>
                   </div>
                 </div>
               </div>
@@ -1159,7 +1176,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
           <div class="task-urg hot" onclick="goView('feed')">
             <div class="task-urg-left">
               <div class="task-urg-name">Fix JWT Auth Bug — review &amp; ship</div>
-              <div class="task-urg-proj">NhiLe Platform v2 · <a href="#" onclick="goView('feed');return false" style="color:var(--terra);font-weight:700;text-decoration:none">TASK-042 →</a></div>
+              <div class="task-urg-proj">NhiLe Platform v2 · <a href="#" onclick="openMoWithTask('TASK-042','Fix JWT Auth Bug',event);return false" style="color:var(--terra);font-weight:700;text-decoration:none">TASK-042 →</a></div>
               <div class="task-urg-tags">
                 <span class="task-tag" style="background:#EEEDFE;color:#3C3489">Frontend</span>
                 <span class="task-tag" style="background:#FBF1EB;color:#7A3000">Auth</span>
@@ -1168,6 +1185,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
             <div class="task-urg-dl">
               <div class="task-urg-days hot">6 giờ</div>
               <div class="task-urg-dlabel">còn lại · ĐỎ</div>
+              <button class="urg-done-btn" onclick="openMoWithTask('TASK-042','Fix JWT Auth Bug',event)">Hoàn tất ✓</button>
             </div>
           </div>
 
@@ -1175,7 +1193,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
           <div class="task-urg hot" onclick="goView('feed')">
             <div class="task-urg-left">
               <div class="task-urg-name">Viết unit test cho refresh token</div>
-              <div class="task-urg-proj">NhiLe Platform v2 · <a href="#" onclick="goView('feed');return false" style="color:var(--terra);font-weight:700;text-decoration:none">TASK-043 →</a></div>
+              <div class="task-urg-proj">NhiLe Platform v2 · <a href="#" onclick="openMoWithTask('TASK-043','Viết unit test cho refresh token',event);return false" style="color:var(--terra);font-weight:700;text-decoration:none">TASK-043 →</a></div>
               <div class="task-urg-tags">
                 <span class="task-tag" style="background:#EEEDFE;color:#3C3489">Frontend</span>
                 <span class="task-tag" style="background:#E1F5EE;color:#085041">Testing</span>
@@ -1184,6 +1202,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
             <div class="task-urg-dl">
               <div class="task-urg-days hot">1 ngày</div>
               <div class="task-urg-dlabel">còn lại · ĐỎ</div>
+              <button class="urg-done-btn" onclick="openMoWithTask('TASK-043','Viết unit test cho refresh token',event)">Hoàn tất ✓</button>
             </div>
           </div>
 
@@ -1191,7 +1210,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
           <div class="task-urg warm" onclick="goView('feed')">
             <div class="task-urg-left">
               <div class="task-urg-name">Stripe Payment Integration</div>
-              <div class="task-urg-proj">Nedu CRM · <a href="#" onclick="goView('feed');return false" style="color:var(--gold-d);font-weight:700;text-decoration:none">TASK-051 →</a></div>
+              <div class="task-urg-proj">Nedu CRM · <a href="#" onclick="openMoWithTask('TASK-051','Stripe Payment Integration',event);return false" style="color:var(--gold-d);font-weight:700;text-decoration:none">TASK-051 →</a></div>
               <div class="task-urg-tags">
                 <span class="task-tag" style="background:#E6F1FB;color:#0C447C">Backend</span>
                 <span class="task-tag" style="background:#E1F5EE;color:#085041">Payment</span>
@@ -1200,6 +1219,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
             <div class="task-urg-dl">
               <div class="task-urg-days warm">3 ngày</div>
               <div class="task-urg-dlabel">còn lại · VÀNG</div>
+              <button class="urg-done-btn" onclick="openMoWithTask('TASK-051','Stripe Payment Integration',event)">Hoàn tất ✓</button>
             </div>
           </div>
 
@@ -1657,11 +1677,11 @@ var SCENES = [
 var selMood = -1;
 var avCols = ['linear-gradient(135deg,#2E4A38,#4A6E56)','linear-gradient(135deg,#C97550,#8B4A2F)','linear-gradient(135deg,#C2A84E,#7A6228)','linear-gradient(135deg,#4A6E56,#86C895)','linear-gradient(135deg,#2C1F0E,#5A4A38)'];
 var avIdx = 0;
-var postRevs = {1:{count:1, done:0}, 3:{count:0, done:0}};
+var postRevs = {1:{count:2, done:2}, 3:{count:0, done:0}};
 var postMax  = {1:2, 3:2};
 var csTotal  = 1;
 var pData = {
-  1:{av:'linear-gradient(135deg,#C97550,#8B4A2F)',ini:'NH',name:'Ngọc Hân',mood:'hứng khởi 🔥',content:'Cuối cùng cũng xong cái API authentication! Bug lúc đầu tưởng đơn giản nhưng mất tới 3 tiếng debug.',task:'TASK-042: Fix JWT Auth Bug',proj:'nhile',projColor:'#7F77DD'},
+  1:{av:'linear-gradient(135deg,#2E4A38,#4A6E56)',ini:'ĐH',name:'Đức Hiếu',mood:'hứng khởi 🔥',content:'Cuối cùng cũng xong cái API authentication! Bug lúc đầu tưởng đơn giản nhưng mất tới 3 tiếng debug.',task:'TASK-042: Fix JWT Auth Bug',proj:'nhile',projColor:'#7F77DD'},
   2:{av:'linear-gradient(135deg,#C2A84E,#7A6228)',ini:'TL',name:'Tuấn Long',mood:'kiệt sức nhưng tự hào 😅',content:'Performance từ 8s xuống 0.8s sau khi optimize query và thêm Redis cache.',task:'TASK-038: Optimize Dashboard Query',proj:'nhile',projColor:'#7F77DD'},
   3:{av:'linear-gradient(135deg,#2E4A38,#4A6E56)',ini:'PK',name:'Phúc Khang',mood:'bình thản như Thái Sơn 😌',content:'Đã hoàn thành tích hợp Stripe payment gateway! Code coverage đạt 87%.',task:'TASK-051: Stripe Payment Integration',proj:'nedu',projColor:'#378ADD'}
 };
@@ -2032,6 +2052,35 @@ function goView(v) {
 
 /* ── POST MODAL ── */
 var selStk = '🌾';
+var _selMoodLabel = 'bình thản 😌';
+var nextPid = 100;
+
+/* ── ROUND-ROBIN REVIEWERS ── */
+var TEAM_REVIEWERS = {
+  dev: [
+    { name: 'Minh Tú',    ini: 'MT', av: 'linear-gradient(135deg,#4A6E56,#86C895)' },
+    { name: 'Tuấn Long',  ini: 'TL', av: 'linear-gradient(135deg,#C2A84E,#7A6228)' },
+    { name: 'Phúc Khang', ini: 'PK', av: 'linear-gradient(135deg,#2E4A38,#4A6E56)' }
+  ],
+  tester: [
+    { name: 'Ngọc Hân', ini: 'NH', av: 'linear-gradient(135deg,#C97550,#8B4A2F)' }
+  ]
+};
+var _rrDevIdx    = 0;
+var _rrTesterIdx = 0;
+function getRRReviewers(authorName) {
+  var devList    = TEAM_REVIEWERS.dev;
+  var tstrList   = TEAM_REVIEWERS.tester;
+  var d = 0, t = 0;
+  /* skip if same as author */
+  while (devList[(_rrDevIdx + d) % devList.length].name === authorName && d < devList.length) d++;
+  var dev = devList[(_rrDevIdx + d) % devList.length];
+  _rrDevIdx = (_rrDevIdx + d + 1) % devList.length;
+  while (tstrList[(_rrTesterIdx + t) % tstrList.length].name === authorName && t < tstrList.length) t++;
+  var tester = tstrList[(_rrTesterIdx + t) % tstrList.length];
+  _rrTesterIdx = (_rrTesterIdx + t + 1) % tstrList.length;
+  return { dev: dev, tester: tester };
+}
 var STICKERS = ['🌾','🎉','🔥','💪','😅','🤯','✨','🐛','🚀','💳','🧪','🎯','🌿','💚'];
 (function(){
   document.getElementById('stkRow').innerHTML = STICKERS.map(function(s,i){
@@ -2048,11 +2097,22 @@ updEChips(3);
 function applyC(txt) {
   var t = document.getElementById('nTaskName').value || 'task này';
   document.getElementById('nContent').value = document.getElementById('sbName').textContent + ' đã làm xong ' + t + ' ' + txt + '. ';
+  _selMoodLabel = txt.replace(/^trong /, '');
   chkWC('nContent','nWC');
 }
 document.getElementById('nContent').addEventListener('input', function(){ chkWC('nContent','nWC'); });
 function openMo()  { document.getElementById('postMo').classList.add('open'); }
 function closeMo() { document.getElementById('postMo').classList.remove('open'); }
+function openMoWithTask(taskId, taskName, e) {
+  if (e) e.stopPropagation();
+  document.getElementById('nTaskName').value = taskId + ': ' + taskName;
+  document.getElementById('nContent').value = '';
+  document.getElementById('nWC').textContent = '0/20 từ';
+  document.getElementById('nWC').className = 'wc w';
+  _selMoodLabel = 'bình thản 😌';
+  goView('feed');
+  setTimeout(function() { openMo(); document.getElementById('nContent').focus(); }, 150);
+}
 document.getElementById('postMo').addEventListener('click', function(e){ if(e.target===this) closeMo(); });
 
 /* ── WORD COUNT ── */
@@ -2067,12 +2127,85 @@ function chkWC(ii, di) {
 
 /* ── SUBMIT POST ── */
 function submitPost() {
-  if (wCnt(document.getElementById('nContent').value) < 20) {
-    document.getElementById('nContent').style.borderColor = 'var(--terra)';
-    setTimeout(function(){ document.getElementById('nContent').style.borderColor=''; }, 1500);
+  var contentEl = document.getElementById('nContent');
+  if (wCnt(contentEl.value) < 20) {
+    contentEl.style.borderColor = 'var(--terra)';
+    setTimeout(function(){ contentEl.style.borderColor=''; }, 1500);
     return;
   }
-  closeMo(); showToast('🚀 Bài đã đăng! Anh em review giùm nhé!');
+
+  var sbAvEl  = document.getElementById('sbAv');
+  var myName  = document.getElementById('sbName').textContent.trim();
+  var myIni   = sbAvEl ? sbAvEl.textContent.trim() : myName.substring(0,2).toUpperCase();
+  var myAv    = sbAvEl ? sbAvEl.style.background : 'linear-gradient(135deg,#2E4A38,#4A6E56)';
+  var taskRaw = document.getElementById('nTaskName').value.trim() || 'Task mới';
+  var content = contentEl.value.trim();
+  var mood    = _selMoodLabel;
+  var pid     = nextPid++;
+
+  pData[pid]    = {av:myAv, ini:myIni, name:myName, mood:mood, content:content, task:taskRaw, proj:'nhile', projColor:'#7F77DD'};
+  postRevs[pid] = {count:0, done:0};
+  postMax[pid]  = 2;
+
+  var rr  = getRRReviewers(myName);
+  var esc = function(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); };
+  var rrHtml =
+    '<div class="post-reviewer-tags">' +
+      '<span class="post-rr-tag">' +
+        '<span class="post-rr-av" style="background:'+rr.dev.av+'">'+rr.dev.ini+'</span>' +
+        '<span class="post-rr-name">@'+rr.dev.name+'</span>' +
+        '<span class="post-rr-role">&nbsp;review code nhé! 👨‍💻</span>' +
+      '</span>' +
+      '<span class="post-rr-tag">' +
+        '<span class="post-rr-av" style="background:'+rr.tester.av+'">'+rr.tester.ini+'</span>' +
+        '<span class="post-rr-name">@'+rr.tester.name+'</span>' +
+        '<span class="post-rr-role">&nbsp;kiểm thử giúp mình nhé! 🧪</span>' +
+      '</span>' +
+    '</div>';
+
+  var html =
+    '<div class="post pending" id="post-'+pid+'" style="animation:pop-in .35s ease">' +
+      '<div class="post-hbar"><i class="ti ti-clock"></i><span class="hbar-text">Chờ review — cần 2 reviews</span>' +
+        '<div class="ship-btn" id="ship-'+pid+'" onclick="doShip('+pid+')"><i class="ti ti-rocket"></i> Ship</div>' +
+        '<div class="save-cs-btn" id="scs-'+pid+'" onclick="saveCS('+pid+')"><i class="ti ti-archive"></i> Lưu CS</div></div>' +
+      '<div class="post-body">' +
+        '<div class="post-auth"><div class="post-av" style="background:'+myAv+'">'+myIni+'</div>' +
+          '<div><div class="post-aname">'+esc(myName)+'</div>' +
+          '<div class="post-astatus">hoàn thành task trong <strong>'+esc(mood)+'</strong> · vừa xong</div></div></div>' +
+        '<div class="post-content">'+esc(content)+'</div>' +
+        '<a class="task-lnk" href="#" onclick="return false"><i class="ti ti-external-link"></i> '+esc(taskRaw)+'</a>' +
+        rrHtml +
+        '<div class="post-stk">'+selStk+'</div>' +
+        '<div class="post-meta">' +
+          '<div class="rev-chip need" id="rc-'+pid+'"><i class="ti ti-message-circle"></i> 0/2 reviews</div>' +
+          '<span style="color:var(--terra);font-size:11px;font-weight:700" id="rn-'+pid+'">Cần review gấp! 🆘</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="cmt-sec" id="cmts-'+pid+'">' +
+        '<div class="cmt-list" id="clist-'+pid+'"></div>' +
+        '<div id="cmt-empty-'+pid+'" style="text-align:center;padding:9px 0;color:var(--ink4);font-size:12px;font-style:italic">Chưa có ai review. Hãy là người đầu tiên! 👀</div>' +
+        '<div class="cmt-add"><div class="cmt-myav" style="background:'+myAv+'">'+myIni+'</div>' +
+          '<textarea class="cmt-ta" id="cta-'+pid+'" placeholder="Review code... (tối thiểu 20 từ)" rows="2" oninput="chkWC(\'cta-'+pid+'\',\'cwc-'+pid+'\')"></textarea>' +
+          '<button class="cmt-send" onclick="submitCmt('+pid+',\'cta-'+pid+'\')"><i class="ti ti-send"></i></button></div>' +
+        '<div class="wc w" id="cwc-'+pid+'">0/20 từ</div>' +
+      '</div>' +
+    '</div>';
+
+  var fw  = document.getElementById('feedWrap');
+  var tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  fw.insertBefore(tmp.firstChild, fw.firstChild);
+  fw.parentElement.scrollTop = 0;
+
+  /* reset modal */
+  document.getElementById('nTaskName').value = '';
+  contentEl.value = '';
+  document.getElementById('nWC').textContent = '0/20 từ';
+  document.getElementById('nWC').className = 'wc w';
+  _selMoodLabel = 'bình thản 😌';
+
+  closeMo();
+  showToast('🚀 Bài đã đăng! Anh em review giùm nhé!');
 }
 
 /* ── COMMENT ── */
@@ -3258,21 +3391,14 @@ function toggleDeployItem(li, gi, ii, e) {
 function checkHoanthatBtn() {
   var btn = document.getElementById('tdDoneBtn');
   if (!btn || btn.classList.contains('completed')) return;
-  var allDeployDone = DEPLOY_LAYERS.every(function(layer){
-    return layer.groups.every(function(grp){
-      return grp.items.every(function(item){ return item.done; });
-    });
-  });
-  if (allDeployDone) {
-    btn.classList.add('ready');
-  } else {
-    btn.classList.remove('ready');
-  }
+  btn.classList.add('ready');
 }
 
 function completeTask() {
   var btn = document.getElementById('tdDoneBtn');
-  if (!btn || !btn.classList.contains('ready')) return;
+  if (!btn || btn.classList.contains('completed')) return;
+  var taskId = document.getElementById('tdPanel').dataset.task;
+  var t = TD_DATA[taskId] || {};
   btn.classList.remove('ready');
   btn.classList.add('completed');
   btn.textContent = '✓ Đã hoàn tất';
@@ -3280,7 +3406,11 @@ function completeTask() {
   if (st) { st.textContent = 'Đã xong'; st.className = 'td-status done'; }
   var dl = document.getElementById('tdDeadline');
   if (dl) { dl.textContent = '✓ Hoàn thành'; dl.className = 'td-deadline cool'; }
-  showToast('🎉 Task đã được đánh dấu hoàn tất!');
+  showToast('🎉 Task hoàn tất! Đang mở Feed để đăng bài...');
+  setTimeout(function() {
+    closeTaskDetailV3();
+    openMoWithTask(taskId, t.title || taskId, null);
+  }, 700);
 }
 
 /* ── TASK TELEGRAM PANEL ── */
