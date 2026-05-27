@@ -641,6 +641,33 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 .gao-bub.notify{background:var(--terra);box-shadow:0 6px 20px rgba(200,60,0,.35)}
 .gao-bub.notify::after{border-top-color:var(--terra)}
 
+/* ── GAO RED ALERT (khi chưa review) ── */
+.gao-svg.alert{filter:brightness(.82) sepia(1) hue-rotate(295deg) saturate(5);transition:filter .35s ease}
+@keyframes gaoAlertPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.14)}}
+.gao-wrap.alert .gao-svg{animation:gaoAlertPulse .45s ease 4}
+
+/* ── BAM BAM REVIEW WARNING ── */
+#bamOverlay{position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.78);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .22s}
+#bamOverlay.show{opacity:1;pointer-events:all}
+.bam-card{max-width:340px;width:92%;text-align:center;overflow:hidden;transform:scale(.6) rotate(-6deg);transition:transform .38s cubic-bezier(.34,1.56,.64,1)}
+#bamOverlay.show .bam-card{transform:scale(1) rotate(0deg)}
+.bam-burst-wrap{position:relative;padding:8px 8px 0}
+.bam-burst{position:relative;padding:28px 24px 24px;clip-path:polygon(50% 0%,57% 17%,72% 5%,71% 23%,89% 17%,82% 34%,100% 36%,88% 50%,100% 64%,82% 66%,88% 84%,70% 79%,68% 98%,52% 86%,36% 100%,32% 80%,14% 86%,18% 66%,0% 64%,12% 50%,0% 36%,18% 34%,10% 17%,28% 23%,27% 5%,43% 17%);background:linear-gradient(155deg,#8B1010 0%,#5A0808 60%,#3D0000 100%)}
+.bam-halftone{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(0,0,0,.28) 1.5px,transparent 1.5px);background-size:13px 13px;pointer-events:none}
+.bam-text-1{font-family:'Impact','Arial Black',Arial,sans-serif;font-size:58px;font-weight:900;color:#FFD700;text-shadow:-3px -3px 0 #000,3px -3px 0 #000,-3px 3px 0 #000,3px 3px 0 #000,0 5px 0 #5A0000;line-height:1;letter-spacing:3px;display:block;transform:rotate(-4deg)}
+.bam-text-2{font-family:'Impact','Arial Black',Arial,sans-serif;font-size:50px;font-weight:900;color:#FFD700;text-shadow:-3px -3px 0 #000,3px -3px 0 #000,-3px 3px 0 #000,3px 3px 0 #000,0 4px 0 #5A0000;line-height:1;letter-spacing:3px;display:block;transform:rotate(2deg);margin-top:-4px}
+.bam-warn-label{font-size:11px;font-weight:900;color:#FFE066;text-shadow:-1px -1px 0 #000,1px 1px 0 #000;letter-spacing:2px;margin-top:6px;text-transform:uppercase}
+.bam-body{background:#1A0505;padding:14px 16px 20px;border-radius:0 0 18px 18px}
+.bam-gao-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px}
+.bam-gao-av{width:38px;height:38px;flex-shrink:0;background:#2D7A3A;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 3px 10px rgba(0,0,0,.4)}
+.bam-gao-txt{flex:1;text-align:left}
+.bam-msg-main{font-size:12.5px;font-weight:700;color:#F0EFE8;line-height:1.45}
+.bam-msg-sub{font-size:10px;color:rgba(255,220,80,.85);margin-top:3px;font-weight:600}
+.bam-cta{width:100%;padding:11px;background:linear-gradient(90deg,#FFD700,#FFA500);border:none;border-radius:10px;font-size:13px;font-weight:900;color:#3D0000;cursor:pointer;font-family:var(--f);letter-spacing:.5px;transition:transform .12s,box-shadow .12s;box-shadow:0 4px 14px rgba(255,180,0,.35)}
+.bam-cta:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(255,180,0,.5)}
+.bam-cta:active{transform:scale(.97)}
+@keyframes bamShake{0%,100%{transform:scale(1) rotate(0deg)}20%{transform:scale(1.03) rotate(-2deg)}40%{transform:scale(1.03) rotate(2deg)}60%{transform:scale(1.02) rotate(-1deg)}80%{transform:scale(1.02) rotate(1deg)}}
+#bamOverlay.show .bam-card{animation:bamShake .5s ease .35s}
 
 /* notif hover */
 .notif-it{transition:background .15s}
@@ -1027,6 +1054,30 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
   </svg>
 </div>
 
+
+<!-- BAM BAM REVIEW WARNING OVERLAY -->
+<div id="bamOverlay" onclick="closeBam(event)">
+  <div class="bam-card">
+    <div class="bam-burst-wrap">
+      <div class="bam-burst">
+        <div class="bam-halftone"></div>
+        <span class="bam-text-1">BAM!</span>
+        <span class="bam-text-2">BAM!</span>
+        <div class="bam-warn-label">⚠ chưa review ⚠</div>
+      </div>
+    </div>
+    <div class="bam-body">
+      <div class="bam-gao-row">
+        <div class="bam-gao-av">🌾</div>
+        <div class="bam-gao-txt">
+          <div class="bam-msg-main" id="bamMsgTxt">Bạn chưa review task của đồng đội!</div>
+          <div class="bam-msg-sub" id="bamMsgSub">Nhấn để đến review ngay 👇</div>
+        </div>
+      </div>
+      <button class="bam-cta" onclick="closeBamGo()">🔍 Đi review ngay!</button>
+    </div>
+  </div>
+</div>
 
 <!-- APP -->
 <div class="app">
@@ -2052,10 +2103,14 @@ function answerLove(yes) {
 function nextGaoMsg() { showGaoPopup(); }
 
 function startGaoTimer() {
-  /* Simulate new tagged post notification after 8s */
+  /* Simulate new tagged post notification after 8s — bắt đầu timer review */
   setTimeout(function(){
     notifyGao('📋 Ngọc Hân vừa đăng task mới — bạn được tag! Hỗ trợ đồng đội ngay!');
+    /* Task thường → cảnh báo sau 6 giờ (demo: 40s) */
+    startReviewWarnTimer(1, 'Fix JWT Auth Bug', 'Ngọc Hân', false);
   }, 8000);
+  /* Post-3 Stripe là task gấp → cảnh báo sau 1 giờ (demo: 15s) */
+  startReviewWarnTimer(3, 'Stripe Payment Integration', 'Phúc Khang', true);
   clearInterval(gaoTimer);
   /* Real: 15 min. First popup after 20s for demo */
   setTimeout(showGaoPopup, 20000);
@@ -2335,6 +2390,7 @@ function submitCmt(pid, tid) {
   ta.value = '';
   document.getElementById('cwc-'+pid) && (document.getElementById('cwc-'+pid).textContent = '0/20 từ');
 
+  cancelReviewWarn(pid);
   /* Kiểm tra xung đột checklist — phát hiện tester báo lỗi trùng item đã tick */
   var isQA = badge.indexOf('Tester') !== -1 || badge.indexOf('QA') !== -1;
   checkConflictOnSubmit(pid, ta.value || cmtDiv.querySelector('.cmt-text').textContent, myName, isQA);
@@ -3012,6 +3068,98 @@ function notifyGao(msg) {
   b.classList.add('show','notify');
   setTimeout(function(){ b.classList.remove('show','notify'); }, 6000);
   addNotif(msg);
+}
+
+/* ── REVIEW WARN TIMERS (BAM BAM) ──
+   Thời gian thật: task thường = 6 giờ, task gấp = 1 giờ
+   Demo mode (DEMO_REVIEW_WARN=true): task gấp = 15s, task thường = 40s
+   Lặp lại: nếu chưa review sau 10 phút (demo: 30s) thì cảnh báo tiếp  */
+var DEMO_REVIEW_WARN = true;
+var WARN_MS          = { normal: 6*60*60*1000, urgent: 1*60*60*1000 };
+var WARN_DEMO        = { normal: 40*1000,       urgent: 15*1000      };
+var REPEAT_MS        = 10*60*1000;
+var REPEAT_DEMO_MS   = 30*1000;
+
+var _reviewTimers = {};
+var _repeatTimers = {};
+var _bamPostMeta  = {};
+var _bamTargetPost = null;
+
+function startReviewWarnTimer(postId, taskName, authorName, isUrgent) {
+  cancelReviewWarn(postId);
+  _bamPostMeta[postId] = { taskName: taskName, authorName: authorName, isUrgent: isUrgent };
+  var delay = DEMO_REVIEW_WARN
+    ? (isUrgent ? WARN_DEMO.urgent : WARN_DEMO.normal)
+    : (isUrgent ? WARN_MS.urgent   : WARN_MS.normal);
+  _reviewTimers[postId] = setTimeout(function() {
+    delete _reviewTimers[postId];
+    var rc = document.getElementById('rc-' + postId);
+    if (rc && rc.classList.contains('need')) {
+      showBamWarn(postId, taskName, authorName, isUrgent);
+    }
+  }, delay);
+}
+
+function cancelReviewWarn(postId) {
+  if (_reviewTimers[postId]) { clearTimeout(_reviewTimers[postId]); delete _reviewTimers[postId]; }
+  if (_repeatTimers[postId]) { clearTimeout(_repeatTimers[postId]); delete _repeatTimers[postId]; }
+  delete _bamPostMeta[postId];
+}
+
+function scheduleRepeatWarn(postId) {
+  if (_repeatTimers[postId]) clearTimeout(_repeatTimers[postId]);
+  var delay = DEMO_REVIEW_WARN ? REPEAT_DEMO_MS : REPEAT_MS;
+  var meta = _bamPostMeta[postId];
+  if (!meta) return;
+  _repeatTimers[postId] = setTimeout(function() {
+    delete _repeatTimers[postId];
+    var rc = document.getElementById('rc-' + postId);
+    if (rc && rc.classList.contains('need')) {
+      showBamWarn(postId, meta.taskName, meta.authorName, meta.isUrgent);
+    }
+  }, delay);
+}
+
+function flashGaoRed() {
+  var wrap = document.getElementById('gaoWrap');
+  var svg  = document.getElementById('gaoSvg');
+  if (!wrap || !svg) return;
+  wrap.classList.add('alert');
+  svg.classList.add('alert');
+  setTimeout(function() {
+    wrap.classList.remove('alert');
+    svg.classList.remove('alert');
+  }, 3000);
+}
+
+function showBamWarn(postId, taskName, authorName, isUrgent) {
+  _bamTargetPost = postId || null;
+  var timeLabel = isUrgent ? '1 giờ (task gấp)' : '6 giờ';
+  document.getElementById('bamMsgTxt').textContent =
+    '🚨 ' + authorName + ' đợi review "' + taskName + '" hơn ' + timeLabel + ' rồi!';
+  document.getElementById('bamMsgSub').textContent =
+    isUrgent ? '⚡ Task gấp — cần xử lý ngay!' : '📋 Đừng để đồng đội chờ lâu nhé!';
+  document.getElementById('bamOverlay').classList.add('show');
+  flashGaoRed();
+  notifyGao('🚨 ' + authorName + ' vẫn chưa được review! Giúp bạn ấy ngay đi!');
+  if (postId) scheduleRepeatWarn(postId);
+}
+
+function closeBam(e) {
+  if (e && e.target !== document.getElementById('bamOverlay')) return;
+  document.getElementById('bamOverlay').classList.remove('show');
+}
+
+function closeBamGo() {
+  document.getElementById('bamOverlay').classList.remove('show');
+  goView('feed');
+  if (_bamTargetPost) {
+    var pid = _bamTargetPost;
+    setTimeout(function() {
+      var el = document.getElementById('post-' + pid);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 250);
+  }
 }
 
 /* ── CHECKLIST CONFLICT DETECTION ── */
