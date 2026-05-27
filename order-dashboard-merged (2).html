@@ -555,6 +555,28 @@ body::before{
 .np-ta{resize:vertical;min-height:80px}
 .np-submit{width:100%;padding:13px;background:#3B82F6;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px;font-family:var(--font);transition:background .15s}
 .np-submit:hover{background:#2563EB}
+/* ── Rating section (white theme) ── */
+.pm-rating-wrap{animation:fadeIn .22s ease;padding:4px 0 8px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.pm-rating-ttl{font-size:13px;font-weight:800;color:#0F172A;margin-bottom:13px;display:flex;align-items:center;gap:7px}
+.pm-rating-row1{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:9px}
+.pm-rating-row2{display:flex;justify-content:center;gap:9px;margin-bottom:14px}
+.pm-rating-card{background:#fff;border:1.5px solid #E2E8F0;border-radius:13px;padding:13px 10px 11px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px;transition:border-color .15s}
+.pm-rating-card:focus-within{border-color:#22C55E}
+.pm-rating-row2 .pm-rating-card{flex:0 0 calc(33.33% - 3px);max-width:165px}
+.pm-rating-ico{font-size:22px;line-height:1;margin-bottom:1px}
+.pm-rating-lbl{font-size:11px;font-weight:800;letter-spacing:.3px}
+.pm-rating-q{font-size:10px;color:#64748B;line-height:1.4;min-height:28px}
+.pm-rating-stars{font-size:15px;letter-spacing:1px;margin:3px 0}
+.pm-rating-sel{width:100%;margin-top:3px;padding:5px 7px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:11px;font-weight:600;color:#0F172A;background:#F8FAFC;font-family:var(--font);outline:none;cursor:pointer}
+.pm-rating-sel:focus{border-color:#22C55E;background:#fff}
+.pm-rating-submit{width:100%;padding:13px;border-radius:12px;border:none;background:#22C55E;color:#fff;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .15s;font-family:var(--font);letter-spacing:.2px;margin-bottom:6px}
+.pm-rating-submit:hover{background:#16A34A;transform:translateY(-1px)}
+.pm-rating-skip{width:100%;padding:7px;border-radius:10px;border:1.5px solid #E2E8F0;background:none;font-size:11.5px;font-weight:600;color:#94A3B8;cursor:pointer;font-family:var(--font);transition:all .15s}
+.pm-rating-skip:hover{border-color:#CBD5E1;color:#64748B}
+.pm-rating-comment{width:100%;min-height:72px;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:10px;font-size:12px;font-family:var(--font);color:#0F172A;background:#F8FAFC;resize:vertical;outline:none;margin-bottom:10px;transition:border-color .15s;line-height:1.5}
+.pm-rating-comment:focus{border-color:#22C55E;background:#fff}
+.pm-rating-comment::placeholder{color:#94A3B8}
 /* Order completion modal */
 .od-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center;animation:od-in .2s ease}
 @keyframes od-in{from{opacity:0}to{opacity:1}}
@@ -3339,6 +3361,14 @@ function projClickGuard(el, state) {
       <button class="pm-complete-btn disabled-btn" id="pmCompleteBtn"
         title="Vui lòng kiểm tra đủ các mục bắt buộc trước"
         onclick="completeProjOrder()">Hoàn thành</button>
+      <div id="pmRatingWrap" style="display:none" class="pm-rating-wrap">
+        <div class="pm-rating-ttl">🧭 Đánh giá chất lượng nghiệm thu</div>
+        <div class="pm-rating-row1" id="pmRatingRow1"></div>
+        <div class="pm-rating-row2" id="pmRatingRow2"></div>
+        <textarea class="pm-rating-comment" id="pmRatingComment" placeholder="💬 Nhận xét thêm — điều gì bạn thấy tốt hoặc cần cải thiện? (tuỳ chọn)"></textarea>
+        <button class="pm-rating-submit" onclick="submitRating()">✅ Gửi đánh giá &amp; hoàn tất</button>
+        <button class="pm-rating-skip" onclick="submitRating()">Bỏ qua, hoàn tất luôn →</button>
+      </div>
     </div>
     <div class="pm-chat-footer">
       <div class="pm-chat-hd">
@@ -4003,11 +4033,11 @@ function completeProjOrder() {
   /* Keep checklist tab visible but update button state */
   renderStageChecklist(orderId, o);
   switchPmTab('checklist');
-  renderOrders();
+  renderProjGrid(getOrders());
   /* Broadcast to IT team dashboards via localStorage */
   var completionData = { orderId: orderId, orderName: o.name, taskId: o.taskId || '', ts: Date.now() };
   try { localStorage.setItem('it_order_completed', JSON.stringify(completionData)); } catch(e) {}
-  showOrderDoneModal(o.name, o.taskId || '');
+  showRatingStep(o.name, o.taskId || '');
 }
 
 function showOrderDoneModal(orderName, taskId) {
@@ -4033,6 +4063,70 @@ function showOrderDoneModal(orderName, taskId) {
     '</div>';
   document.body.appendChild(ov);
   ov.addEventListener('click', function(e) { if (e.target === ov) ov.remove(); });
+}
+
+/* ── Rating UI ── */
+var RATING_ITEMS = [
+  {id:'r1', ico:'🎯', color:'#22C55E', lbl:'Lợi ích',    q:'Tôi có khám phá đủ lợi ích hai bên không?'},
+  {id:'r2', ico:'💡', color:'#EAB308', lbl:'Lựa chọn',   q:'Tôi có tạo đủ lựa chọn trước khi quyết định không?'},
+  {id:'r3', ico:'⚖️', color:'#A78BFA', lbl:'Tiêu chuẩn', q:'Tôi có dùng tiêu chuẩn khách quan không?'},
+  {id:'r4', ico:'💛', color:'#F97316', lbl:'Quan hệ',    q:'Tôi có duy trì thái độ xây dựng không?'},
+  {id:'r5', ico:'💬', color:'#F87171', lbl:'Giao tiếp',  q:'Tôi có cân bằng nói và hỏi không?'}
+];
+var RATING_OPTS = ['Rất tốt','Tốt','Được','Cần cải thiện','Chưa làm được'];
+var _ratingCompletionData = null;
+
+function renderRatingCard(item) {
+  var opts = RATING_OPTS.map(function(o, i) {
+    var n = 5 - i;
+    return '<option value="'+n+'">'+'⭐'.repeat(n)+' '+o+'</option>';
+  }).join('');
+  return '<div class="pm-rating-card" id="rcard-'+item.id+'">' +
+    '<div class="pm-rating-ico" style="color:'+item.color+'">'+item.ico+'</div>' +
+    '<div class="pm-rating-lbl" style="color:'+item.color+'">'+item.lbl+'</div>' +
+    '<div class="pm-rating-q">'+item.q+'</div>' +
+    '<div class="pm-rating-stars" id="rstar-'+item.id+'">⭐⭐⭐⭐⭐</div>' +
+    '<select class="pm-rating-sel" id="rsel-'+item.id+'" onchange="updateRatingStars(\''+item.id+'\')">' +
+      opts +
+    '</select>' +
+  '</div>';
+}
+
+function renderRatingGrid() {
+  var row1 = document.getElementById('pmRatingRow1');
+  var row2 = document.getElementById('pmRatingRow2');
+  if (!row1 || !row2) return;
+  row1.innerHTML = RATING_ITEMS.slice(0,3).map(renderRatingCard).join('');
+  row2.innerHTML = RATING_ITEMS.slice(3).map(renderRatingCard).join('');
+}
+
+function updateRatingStars(rid) {
+  var sel = document.getElementById('rsel-'+rid);
+  var starEl = document.getElementById('rstar-'+rid);
+  var card = document.getElementById('rcard-'+rid);
+  if (!sel || !starEl) return;
+  var val = parseInt(sel.value, 10);
+  var item = RATING_ITEMS.find(function(x){ return x.id === rid; });
+  var col = item ? item.color : '#22C55E';
+  starEl.textContent = '⭐'.repeat(val) + '🌑'.repeat(5 - val);
+  if (card) card.style.borderColor = col;
+}
+
+function showRatingStep(orderName, taskId) {
+  _ratingCompletionData = {orderName: orderName, taskId: taskId};
+  var qaBody = document.getElementById('pmQABody');
+  var btn = document.getElementById('pmCompleteBtn');
+  var wrap = document.getElementById('pmRatingWrap');
+  if (qaBody) qaBody.style.display = 'none';
+  if (btn) btn.style.display = 'none';
+  if (wrap) { wrap.style.display = 'block'; renderRatingGrid(); }
+}
+
+function submitRating() {
+  var wrap = document.getElementById('pmRatingWrap');
+  if (wrap) wrap.style.display = 'none';
+  var data = _ratingCompletionData || {};
+  showOrderDoneModal(data.orderName || '', data.taskId || '');
 }
 
 var _projChatStore = {};
