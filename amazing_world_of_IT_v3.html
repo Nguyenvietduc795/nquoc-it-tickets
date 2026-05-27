@@ -3216,6 +3216,29 @@ var DEPLOY_LAYERS = [
   }
 ];
 var TD_NOTES = {};
+var SHARED_TASK_CHAT_PREFIX = 'nhile_shared_task_chat__';
+function sharedTaskChatKey(taskName) {
+  return SHARED_TASK_CHAT_PREFIX + String(taskName || '')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_|_$/g, '');
+}
+function getSharedTaskMsgs(taskName) {
+  try {
+    var raw = localStorage.getItem(sharedTaskChatKey(taskName));
+    return raw ? JSON.parse(raw) : [];
+  } catch(e) { return []; }
+}
+function saveSharedTaskMsgs(taskName, msgs) {
+  try { localStorage.setItem(sharedTaskChatKey(taskName), JSON.stringify(msgs || [])); } catch(e) {}
+}
+function escChatText(text) {
+  return String(text || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+function displaySharedSender(sender) {
+  return sender === 'IT Team' ? 'Đức Hiếu' : sender;
+}
 
 function dlLayerItemCount(layer){ return layer.groups.reduce(function(a,g){return a+g.items.length;},0); }
 function dlLayerDoneCount(layer){ return layer.groups.reduce(function(a,g){return a+g.items.filter(function(x){return x.done;}).length;},0); }
@@ -3430,15 +3453,26 @@ function openTgPanel() {
   av.style.background = t.pic.bg;
   document.getElementById('tdTgName').textContent = t.pic.name;
   document.getElementById('tdTgHandle').textContent = '@' + t.pic.init.toLowerCase().replace(/\s/g,'');
-  /* render history as bubbles */
   var html = '';
-  t.history.slice().reverse().forEach(function(h){
-    html += '<div class="tg-bubble">';
-    html += '<div class="tg-bubble-sender">' + h.msg.split(' ')[0] + '</div>';
-    html += '<div class="tg-bubble-text">' + h.msg + '</div>';
-    html += '<div class="tg-bubble-time">' + h.time + '</div>';
-    html += '</div>';
-  });
+  var sharedMsgs = getSharedTaskMsgs(t.title);
+  if (sharedMsgs.length) {
+    sharedMsgs.forEach(function(m){
+      var mine = m.side === 'member';
+      html += '<div class="tg-bubble" style="' + (mine ? 'align-self:flex-end;border-radius:12px 12px 2px 12px;background:#0C447C;margin-left:auto' : '') + '">';
+      html += '<div class="tg-bubble-sender">' + displaySharedSender(m.sender || (mine ? 'Đức Hiếu' : 'Người order')) + '</div>';
+      html += '<div class="tg-bubble-text">' + escChatText(m.text) + '</div>';
+      html += '<div class="tg-bubble-time">' + (m.time || '') + '</div>';
+      html += '</div>';
+    });
+  } else {
+    t.history.slice().reverse().forEach(function(h){
+      html += '<div class="tg-bubble">';
+      html += '<div class="tg-bubble-sender">' + h.msg.split(' ')[0] + '</div>';
+      html += '<div class="tg-bubble-text">' + h.msg + '</div>';
+      html += '<div class="tg-bubble-time">' + h.time + '</div>';
+      html += '</div>';
+    });
+  }
   document.getElementById('tdTgMsgs').innerHTML = html;
   /* reset tags & default compose */
   document.querySelectorAll('#tdTgPanel .tg-tag').forEach(function(el){ el.classList.remove('act'); });
@@ -3451,6 +3485,12 @@ function openTgPanel() {
 function closeTgPanel() {
   document.getElementById('tdTgPanel').classList.remove('open');
 }
+
+window.addEventListener('storage', function(ev) {
+  if (!ev.key || ev.key.indexOf(SHARED_TASK_CHAT_PREFIX) !== 0) return;
+  var panel = document.getElementById('tdTgPanel');
+  if (panel && panel.classList.contains('open')) openTgPanel();
+});
 
 function setTdTgTag(el, key) {
   document.querySelectorAll('#tdTgPanel .tg-tag').forEach(function(t){ t.classList.remove('act'); });
@@ -3474,10 +3514,20 @@ function copyTdTgMsg() {
 function sendTdTgMsg() {
   var box = document.getElementById('tdTgCompose');
   var msgs = document.getElementById('tdTgMsgs');
+  var text = box.value.trim();
+  if (!text) return;
+  var taskId = document.getElementById('tdPanel').dataset.task;
+  var t = TD_DATA[taskId] || {};
+  var now = new Date();
+  var hh = now.getHours().toString().padStart(2,'0');
+  var mm = now.getMinutes().toString().padStart(2,'0');
+  var sharedMsgs = getSharedTaskMsgs(t.title || taskId);
+  sharedMsgs.push({ text: text, time: hh + ':' + mm, side: 'member', sender: 'Đức Hiếu' });
+  saveSharedTaskMsgs(t.title || taskId, sharedMsgs);
   var d = document.createElement('div');
   d.className = 'tg-bubble';
   d.style.cssText = 'align-self:flex-end;border-radius:12px 12px 2px 12px;background:#0C447C;margin-left:auto';
-  d.innerHTML = '<div class="tg-bubble-text">' + box.value.replace(/\n/g,'<br>') + '</div><div class="tg-bubble-time">Vừa gửi ✓</div>';
+  d.innerHTML = '<div class="tg-bubble-sender">Đức Hiếu</div><div class="tg-bubble-text">' + escChatText(text) + '</div><div class="tg-bubble-time">' + hh + ':' + mm + '</div>';
   msgs.appendChild(d);
   msgs.scrollTop = msgs.scrollHeight;
   box.value = '';
