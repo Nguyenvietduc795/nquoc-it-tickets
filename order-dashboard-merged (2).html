@@ -3362,10 +3362,10 @@ function projClickGuard(el, state) {
         title="Vui lòng kiểm tra đủ các mục bắt buộc trước"
         onclick="completeProjOrder()">Hoàn thành</button>
       <div id="pmRatingWrap" style="display:none" class="pm-rating-wrap">
-        <div class="pm-rating-ttl">🧭 Đánh giá chất lượng nghiệm thu</div>
+        <div class="pm-rating-ttl">🌟 Bạn cảm thấy thế nào về dịch vụ lần này?</div>
         <div class="pm-rating-row1" id="pmRatingRow1"></div>
         <div class="pm-rating-row2" id="pmRatingRow2"></div>
-        <textarea class="pm-rating-comment" id="pmRatingComment" placeholder="💬 Nhận xét thêm — điều gì bạn thấy tốt hoặc cần cải thiện? (tuỳ chọn)"></textarea>
+        <textarea class="pm-rating-comment" id="pmRatingComment" placeholder="💬 Góp ý thêm cho IT Team — điều gì bạn thấy ổn hoặc muốn cải thiện lần sau? (tuỳ chọn)"></textarea>
         <button class="pm-rating-submit" onclick="submitRating()">✅ Gửi đánh giá &amp; hoàn tất</button>
         <button class="pm-rating-skip" onclick="submitRating()">Bỏ qua, hoàn tất luôn →</button>
       </div>
@@ -4067,11 +4067,11 @@ function showOrderDoneModal(orderName, taskId) {
 
 /* ── Rating UI ── */
 var RATING_ITEMS = [
-  {id:'r1', ico:'🎯', color:'#22C55E', lbl:'Lợi ích',    q:'Tôi có khám phá đủ lợi ích hai bên không?'},
-  {id:'r2', ico:'💡', color:'#EAB308', lbl:'Lựa chọn',   q:'Tôi có tạo đủ lựa chọn trước khi quyết định không?'},
-  {id:'r3', ico:'⚖️', color:'#A78BFA', lbl:'Tiêu chuẩn', q:'Tôi có dùng tiêu chuẩn khách quan không?'},
-  {id:'r4', ico:'💛', color:'#F97316', lbl:'Quan hệ',    q:'Tôi có duy trì thái độ xây dựng không?'},
-  {id:'r5', ico:'💬', color:'#F87171', lbl:'Giao tiếp',  q:'Tôi có cân bằng nói và hỏi không?'}
+  {id:'r1', ico:'🎯', color:'#22C55E', lbl:'Đúng yêu cầu',  q:'Sản phẩm có làm đúng những gì bạn yêu cầu không?'},
+  {id:'r2', ico:'⚡', color:'#EAB308', lbl:'Chất lượng',    q:'Sản phẩm chạy ổn định, không lỗi, dễ dùng không?'},
+  {id:'r3', ico:'🕐', color:'#A78BFA', lbl:'Tiến độ',       q:'IT Team có giao đúng hẹn và xử lý kịp thời không?'},
+  {id:'r4', ico:'🤝', color:'#F97316', lbl:'Thái độ',       q:'IT Team có nhiệt tình, lịch sự và hỗ trợ tốt không?'},
+  {id:'r5', ico:'💬', color:'#3B82F6', lbl:'Trao đổi',      q:'IT Team có phản hồi rõ ràng, dễ hiểu không?'}
 ];
 var RATING_OPTS = ['Rất tốt','Tốt','Được','Cần cải thiện','Chưa làm được'];
 var _ratingCompletionData = null;
