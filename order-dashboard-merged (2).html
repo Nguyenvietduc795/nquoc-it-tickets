@@ -3741,6 +3741,50 @@ var STAGE_CHECKLISTS = {
   }
 };
 
+var COMMON_ACCEPTANCE_GROUPS = [
+  {
+    id: 'req',
+    name: 'Làm đúng yêu cầu chưa?',
+    badge: 'Bắt buộc ✓',
+    type: 'hard',
+    items: [
+      { id:'req1', text:'Làm đủ mọi mục tôi đã nhờ, không bỏ sót' },
+      { id:'req2', text:'Bấm thử — chạy bình thường, không bị lỗi' },
+      { id:'req3', text:'Số liệu, chữ, ảnh hiển thị đúng, không sai hay thiếu' },
+      { id:'req4', text:'Load nhanh, không giật, không đứng hình' },
+      { id:'req5', text:'Chạy ổn trên thiết bị người dùng thực tế hay dùng' }
+    ]
+  },
+  {
+    id: 'visual',
+    name: 'Nhìn vào có ổn không?',
+    badge: 'Khuyến khích',
+    type: 'soft',
+    items: [
+      { id:'visual1', text:'Màu sắc, bố cục nhìn đúng với file mẫu hoặc mô tả' },
+      { id:'visual2', text:'Mở trên điện thoại / thu nhỏ cửa sổ — không bị vỡ hay lệch' },
+      { id:'visual3', text:'Chữ rõ, dễ đọc, không bị cắt hay mất đuôi' },
+      { id:'visual4', text:'Bấm xong biết ngay kết quả — thành công hay lỗi đều hiện rõ' },
+      { id:'visual5', text:'Nhìn tổng thể gọn, không có gì trông kỳ lạ' }
+    ]
+  }
+];
+
+Object.keys(STAGE_CHECKLISTS).forEach(function(stageName) {
+  var prefix = stageName.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+  STAGE_CHECKLISTS[stageName].groups = COMMON_ACCEPTANCE_GROUPS.map(function(group) {
+    return {
+      id: prefix + '_' + group.id,
+      name: group.name,
+      badge: group.badge,
+      type: group.type,
+      items: group.items.map(function(item) {
+        return { id: prefix + '_' + item.id, text: item.text };
+      })
+    };
+  });
+});
+
 /* Legacy QA_CHECKLIST kept for backward compat */
 var QA_CHECKLIST = {
   a: STAGE_CHECKLISTS['QA & Test'].groups[0].items,
@@ -3779,15 +3823,19 @@ function renderStageChecklist(orderId, o) {
   var stageName = getActiveStage(o);
   var stageData = STAGE_CHECKLISTS[stageName] || STAGE_CHECKLISTS['QA & Test'];
   var checked = _qaChecked[orderId] || {};
+  var isOrderDone = o && o.status === 'done';
+  function isChecked(itemId) {
+    return isOrderDone || !!checked[itemId];
+  }
 
   /* Count totals */
   var allItems = [];
   stageData.groups.forEach(function(g){ allItems = allItems.concat(g.items); });
   var total = allItems.length;
-  var done  = allItems.filter(function(i){ return checked[i.id]; }).length;
+  var done  = allItems.filter(function(i){ return isChecked(i.id); }).length;
   var pct   = total > 0 ? Math.round(done / total * 100) : 0;
   var hardGroup = stageData.groups[0];
-  var hardAll = hardGroup.items.every(function(i){ return checked[i.id]; });
+  var hardAll = hardGroup.items.every(function(i){ return isChecked(i.id); });
 
   var html = '';
 
@@ -3800,10 +3848,10 @@ function renderStageChecklist(orderId, o) {
 
   /* Groups */
   stageData.groups.forEach(function(group) {
-    var gOpen = !!_qaGroupOpen[orderId + '_' + group.id];
-    var gDone = group.items.filter(function(i){ return checked[i.id]; }).length;
+    var gOpen = isOrderDone || !!_qaGroupOpen[orderId + '_' + group.id];
+    var gDone = group.items.filter(function(i){ return isChecked(i.id); }).length;
     html += '<div class="pm-qa-group">';
-    html += '<div class="pm-qa-group-hd' + (gOpen ? ' open' : '') + '" onclick="toggleQAGroup(\'' + orderId + '\',\'' + group.id + '\')">';
+    html += '<div class="pm-qa-group-hd' + (gOpen ? ' open' : '') + '"' + (isOrderDone ? '' : ' onclick="toggleQAGroup(\'' + orderId + '\',\'' + group.id + '\')"') + '>';
     html += '<div class="pm-qa-group-left"><span class="pm-qa-chevron">▶</span>';
     html += '<span class="pm-qa-group-nm">' + group.name + '</span>';
     html += '<span class="pm-qa-badge ' + group.type + '">' + group.badge + '</span></div>';
@@ -3811,9 +3859,10 @@ function renderStageChecklist(orderId, o) {
     if (gOpen) {
       html += '<div class="pm-qa-items">';
       group.items.forEach(function(item) {
-        var c = checked[item.id] ? ' chk' : '';
-        html += '<div class="pm-qa-item' + c + '" onclick="event.stopPropagation();toggleQAItem(\'' + orderId + '\',\'' + item.id + '\')">';
-        html += '<div class="pm-qa-box">' + (checked[item.id] ? '✓' : '') + '</div>';
+        var itemDone = isChecked(item.id);
+        var c = itemDone ? ' chk' : '';
+        html += '<div class="pm-qa-item' + c + '"' + (isOrderDone ? '' : ' onclick="event.stopPropagation();toggleQAItem(\'' + orderId + '\',\'' + item.id + '\')"') + '>';
+        html += '<div class="pm-qa-box">' + (itemDone ? '✓' : '') + '</div>';
         html += '<div class="pm-qa-txt">' + item.text + '</div></div>';
       });
       html += '</div>';
@@ -3831,7 +3880,11 @@ function renderStageChecklist(orderId, o) {
   var btn = document.getElementById('pmCompleteBtn');
   if (btn) {
     var isLastStage = o.stages && o.stages[o.stages.length - 1].name === stageName;
-    if (hardAll) {
+    if (isOrderDone) {
+      btn.className = 'pm-complete-btn active-btn';
+      btn.textContent = '✓ Đã hoàn thành';
+      btn.removeAttribute('title');
+    } else if (hardAll) {
       btn.className = 'pm-complete-btn active-btn';
       btn.textContent = isLastStage ? '✓ Xác nhận hoàn thành' : '✓ Xác nhận & chuyển giai đoạn';
       btn.removeAttribute('title');
@@ -3984,8 +4037,37 @@ function showOrderDoneModal(orderName, taskId) {
 
 var _projChatStore = {};
 var _activeProjId = null;
+var SHARED_TASK_CHAT_PREFIX = 'nhile_shared_task_chat__';
+function sharedTaskChatKey(taskName) {
+  return SHARED_TASK_CHAT_PREFIX + String(taskName || '')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_|_$/g, '');
+}
+function getSharedTaskMsgs(taskName) {
+  try {
+    var raw = localStorage.getItem(sharedTaskChatKey(taskName));
+    return raw ? JSON.parse(raw) : [];
+  } catch(e) { return []; }
+}
+function saveSharedTaskMsgs(taskName, msgs) {
+  try { localStorage.setItem(sharedTaskChatKey(taskName), JSON.stringify(msgs || [])); } catch(e) {}
+}
+function escSharedChatText(text) {
+  return String(text || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+function displaySharedSender(sender) {
+  return sender === 'IT Team' ? 'Đức Hiếu' : sender;
+}
+function getActiveProjOrder() {
+  var orders = getOrders();
+  return orders && orders.find(function(x){ return x.id === _activeProjId; });
+}
 function renderProjMsgs(projId) {
-  var msgs = _projChatStore[projId] || [];
+  var orders = getOrders();
+  var order = orders && orders.find(function(x){ return x.id === projId; });
+  var msgs = order ? getSharedTaskMsgs(order.name) : (_projChatStore[projId] || []);
   var el = document.getElementById('pmChatMsgs');
   var cnt = document.getElementById('pmChatCount');
   if (!el) return;
@@ -3993,9 +4075,10 @@ function renderProjMsgs(projId) {
     el.innerHTML = '<div class="pm-chat-msgs-empty">Chưa có tin nhắn. Bắt đầu trao đổi về dự án!</div>';
   } else {
     el.innerHTML = msgs.map(function(m) {
-      return '<div class="pm-msg-row ' + (m.mine ? 'mine' : 'theirs') + '">' +
-        '<div class="pm-msg-bubble">' + m.text.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div>' +
-        '<div class="pm-msg-time">' + m.time + '</div></div>';
+      var mine = m.side ? m.side === 'order' : !!m.mine;
+      return '<div class="pm-msg-row ' + (mine ? 'mine' : 'theirs') + '">' +
+        '<div class="pm-msg-bubble">' + escSharedChatText(m.text) + '</div>' +
+        '<div class="pm-msg-time">' + (m.sender ? displaySharedSender(m.sender) + ' · ' : '') + m.time + '</div></div>';
     }).join('');
     el.scrollTop = el.scrollHeight;
   }
@@ -4006,17 +4089,30 @@ function sendProjMsg() {
   if (!inp || !_activeProjId) return;
   var text = inp.value.trim();
   if (!text) return;
-  if (!_projChatStore[_activeProjId]) _projChatStore[_activeProjId] = [];
+  var order = getActiveProjOrder();
   var now = new Date();
   var hh = now.getHours().toString().padStart(2,'0');
   var mm = now.getMinutes().toString().padStart(2,'0');
-  _projChatStore[_activeProjId].push({ text: text, time: hh + ':' + mm, mine: true });
+  if (order) {
+    var sharedMsgs = getSharedTaskMsgs(order.name);
+    sharedMsgs.push({ text: text, time: hh + ':' + mm, side: 'order', sender: 'Người order' });
+    saveSharedTaskMsgs(order.name, sharedMsgs);
+  } else {
+    if (!_projChatStore[_activeProjId]) _projChatStore[_activeProjId] = [];
+    _projChatStore[_activeProjId].push({ text: text, time: hh + ':' + mm, mine: true });
+  }
   inp.value = '';
   inp.style.height = '';
   renderProjMsgs(_activeProjId);
 }
 
 /* ── NEW PROJECT FORM ── */
+window.addEventListener('storage', function(ev) {
+  if (!ev.key || ev.key.indexOf(SHARED_TASK_CHAT_PREFIX) !== 0 || !_activeProjId) return;
+  var overlay = document.getElementById('projDetailOverlay');
+  if (overlay && overlay.classList.contains('open')) renderProjMsgs(_activeProjId);
+});
+
 function openNewProjForm() {
   document.getElementById('newProjOverlay').classList.add('open');
   document.body.style.overflow='hidden';
