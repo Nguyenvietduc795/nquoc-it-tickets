@@ -3077,12 +3077,12 @@ function notifyGao(msg) {
 var DEMO_REVIEW_WARN = true;
 var WARN_MS          = { normal: 6*60*60*1000, urgent: 1*60*60*1000 };
 var WARN_DEMO        = { normal: 40*1000,       urgent: 15*1000      };
-var REPEAT_MS        = 10*60*1000;
-var REPEAT_DEMO_MS   = 30*1000;
+var REPEAT_MS        = 10*60*1000;   /* 10 phút */
+var REPEAT_DEMO_MS   = 30*1000;      /* 30s demo */
 
-var _reviewTimers = {};
-var _repeatTimers = {};
-var _bamPostMeta  = {};
+var _reviewTimers = {};  /* {postId: timeoutId} — timer lần đầu */
+var _repeatTimers = {};  /* {postId: timeoutId} — timer lặp lại */
+var _bamPostMeta  = {};  /* {postId: {taskName, authorName, isUrgent}} */
 var _bamTargetPost = null;
 
 function startReviewWarnTimer(postId, taskName, authorName, isUrgent) {
@@ -3142,6 +3142,7 @@ function showBamWarn(postId, taskName, authorName, isUrgent) {
   document.getElementById('bamOverlay').classList.add('show');
   flashGaoRed();
   notifyGao('🚨 ' + authorName + ' vẫn chưa được review! Giúp bạn ấy ngay đi!');
+  /* Lên lịch cảnh báo lặp lại nếu 10 phút nữa vẫn chưa review */
   if (postId) scheduleRepeatWarn(postId);
 }
 
