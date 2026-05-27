@@ -3972,6 +3972,36 @@ function itApplySuggest() {
   box.focus();
 }
 
+/* ── Cross-tab + page-load: KH nghiệm thu xong ── */
+function _showMemberCompletionNotif(d, withToast) {
+  var name = d.orderName || d.orderId;
+  var nl = document.getElementById('notifList');
+  if (nl) {
+    if (nl.querySelector('[data-comp-ts="' + d.ts + '"]')) return; /* already shown */
+    var el = document.createElement('div');
+    el.className = 'notif-it unread';
+    el.style.cursor = 'pointer';
+    el.dataset.compTs = d.ts;
+    el.innerHTML = '<div class="notif-dot" style="background:#22C55E"></div>' +
+      '<div class="notif-body"><div class="notif-msg">✅ <b>KH đã xác nhận hoàn thành</b> — ' + name + '!</div>' +
+      '<div class="notif-time">Vừa xong · nhấn để xem →</div></div>';
+    nl.insertBefore(el, nl.firstChild);
+  }
+  if (withToast) showToast('🎉 KH nghiệm thu xong: ' + name + '!');
+}
+/* Real-time: other tab fired the event */
+window.addEventListener('storage', function(ev) {
+  if (ev.key !== 'it_order_completed' || !ev.newValue) return;
+  try { _showMemberCompletionNotif(JSON.parse(ev.newValue), true); } catch(e) {}
+});
+/* On page load: pick up completion event (7-day window — works across sessions) */
+(function() {
+  try {
+    var d = JSON.parse(localStorage.getItem('it_order_completed') || 'null');
+    if (d && (Date.now() - d.ts) < 604800000) _showMemberCompletionNotif(d, false);
+  } catch(e) {}
+})();
+
 </script>
 </body>
 </html>

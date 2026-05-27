@@ -399,10 +399,12 @@ body::before{
 .proj-status-badge.waiting{background:#F3F4F6;color:#6B7280}
 .proj-status-badge.reviewing{background:#FEF3C7;color:#D97706}
 .proj-status-badge.approved{background:#DCFCE7;color:#16A34A}
+.proj-status-badge.done{background:#F0FDF4;color:#15803D;border:1px solid #86EFAC}
 .proj-status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
 .proj-status-dot.waiting{background:#9CA3AF}
 .proj-status-dot.reviewing{background:#F59E0B;animation:pulse-dot .9s ease-in-out infinite}
 .proj-status-dot.approved{background:#22C55E}
+.proj-status-dot.done{background:#16A34A}
 @keyframes pulse-dot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
 
 .proj-card-date{font-size:11px;color:var(--text-faint)}
@@ -427,6 +429,8 @@ body::before{
 
 .proj-view-btn{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;padding:8px;border-radius:8px;background:#F0FDF4;color:#16A34A;font-size:12px;font-weight:600;border:1px solid #BBF7D0;transition:all .15s}
 .proj-card.approved:hover .proj-view-btn{background:#DCFCE7;border-color:#86EFAC}
+.proj-qa-cta{display:flex;align-items:center;gap:8px;margin-top:10px;padding:9px 12px;border-radius:10px;background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:1.5px solid #86EFAC;font-size:12px;font-weight:700;color:#15803D}
+.proj-done-banner{display:flex;align-items:center;gap:8px;margin-top:10px;padding:9px 12px;border-radius:10px;background:#F0FDF4;border:1.5px solid #86EFAC;font-size:12px;font-weight:700;color:#15803D}
 
 /* Project detail modal */
 .proj-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
@@ -455,11 +459,23 @@ body::before{
 .notif-it-sub{font-size:11px;color:var(--text-muted);margin-bottom:3px}
 .notif-it-cta{font-size:11px;color:#5B4FE8;font-weight:700}
 .notif-it-time{font-size:10px;color:var(--text-faint)}
+/* Tab bar inside proj modal */
+.pm-tab-bar{display:flex;border-bottom:2px solid var(--border-soft);background:#fff;flex-shrink:0;padding:0 22px;gap:4px}
+.pm-tab{flex:1;padding:11px 4px;font-size:12.5px;font-weight:600;color:var(--text-muted);background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;transition:all .15s;font-family:var(--font);display:flex;align-items:center;justify-content:center;gap:5px}
+.pm-tab.act{color:#16A34A;border-bottom-color:#16A34A;font-weight:700}
+.pm-tab:hover:not(.act){color:var(--text)}
 /* QA Checklist inside proj modal */
 .pm-qa-section{margin-bottom:20px}
-.pm-qa-group{margin-bottom:13px}
-.pm-qa-group-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
-.pm-qa-group-nm{font-size:10.5px;font-weight:700;color:var(--text-faint);text-transform:uppercase;letter-spacing:.5px}
+.pm-qa-group{margin-bottom:10px}
+.pm-qa-group-hd{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;border-radius:10px;background:#F8FAFC;border:1.5px solid #E2E8F0;cursor:pointer;transition:background .15s,border-color .15s;user-select:none}
+.pm-qa-group-hd:hover{background:#F1F5F9}
+.pm-qa-group-hd.open{background:#F0FDF4;border-color:#86EFAC}
+.pm-qa-group-left{display:flex;align-items:center;gap:7px}
+.pm-qa-chevron{font-size:10px;color:var(--text-muted);transition:transform .2s;display:inline-block;line-height:1}
+.pm-qa-group-hd.open .pm-qa-chevron{transform:rotate(90deg)}
+.pm-qa-group-nm{font-size:11px;font-weight:700;color:var(--text);letter-spacing:.2px}
+.pm-qa-count{font-size:11px;font-weight:700;color:var(--text-muted);white-space:nowrap}
+.pm-qa-items{padding-top:7px}
 .pm-qa-badge{font-size:9px;padding:2px 8px;border-radius:20px;font-weight:800}
 .pm-qa-badge.hard{background:#FEE2E2;color:#DC2626}
 .pm-qa-badge.soft{background:#D1FAE5;color:#065F46}
@@ -473,6 +489,12 @@ body::before{
 .pm-qa-prog-bar{flex:1;height:5px;background:#E2E8F0;border-radius:3px;overflow:hidden}
 .pm-qa-prog-fill{height:100%;background:#22C55E;border-radius:3px;transition:width .3s}
 .pm-qa-prog-lbl{font-size:11px;font-weight:700;color:var(--text-muted);white-space:nowrap}
+/* Stage checklist header */
+.pm-cl-stage-hd{display:flex;align-items:center;gap:10px;padding:10px 12px;background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border-radius:10px;border:1.5px solid #86EFAC;margin-bottom:14px}
+.pm-cl-stage-emoji{font-size:22px;line-height:1;flex-shrink:0}
+.pm-cl-stage-name{font-size:13px;font-weight:700;color:#14532D;margin-bottom:2px}
+.pm-cl-stage-sub{font-size:11px;color:#16A34A}
+
 /* Complete button */
 .pm-complete-btn{width:100%;padding:12px;border-radius:10px;border:none;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.2px;margin-top:2px}
 .pm-complete-btn.active-btn{background:#22C55E;color:#fff;box-shadow:0 4px 14px rgba(34,197,94,.28)}
@@ -533,6 +555,21 @@ body::before{
 .np-ta{resize:vertical;min-height:80px}
 .np-submit{width:100%;padding:13px;background:#3B82F6;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px;font-family:var(--font);transition:background .15s}
 .np-submit:hover{background:#2563EB}
+/* Order completion modal */
+.od-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9999;display:flex;align-items:center;justify-content:center;animation:od-in .2s ease}
+@keyframes od-in{from{opacity:0}to{opacity:1}}
+.od-box{background:#fff;border-radius:22px;padding:32px 26px 24px;max-width:340px;width:92%;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,.18);animation:od-slide .25s ease}
+@keyframes od-slide{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+.od-ico{font-size:54px;line-height:1;margin-bottom:14px}
+.od-title{font-size:19px;font-weight:800;color:#0F172A;margin-bottom:6px}
+.od-sub{font-size:12.5px;color:#64748B;line-height:1.5;margin-bottom:18px}
+.od-chip{background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:12px;padding:11px 14px;text-align:left;margin-bottom:16px}
+.od-chip-lbl{font-size:9.5px;font-weight:800;color:#16A34A;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.od-chip-val{font-size:13.5px;font-weight:700;color:#0F172A}
+.od-chip-task{font-size:11px;color:#22C55E;margin-top:2px;font-weight:600}
+.od-time{font-size:11px;color:#94A3B8;margin-bottom:18px}
+.od-close{width:100%;padding:13px;border-radius:12px;border:none;background:#22C55E;color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;font-family:var(--font)}
+.od-close:hover{background:#16A34A}
 </style>
 </head>
 <body>
@@ -3260,7 +3297,14 @@ function projClickGuard(el, state) {
       <div class="proj-modal-sub" id="pmSub">—</div>
       <button class="proj-modal-close" onclick="closeProjDetailBtn()">✕</button>
     </div>
-    <div class="proj-modal-body">
+    <!-- Tab bar (ẩn khi không có checklist) -->
+    <div class="pm-tab-bar" id="pmTabBar" style="display:none">
+      <button class="pm-tab act" id="pmTab-progress" onclick="switchPmTab('progress')">📊 Tiến độ</button>
+      <button class="pm-tab" id="pmTab-checklist" onclick="switchPmTab('checklist')">📋 Checklist</button>
+    </div>
+
+    <!-- Pane 1: Tiến độ -->
+    <div class="proj-modal-body" id="pmPane-progress">
       <div class="pm-section">
         <div class="pm-label">Tiến độ tổng quan</div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
@@ -3287,13 +3331,14 @@ function projClickGuard(el, state) {
           </div>
         </div>
       </div>
-      <div id="pmQASection" style="display:none">
-        <div class="pm-label" style="margin-bottom:10px">📋 Nghiệm thu sản phẩm</div>
-        <div id="pmQABody"></div>
-        <button class="pm-complete-btn disabled-btn" id="pmCompleteBtn"
-          title="Vui lòng kiểm tra đủ các mục bắt buộc trước"
-          onclick="completeProjOrder()">Hoàn thành</button>
-      </div>
+    </div>
+
+    <!-- Pane 2: Checklist nghiệm thu -->
+    <div class="proj-modal-body" id="pmPane-checklist" style="display:none">
+      <div id="pmQABody"></div>
+      <button class="pm-complete-btn disabled-btn" id="pmCompleteBtn"
+        title="Vui lòng kiểm tra đủ các mục bắt buộc trước"
+        onclick="completeProjOrder()">Hoàn thành</button>
     </div>
     <div class="pm-chat-footer">
       <div class="pm-chat-hd">
@@ -3366,18 +3411,34 @@ var MOCK_PROJ_ORDERS = [
   {
     id:'ORDER-001', name:'Export báo cáo PDF', icon:'🖨️',
     desc:'Export dashboard sang PDF: biểu đồ doanh thu, danh sách đơn hàng, filter theo tháng.',
-    status:'waiting', priority:'hot',
+    status:'approved', priority:'hot',
     proj:'nhile', projName:'NhiLe Platform v2',
     deadline:'30/05/2026', submittedAt:'22/05/2026',
-    tags:['PDF','Export','Dashboard']
+    approvedAt:'23/05/2026', taskId:'TASK-058', progress:25,
+    tags:['PDF','Export','Dashboard'],
+    stages:[
+      {name:'Phân tích & Scope',status:'done'},
+      {name:'Thiết kế UI',status:'active'},
+      {name:'Implement',status:'todo'},
+      {name:'QA & Test',status:'todo'},
+      {name:'Deploy',status:'todo'}
+    ]
   },
   {
     id:'ORDER-002', name:'Push notification real-time', icon:'🔔',
     desc:'Nhận push notification khi học viên đăng ký mới, thanh toán thành công hoặc có câu hỏi.',
-    status:'reviewing', priority:'warm',
+    status:'approved', priority:'warm',
     proj:'nedu', projName:'Nedu CRM',
     deadline:'05/06/2026', submittedAt:'23/05/2026',
-    tags:['Notification','Real-time','CRM']
+    approvedAt:'24/05/2026', taskId:'TASK-060', progress:5,
+    tags:['Notification','Real-time','CRM'],
+    stages:[
+      {name:'Phân tích & Scope',status:'active'},
+      {name:'Thiết kế UI',status:'todo'},
+      {name:'Implement',status:'todo'},
+      {name:'QA & Test',status:'todo'},
+      {name:'Deploy',status:'todo'}
+    ]
   },
   {
     id:'ORDER-003', name:'Dashboard KPI cho leader', icon:'📊',
@@ -3403,7 +3464,7 @@ function saveOrders(orders) {
   try { localStorage.setItem(LS_ORDERS,JSON.stringify(orders)); } catch(e){}
 }
 
-var ORDERS_VERSION = 'v3';
+var ORDERS_VERSION = 'v5';
 function initOrders() {
   var orders = getOrders();
   /* Reset mock data if version mismatch — but preserve user-submitted orders */
@@ -3454,10 +3515,9 @@ function renderProjGrid(orders) {
   var priLabel = {hot:'Cao',warm:'Trung bình',cool:'Thấp'};
   var html='';
   orders.forEach(function(o){
-    var stLabel={waiting:'Chờ duyệt',reviewing:'Đang xem xét',approved:'Đã duyệt'}[o.status]||o.status;
-    var oc = o.status==='approved'
-      ? 'openProjDetail(\''+o.id+'\')'
-      : 'projClickGuard(\''+o.status+'\')';
+    var stLabel={waiting:'Chờ duyệt',reviewing:'Đang xem xét',approved:'Đã duyệt',done:'✅ Hoàn thành'}[o.status]||o.status;
+    var canOpen = o.status==='approved' || o.status==='done';
+    var oc = canOpen ? 'openProjDetail(\''+o.id+'\')' : 'projClickGuard(\''+o.status+'\')';
     html+='<div class="proj-card '+o.status+'" data-order-id="'+o.id+'" onclick="'+oc+'">';
     html+='<div class="proj-card-top"><span class="proj-status-badge '+o.status+'"><span class="proj-status-dot '+o.status+'"></span>'+stLabel+'</span>';
     html+='<span class="proj-card-date">'+(o.submittedAt||'')+'</span></div>';
@@ -3472,14 +3532,20 @@ function renderProjGrid(orders) {
       html+='<div class="proj-locked-msg"><span>🔒</span><span>IT Team đang tiếp nhận — chưa có cập nhật</span></div>';
     } else if (o.status==='reviewing') {
       html+='<div class="proj-locked-msg"><span>⏳</span><span>IT đang xem xét yêu cầu — sẽ phản hồi sớm!</span></div>';
-    } else if (o.status==='approved') {
+    } else if (o.status==='approved' || o.status==='done') {
       html+='<div class="proj-progress-wrap">';
       html+='<div class="proj-prog-header"><span>Tiến độ</span><span>'+(o.progress||0)+'%</span></div>';
       html+='<div class="proj-prog-bar"><div class="proj-prog-fill" style="width:'+(o.progress||0)+'%"></div></div>';
       html+='<div class="proj-prog-stages">';
       (o.stages||[]).forEach(function(s){html+='<span class="proj-prog-stage '+s.status+'">'+s.name+'</span>';});
       html+='</div></div>';
-      html+='<div class="proj-view-btn">👁 Xem tiến độ chi tiết →</div>';
+      if (o.status==='done') {
+        html+='<div class="proj-done-banner">✅ Đã nghiệm thu hoàn tất!</div>';
+      } else if (isQAStage(o)) {
+        html+='<div class="proj-qa-cta">📋 Checklist nghiệm thu đang chờ — bấm để kiểm tra!</div>';
+      } else {
+        html+='<div class="proj-view-btn">👁 Xem tiến độ chi tiết →</div>';
+      }
     }
     html+='</div>';
   });
@@ -3513,13 +3579,20 @@ function openProjDetail(orderId) {
     tlHtml+='<div class="pm-tl-meta">'+meta+'</div></div></div>';
   });
   document.getElementById('pmTimeline').innerHTML=tlHtml;
-  /* QA checklist */
-  var qaSection = document.getElementById('pmQASection');
-  if (isQAStage(o)) {
-    qaSection.style.display = '';
-    renderQABody(orderId);
+  /* Tab bar + checklist */
+  var tabBar = document.getElementById('pmTabBar');
+  if (hasChecklist(o)) {
+    tabBar.style.display = '';
+    renderStageChecklist(orderId, o);
+    /* Default to checklist tab when QA stage is active, else progress */
+    if (isQAStage(o) || o.status === 'done') {
+      switchPmTab('checklist');
+    } else {
+      switchPmTab('progress');
+    }
   } else {
-    qaSection.style.display = 'none';
+    tabBar.style.display = 'none';
+    switchPmTab('progress');
   }
   _activeProjId = orderId;
   renderProjMsgs(orderId);
@@ -3557,65 +3630,272 @@ function handleNotifShip() {
   openProjDetail('ORDER-003');
 }
 
-/* ── QA CHECKLIST ── */
+/* ── STAGE CHECKLISTS ── */
+var STAGE_CHECKLISTS = {
+  'Phân tích & Scope': {
+    label: 'Phân tích & Scope',
+    emoji: '🔍',
+    groups: [
+      {
+        id: 'scope_a', name: 'Yêu cầu rõ ràng', badge: 'Bắt buộc ✓', type: 'hard',
+        items: [
+          { id:'sc1', text:'Tôi đã mô tả rõ mục tiêu và kết quả mong muốn của tính năng.' },
+          { id:'sc2', text:'Phạm vi công việc (scope) đã được xác nhận với IT Team.' },
+          { id:'sc3', text:'Các trường hợp ngoại lệ và edge case đã được liệt kê.' }
+        ]
+      },
+      {
+        id: 'scope_b', name: 'Tài liệu & tham khảo', badge: 'Khuyến khích', type: 'soft',
+        items: [
+          { id:'sc4', text:'Đã cung cấp mockup, wireframe hoặc ví dụ tham khảo.' },
+          { id:'sc5', text:'Đã xác định người dùng chính sẽ dùng tính năng này.' }
+        ]
+      }
+    ]
+  },
+  'Thiết kế UI': {
+    label: 'Thiết kế UI',
+    emoji: '🎨',
+    groups: [
+      {
+        id: 'ui_a', name: 'Thiết kế đúng yêu cầu', badge: 'Bắt buộc ✓', type: 'hard',
+        items: [
+          { id:'ui1', text:'Giao diện đúng với mô tả và yêu cầu ban đầu đã thống nhất.' },
+          { id:'ui2', text:'Màu sắc, font chữ và layout nhất quán với hệ thống hiện tại.' },
+          { id:'ui3', text:'Các trạng thái (loading, empty, error) đã được thiết kế đầy đủ.' }
+        ]
+      },
+      {
+        id: 'ui_b', name: 'Trải nghiệm người dùng', badge: 'Khuyến khích', type: 'soft',
+        items: [
+          { id:'ui4', text:'Giao diện dễ hiểu, không cần hướng dẫn thêm.' },
+          { id:'ui5', text:'Responsive tốt trên cả desktop và mobile.' }
+        ]
+      }
+    ]
+  },
+  'Implement': {
+    label: 'Implement',
+    emoji: '⚙️',
+    groups: [
+      {
+        id: 'impl_a', name: 'Tính năng hoạt động', badge: 'Bắt buộc ✓', type: 'hard',
+        items: [
+          { id:'im1', text:'Tính năng chính đã hoạt động đúng theo yêu cầu.' },
+          { id:'im2', text:'Dữ liệu được lưu và hiển thị chính xác.' },
+          { id:'im3', text:'Không có lỗi nghiêm trọng khi sử dụng thông thường.' }
+        ]
+      },
+      {
+        id: 'impl_b', name: 'Hiệu suất & bảo mật', badge: 'Khuyến khích', type: 'soft',
+        items: [
+          { id:'im4', text:'Tốc độ phản hồi chấp nhận được (dưới 3 giây).' },
+          { id:'im5', text:'Phân quyền và bảo mật đã được kiểm tra.' }
+        ]
+      }
+    ]
+  },
+  'QA & Test': {
+    label: 'QA & Test',
+    emoji: '✅',
+    groups: [
+      {
+        id: 'qa_a', name: 'Tính năng hoạt động đúng', badge: 'Bắt buộc ✓', type: 'hard',
+        items: [
+          { id:'a1', text:'Tôi đã thử xem số task hoàn thành/tuần — số liệu đúng thực tế.' },
+          { id:'a2', text:'Tính năng bộ lọc tuần/tháng/quý hoạt động — kết quả thay đổi đúng.' },
+          { id:'a3', text:'Khi tôi xem burn-down chart, biểu đồ rõ ràng và đúng tiến độ team.' },
+          { id:'a4', text:'Tôi đã thử xem top performer — tên nhân sự đúng và cập nhật.' }
+        ]
+      },
+      {
+        id: 'qa_b', name: 'Trải nghiệm & giao diện', badge: 'Khuyến khích', type: 'soft',
+        items: [
+          { id:'b1', text:'Tốc độ tải dashboard dưới 3 giây khi mở lần đầu.' },
+          { id:'b2', text:'Giao diện dễ đọc, số liệu rõ ngay ở cái nhìn đầu tiên.' },
+          { id:'b3', text:'Hiển thị đầy đủ và đẹp trên màn hình lớn và tablet.' }
+        ]
+      }
+    ]
+  },
+  'Deploy': {
+    label: 'Deploy',
+    emoji: '🚀',
+    groups: [
+      {
+        id: 'dep_a', name: 'Nghiệm thu cuối', badge: 'Bắt buộc ✓', type: 'hard',
+        items: [
+          { id:'dp1', text:'Tính năng đã hoạt động đúng trên môi trường production.' },
+          { id:'dp2', text:'Tôi đã kiểm tra lần cuối và xác nhận không có lỗi.' },
+          { id:'dp3', text:'Team đã được thông báo và biết cách sử dụng tính năng mới.' }
+        ]
+      },
+      {
+        id: 'dep_b', name: 'Tài liệu & bàn giao', badge: 'Khuyến khích', type: 'soft',
+        items: [
+          { id:'dp4', text:'Hướng dẫn sử dụng đã được cung cấp (nếu cần).' },
+          { id:'dp5', text:'Đã xác nhận với IT Team về quy trình hỗ trợ sau deploy.' }
+        ]
+      }
+    ]
+  }
+};
+
+/* Legacy QA_CHECKLIST kept for backward compat */
 var QA_CHECKLIST = {
-  a: [
-    { id:'a1', text:'Các chỉ số KPI hiển thị đúng số liệu thực tế (doanh thu, tiến độ, nhân sự)' },
-    { id:'a2', text:'Bộ lọc theo thời gian (ngày / tuần / tháng / quý) hoạt động chính xác' },
-    { id:'a3', text:'Biểu đồ cập nhật đúng chu kỳ đã thống nhất với IT Team' },
-    { id:'a4', text:'Phân quyền xem đúng — leader thấy toàn bộ, member chỉ thấy dữ liệu của mình' },
-    { id:'a5', text:'Xuất báo cáo (PDF / Excel) ra đúng định dạng, đủ dữ liệu cần thiết' }
-  ],
-  b: [
-    { id:'b1', text:'Giao diện trực quan, dễ đọc số liệu ngay ở cái nhìn đầu tiên' },
-    { id:'b2', text:'Tốc độ tải dashboard dưới 3 giây với dữ liệu thực tế' },
-    { id:'b3', text:'Hiển thị đẹp trên màn hình lớn (desktop) và tablet' },
-    { id:'b4', text:'Màu sắc KPI rõ ràng, phân biệt được trạng thái tốt / cần cải thiện' }
-  ]
+  a: STAGE_CHECKLISTS['QA & Test'].groups[0].items,
+  b: STAGE_CHECKLISTS['QA & Test'].groups[1].items
 };
 var _qaChecked = {};
+var _qaGroupOpen = {};
 
 function isQAStage(o) {
   return o && (o.stages||[]).some(function(s){ return s.name==='QA & Test' && s.status==='active'; });
 }
 
+function getActiveStage(o) {
+  if (!o || !o.stages) return null;
+  var active = o.stages.find(function(s){ return s.status === 'active'; });
+  if (active) return active.name;
+  /* If all done, return last stage */
+  var allDone = o.stages.every(function(s){ return s.status === 'done'; });
+  if (allDone) return o.stages[o.stages.length - 1].name;
+  return o.stages[0].name;
+}
+
+function hasChecklist(o) {
+  return o && (o.status === 'approved' || o.status === 'done') && o.stages && o.stages.length > 0;
+}
+function switchPmTab(tab) {
+  ['progress','checklist'].forEach(function(t) {
+    var pane = document.getElementById('pmPane-'+t);
+    var btn  = document.getElementById('pmTab-'+t);
+    if (pane) pane.style.display = (t===tab) ? '' : 'none';
+    if (btn)  btn.classList.toggle('act', t===tab);
+  });
+}
+
+function renderStageChecklist(orderId, o) {
+  var stageName = getActiveStage(o);
+  var stageData = STAGE_CHECKLISTS[stageName] || STAGE_CHECKLISTS['QA & Test'];
+  var checked = _qaChecked[orderId] || {};
+
+  /* Count totals */
+  var allItems = [];
+  stageData.groups.forEach(function(g){ allItems = allItems.concat(g.items); });
+  var total = allItems.length;
+  var done  = allItems.filter(function(i){ return checked[i.id]; }).length;
+  var pct   = total > 0 ? Math.round(done / total * 100) : 0;
+  var hardGroup = stageData.groups[0];
+  var hardAll = hardGroup.items.every(function(i){ return checked[i.id]; });
+
+  var html = '';
+
+  /* Stage header */
+  html += '<div class="pm-cl-stage-hd">';
+  html += '<span class="pm-cl-stage-emoji">' + stageData.emoji + '</span>';
+  html += '<div><div class="pm-cl-stage-name">Checklist: ' + stageData.label + '</div>';
+  html += '<div class="pm-cl-stage-sub">Xác nhận các mục trước khi chuyển giai đoạn</div></div>';
+  html += '</div>';
+
+  /* Groups */
+  stageData.groups.forEach(function(group) {
+    var gOpen = !!_qaGroupOpen[orderId + '_' + group.id];
+    var gDone = group.items.filter(function(i){ return checked[i.id]; }).length;
+    html += '<div class="pm-qa-group">';
+    html += '<div class="pm-qa-group-hd' + (gOpen ? ' open' : '') + '" onclick="toggleQAGroup(\'' + orderId + '\',\'' + group.id + '\')">';
+    html += '<div class="pm-qa-group-left"><span class="pm-qa-chevron">▶</span>';
+    html += '<span class="pm-qa-group-nm">' + group.name + '</span>';
+    html += '<span class="pm-qa-badge ' + group.type + '">' + group.badge + '</span></div>';
+    html += '<span class="pm-qa-count">' + gDone + '/' + group.items.length + '</span></div>';
+    if (gOpen) {
+      html += '<div class="pm-qa-items">';
+      group.items.forEach(function(item) {
+        var c = checked[item.id] ? ' chk' : '';
+        html += '<div class="pm-qa-item' + c + '" onclick="event.stopPropagation();toggleQAItem(\'' + orderId + '\',\'' + item.id + '\')">';
+        html += '<div class="pm-qa-box">' + (checked[item.id] ? '✓' : '') + '</div>';
+        html += '<div class="pm-qa-txt">' + item.text + '</div></div>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+  });
+
+  /* Progress bar */
+  html += '<div class="pm-qa-prog-row"><div class="pm-qa-prog-bar"><div class="pm-qa-prog-fill" style="width:' + pct + '%"></div></div>';
+  html += '<span class="pm-qa-prog-lbl">' + done + '/' + total + ' mục</span></div>';
+
+  document.getElementById('pmQABody').innerHTML = html;
+
+  /* Toggle complete button */
+  var btn = document.getElementById('pmCompleteBtn');
+  if (btn) {
+    var isLastStage = o.stages && o.stages[o.stages.length - 1].name === stageName;
+    if (hardAll) {
+      btn.className = 'pm-complete-btn active-btn';
+      btn.textContent = isLastStage ? '✓ Xác nhận hoàn thành' : '✓ Xác nhận & chuyển giai đoạn';
+      btn.removeAttribute('title');
+    } else {
+      btn.className = 'pm-complete-btn disabled-btn';
+      btn.textContent = isLastStage ? 'Hoàn thành' : 'Chuyển giai đoạn';
+      btn.title = 'Vui lòng kiểm tra đủ các mục bắt buộc trước';
+    }
+  }
+}
+
 function renderQABody(orderId) {
+  /* Legacy wrapper — find order and delegate */
+  var orders = getOrders();
+  var o = orders && orders.find(function(x){ return x.id === orderId; });
+  if (o) { renderStageChecklist(orderId, o); return; }
+  /* Fallback to old QA-only render */
   var checked = _qaChecked[orderId] || {};
   var aAll = QA_CHECKLIST.a.every(function(i){ return checked[i.id]; });
   var total = QA_CHECKLIST.a.length + QA_CHECKLIST.b.length;
   var done  = Object.keys(checked).filter(function(k){ return checked[k]; }).length;
   var pct   = Math.round(done / total * 100);
   var html  = '';
-
-  /* Group A */
+  var aOpen = !!_qaGroupOpen[orderId+'_a'];
+  var aDone = QA_CHECKLIST.a.filter(function(i){ return checked[i.id]; }).length;
   html += '<div class="pm-qa-group">';
-  html += '<div class="pm-qa-group-hd"><span class="pm-qa-group-nm">Tính năng hoạt động đúng</span><span class="pm-qa-badge hard">Bắt buộc ✓</span></div>';
-  QA_CHECKLIST.a.forEach(function(item) {
-    var c = checked[item.id] ? ' chk' : '';
-    html += '<div class="pm-qa-item'+c+'" onclick="toggleQAItem(\''+orderId+'\',\''+item.id+'\')">';
-    html += '<div class="pm-qa-box">'+(checked[item.id]?'✓':'')+'</div>';
-    html += '<div class="pm-qa-txt">'+item.text+'</div></div>';
-  });
+  html += '<div class="pm-qa-group-hd'+(aOpen?' open':'')+'" onclick="toggleQAGroup(\''+orderId+'\',\'a\')">';
+  html += '<div class="pm-qa-group-left"><span class="pm-qa-chevron">▶</span>';
+  html += '<span class="pm-qa-group-nm">Tính năng hoạt động đúng</span>';
+  html += '<span class="pm-qa-badge hard">Bắt buộc ✓</span></div>';
+  html += '<span class="pm-qa-count">'+aDone+'/'+QA_CHECKLIST.a.length+'</span></div>';
+  if (aOpen) {
+    html += '<div class="pm-qa-items">';
+    QA_CHECKLIST.a.forEach(function(item) {
+      var c = checked[item.id] ? ' chk' : '';
+      html += '<div class="pm-qa-item'+c+'" onclick="event.stopPropagation();toggleQAItem(\''+orderId+'\',\''+item.id+'\')">';
+      html += '<div class="pm-qa-box">'+(checked[item.id]?'✓':'')+'</div>';
+      html += '<div class="pm-qa-txt">'+item.text+'</div></div>';
+    });
+    html += '</div>';
+  }
   html += '</div>';
-
-  /* Group B */
+  var bOpen = !!_qaGroupOpen[orderId+'_b'];
+  var bDone = QA_CHECKLIST.b.filter(function(i){ return checked[i.id]; }).length;
   html += '<div class="pm-qa-group">';
-  html += '<div class="pm-qa-group-hd"><span class="pm-qa-group-nm">Trải nghiệm & giao diện</span><span class="pm-qa-badge soft">Khuyến khích</span></div>';
-  QA_CHECKLIST.b.forEach(function(item) {
-    var c = checked[item.id] ? ' chk' : '';
-    html += '<div class="pm-qa-item'+c+'" onclick="toggleQAItem(\''+orderId+'\',\''+item.id+'\')">';
-    html += '<div class="pm-qa-box">'+(checked[item.id]?'✓':'')+'</div>';
-    html += '<div class="pm-qa-txt">'+item.text+'</div></div>';
-  });
+  html += '<div class="pm-qa-group-hd'+(bOpen?' open':'')+'" onclick="toggleQAGroup(\''+orderId+'\',\'b\')">';
+  html += '<div class="pm-qa-group-left"><span class="pm-qa-chevron">▶</span>';
+  html += '<span class="pm-qa-group-nm">Trải nghiệm & giao diện</span>';
+  html += '<span class="pm-qa-badge soft">Khuyến khích</span></div>';
+  html += '<span class="pm-qa-count">'+bDone+'/'+QA_CHECKLIST.b.length+'</span></div>';
+  if (bOpen) {
+    html += '<div class="pm-qa-items">';
+    QA_CHECKLIST.b.forEach(function(item) {
+      var c = checked[item.id] ? ' chk' : '';
+      html += '<div class="pm-qa-item'+c+'" onclick="event.stopPropagation();toggleQAItem(\''+orderId+'\',\''+item.id+'\')">';
+      html += '<div class="pm-qa-box">'+(checked[item.id]?'✓':'')+'</div>';
+      html += '<div class="pm-qa-txt">'+item.text+'</div></div>';
+    });
+    html += '</div>';
+  }
   html += '</div>';
-
-  /* Progress bar */
   html += '<div class="pm-qa-prog-row"><div class="pm-qa-prog-bar"><div class="pm-qa-prog-fill" style="width:'+pct+'%"></div></div>';
   html += '<span class="pm-qa-prog-lbl">'+done+'/'+total+' mục</span></div>';
-
   document.getElementById('pmQABody').innerHTML = html;
-
-  /* Toggle complete button state */
   var btn = document.getElementById('pmCompleteBtn');
   if (btn) {
     if (aAll) {
@@ -3630,10 +3910,20 @@ function renderQABody(orderId) {
   }
 }
 
+function toggleQAGroup(orderId, groupId) {
+  var key = orderId+'_'+groupId;
+  _qaGroupOpen[key] = !_qaGroupOpen[key];
+  var orders = getOrders();
+  var o = orders && orders.find(function(x){ return x.id === orderId; });
+  if (o) { renderStageChecklist(orderId, o); } else { renderQABody(orderId); }
+}
+
 function toggleQAItem(orderId, itemId) {
   if (!_qaChecked[orderId]) _qaChecked[orderId] = {};
   _qaChecked[orderId][itemId] = !_qaChecked[orderId][itemId];
-  renderQABody(orderId);
+  var orders = getOrders();
+  var o = orders && orders.find(function(x){ return x.id === orderId; });
+  if (o) { renderStageChecklist(orderId, o); } else { renderQABody(orderId); }
 }
 
 function completeProjOrder() {
@@ -3657,9 +3947,39 @@ function completeProjOrder() {
     tlHtml += '<div class="pm-tl-meta">Đã hoàn thành</div></div></div>';
   });
   document.getElementById('pmTimeline').innerHTML = tlHtml;
-  document.getElementById('pmQASection').style.display = 'none';
-  showOrderToast('🎉 Nghiệm thu hoàn tất! Cảm ơn bạn đã xác nhận.');
+  /* Keep checklist tab visible but update button state */
+  renderStageChecklist(orderId, o);
+  switchPmTab('checklist');
   renderOrders();
+  /* Broadcast to IT team dashboards via localStorage */
+  var completionData = { orderId: orderId, orderName: o.name, taskId: o.taskId || '', ts: Date.now() };
+  try { localStorage.setItem('it_order_completed', JSON.stringify(completionData)); } catch(e) {}
+  showOrderDoneModal(o.name, o.taskId || '');
+}
+
+function showOrderDoneModal(orderName, taskId) {
+  var old = document.getElementById('odOverlay');
+  if (old) old.remove();
+  var now = new Date();
+  var d = now.getDate().toString().padStart(2,'0') + '/' + (now.getMonth()+1).toString().padStart(2,'0') + '/' + now.getFullYear();
+  var t = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  var ov = document.createElement('div');
+  ov.className = 'od-overlay'; ov.id = 'odOverlay';
+  ov.innerHTML =
+    '<div class="od-box">' +
+      '<div class="od-ico">🎉</div>' +
+      '<div class="od-title">Nghiệm thu hoàn tất!</div>' +
+      '<div class="od-sub">Cảm ơn bạn đã xác nhận.<br>IT Team đã nhận được thông báo ngay lập tức.</div>' +
+      '<div class="od-chip">' +
+        '<div class="od-chip-lbl">✅ Dự án hoàn thành</div>' +
+        '<div class="od-chip-val">' + orderName + '</div>' +
+        (taskId ? '<div class="od-chip-task">' + taskId + '</div>' : '') +
+      '</div>' +
+      '<div class="od-time">Xác nhận lúc ' + t + ' · ' + d + '</div>' +
+      '<button class="od-close" onclick="document.getElementById(\'odOverlay\').remove()">Đã hiểu, đóng lại ✓</button>' +
+    '</div>';
+  document.body.appendChild(ov);
+  ov.addEventListener('click', function(e) { if (e.target === ov) ov.remove(); });
 }
 
 var _projChatStore = {};

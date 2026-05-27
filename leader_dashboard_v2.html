@@ -103,6 +103,8 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',-apple-system,sans
 .ps.review .ps-ico{background:var(--amber2)}.ps.review .ps-n{color:var(--amber)}
 .ps.fix .ps-ico{background:var(--orange2)}.ps.fix .ps-n{color:var(--orange)}
 .ps.done .ps-ico{background:var(--green2)}.ps.done .ps-n{color:var(--green)}
+@keyframes pipe-done-flash{0%{background:rgba(48,209,88,.18)}100%{background:transparent}}
+.ps.done.flash{animation:pipe-done-flash 1.4s ease-out forwards}
 
 /* ── ACTION ITEMS ── */
 .ai{display:flex;align-items:flex-start;gap:13px;padding:14px;border-radius:var(--r16);border:1px solid var(--bdr);background:var(--s1);transition:all .15s;cursor:pointer;margin-bottom:8px}
@@ -628,7 +630,7 @@ body{background:var(--bg);color:var(--t1);font-family:'Inter',-apple-system,sans
             <div class="av-row"><div class="av-sm" style="background:var(--purple2);color:var(--purple)">BL</div><div class="av-info"><div class="av-name">Bảo Linh</div><div class="av-role">BA · Tuần 2</div></div><div class="pbar-w"><div class="pbar-bg"><div class="pbar-fill" style="width:89%;background:var(--green)"></div></div><div class="ppct">8/9 · 89%</div></div></div>
           </div>
           <div class="card">
-            <div class="card-hd"><div class="card-title">THÔNG BÁO</div><span class="pill pill-amber">2 cần xử lý</span></div>
+            <div class="card-hd" id="leader-notif-hd"><div class="card-title">THÔNG BÁO</div><span class="pill pill-amber" id="leader-notif-pill">2 cần xử lý</span></div>
             <div class="notif-row"><div class="ndot nd-a"></div><div><div class="ntext"><strong>Quốc An</strong> yêu cầu access — Tester</div><div class="ntime">15 phút trước · <span style="color:var(--green)">⚡ Auto-invite theo role template · Đang xử lý</span></div></div></div>
             <div class="notif-row"><div class="ndot nd-a"></div><div><div class="ntext"><strong>Hà Nhi</strong> chưa có Figma access</div><div class="ntime">2 giờ trước · <span style="color:var(--green)">⚡ Auto-invite Figma · Đang xử lý</span></div></div></div>
             <div class="notif-row"><div class="ndot nd-p"></div><div><div class="ntext">Minh Tú hoàn thành "Clone repo & chạy local"</div><div class="ntime">9:14 sáng nay</div></div></div>
@@ -1429,6 +1431,80 @@ function selectRole(role){
   if(role==='order') window.location.href='order-dashboard-merged (2).html';
   else if(role==='member_it') window.location.href='amazing_world_of_IT_v3.html';
 }
+
+/* ── Ting ting sound (Web Audio) ── */
+function playTingTing(){
+  try{
+    var ctx=new(window.AudioContext||window.webkitAudioContext)();
+    function ping(t,f){
+      var o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.type='sine';o.frequency.value=f;
+      g.gain.setValueAtTime(0.22,t);
+      g.gain.exponentialRampToValueAtTime(0.001,t+0.7);
+      o.start(t);o.stop(t+0.7);
+    }
+    ping(ctx.currentTime,880);
+    ping(ctx.currentTime+0.38,1100);
+  }catch(e){}
+}
+
+/* ── Handle cross-tab order completion ── */
+var _doneNotifTs = 0; /* dedup guard */
+function onOrderCompleted(data, playSnd){
+  if(_doneNotifTs === data.ts) return; /* already processed */
+  _doneNotifTs = data.ts;
+  if(playSnd) playTingTing();
+
+  /* Update pipeline done counter */
+  var pipe=document.getElementById('pipeline');
+  if(pipe){
+    var doneNum=pipe.querySelector('.ps.done .ps-n');
+    if(doneNum){
+      doneNum.textContent=(parseInt(doneNum.textContent)||0)+1;
+      var doneStage=doneNum.closest('.ps');
+      doneStage.classList.remove('flash');
+      void doneStage.offsetWidth; /* reflow to restart animation */
+      doneStage.classList.add('flash');
+    }
+  }
+
+  /* Prepend green notification row */
+  var hd=document.getElementById('leader-notif-hd');
+  if(hd){
+    var now=new Date();
+    var t=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+    var row=document.createElement('div');
+    row.className='notif-row';
+    row.style.cssText='background:rgba(48,209,88,.07);border-radius:8px;padding:7px 8px;margin-bottom:4px';
+    row.innerHTML='<div class="ndot" style="background:var(--green);margin-top:4px;flex-shrink:0"></div>'+
+      '<div><div class="ntext">✅ <strong>'+(data.orderName||data.orderId)+'</strong> — KH đã nghiệm thu!</div>'+
+      '<div class="ntime">'+t+' vừa xong</div></div>';
+    hd.insertAdjacentElement('afterend',row);
+  }
+
+  /* Update notif pill to green */
+  var pill=document.getElementById('leader-notif-pill');
+  if(pill){
+    var cur=parseInt(pill.dataset.done||'0')+1;
+    pill.dataset.done=cur;
+    pill.className='pill pill-green';
+    pill.textContent=cur+' ✅ hoàn thành';
+  }
+}
+
+/* Real-time cross-tab: play sound */
+window.addEventListener('storage',function(ev){
+  if(ev.key!=='it_order_completed'||!ev.newValue)return;
+  try{onOrderCompleted(JSON.parse(ev.newValue),true);}catch(e){}
+});
+/* On page load: silent check, 7-day window — works across sessions */
+(function(){
+  try{
+    var d=JSON.parse(localStorage.getItem('it_order_completed')||'null');
+    if(d&&(Date.now()-d.ts)<604800000)onOrderCompleted(d,false);
+  }catch(e){}
+})();
 </script>
 </body>
 </html>
