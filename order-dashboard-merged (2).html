@@ -270,6 +270,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .chat-send:hover{background:#374151}
 .chat-send svg{width:13px;height:13px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .chat-hint{font-size:11px;color:var(--text-faint);margin-top:6px;text-align:center}
+.panel-chat-footer{padding:10px 20px 14px;border-top:1px solid var(--border-soft);flex-shrink:0;background:#fff}
 
 #orderModal{position:fixed;inset:0;z-index:999;display:none;overflow-y:auto;overflow-x:hidden;background:#F8F7FF;}
 #orderModal.open{display:block;}
@@ -902,20 +903,22 @@ body::before{
       <div class="chat-messages" id="chatMessages">
         <div class="chat-msg-system">
           <div class="chat-bubble">Order được tạo. Bắt đầu trao đổi tại đây.</div>
-          <div class="chat-time" id="chatInitTime">Hôm nay 16:27</div>
+          <div class="chat-time">Hôm nay 16:27</div>
         </div>
       </div>
-      <div class="chat-input-wrap">
-        <textarea id="chatInput" placeholder="Nhắn tin..." rows="1"
-          oninput="autoResize(this)"
-          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"></textarea>
-        <button class="chat-send" onclick="sendMessage()">
-          <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
-      </div>
-      <div class="chat-hint">Enter để gửi · Shift+Enter xuống dòng</div>
     </div>
   </div>
+</div>
+<div class="panel-chat-footer">
+  <div class="chat-input-wrap">
+    <textarea id="chatInput" placeholder="Nhắn tin..." rows="1"
+      oninput="autoResize(this)"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"></textarea>
+    <button class="chat-send" onclick="sendMessage()">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </div>
+  <div class="chat-hint">Enter để gửi · Shift+Enter xuống dòng</div>
 </div>
 
 <script>
@@ -991,13 +994,19 @@ function selectRole(role){
   }
 }
 
+// Lưu tin nhắn riêng từng card trong session (không reset mỗi lần mở lại)
+var _chatStore = {};
+
 // ── PANEL ──
 function openPanel(btn) {
-  const card = btn.closest('.order-card');
+  const card  = btn.closest('.order-card');
   const title = card.querySelector('.card-title').textContent;
   const pct   = card.querySelector('.progress-pct').textContent;
   const stage = card.querySelector('.progress-stage').textContent;
   const badge = card.querySelector('.cat-badge');
+
+  // Key định danh card theo tiêu đề (không cần sửa HTML)
+  const cardKey = title.trim().substring(0, 60);
 
   document.getElementById('panelTitle').textContent = title;
   document.getElementById('panelStage').textContent = stage;
@@ -1014,20 +1023,27 @@ function openPanel(btn) {
   fill.style.width = pct;
   fill.className = 'progress-fill ' + (pNum >= 100 ? 'fill-high' : pNum > 30 ? 'fill-mid' : 'fill-low');
 
-  // time
-  const now = new Date();
-  document.getElementById('chatInitTime').textContent =
-    'Hôm nay ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
-
-  // reset chat to default
+  // Load hoặc khởi tạo lịch sử chat cho card này
   const msgs = document.getElementById('chatMessages');
-  msgs.innerHTML = `<div class="chat-msg-system">
-    <div class="chat-bubble">Order được tạo. Bắt đầu trao đổi tại đây.</div>
-    <div class="chat-time" id="chatInitTime">Hôm nay ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}</div>
-  </div>`;
-  document.getElementById('chatCountBadge').textContent = '1';
-  document.getElementById('chatInput').value = '';
+  const now  = new Date();
+  const ts   = 'Hôm nay ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
 
+  if (_chatStore[cardKey]) {
+    msgs.innerHTML = _chatStore[cardKey].html;
+    document.getElementById('chatCountBadge').textContent = _chatStore[cardKey].count;
+  } else {
+    msgs.innerHTML = `<div class="chat-msg-system">
+      <div class="chat-bubble">Order được tạo. Bắt đầu trao đổi tại đây.</div>
+      <div class="chat-time">${ts}</div>
+    </div>`;
+    _chatStore[cardKey] = { html: msgs.innerHTML, count: 1 };
+    document.getElementById('chatCountBadge').textContent = '1';
+  }
+
+  msgs.scrollTop = msgs.scrollHeight;
+  document.getElementById('chatInput').value = '';
+  // Lưu cardKey vào panel để sendMessage biết đang ở card nào
+  document.getElementById('taskPanel').dataset.cardKey = cardKey;
   document.getElementById('taskPanel').classList.add('open');
   document.getElementById('panelOverlay').classList.add('show');
   document.body.style.overflow = 'hidden';
@@ -1040,22 +1056,26 @@ function closePanel() {
 }
 
 function sendMessage() {
-  const inp = document.getElementById('chatInput');
+  const inp  = document.getElementById('chatInput');
   const text = inp.value.trim();
   if (!text) return;
   const msgs = document.getElementById('chatMessages');
-  const now = new Date();
+  const now  = new Date();
   const time = 'Hôm nay ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
-  const el = document.createElement('div');
+  const el   = document.createElement('div');
   el.className = 'chat-msg-user';
   el.innerHTML = `<div class="chat-bubble">${text.replace(/</g,'&lt;')}</div><div class="chat-time">${time}</div>`;
   msgs.appendChild(el);
   msgs.scrollTop = msgs.scrollHeight;
   inp.value = '';
   inp.style.height = '';
-  // update count
-  const badge = document.getElementById('chatCountBadge');
-  badge.textContent = parseInt(badge.textContent) + 1;
+  // Cập nhật badge đếm tin nhắn
+  const badge    = document.getElementById('chatCountBadge');
+  const newCount = parseInt(badge.textContent) + 1;
+  badge.textContent = newCount;
+  // Lưu vào store để giữ khi đóng/mở lại panel
+  const cardKey = document.getElementById('taskPanel').dataset.cardKey;
+  if (cardKey) _chatStore[cardKey] = { html: msgs.innerHTML, count: newCount };
 }
 
 function switchChatType(btn, type) {
