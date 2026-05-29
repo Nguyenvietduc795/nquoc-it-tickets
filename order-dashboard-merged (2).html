@@ -4254,11 +4254,7 @@ function _tourEnd(){
   try{localStorage.setItem('nquoc_tour_v3','1');}catch(e){}
 }
 
-try{
-  if(!localStorage.getItem('nquoc_tour_v3')){
-    setTimeout(function(){ _tourShow(0); },700);
-  }
-}catch(e){}
+setTimeout(function(){ _tourShow(0); },700);
 </script>
 
 </body>
