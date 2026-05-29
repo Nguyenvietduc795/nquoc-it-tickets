@@ -290,27 +290,27 @@ select{cursor:pointer}
   .expect-split{grid-template-columns:1fr}
   #beChip{bottom:16px;right:16px}
 }
-.fo-card{background:#fff;border:1px solid #e0d8c8;border-radius:16px;padding:22px;margin-bottom:12px}
+.fo-card{background:#fff;border:1px solid #ddd6fe;border-radius:16px;padding:22px;margin-bottom:12px}
 .fo-card-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px}
-.fo-card-icon{width:36px;height:36px;flex-shrink:0;background:#f5e6d3;border:1px solid #f0d4b0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.fo-card-icon{width:36px;height:36px;flex-shrink:0;background:#ede9fe;border:1px solid #c4b5fd;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
 .fo-card-title{font-size:16px;font-weight:700;color:#0a1929;margin-bottom:3px}
 .fo-card-hint{font-size:12px;color:#5d6d7e;line-height:1.5}
 .fo-field{margin-bottom:16px}
 .fo-field:last-child{margin-bottom:0}
-.fo-label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#2c5278;margin-bottom:8px}
-.fo-input{width:100%;background:#faf6f0;border:1.5px solid #e0d8c8;border-radius:8px;padding:10px 13px;font-size:14px;color:#1b1b1b;outline:none;font-family:inherit;resize:vertical;transition:border-color .2s}
-.fo-input:focus{border-color:#c77b30;background:#fff;box-shadow:0 0 0 3px #f5e6d3}
+.fo-label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--purple-dark);margin-bottom:8px}
+.fo-input{width:100%;background:#faf5ff;border:1.5px solid #ddd6fe;border-radius:8px;padding:10px 13px;font-size:14px;color:#1b1b1b;outline:none;font-family:inherit;resize:vertical;transition:border-color .2s}
+.fo-input:focus{border-color:var(--purple);background:#fff;box-shadow:0 0 0 3px var(--purple-glow)}
 .fo-input::placeholder{color:#95a5a6}
 .fo-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
-.fo-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#faf6f0;border:1.5px solid #e0d8c8;border-radius:100px;font-size:13px;color:#5d6d7e;cursor:pointer;transition:all .15s;user-select:none}
-.fo-chip:hover{border-color:#c77b30;color:#a8641e;background:#faf2e8}
-.fo-chip.on{background:#faf2e8;border-color:#c77b30;color:#a8641e;font-weight:600;box-shadow:0 0 0 3px #f5e6d3}
-.fo-chip-other{background:#faf6f0;border:1.5px dashed #e0d8c8;border-radius:100px;padding:7px 13px;font-size:13px;color:#1b1b1b;outline:none;font-family:inherit;min-width:120px;transition:all .15s}
-.fo-chip-other:focus{border-color:#c77b30;border-style:solid;background:#fff}
-.fo-ui-card{border:1.5px solid #e0d8c8;border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s;background:#faf6f0;text-align:center}
-.fo-ui-card:hover{border-color:#c77b30;transform:translateY(-1px)}
-.fo-ui-card.on{border-color:#c77b30;box-shadow:0 0 0 3px #f5e6d3}
-.fo-ui-preview{padding:14px;font-size:26px;background:#f4ede0;border-bottom:1px solid #e0d8c8}
+.fo-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#faf5ff;border:1.5px solid #ddd6fe;border-radius:100px;font-size:13px;color:#5d6d7e;cursor:pointer;transition:all .15s;user-select:none}
+.fo-chip:hover{border-color:var(--purple);color:var(--purple-dark);background:#ede9fe}
+.fo-chip.on{background:#ede9fe;border-color:var(--purple);color:var(--purple-dark);font-weight:600;box-shadow:0 0 0 3px var(--purple-glow)}
+.fo-chip-other{background:#faf5ff;border:1.5px dashed #ddd6fe;border-radius:100px;padding:7px 13px;font-size:13px;color:#1b1b1b;outline:none;font-family:inherit;min-width:120px;transition:all .15s}
+.fo-chip-other:focus{border-color:var(--purple);border-style:solid;background:#fff}
+.fo-ui-card{border:1.5px solid #ddd6fe;border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s;background:#faf5ff;text-align:center}
+.fo-ui-card:hover{border-color:var(--purple);transform:translateY(-1px)}
+.fo-ui-card.on{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-glow)}
+.fo-ui-preview{padding:14px;font-size:26px;background:#ede9fe;border-bottom:1px solid #ddd6fe}
 .fo-ui-label{padding:6px 8px;font-size:11px;font-weight:600;color:#0a1929}
 
 /* Conditional */
@@ -491,24 +491,18 @@ select{cursor:pointer}
 <div class="panel" id="panel2">
 
   <!-- FEATURE ORDER FORM — shown when type=feature -->
-  <div id="fo-panel" style="display:none;background:#faf6f0;border-radius:var(--radius);padding:20px 16px;font-family:'Inter Tight',-apple-system,system-ui,sans-serif">
+  <div id="fo-panel" style="display:none;background:#faf5ff;border-radius:var(--radius);padding:20px 16px;font-family:'Inter Tight',-apple-system,system-ui,sans-serif">
     <div class="section-icon" style="background:#ede9fe">✨</div>
     <div class="section-title">Chi tiết tính năng mới</div>
     <div class="section-sub" style="margin-bottom:20px">Điền càng đầy đủ, IT càng hiểu đúng yêu cầu của bạn.</div>
 
+    <!-- 1. Tên tính năng -->
     <div class="fo-card">
-      <div class="fo-card-head"><div class="fo-card-icon">👤</div><div><div class="fo-card-title">Thông tin của bạn</div><div class="fo-card-hint">Để IT biết ai đang yêu cầu và liên hệ lại khi cần.</div></div></div>
-      <div class="fo-field"><label class="fo-label">HỌ VÀ TÊN *</label><input type="text" id="fo-name" class="fo-input" placeholder="Ví dụ: Nguyễn Thị Lan"></div>
-      <div class="fo-field"><label class="fo-label">TỔ CHỨC / PHÒNG BAN *</label><input type="text" id="fo-org" class="fo-input" placeholder="Ví dụ: Phòng Kinh doanh..."></div>
-      <div class="fo-field"><label class="fo-label">EMAIL LIÊN HỆ</label><input type="email" id="fo-email" class="fo-input" placeholder="email@company.com"></div>
-    </div>
-
-    <div class="fo-card">
-      <div class="fo-card-head"><div class="fo-card-icon">🎯</div><div><div class="fo-card-title">Tên tính năng & Deadline</div><div class="fo-card-hint">Gọi nó bằng cái tên bạn hay dùng khi kể cho đồng nghiệp nghe.</div></div></div>
+      <div class="fo-card-head"><div class="fo-card-icon">🎯</div><div><div class="fo-card-title">Tên tính năng</div><div class="fo-card-hint">Gọi nó bằng cái tên bạn hay dùng khi kể cho đồng nghiệp nghe.</div></div></div>
       <div class="fo-field"><label class="fo-label">TÊN TÍNH NĂNG *</label><input type="text" id="fo-feat-name" class="fo-input" placeholder="Ví dụ: Hệ thống quản lý đơn hàng nội bộ" oninput="foCheck()"></div>
-      <div class="fo-field"><label class="fo-label">DEADLINE MONG MUỐN</label><input type="date" id="fo-deadline" class="fo-input"></div>
     </div>
 
+    <!-- 2. Bạn đang gặp vấn đề gì? + Ảnh / Video / Link tham khảo -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">🔍</div><div><div class="fo-card-title">Bạn đang gặp vấn đề gì?</div><div class="fo-card-hint">Kể thoải mái — không có câu trả lời sai ở đây đâu nhé!</div></div></div>
       <div class="fo-field">
@@ -533,8 +527,30 @@ select{cursor:pointer}
         </div>
       </div>
       <div class="fo-field"><label class="fo-label">KỂ THÊM CHO IT NGHE (KHÔNG BẮT BUỘC)</label><textarea id="fo-desc" class="fo-input" rows="3" placeholder="Ví dụ: Mỗi tuần tôi mất 3 tiếng tổng hợp 5 file Excel..."></textarea></div>
+      <div class="fo-field" style="border-top:1px solid var(--border-soft);padding-top:14px;margin-top:4px">
+        <label class="fo-label">📎 ẢNH / VIDEO / LINK THAM KHẢO <span style="font-weight:400;text-transform:none;font-size:10px;color:var(--text-faint)">(tuỳ chọn)</span></label>
+        <div id="dropZoneFo"
+          style="border:1.5px dashed var(--gray-border);border-radius:var(--radius);padding:20px 16px;text-align:center;cursor:pointer;background:#fafafa;transition:border-color .2s"
+          onclick="document.getElementById('allFilesFo').click()"
+          ondragover="event.preventDefault();this.style.borderColor='var(--purple)'"
+          ondragleave="this.style.borderColor='var(--gray-border)'"
+          ondrop="handleDropFo(event)">
+          <div style="font-size:22px;margin-bottom:6px">📎</div>
+          <div style="font-size:13px;color:var(--text-mid)"><strong style="color:var(--purple)">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
+          <div style="display:flex;justify-content:center;gap:6px;margin-top:8px">
+            <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PNG</span>
+            <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">JPG</span>
+            <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">MP4</span>
+            <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PDF</span>
+          </div>
+          <input type="file" id="allFilesFo" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="handleFilesFo(this.files)">
+        </div>
+        <div id="fileListFo" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
+        <input type="text" id="fo-links" class="fo-input" placeholder="https://... hoặc nhiều link cách nhau bằng dấu phẩy" style="margin-top:8px">
+      </div>
     </div>
 
+    <!-- 3. Ai sẽ dùng & dùng ở đâu? -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">👥</div><div><div class="fo-card-title">Ai sẽ dùng & dùng ở đâu?</div><div class="fo-card-hint">Giúp IT hiểu quy mô và môi trường để thiết kế đúng nhất.</div></div></div>
       <div class="fo-field">
@@ -558,6 +574,7 @@ select{cursor:pointer}
       </div>
     </div>
 
+    <!-- 4. Kết quả mong muốn -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">✅</div><div><div class="fo-card-title">Kết quả bạn mong muốn</div><div class="fo-card-hint">Sau khi có tính năng này, cuộc sống của bạn sẽ dễ hơn như thế nào?</div></div></div>
       <div class="fo-field">
@@ -585,6 +602,7 @@ select{cursor:pointer}
       </div>
     </div>
 
+    <!-- 5. Giao diện trông như thế nào? -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">🎨</div><div><div class="fo-card-title">Giao diện trông như thế nào?</div><div class="fo-card-hint">Chọn kiểu gần nhất với hình dung của bạn.</div></div></div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px" id="fo-ui-grid">
@@ -597,10 +615,24 @@ select{cursor:pointer}
       </div>
     </div>
 
+    <!-- 6. Deadline mong muốn -->
     <div class="fo-card">
-      <div class="fo-card-head"><div class="fo-card-icon">📝</div><div><div class="fo-card-title">Thông tin thêm</div><div class="fo-card-hint">Link tham khảo, ảnh chụp màn hình, hay bất kỳ ghi chú nào.</div></div></div>
-      <div class="fo-field"><label class="fo-label">LINK THAM KHẢO</label><input type="text" id="fo-links" class="fo-input" placeholder="https://... hoặc nhiều link cách nhau bằng dấu phẩy"></div>
-      <div class="fo-field"><label class="fo-label">GHI CHÚ THÊM</label><textarea id="fo-notes" class="fo-input" rows="3" placeholder="Bất kỳ điều gì bạn muốn IT biết thêm..."></textarea></div>
+      <div class="fo-card-head"><div class="fo-card-icon">📅</div><div><div class="fo-card-title">Deadline mong muốn</div><div class="fo-card-hint">Bạn cần tính năng này trước ngày nào?</div></div></div>
+      <div class="fo-field"><label class="fo-label">DEADLINE MONG MUỐN</label><input type="date" id="fo-deadline" class="fo-input"></div>
+    </div>
+
+    <!-- 7. Ghi chú thêm -->
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">📝</div><div><div class="fo-card-title">Ghi chú thêm</div><div class="fo-card-hint">Bất kỳ điều gì bạn muốn IT biết thêm.</div></div></div>
+      <div class="fo-field"><textarea id="fo-notes" class="fo-input" rows="3" placeholder="Bất kỳ điều gì bạn muốn IT biết thêm..."></textarea></div>
+    </div>
+
+    <!-- 8. Thông tin của bạn -->
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">👤</div><div><div class="fo-card-title">Thông tin của bạn</div><div class="fo-card-hint">Để IT biết ai đang yêu cầu và liên hệ lại khi cần.</div></div></div>
+      <div class="fo-field"><label class="fo-label">HỌ VÀ TÊN *</label><input type="text" id="fo-name" class="fo-input" placeholder="Ví dụ: Nguyễn Thị Lan"></div>
+      <div class="fo-field"><label class="fo-label">TỔ CHỨC / PHÒNG BAN *</label><input type="text" id="fo-org" class="fo-input" placeholder="Ví dụ: Phòng Kinh doanh..."></div>
+      <div class="fo-field"><label class="fo-label">EMAIL LIÊN HỆ</label><input type="email" id="fo-email" class="fo-input" placeholder="email@company.com"></div>
     </div>
 
     <div class="nav-row"><button class="btn-back" onclick="go(1)">← Quay lại</button><button class="btn-next" id="btn2fo" onclick="go(3)" disabled>Tiếp theo →</button></div>
@@ -641,6 +673,30 @@ select{cursor:pointer}
       <span id="envOS">Windows</span>
       <span id="envRes">1920×1080</span>
     </div>
+  </div>
+
+  <!-- File đính kèm tài liệu -->
+  <div style="margin-top:24px">
+    <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;padding-top:16px;border-top:1px solid var(--gray-border)">Đính kèm tài liệu</div>
+    <div style="font-size:13px;font-weight:600;color:var(--text-mid);margin-bottom:8px" id="fileUploadLabel">ẢNH / VIDEO / FILE MÔ TẢ LỖI</div>
+    <div id="dropZone3"
+      style="border:1.5px dashed var(--gray-border);border-radius:var(--radius);padding:28px 20px;text-align:center;cursor:pointer;background:#fafafa;transition:border-color .2s"
+      onclick="document.getElementById('allFiles').click()"
+      ondragover="event.preventDefault();this.style.borderColor='var(--purple)'"
+      ondragleave="this.style.borderColor='var(--gray-border)'"
+      ondrop="handleDrop3(event)">
+      <div style="font-size:28px;margin-bottom:8px">📎</div>
+      <div style="font-size:14px;color:var(--text-mid)"><strong style="color:var(--purple)">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
+      <div style="display:flex;justify-content:center;gap:6px;margin-top:10px">
+        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PNG</span>
+        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">JPG</span>
+        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">MP4</span>
+        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PDF</span>
+      </div>
+      <input type="file" id="allFiles" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="handleFiles3(this.files)">
+    </div>
+    <div id="fileList3" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
+    <div id="linkList3" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
   </div>
 
   <!-- === BUG filter === -->
@@ -885,29 +941,6 @@ select{cursor:pointer}
     </div>
   </div>
 
-  <!-- File đính kèm tài liệu -->
-  <div style="margin-top:24px">
-    <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;padding-top:16px;border-top:1px solid var(--gray-border)">Đính kèm tài liệu</div>
-    <div style="font-size:13px;font-weight:600;color:var(--text-mid);margin-bottom:8px" id="fileUploadLabel">ẢNH / VIDEO / FILE MÔ TẢ LỖI</div>
-    <div id="dropZone3"
-      style="border:1.5px dashed var(--gray-border);border-radius:var(--radius);padding:28px 20px;text-align:center;cursor:pointer;background:#fafafa;transition:border-color .2s"
-      onclick="document.getElementById('allFiles').click()"
-      ondragover="event.preventDefault();this.style.borderColor='var(--purple)'"
-      ondragleave="this.style.borderColor='var(--gray-border)'"
-      ondrop="handleDrop3(event)">
-      <div style="font-size:28px;margin-bottom:8px">📎</div>
-      <div style="font-size:14px;color:var(--text-mid)"><strong style="color:var(--purple)">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
-      <div style="display:flex;justify-content:center;gap:6px;margin-top:10px">
-        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PNG</span>
-        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">JPG</span>
-        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">MP4</span>
-        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PDF</span>
-      </div>
-      <input type="file" id="allFiles" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="handleFiles3(this.files)">
-    </div>
-    <div id="fileList3" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
-    <div id="linkList3" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
-  </div>
 
   </div><!-- /normal-panel -->
 
@@ -1039,29 +1072,23 @@ select{cursor:pointer}
 <div id="panelFeature" style="display:none;font-family:'Inter Tight',-apple-system,system-ui,sans-serif;color:#1b1b1b">
 
   <!-- Feature form -->
-  <div id="panelFeatureForm" style="background:#faf6f0;padding:20px 0">
+  <div id="panelFeatureForm" style="background:#faf5ff;padding:20px 0">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
       <div>
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#c77b30;margin-bottom:6px">── YÊU CẦU TÍNH NĂNG MỚI</div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--purple);margin-bottom:6px">── YÊU CẦU TÍNH NĂNG MỚI</div>
         <div style="font-size:22px;font-weight:800;color:#0a1929;letter-spacing:-.02em">Bạn muốn làm tính năng gì?</div>
-        <div style="font-size:13px;color:#5d6d7e;margin-top:4px">Cứ mô tả theo cách bạn cảm nhận — đừng lo sai 💛</div>
+        <div style="font-size:13px;color:#5d6d7e;margin-top:4px">Cứ mô tả theo cách bạn cảm nhận — đừng lo sai 💜</div>
       </div>
-      <button onclick="backFromFeature()" style="background:none;border:1px solid #e0d8c8;border-radius:8px;padding:6px 12px;font-size:13px;color:#5d6d7e;cursor:pointer">← Quay lại</button>
+      <button onclick="backFromFeature()" style="background:none;border:1px solid #ddd6fe;border-radius:8px;padding:6px 12px;font-size:13px;color:#5d6d7e;cursor:pointer">← Quay lại</button>
     </div>
 
+    <!-- 1. Tên tính năng -->
     <div class="fo-card">
-      <div class="fo-card-head"><div class="fo-card-icon">👤</div><div><div class="fo-card-title">Thông tin của bạn</div><div class="fo-card-hint">Để IT biết ai đang yêu cầu và liên hệ lại khi cần.</div></div></div>
-      <div class="fo-field"><label class="fo-label">HỌ VÀ TÊN *</label><input type="text" id="pf-name" class="fo-input" placeholder="Ví dụ: Nguyễn Thị Lan"></div>
-      <div class="fo-field"><label class="fo-label">TỔ CHỨC / PHÒNG BAN *</label><input type="text" id="pf-org" class="fo-input" placeholder="Ví dụ: Phòng Kinh doanh..."></div>
-      <div class="fo-field"><label class="fo-label">EMAIL LIÊN HỆ</label><input type="email" id="pf-email" class="fo-input" placeholder="email@company.com"></div>
-    </div>
-
-    <div class="fo-card">
-      <div class="fo-card-head"><div class="fo-card-icon">🎯</div><div><div class="fo-card-title">Tên tính năng & Deadline</div><div class="fo-card-hint">Gọi nó bằng cái tên bạn hay dùng khi kể cho đồng nghiệp nghe.</div></div></div>
+      <div class="fo-card-head"><div class="fo-card-icon">🎯</div><div><div class="fo-card-title">Tên tính năng</div><div class="fo-card-hint">Gọi nó bằng cái tên bạn hay dùng khi kể cho đồng nghiệp nghe.</div></div></div>
       <div class="fo-field"><label class="fo-label">TÊN TÍNH NĂNG *</label><input type="text" id="pf-feat-name" class="fo-input" placeholder="Ví dụ: Hệ thống quản lý đơn hàng nội bộ" oninput="foCheck()"></div>
-      <div class="fo-field"><label class="fo-label">DEADLINE MONG MUỐN</label><input type="date" id="pf-deadline" class="fo-input"></div>
     </div>
 
+    <!-- 2. Bạn đang gặp vấn đề gì? + Ảnh / Video / Link tham khảo -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">🔍</div><div><div class="fo-card-title">Bạn đang gặp vấn đề gì?</div><div class="fo-card-hint">Kể thoải mái — không có câu trả lời sai!</div></div></div>
       <div class="fo-field">
@@ -1086,8 +1113,30 @@ select{cursor:pointer}
         </div>
       </div>
       <div class="fo-field"><label class="fo-label">KỂ THÊM CHO IT NGHE</label><textarea id="pf-desc" class="fo-input" rows="3" placeholder="Ví dụ: Mỗi tuần tôi mất 3 tiếng tổng hợp 5 file Excel..."></textarea></div>
+      <div class="fo-field" style="border-top:1px solid #ede9fe;padding-top:14px;margin-top:4px">
+        <label class="fo-label">📎 ẢNH / VIDEO / LINK THAM KHẢO <span style="font-weight:400;text-transform:none;font-size:10px;color:#95a5a6">(tuỳ chọn)</span></label>
+        <div id="pf-dropzone"
+          style="border:1.5px dashed #ddd6fe;border-radius:10px;padding:20px 16px;text-align:center;cursor:pointer;background:#faf5ff;transition:border-color .2s"
+          onclick="document.getElementById('pf-files').click()"
+          ondragover="event.preventDefault();this.style.borderColor='var(--purple)'"
+          ondragleave="this.style.borderColor='#ddd6fe'"
+          ondrop="pfHandleDrop(event)">
+          <div style="font-size:22px;margin-bottom:6px">📎</div>
+          <div style="font-size:13px;color:#5d6d7e"><strong style="color:var(--purple)">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
+          <div style="display:flex;justify-content:center;gap:6px;margin-top:8px">
+            <span style="background:#fff;border:1px solid #ddd6fe;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PNG</span>
+            <span style="background:#fff;border:1px solid #ddd6fe;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">JPG</span>
+            <span style="background:#fff;border:1px solid #ddd6fe;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">MP4</span>
+            <span style="background:#fff;border:1px solid #ddd6fe;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PDF</span>
+          </div>
+          <input type="file" id="pf-files" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="pfHandleFiles(this.files)">
+        </div>
+        <div id="pf-file-list" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
+        <input type="text" id="pf-links" class="fo-input" placeholder="https://... hoặc nhiều link cách nhau bằng dấu phẩy" style="margin-top:8px">
+      </div>
     </div>
 
+    <!-- 3. Ai sẽ dùng & dùng ở đâu? -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">👥</div><div><div class="fo-card-title">Ai sẽ dùng & dùng ở đâu?</div></div></div>
       <div class="fo-field">
@@ -1111,6 +1160,7 @@ select{cursor:pointer}
       </div>
     </div>
 
+    <!-- 4. Kết quả mong muốn -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">✅</div><div><div class="fo-card-title">Kết quả bạn mong muốn</div></div></div>
       <div class="fo-field">
@@ -1138,6 +1188,7 @@ select{cursor:pointer}
       </div>
     </div>
 
+    <!-- 5. Giao diện trông như thế nào? -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">🎨</div><div><div class="fo-card-title">Giao diện trông như thế nào?</div></div></div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px" id="pf-ui-grid">
@@ -1150,30 +1201,24 @@ select{cursor:pointer}
       </div>
     </div>
 
+    <!-- 6. Deadline mong muốn -->
     <div class="fo-card">
-      <div class="fo-card-head"><div class="fo-card-icon">📝</div><div><div class="fo-card-title">Thông tin thêm</div></div></div>
-      <div class="fo-field"><label class="fo-label">LINK THAM KHẢO</label><input type="text" id="pf-links" class="fo-input" placeholder="https://... hoặc nhiều link cách nhau bằng dấu phẩy"></div>
-      <div class="fo-field">
-        <label class="fo-label">ẢNH / VIDEO / FILE MOCKUP <span style="font-weight:400;text-transform:none;font-size:10px;color:#95a5a6">(tuỳ chọn)</span></label>
-        <div id="pf-dropzone"
-          style="border:1.5px dashed #e0d8c8;border-radius:10px;padding:22px 16px;text-align:center;cursor:pointer;background:#faf6f0;transition:border-color .2s"
-          onclick="document.getElementById('pf-files').click()"
-          ondragover="event.preventDefault();this.style.borderColor='#c77b30'"
-          ondragleave="this.style.borderColor='#e0d8c8'"
-          ondrop="pfHandleDrop(event)">
-          <div style="font-size:24px;margin-bottom:6px">📎</div>
-          <div style="font-size:13px;color:#5d6d7e"><strong style="color:#c77b30">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
-          <div style="display:flex;justify-content:center;gap:6px;margin-top:8px">
-            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PNG</span>
-            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">JPG</span>
-            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">MP4</span>
-            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PDF</span>
-          </div>
-          <input type="file" id="pf-files" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="pfHandleFiles(this.files)">
-        </div>
-        <div id="pf-file-list" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
-      </div>
-      <div class="fo-field"><label class="fo-label">GHI CHÚ THÊM</label><textarea id="pf-notes" class="fo-input" rows="3" placeholder="Bất kỳ điều gì bạn muốn IT biết thêm..."></textarea></div>
+      <div class="fo-card-head"><div class="fo-card-icon">📅</div><div><div class="fo-card-title">Deadline mong muốn</div><div class="fo-card-hint">Bạn cần tính năng này trước ngày nào?</div></div></div>
+      <div class="fo-field"><label class="fo-label">DEADLINE MONG MUỐN</label><input type="date" id="pf-deadline" class="fo-input"></div>
+    </div>
+
+    <!-- 7. Ghi chú thêm -->
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">📝</div><div><div class="fo-card-title">Ghi chú thêm</div><div class="fo-card-hint">Bất kỳ điều gì bạn muốn IT biết thêm.</div></div></div>
+      <div class="fo-field"><textarea id="pf-notes" class="fo-input" rows="3" placeholder="Bất kỳ điều gì bạn muốn IT biết thêm..."></textarea></div>
+    </div>
+
+    <!-- 8. Thông tin của bạn -->
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">👤</div><div><div class="fo-card-title">Thông tin của bạn</div><div class="fo-card-hint">Để IT biết ai đang yêu cầu và liên hệ lại khi cần.</div></div></div>
+      <div class="fo-field"><label class="fo-label">HỌ VÀ TÊN *</label><input type="text" id="pf-name" class="fo-input" placeholder="Ví dụ: Nguyễn Thị Lan"></div>
+      <div class="fo-field"><label class="fo-label">TỔ CHỨC / PHÒNG BAN *</label><input type="text" id="pf-org" class="fo-input" placeholder="Ví dụ: Phòng Kinh doanh..."></div>
+      <div class="fo-field"><label class="fo-label">EMAIL LIÊN HỆ</label><input type="email" id="pf-email" class="fo-input" placeholder="email@company.com"></div>
     </div>
 
     <button id="foBtnNext" onclick="foStep1Done()" disabled style="width:100%;padding:14px;background:#d1d5db;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:not-allowed;margin-top:8px;transition:all .3s;font-family:inherit">
@@ -1217,8 +1262,8 @@ select{cursor:pointer}
   </div>
 
   <!-- Feature summary -->
-  <div id="panelFeatureSummary" style="display:none;background:#faf6f0;padding:20px 0">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#c77b30;margin-bottom:6px">── TÓM TẮT YÊU CẦU</div>
+  <div id="panelFeatureSummary" style="display:none;background:#faf5ff;padding:20px 0">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--purple);margin-bottom:6px">── TÓM TẮT YÊU CẦU</div>
     <div style="font-size:22px;font-weight:800;color:#0a1929;letter-spacing:-.02em;margin-bottom:4px">Bản Order hoàn chỉnh</div>
     <div style="font-size:13px;color:#5d6d7e;margin-bottom:20px">Cột trái là ngôn ngữ của bạn — cột phải là những gì IT cần hiểu.</div>
 
@@ -1226,34 +1271,33 @@ select{cursor:pointer}
     <div style="background:#0a1929;border-radius:16px;padding:20px 22px;margin-bottom:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
       <div>
         <div style="font-size:20px;font-weight:800;color:#faf6f0;letter-spacing:-.02em" id="fo-s-title">—</div>
-        <div style="font-family:monospace;font-size:11px;color:#d89651;text-transform:uppercase;letter-spacing:.08em;margin-top:4px" id="fo-s-sub">—</div>
+        <div style="font-family:monospace;font-size:11px;color:#a78bfa;text-transform:uppercase;letter-spacing:.08em;margin-top:4px" id="fo-s-sub">—</div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start" id="fo-s-badges"></div>
     </div>
 
     <!-- Dual table -->
-    <div style="background:#fff;border:1px solid #e0d8c8;border-radius:16px;overflow:hidden;margin-bottom:14px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;background:#f4ede0;border-bottom:1px solid #e0d8c8">
-        <div style="padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5d6d7e;display:flex;align-items:center;gap:8px;border-right:1px solid #e0d8c8"><div style="width:8px;height:8px;border-radius:2px;background:#c77b30"></div>🧑 Khách hàng nói</div>
-        <div style="padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5d6d7e;display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:2px;background:#1e8449"></div>⚙️ IT hiểu là</div>
+    <div style="background:#fff;border:1px solid #ddd6fe;border-radius:16px;overflow:hidden;margin-bottom:14px">
+      <div style="background:#ede9fe;border-bottom:1px solid #ddd6fe">
+        <div style="padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5d6d7e;display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:2px;background:var(--purple)"></div>🧑 Thông tin yêu cầu</div>
       </div>
       <div id="fo-s-rows"></div>
     </div>
 
     <!-- Complexity -->
-    <div style="background:#fff;border:1px solid #e0d8c8;border-radius:16px;padding:20px 22px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <div style="background:#fff;border:1px solid #ddd6fe;border-radius:16px;padding:20px 22px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
       <div style="font-size:14px;font-weight:700;color:#0a1929;flex-shrink:0">Ước tính độ phức tạp</div>
       <div style="display:flex;gap:14px;flex:1;flex-wrap:wrap" id="fo-cx"></div>
     </div>
 
     <!-- Confirm checkbox -->
-    <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #e0d8c8;border-radius:10px;cursor:pointer;font-size:13px;color:#374151;margin-bottom:14px" id="foConfirmLabel">
-      <input type="checkbox" id="foConfirmCheck" onchange="foToggleSubmit()" style="width:18px;height:18px;accent-color:#c77b30;cursor:pointer">
+    <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #ddd6fe;border-radius:10px;cursor:pointer;font-size:13px;color:#374151;margin-bottom:14px" id="foConfirmLabel">
+      <input type="checkbox" id="foConfirmCheck" onchange="foToggleSubmit()" style="width:18px;height:18px;accent-color:var(--purple);cursor:pointer">
       Tôi đã đọc kỹ và xác nhận thông tin trên là chính xác
     </label>
 
     <div style="display:flex;gap:10px">
-      <button onclick="backToFeatureForm()" style="padding:12px 20px;background:#fff;border:1.5px solid #e0d8c8;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;color:#5d6d7e">✏️ Chỉnh sửa</button>
+      <button onclick="backToFeatureForm()" style="padding:12px 20px;background:#fff;border:1.5px solid #ddd6fe;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;color:#5d6d7e">✏️ Chỉnh sửa</button>
       <button id="foSubmitBtn" onclick="foSubmit()" disabled style="flex:1;padding:12px;background:#d1d5db;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:not-allowed;transition:all .3s;font-family:inherit">✅ Xác nhận & Gửi IT</button>
     </div>
 
@@ -1262,9 +1306,9 @@ select{cursor:pointer}
       <div style="font-size:48px;margin-bottom:12px">✓</div>
       <div style="font-size:20px;font-weight:800;color:#faf6f0;margin-bottom:8px">Đã gửi thành công!</div>
       <div style="font-size:13px;color:#8aaec8;margin-bottom:12px">Team IT đã nhận được yêu cầu. Chúng tôi sẽ liên hệ trong 1–2 ngày làm việc.</div>
-      <div id="foTicket" style="background:#0f2942;border:1px solid #2c5278;border-radius:8px;padding:6px 18px;display:inline-block;font-family:monospace;font-size:13px;font-weight:700;color:#d89651;margin-bottom:20px"></div>
+      <div id="foTicket" style="background:#2d1b69;border:1px solid #7c3aed;border-radius:8px;padding:6px 18px;display:inline-block;font-family:monospace;font-size:13px;font-weight:700;color:#a78bfa;margin-bottom:20px"></div>
       <br>
-      <button onclick="resetAll()" style="background:linear-gradient(135deg,#c77b30,#d89651);color:#0a1929;border:none;padding:12px 28px;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer">+ Tạo yêu cầu mới</button>
+      <button onclick="resetAll()" style="background:linear-gradient(135deg,var(--purple),var(--purple-mid));color:#fff;border:none;padding:12px 28px;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer">+ Tạo yêu cầu mới</button>
     </div>
   </div>
 </div>
@@ -1556,8 +1600,39 @@ function initAI() {
   wrap.innerHTML = '';
   document.getElementById('aiInputWrap').style.display='flex';
   document.getElementById('aiDoneWrap').style.display='none';
-  const qs = AI_QUESTIONS[S.type]||['Bạn có thêm thông tin gì muốn IT biết không?'];
-  setTimeout(()=>aiAsk(qs[0]), 400);
+
+  const fileCount = document.querySelectorAll('#fileList3 div').length;
+  const hasFiles = fileCount > 0;
+  let qs = [...(AI_QUESTIONS[S.type]||['Bạn có thêm thông tin gì muốn IT biết không?'])];
+
+  if (hasFiles) {
+    if (S.type === 'bug')  qs = qs.filter(q => !q.includes('tái hiện'));
+    if (S.type === 'perf') qs = qs.filter(q => !q.includes('video màn hình'));
+  }
+  S.aiQuestions = qs;
+
+  if (hasFiles) {
+    setTimeout(() => {
+      const msg = document.createElement('div');
+      msg.style.cssText = 'display:flex;align-items:flex-start;gap:10px';
+      const noMoreQs = qs.length === 0;
+      const body = noMoreQs
+        ? `📎 Bạn đã đính kèm ${fileCount} file — IT sẽ xem qua. Thông tin trông đầy đủ rồi, bấm tiếp tục để xem lại và gửi nhé!`
+        : `📎 Bạn đã đính kèm ${fileCount} file — IT sẽ xem qua. Tôi chỉ cần hỏi thêm ${qs.length} câu ngắn để hoàn chỉnh yêu cầu.`;
+      msg.innerHTML = `<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:14px;color:var(--text-mid);max-width:85%;line-height:1.5">${body}</div>`;
+      wrap.appendChild(msg);
+      wrap.scrollTop = wrap.scrollHeight;
+      if (noMoreQs) {
+        document.getElementById('aiInputWrap').style.display = 'none';
+        document.getElementById('aiDoneWrap').innerHTML = '<button onclick="go(4)" style="width:100%;padding:14px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer">✅ Xem lại & gửi yêu cầu →</button>';
+        document.getElementById('aiDoneWrap').style.display = 'block';
+      } else {
+        setTimeout(() => aiAsk(qs[0]), 700);
+      }
+    }, 400);
+  } else {
+    setTimeout(()=>aiAsk(qs[0]), 400);
+  }
 }
 
 function aiAsk(q) {
@@ -1582,7 +1657,7 @@ function sendAI() {
   const input = document.getElementById('aiInput');
   const text = input.value.trim();
   if(!text) return;
-  const qs = AI_QUESTIONS[S.type]||['Bạn có thêm thông tin gì muốn IT biết không?'];
+  const qs = S.aiQuestions||AI_QUESTIONS[S.type]||['Bạn có thêm thông tin gì muốn IT biết không?'];
   S.chatAnswers.push({q:qs[S.chatIdx], a:text});
   const wrap = document.getElementById('aiChatWrap');
   const reply = document.createElement('div');
@@ -1787,6 +1862,23 @@ function handleDrop3(e) {
   handleFiles3(e.dataTransfer.files);
 }
 
+function handleFilesFo(files) {
+  const list = document.getElementById('fileListFo');
+  [...files].forEach(f=>{
+    const item = document.createElement('div');
+    item.style.cssText='display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--gray-border);border-radius:var(--radius-sm);background:#fff;font-size:13px';
+    const ext = f.name.split('.').pop().toUpperCase();
+    item.innerHTML=`<span style="background:var(--purple-light);color:var(--purple);border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700">${ext}</span><span style="flex:1;color:var(--text-mid)">${f.name}</span><span style="color:var(--text-muted)">${(f.size/1024).toFixed(0)} KB</span><span onclick="this.parentElement.remove()" style="cursor:pointer;color:var(--text-muted);font-size:16px;padding:0 4px">×</span>`;
+    list.appendChild(item);
+  });
+}
+
+function handleDropFo(e) {
+  e.preventDefault();
+  document.getElementById('dropZoneFo').style.borderColor='var(--gray-border)';
+  handleFilesFo(e.dataTransfer.files);
+}
+
 function addLink() {
   const input = document.getElementById('attachLink');
   const val = input.value.trim();
@@ -1853,6 +1945,7 @@ function handleDrop(e) {
 let foCelebrateCallback = null;
 let foChatStep = 0;
 let foChatAnswers = {};
+let foActiveChatFlow = [];
 
 const FO_CHAT_FLOW = [
   {key:'dailyPain', ask: d=>`Chào ${d.name||'bạn'}! 👋 Mình đã đọc qua yêu cầu về <strong>"${d.feat||'tính năng'}"</strong> rồi!\n\nBạn có thể kể ngắn gọn <strong>một ngày làm việc điển hình</strong> mà hay gặp vấn đề này không?\n\nVí dụ: <em>"Mỗi sáng thứ 2 tôi phải..."</em>`, qr:[]},
@@ -1904,6 +1997,48 @@ function foCelebrateDone() {
   if(foCelebrateCallback) { foCelebrateCallback(); foCelebrateCallback=null; }
 }
 
+// ── Scan form → trả về tối đa 2 câu hỏi còn thiếu ──
+function foScanGaps() {
+  const desc     = (document.getElementById('pf-desc')?.value||'').trim();
+  const deadline = (document.getElementById('pf-deadline')?.value||'').trim();
+  const links    = (document.getElementById('pf-links')?.value||'').trim();
+  const fileCount = document.querySelectorAll('#pf-file-list div').length;
+  const hasMedia = fileCount > 0 || links.length > 0;
+  const uiSelected = document.querySelectorAll('#pf-ui-grid .fo-ui-card.on').length > 0
+                  || (document.getElementById('pf-ui-other')?.value||'').trim().length > 0;
+
+  const gaps = [];
+
+  // Thiếu mô tả vấn đề VÀ không có file/link nào chứng minh
+  if (!desc && !hasMedia) {
+    gaps.push({
+      key: 'dailyPain',
+      ask: () => `Mình thấy chưa có mô tả vấn đề. Bạn có thể kể ngắn gọn: <strong>hiện đang làm bằng cách nào</strong> và điều gì bất tiện nhất không?`,
+      qr: []
+    });
+  }
+
+  // Thiếu deadline
+  if (!deadline) {
+    gaps.push({
+      key: 'deadline',
+      ask: () => `Bạn cần tính năng này trước khoảng thời gian nào? Có deadline cụ thể hoặc mức độ cấp bách không?`,
+      qr: ['Càng sớm càng tốt', 'Trong tháng này', 'Không cần gấp']
+    });
+  }
+
+  // Không có media VÀ chưa chọn giao diện → hỏi tham khảo
+  if (!hasMedia && !uiSelected) {
+    gaps.push({
+      key: 'referenceApps',
+      ask: () => `Bạn có app hoặc website nào muốn tính năng mình trông giống vậy không? Không bắt buộc, nhưng giúp IT hình dung nhanh hơn!`,
+      qr: ['Không có tham khảo cụ thể']
+    });
+  }
+
+  return gaps.slice(0, 2); // tối đa 2 câu
+}
+
 function foStartChat() {
   foChatStep = 0; foChatAnswers = {};
   document.getElementById('foChatMsgs').innerHTML='';
@@ -1911,13 +2046,45 @@ function foStartChat() {
   document.getElementById('foChatSendBtn').disabled=false;
   document.getElementById('foChatInput').placeholder='Nhập câu trả lời của bạn...';
   document.getElementById('foChatToSummaryBtn').style.display='none';
-  const d = { name: document.getElementById('pf-feat-name')?.value||'', feat: document.getElementById('pf-feat-name')?.value||'' };
-  setTimeout(()=>foAskNext(d), 400);
+
+  const fileCount = document.querySelectorAll('#pf-file-list div').length;
+  const links = (document.getElementById('pf-links')?.value||'').trim();
+  const hasMedia = fileCount > 0 || links.length > 0;
+
+  foActiveChatFlow = foScanGaps();
+
+  // Pre-fill các key bị skip do có media
+  if (hasMedia) {
+    foChatAnswers['dailyPain']      = fileCount > 0 ? `[${fileCount} file đính kèm]` : `[link: ${links}]`;
+    foChatAnswers['referenceApps']  = foChatAnswers['dailyPain'];
+  }
+
+  setTimeout(() => {
+    if (foActiveChatFlow.length === 0) {
+      // Đủ thông tin → không hỏi gì
+      foAddBotMsg(`✅ Thông tin đã đủ rồi! Bấm gửi để IT bắt đầu xử lý nhé 👍`, []);
+      document.getElementById('foChatInput').disabled = true;
+      document.getElementById('foChatSendBtn').disabled = true;
+      document.getElementById('foChatInput').placeholder = 'Không cần bổ sung thêm';
+      setTimeout(() => {
+        document.getElementById('foChatToSummaryBtn').style.display = 'block';
+      }, 600);
+    } else {
+      const mediaNote = hasMedia
+        ? `📎 Đã thấy file/link của bạn — mình bỏ qua mấy câu mô tả rồi nhé! `
+        : '';
+      const intro = foActiveChatFlow.length === 1
+        ? `${mediaNote}Chỉ cần thêm <strong>1 thông tin nhỏ</strong> thôi 👇`
+        : `${mediaNote}Mình cần hỏi thêm <strong>${foActiveChatFlow.length} điều nhỏ</strong> để IT hiểu đúng hơn 👇`;
+      foAddBotMsg(intro, []);
+      setTimeout(() => foAskNext({}), 800);
+    }
+  }, 400);
 }
 
 function foAskNext(d) {
-  if(foChatStep >= FO_CHAT_FLOW.length) { foFinishChat(); return; }
-  const q = FO_CHAT_FLOW[foChatStep];
+  if(foChatStep >= foActiveChatFlow.length) { foFinishChat(); return; }
+  const q = foActiveChatFlow[foChatStep];
   foShowTyping(()=>foAddBotMsg(q.ask(d||{}), q.qr));
 }
 
@@ -1954,8 +2121,8 @@ function foSendChat() {
   inp.value=''; inp.style.height='';
   document.querySelectorAll('#foChatMsgs button').forEach(b=>b.remove());
   foAddUserMsg(text);
-  if(foChatStep < FO_CHAT_FLOW.length) {
-    foChatAnswers[FO_CHAT_FLOW[foChatStep].key] = text;
+  if(foChatStep < foActiveChatFlow.length) {
+    foChatAnswers[foActiveChatFlow[foChatStep].key] = text;
     foChatStep++;
     setTimeout(()=>foAskNext({}), 400);
   }
@@ -1964,8 +2131,8 @@ function foSendChat() {
 function foQuickReply(text) {
   document.querySelectorAll('#foChatMsgs button').forEach(b=>b.parentElement.remove());
   foAddUserMsg(text);
-  if(foChatStep < FO_CHAT_FLOW.length) {
-    foChatAnswers[FO_CHAT_FLOW[foChatStep].key] = text;
+  if(foChatStep < foActiveChatFlow.length) {
+    foChatAnswers[foActiveChatFlow[foChatStep].key] = text;
     foChatStep++;
     setTimeout(()=>foAskNext({}), 400);
   }
@@ -2001,8 +2168,8 @@ function pfHandleFiles(files) {
   [...files].forEach(f=>{
     const ext = f.name.split('.').pop().toUpperCase();
     const item = document.createElement('div');
-    item.style.cssText='display:flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid #e0d8c8;border-radius:8px;background:#fff;font-size:13px';
-    item.innerHTML=`<span style="background:#faf2e8;border:1px solid #f0d4b0;color:#a8641e;border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700">${ext}</span><span style="flex:1;color:#1b1b1b">${f.name.substring(0,40)}</span><span style="color:#95a5a6">${(f.size/1024).toFixed(0)} KB</span><span onclick="this.parentElement.remove()" style="cursor:pointer;color:#95a5a6;font-size:16px;padding:0 2px">×</span>`;
+    item.style.cssText='display:flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid #ddd6fe;border-radius:8px;background:#fff;font-size:13px';
+    item.innerHTML=`<span style="background:#ede9fe;border:1px solid #c4b5fd;color:var(--purple-dark);border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700">${ext}</span><span style="flex:1;color:#1b1b1b">${f.name.substring(0,40)}</span><span style="color:#95a5a6">${(f.size/1024).toFixed(0)} KB</span><span onclick="this.parentElement.remove()" style="cursor:pointer;color:#95a5a6;font-size:16px;padding:0 2px">×</span>`;
     list.appendChild(item);
   });
 }
@@ -2016,7 +2183,7 @@ function foCheck() {
   const name = document.getElementById('pf-feat-name')?.value.trim();
   const hasName = name && name.length > 2;
   const btn = document.getElementById('foBtnNext');
-  if(btn) { btn.disabled=!hasName; btn.style.background=hasName?'#c77b30':'#d1d5db'; btn.style.cursor=hasName?'pointer':'not-allowed'; }
+  if(btn) { btn.disabled=!hasName; btn.style.background=hasName?'var(--purple)':'#d1d5db'; btn.style.cursor=hasName?'pointer':'not-allowed'; }
 }
 
 function showFeaturePage() {
@@ -2087,13 +2254,13 @@ function goFeatureSummary() {
   document.getElementById('fo-s-sub').textContent = `Deadline: ${dl}`;
   const badges = document.getElementById('fo-s-badges');
   badges.innerHTML = '';
-  if(d.org) badges.innerHTML+=`<span style="background:#c77b30;color:#0a1929;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600">🏢 ${d.org}</span>`;
+  if(d.org) badges.innerHTML+=`<span style="background:var(--purple);color:#fff;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600">🏢 ${d.org}</span>`;
   if(d.deadline) badges.innerHTML+=`<span style="background:#1a3a5c;color:#faf6f0;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600">📅 ${dl}</span>`;
 
   const cont = document.getElementById('fo-s-rows');
   cont.innerHTML = '';
-  const addCat = l => cont.innerHTML+=`<div style="padding:8px 16px;background:#faf2e8;border-bottom:1px solid #f0d4b0;font-family:monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#a8641e">${l}</div>`;
-  const addRow = (l,r) => cont.innerHTML+=`<div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #f0e8dc"><div style="padding:11px 16px;font-size:13px;color:#1b1b1b;border-right:1px solid #f0e8dc">${l}</div><div style="padding:11px 16px"><span style="background:#f5e6d3;border:1px solid #f0d4b0;color:#a8641e;border-radius:4px;padding:2px 8px;font-size:12px;font-weight:500">${r}</span></div></div>`;
+  const addCat = l => cont.innerHTML+=`<div style="padding:8px 16px;background:#ede9fe;border-bottom:1px solid #ddd6fe;font-family:monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--purple-dark)">${l}</div>`;
+  const addRow = (l,r) => cont.innerHTML+=`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:11px 16px;border-bottom:1px solid #f3f0ff;gap:12px"><span style="font-size:13px;color:#1b1b1b">${l}</span></div>`;
 
   addCat('📋 Yêu cầu');
   if(d.name) addRow(d.name,'Feature Request');
@@ -2125,7 +2292,7 @@ function goFeatureSummary() {
 
   document.getElementById('fo-cx').innerHTML=[
     ['Giao diện',d.ui?.includes('Dashboard')||d.ui?.includes('App')?75:45,'#2c5278'],
-    ['Logic nghiệp vụ',Math.min(outcomes.length*20+20,90),'#c77b30'],
+    ['Logic nghiệp vụ',Math.min(outcomes.length*20+20,90),'var(--purple)'],
     ['Dữ liệu & Tích hợp',35,'#1e8449'],
   ].map(([name,score,color])=>`<div style="flex:1;min-width:100px"><div style="height:6px;background:#e0d8c8;border-radius:3px;overflow:hidden;margin-bottom:5px"><div style="height:100%;width:${score}%;background:${color};border-radius:3px;transition:width 1s ease"></div></div><div style="font-size:10px;color:#95a5a6;text-transform:uppercase;letter-spacing:.06em">${name}</div></div>`).join('');
 
@@ -2139,7 +2306,7 @@ function foToggleSubmit() {
   const checked=document.getElementById('foConfirmCheck').checked;
   const btn=document.getElementById('foSubmitBtn');
   btn.disabled=!checked;
-  btn.style.background=checked?'#c77b30':'#d1d5db';
+  btn.style.background=checked?'var(--purple)':'#d1d5db';
   btn.style.cursor=checked?'pointer':'not-allowed';
 }
 
