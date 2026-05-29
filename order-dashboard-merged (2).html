@@ -3231,7 +3231,7 @@ function projClickGuard(el, state) {
     <!-- Pane 1: Tiến độ -->
     <div class="proj-modal-body" id="pmPane-progress">
       <div class="pm-section">
-        <div class="pm-label">Tiến độ tổng quan</div>
+        <div class="pm-label">Tiến độ chung</div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
           <div style="flex:1;height:8px;background:#F3F4F6;border-radius:4px;overflow:hidden">
             <div style="height:100%;background:linear-gradient(90deg,#22C55E,#4ADE80);border-radius:4px;transition:width .6s" id="pmProgFill"></div>
@@ -3240,11 +3240,11 @@ function projClickGuard(el, state) {
         </div>
       </div>
       <div class="pm-section">
-        <div class="pm-label">Các giai đoạn</div>
+        <div class="pm-label">IT đang ở bước nào?</div>
         <div class="pm-timeline" id="pmTimeline"></div>
       </div>
       <div class="pm-section">
-        <div class="pm-label">Thông tin dự án</div>
+        <div class="pm-label">Thông tin</div>
         <div class="pm-stat-grid">
           <div class="pm-stat-cell">
             <div class="pm-stat-num" id="pmDeadline" style="font-size:15px">—</div>
@@ -3350,11 +3350,11 @@ var MOCK_PROJ_ORDERS = [
     approvedAt:'23/05/2026', taskId:'TASK-058', progress:25,
     tags:['PDF','Export','Dashboard'],
     stages:[
-      {name:'Phân tích & Scope',status:'done'},
-      {name:'Thiết kế UI',status:'active'},
-      {name:'Implement',status:'todo'},
-      {name:'QA & Test',status:'todo'},
-      {name:'Deploy',status:'todo'}
+      {name:'Xem xét yêu cầu',status:'done'},
+      {name:'Lên phương án',status:'active'},
+      {name:'Đang xây dựng',status:'todo'},
+      {name:'Kiểm tra & hoàn thiện',status:'todo'},
+      {name:'Ra mắt',status:'todo'}
     ]
   },
   {
@@ -3366,11 +3366,11 @@ var MOCK_PROJ_ORDERS = [
     approvedAt:'24/05/2026', taskId:'TASK-060', progress:5,
     tags:['Notification','Real-time','CRM'],
     stages:[
-      {name:'Phân tích & Scope',status:'active'},
-      {name:'Thiết kế UI',status:'todo'},
-      {name:'Implement',status:'todo'},
-      {name:'QA & Test',status:'todo'},
-      {name:'Deploy',status:'todo'}
+      {name:'Xem xét yêu cầu',status:'active'},
+      {name:'Lên phương án',status:'todo'},
+      {name:'Đang xây dựng',status:'todo'},
+      {name:'Kiểm tra & hoàn thiện',status:'todo'},
+      {name:'Ra mắt',status:'todo'}
     ]
   },
   {
@@ -3381,11 +3381,11 @@ var MOCK_PROJ_ORDERS = [
     deadline:'10/06/2026', submittedAt:'20/05/2026',
     approvedAt:'24/05/2026', taskId:'TASK-042', progress:80,
     stages:[
-      {name:'Phân tích & Scope',status:'done'},
-      {name:'Thiết kế UI',status:'done'},
-      {name:'Implement',status:'done'},
-      {name:'QA & Test',status:'active'},
-      {name:'Deploy',status:'todo'}
+      {name:'Xem xét yêu cầu',status:'done'},
+      {name:'Lên phương án',status:'done'},
+      {name:'Đang xây dựng',status:'done'},
+      {name:'Kiểm tra & hoàn thiện',status:'active'},
+      {name:'Ra mắt',status:'todo'}
     ]
   }
 ];
@@ -3424,11 +3424,11 @@ function initOrders() {
         ord.taskId = a.taskId;
         ord.progress = 5;
         ord.stages = [
-          {name:'Phân tích & Scope',status:'active'},
-          {name:'Thiết kế UI',status:'todo'},
-          {name:'Implement',status:'todo'},
-          {name:'QA & Test',status:'todo'},
-          {name:'Deploy',status:'todo'}
+          {name:'Xem xét yêu cầu',status:'active'},
+          {name:'Lên phương án',status:'todo'},
+          {name:'Đang xây dựng',status:'todo'},
+          {name:'Kiểm tra & hoàn thiện',status:'todo'},
+          {name:'Ra mắt',status:'todo'}
         ];
       }
     });
@@ -3505,8 +3505,8 @@ function openProjDetail(orderId) {
   document.getElementById('pmApprovedAt').textContent=o.approvedAt||'—';
   var tlHtml='';
   (o.stages||[]).forEach(function(s){
-    var icon={done:'✓',active:'→',todo:'○'}[s.status]||'○';
-    var meta={done:'Đã hoàn thành',active:'Đang thực hiện',todo:'Chưa bắt đầu'}[s.status]||'';
+    var icon={done:'✓',active:'▶',todo:'·'}[s.status]||'·';
+    var meta={done:'✅ Xong rồi!',active:'⏳ IT đang làm...',todo:'⏸ Chưa tới lượt'}[s.status]||'';
     tlHtml+='<div class="pm-tl-item"><div class="pm-tl-dot '+s.status+'">'+icon+'</div>';
     tlHtml+='<div class="pm-tl-content"><div class="pm-tl-name">'+s.name+'</div>';
     tlHtml+='<div class="pm-tl-meta">'+meta+'</div></div></div>';
@@ -3565,8 +3565,8 @@ function handleNotifShip() {
 
 /* ── STAGE CHECKLISTS ── */
 var STAGE_CHECKLISTS = {
-  'Phân tích & Scope': {
-    label: 'Phân tích & Scope',
+  'Xem xét yêu cầu': {
+    label: 'Xem xét yêu cầu',
     emoji: '🔍',
     groups: [
       {
@@ -3586,8 +3586,8 @@ var STAGE_CHECKLISTS = {
       }
     ]
   },
-  'Thiết kế UI': {
-    label: 'Thiết kế UI',
+  'Lên phương án': {
+    label: 'Lên phương án',
     emoji: '🎨',
     groups: [
       {
@@ -3607,8 +3607,8 @@ var STAGE_CHECKLISTS = {
       }
     ]
   },
-  'Implement': {
-    label: 'Implement',
+  'Đang xây dựng': {
+    label: 'Đang xây dựng',
     emoji: '⚙️',
     groups: [
       {
@@ -3628,8 +3628,8 @@ var STAGE_CHECKLISTS = {
       }
     ]
   },
-  'QA & Test': {
-    label: 'QA & Test',
+  'Kiểm tra & hoàn thiện': {
+    label: 'Kiểm tra & hoàn thiện',
     emoji: '✅',
     groups: [
       {
@@ -3651,8 +3651,8 @@ var STAGE_CHECKLISTS = {
       }
     ]
   },
-  'Deploy': {
-    label: 'Deploy',
+  'Ra mắt': {
+    label: 'Ra mắt',
     emoji: '🚀',
     groups: [
       {
@@ -3720,14 +3720,14 @@ Object.keys(STAGE_CHECKLISTS).forEach(function(stageName) {
 
 /* Legacy QA_CHECKLIST kept for backward compat */
 var QA_CHECKLIST = {
-  a: STAGE_CHECKLISTS['QA & Test'].groups[0].items,
-  b: STAGE_CHECKLISTS['QA & Test'].groups[1].items
+  a: STAGE_CHECKLISTS['Kiểm tra & hoàn thiện'].groups[0].items,
+  b: STAGE_CHECKLISTS['Kiểm tra & hoàn thiện'].groups[1].items
 };
 var _qaChecked = {};
 var _qaGroupOpen = {};
 
 function isQAStage(o) {
-  return o && (o.stages||[]).some(function(s){ return s.name==='QA & Test' && s.status==='active'; });
+  return o && (o.stages||[]).some(function(s){ return s.name==='Kiểm tra & hoàn thiện' && s.status==='active'; });
 }
 
 function getActiveStage(o) {
@@ -3754,7 +3754,7 @@ function switchPmTab(tab) {
 
 function renderStageChecklist(orderId, o) {
   var stageName = getActiveStage(o);
-  var stageData = STAGE_CHECKLISTS[stageName] || STAGE_CHECKLISTS['QA & Test'];
+  var stageData = STAGE_CHECKLISTS[stageName] || STAGE_CHECKLISTS['Kiểm tra & hoàn thiện'];
   var checked = _qaChecked[orderId] || {};
   var isOrderDone = o && o.status === 'done';
   function isChecked(itemId) {
