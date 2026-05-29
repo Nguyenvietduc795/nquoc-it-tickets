@@ -323,6 +323,23 @@ select{cursor:pointer}
   .prio-grid{grid-template-columns:1fr}
   .expect-split{grid-template-columns:1fr}
 }
+/* ── Invoice unified ticket ── */
+.rv-inv-wrap{background:#fff;border:1.5px solid var(--gray-border-soft);border-radius:16px;overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow-md)}
+.rv-inv-section{border-bottom:1px solid var(--gray-border-soft)}
+.rv-inv-section:last-child{border-bottom:none}
+.rv-inv-head{display:flex;align-items:center;gap:10px;padding:10px 16px;background:#fff;border-bottom:1px solid var(--gray-border-soft)}
+.rv-inv-num{width:22px;height:22px;border-radius:50%;background:var(--purple);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rv-inv-icon{font-size:15px}
+.rv-inv-title{font-size:14px;font-weight:800;color:var(--text);flex:1}
+.rv-inv-body{padding:12px 16px;background:#fff}
+.rv-inv-empty{color:var(--text-muted);font-style:italic;font-size:13px}
+.rv-inv-row{padding:8px 0;border-bottom:1px solid var(--gray-border-soft)}
+.rv-inv-row:last-child{border-bottom:none;padding-bottom:0}
+.rv-inv-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);font-weight:700;margin-bottom:4px}
+.rv-inv-val{font-size:13px;color:var(--text);line-height:1.55;font-weight:500}
+.rv-inv-chips{display:flex;flex-wrap:wrap;gap:6px}
+.rv-inv-chip{background:var(--purple-light);border:1px solid #C4B5FD;color:var(--purple-dark);border-radius:100px;padding:3px 10px;font-size:12px;font-weight:600}
+.rv-inv-quote{padding:10px 14px;background:#fff;border-left:3px solid var(--purple);border-radius:0 8px 8px 0;font-size:13px;color:var(--text);font-weight:500;line-height:1.6;margin-top:2px}
 </style>
 </head>
 <body>
@@ -966,9 +983,32 @@ select{cursor:pointer}
     </div>
   </div>
 
-  <!-- Detail rows -->
-  <div style="background:#fff;border:1px solid var(--gray-border);border-radius:var(--radius);overflow:hidden;margin-bottom:16px">
-    <div id="rv-summary-rows"></div>
+  <!-- Invoice unified ticket -->
+  <div class="rv-inv-wrap">
+    <div class="rv-inv-section">
+      <div class="rv-inv-head"><span class="rv-inv-num">1</span><span class="rv-inv-icon">🎫</span><span class="rv-inv-title">Loại yêu cầu</span></div>
+      <div class="rv-inv-body" id="rv-inv-1"></div>
+    </div>
+    <div class="rv-inv-section">
+      <div class="rv-inv-head"><span class="rv-inv-num">2</span><span class="rv-inv-icon">💻</span><span class="rv-inv-title">Hệ thống liên quan</span></div>
+      <div class="rv-inv-body" id="rv-inv-2"></div>
+    </div>
+    <div class="rv-inv-section">
+      <div class="rv-inv-head"><span class="rv-inv-num">3</span><span class="rv-inv-icon">🔍</span><span class="rv-inv-title">Mô tả vấn đề</span></div>
+      <div class="rv-inv-body" id="rv-inv-3"></div>
+    </div>
+    <div class="rv-inv-section" id="rv-inv-s4" style="display:none">
+      <div class="rv-inv-head"><span class="rv-inv-num">4</span><span class="rv-inv-icon">✅</span><span class="rv-inv-title" id="rv-inv-4-title">Chi tiết</span></div>
+      <div class="rv-inv-body" id="rv-inv-4"></div>
+    </div>
+    <div class="rv-inv-section">
+      <div class="rv-inv-head"><span class="rv-inv-num">5</span><span class="rv-inv-icon">📎</span><span class="rv-inv-title">File đính kèm</span></div>
+      <div class="rv-inv-body" id="rv-inv-5"></div>
+    </div>
+    <div class="rv-inv-section">
+      <div class="rv-inv-head"><span class="rv-inv-num">6</span><span class="rv-inv-icon">👤</span><span class="rv-inv-title">Thông tin người gửi</span></div>
+      <div class="rv-inv-body" id="rv-inv-6"></div>
+    </div>
   </div>
 
   <!-- Checkbox xác nhận -->
@@ -1579,36 +1619,73 @@ function skipAI() { go(4); }
 
 // ─── Step 4: Confirm ───
 function buildConfirm() {
-  // Header card
   const now = new Date();
+  const typeIcon = {bug:'🐛',feature:'✨',access:'🔐',perf:'🐢',data:'📊'};
+  const prioLabel = {P0:'🔴 Khẩn cấp',P1:'🟠 Cao',P2:'🟡 Bình thường',P3:'⚪ Thấp'};
+  const t = S.type;
+  const prioText = S.prio ? prioLabel[S.prio]||S.prio : 'Chưa chọn';
+
+  // Header card
   document.getElementById('rv-date').textContent = now.getDate()+'/'+(now.getMonth()+1)+'/'+now.getFullYear();
   document.getElementById('rv-sender').textContent = S.team ? S.team+' Team' : 'Chưa điền';
   document.getElementById('rv-team-badge').textContent = 'NhiLe Team';
-  document.getElementById('rv-type-card').textContent = (S.type==='bug'?'🐛 ':S.type==='feature'?'✨ ':S.type==='access'?'🔐 ':S.type==='perf'?'🐢 ':S.type==='data'?'📊 ':'')+( TYPE_LABELS[S.type]||'—');
-  const prioColor={'P0':'🔴 Khẩn cấp','P1':'🟠 Cao','P2':'🟡 Bình thường','P3':'⚪ Thấp'};
-  document.getElementById('rv-prio-card').textContent = S.prio ? prioColor[S.prio]||S.prio : 'Chưa chọn';
+  document.getElementById('rv-type-card').textContent = (typeIcon[t]||'')+' '+(TYPE_LABELS[t]||'—');
+  document.getElementById('rv-prio-card').textContent = prioText;
 
-  // Detail rows
-  let rows = [
-    ['LOẠI LỖI', S.typeChecklist&&S.typeChecklist.length ? S.typeChecklist.join(', ') : null],
-    ['HỆ THỐNG', S.sys.join(', ')||null],
-  ];
-  const t = S.type;
-  if(t==='bug') rows.push(...[['MÔ TẢ LỖI',gv('bugExpect')||gv('bugAction')],['KỲ VỌNG SAU FIX',gv('bugActual')]]);
-  else if(t==='feature') rows.push(...[['VẤN ĐỀ HIỆN TẠI',gv('featProcess')||gv('featPain')],['TÍNH NĂNG MUỐN CÓ',gv('featOutput')],['TIÊU CHÍ XONG',gv('featDone')]]);
-  else if(t==='access') rows.push(['VẤN ĐỀ TRUY CẬP',gv('accessWhat')]);
-  else if(t==='perf') rows.push(['TRANG BỊ CHẬM',gv('perfWhere')]);
-  else if(t==='data') rows.push(...[['DỮ LIỆU BỊ LỖI',gv('dataWhat')],['DỮ LIỆU ĐÚNG',gv('dataExpected')]]);
+  const empty = `<div class="rv-inv-empty">Chưa có thông tin</div>`;
+  const mkChips = arr => arr && arr.length ? `<div class="rv-inv-chips">${arr.map(s=>`<span class="rv-inv-chip">${s}</span>`).join('')}</div>` : '';
+  const mkRow = (lbl, content) => content ? `<div class="rv-inv-row"><div class="rv-inv-lbl">${lbl}</div>${content}</div>` : '';
+  const mkVal = s => s ? `<div class="rv-inv-val">${s}</div>` : '';
+  const mkQuote = s => s ? `<div class="rv-inv-quote">"${s}"</div>` : '';
 
-  rows.push(['FILE ĐÍNH KÈM', document.querySelectorAll('#fileList3 div').length ? document.querySelectorAll('#fileList3 div').length+' file' : 'Không có đính kèm']);
+  // 1. Loại yêu cầu
+  document.getElementById('rv-inv-1').innerHTML = [
+    mkRow('Loại', mkVal((typeIcon[t]||'')+' '+(TYPE_LABELS[t]||'—'))),
+    mkRow('Độ ưu tiên', mkVal(prioText)),
+    mkRow('Chi tiết loại', mkChips(S.typeChecklist)),
+  ].join('') || empty;
 
-  document.getElementById('rv-summary-rows').innerHTML = rows.map(r=>`
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:10px 16px;border-bottom:1px solid var(--gray-border);font-size:13px;gap:12px">
-      <span style="font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase;min-width:120px">${r[0]}</span>
-      <span style="color:${r[1]?'var(--text)':'var(--text-muted)'};text-align:right;font-weight:${r[1]?'500':'400'}">${r[1]||'—'}</span>
-    </div>`).join('').replace(/border-bottom[^}]+}\s*$/, '');
+  // 2. Hệ thống
+  document.getElementById('rv-inv-2').innerHTML = S.sys && S.sys.length ? mkChips(S.sys) : empty;
 
-  // Reset confirm checkbox
+  // 3. Mô tả vấn đề
+  let s3 = '';
+  if(t==='bug') s3 = mkRow('Mô tả lỗi', mkQuote(gv('bugExpect')||gv('bugAction')));
+  else if(t==='feature') s3 = mkRow('Vấn đề hiện tại', mkQuote(gv('featProcess')||gv('featPain')));
+  else if(t==='access') s3 = mkRow('Vấn đề truy cập', mkQuote(gv('accessWhat')));
+  else if(t==='perf') s3 = mkRow('Trang / tính năng bị chậm', mkQuote(gv('perfWhere')));
+  else if(t==='data') s3 = mkRow('Dữ liệu bị lỗi', mkQuote(gv('dataWhat')));
+  document.getElementById('rv-inv-3').innerHTML = s3 || empty;
+
+  // 4. Chi tiết / Kỳ vọng (hiển thị có điều kiện)
+  const s4el = document.getElementById('rv-inv-s4');
+  let s4 = '';
+  if(t==='bug') {
+    document.getElementById('rv-inv-4-title').textContent = 'Kỳ vọng sau khi fix';
+    s4 = mkRow('Kết quả mong muốn', mkQuote(gv('bugActual')));
+  } else if(t==='feature') {
+    document.getElementById('rv-inv-4-title').textContent = 'Tính năng & Tiêu chí';
+    s4 = [mkRow('Tính năng muốn có', mkQuote(gv('featOutput'))), mkRow('Tiêu chí hoàn thành', mkQuote(gv('featDone')))].join('');
+  } else if(t==='data') {
+    document.getElementById('rv-inv-4-title').textContent = 'Dữ liệu đúng phải là';
+    s4 = mkRow('Dữ liệu đúng', mkQuote(gv('dataExpected')));
+  }
+  if(s4) { document.getElementById('rv-inv-4').innerHTML = s4; s4el.style.display='block'; }
+  else s4el.style.display='none';
+
+  // 5. File đính kèm
+  const fileEls = [...document.querySelectorAll('#fileList3 div')];
+  const fileNames = fileEls.map(el=>el.querySelector('span:nth-child(2)')?.textContent||'').filter(Boolean);
+  document.getElementById('rv-inv-5').innerHTML = fileEls.length
+    ? (fileNames.length ? mkChips(fileNames.map(f=>'📎 '+f)) : mkVal(fileEls.length+' file đính kèm'))
+    : mkVal('Không có đính kèm');
+
+  // 6. Người gửi
+  document.getElementById('rv-inv-6').innerHTML = [
+    mkRow('Team', mkVal(S.team ? S.team+' Team' : '')),
+    mkRow('Tổ chức', mkVal('NhiLe Team')),
+  ].join('') || empty;
+
   const cb = document.getElementById('confirmCheck');
   if(cb) { cb.checked=false; }
   const btn = document.getElementById('submitBtn');
