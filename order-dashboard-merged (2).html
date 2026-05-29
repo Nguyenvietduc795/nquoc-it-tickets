@@ -4251,10 +4251,14 @@ function _tourEnd(){
   document.getElementById('tourTooltip').style.cssText='display:none';
   document.getElementById('tourTooltip').classList.remove('active');
   document.getElementById('tourOverlay').classList.remove('active');
-  try{localStorage.setItem('nquoc_tour_v3','1');}catch(e){}
+  try{localStorage.setItem('nquoc_tour_v4','1');}catch(e){}
 }
 
-setTimeout(function(){ _tourShow(0); },700);
+try{
+  if(!localStorage.getItem('nquoc_tour_v4')){
+    setTimeout(function(){ _tourShow(0); },700);
+  }
+}catch(e){}
 </script>
 
 </body>
