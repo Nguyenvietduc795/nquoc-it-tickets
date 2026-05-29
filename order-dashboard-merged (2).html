@@ -592,6 +592,40 @@ body::before{
 .od-time{font-size:11px;color:#94A3B8;margin-bottom:18px}
 .od-close{width:100%;padding:13px;border-radius:12px;border:none;background:#22C55E;color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;font-family:var(--font)}
 .od-close:hover{background:#16A34A}
+/* ── Feature Invoice unified ticket ── */
+#orderModal .fo-inv-wrap{background:#fff;border:1.5px solid #e0d8c8;border-radius:16px;overflow:hidden;margin-bottom:16px;box-shadow:0 2px 8px rgba(10,25,41,.06)}
+#orderModal .fo-inv-section{border-bottom:1px solid #f0e8dc}
+#orderModal .fo-inv-section:last-child{border-bottom:none}
+#orderModal .fo-inv-head{display:flex;align-items:center;gap:10px;padding:10px 16px;background:#fff;border-bottom:1px solid #f0e8dc}
+#orderModal .fo-inv-num{width:22px;height:22px;border-radius:50%;background:#c77b30;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+#orderModal .fo-inv-icon{font-size:15px}
+#orderModal .fo-inv-title{font-size:14px;font-weight:800;color:#0a1929;flex:1}
+#orderModal .fo-inv-body{padding:12px 16px;background:#fff}
+#orderModal .fo-inv-empty{color:#9ca3af;font-style:italic;font-size:13px}
+#orderModal .fo-inv-row{padding:8px 0;border-bottom:1px solid #f5f0e8}
+#orderModal .fo-inv-row:last-child{border-bottom:none;padding-bottom:0}
+#orderModal .fo-inv-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;font-weight:700;margin-bottom:4px}
+#orderModal .fo-inv-val{font-size:13px;color:#1b1b1b;line-height:1.55;font-weight:500}
+#orderModal .fo-inv-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+#orderModal .fo-inv-chip{background:#f5e6d3;border:1px solid #f0d4b0;color:#a8641e;border-radius:100px;padding:3px 10px;font-size:12px;font-weight:600}
+#orderModal .fo-inv-quote{padding:10px 14px;background:#fff;border-left:3px solid #c77b30;border-radius:0 8px 8px 0;font-size:13px;color:#1b1b1b;font-weight:500;line-height:1.6;margin-top:2px}
+#orderModal .fo-inv-link{color:#c77b30;text-decoration:none;word-break:break-all;font-size:13px}
+
+/* ── ONBOARDING TOUR ── */
+#tourOverlay{position:fixed;inset:0;z-index:9997;pointer-events:none}
+#tourOverlay.active{pointer-events:all}
+#tourHighlightBox{position:fixed;z-index:9998;border-radius:10px;pointer-events:none;opacity:0;
+  transition:top .35s cubic-bezier(.4,0,.2,1),left .35s cubic-bezier(.4,0,.2,1),width .35s cubic-bezier(.4,0,.2,1),height .35s cubic-bezier(.4,0,.2,1),opacity .25s}
+#tourHighlightBox.active{opacity:1;box-shadow:0 0 0 9999px rgba(15,20,40,.58),0 0 0 3px #6366f1,0 0 0 7px rgba(99,102,241,.22),0 4px 28px rgba(99,102,241,.35)}
+#tourTooltip{position:fixed;z-index:9999;background:#fff;border-radius:14px;padding:18px 20px 14px;box-shadow:0 8px 32px rgba(10,20,40,.2),0 2px 8px rgba(10,20,40,.1);width:280px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;transform:translateY(8px)}
+#tourTooltip.active{opacity:1;pointer-events:all;transform:translateY(0)}
+#tourTipArrow{position:absolute;width:12px;height:12px;background:#fff;transform:rotate(45deg)}
+#tourTipStep{font-size:10px;font-weight:700;color:#6366f1;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+#tourTipTitle{font-size:15px;font-weight:800;color:#0f1420;margin-bottom:6px}
+#tourTipText{font-size:13px;color:#4b5563;line-height:1.6;margin-bottom:14px}
+#tourTipActions{display:flex;justify-content:center}
+#tourNextBtn{background:#6366f1;color:#fff;border:none;border-radius:8px;padding:8px 32px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;width:100%}
+#tourNextBtn:hover{background:#4f46e5}
 </style>
 </head>
 <body>
@@ -1917,9 +1951,10 @@ const FO_TR = {
 
 function goFeatureSummary() {
   const d = {
-    name: document.getElementById('pf-feat-name')?.value.trim()||'',
+    person: document.getElementById('pf-name')?.value.trim()||'',
     org: document.getElementById('pf-org')?.value.trim()||'',
     email: document.getElementById('pf-email')?.value.trim()||'',
+    name: document.getElementById('pf-feat-name')?.value.trim()||'',
     deadline: document.getElementById('pf-deadline')?.value||'',
     desc: document.getElementById('pf-desc')?.value.trim()||'',
     links: document.getElementById('pf-links')?.value.trim()||'',
@@ -1928,58 +1963,102 @@ function goFeatureSummary() {
     ...foChatAnswers,
   };
   window._foPendingOrder = d;
-  const chips = [...document.querySelectorAll('#panelFeature .fo-chip.on')].map(c=>c.textContent.trim());
+
+  const getChips = id => [...(document.getElementById(id)?.querySelectorAll('.fo-chip.on')||[])].map(c=>c.textContent.trim()).filter(Boolean);
+  const howdoing = getChips('pf-howdoing');
+  const problems = getChips('pf-problems');
+  const users = getChips('pf-users');
+  const devices = getChips('pf-devices');
+  const features = getChips('pf-features');
+  const integrations = getChips('pf-integrations');
+  const fileItems = [...document.querySelectorAll('#pf-file-list > div')].map(el=>el.querySelector('span:nth-child(2)')?.textContent||'').filter(Boolean);
 
   document.getElementById('panelFeatureForm').style.display='none';
   document.getElementById('panelFeatureSummary').style.display='block';
   window.scrollTo(0,0);
 
+  // Meta header
   document.getElementById('fo-s-title').textContent = d.name||'Tính năng chưa đặt tên';
   const dl = d.deadline ? new Date(d.deadline).toLocaleDateString('vi') : 'Chưa có deadline';
   document.getElementById('fo-s-sub').textContent = `Deadline: ${dl}`;
   const badges = document.getElementById('fo-s-badges');
   badges.innerHTML = '';
-  if(d.org) badges.innerHTML+=`<span style="background:#c77b30;color:#0a1929;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600">🏢 ${d.org}</span>`;
+  if(d.org) badges.innerHTML+=`<span style="background:#c77b30;color:#faf6f0;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600">🏢 ${d.org}</span>`;
   if(d.deadline) badges.innerHTML+=`<span style="background:#1a3a5c;color:#faf6f0;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600">📅 ${dl}</span>`;
 
-  const cont = document.getElementById('fo-s-rows');
-  cont.innerHTML = '';
-  const addCat = l => cont.innerHTML+=`<div style="padding:8px 16px;background:#faf2e8;border-bottom:1px solid #f0d4b0;font-family:monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#a8641e">${l}</div>`;
-  const addRow = (l,r) => cont.innerHTML+=`<div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #f0e8dc"><div style="padding:11px 16px;font-size:13px;color:#1b1b1b;border-right:1px solid #f0e8dc">${l}</div><div style="padding:11px 16px"><span style="background:#f5e6d3;border:1px solid #f0d4b0;color:#a8641e;border-radius:4px;padding:2px 8px;font-size:12px;font-weight:500">${r}</span></div></div>`;
+  const empty = `<div class="fo-inv-empty">Chưa có thông tin</div>`;
+  const mkChips = arr => arr.length ? `<div class="fo-inv-chips">${arr.map(t=>`<span class="fo-inv-chip">${t}</span>`).join('')}</div>` : '';
+  const mkRow = (lbl, content) => content ? `<div class="fo-inv-row"><div class="fo-inv-lbl">${lbl}</div>${content}</div>` : '';
+  const mkVal = t => t ? `<div class="fo-inv-val">${t}</div>` : '';
+  const mkQuote = t => t ? `<div class="fo-inv-quote">"${t}"</div>` : '';
 
-  addCat('📋 Yêu cầu');
-  if(d.name) addRow(d.name,'Feature Request');
-  if(d.org) addRow(d.org,'Requester identified');
+  // 1. Tên tính năng & Deadline
+  const s1 = document.getElementById('fo-inv-1');
+  s1.innerHTML = (d.name||d.deadline) ? [
+    mkRow('Tên tính năng', mkVal(d.name)),
+    mkRow('Deadline mong muốn', mkVal(d.deadline ? dl : '')),
+  ].join('') : empty;
 
-  const methods = chips.filter(c=>FO_TR[c]&&['Manual','Workflow','Migration','Greenfield'].some(k=>FO_TR[c].includes(k)));
-  const problems = chips.filter(c=>FO_TR[c]&&['Bottleneck','Validation','Audit','Analytics','Automation'].some(k=>FO_TR[c].includes(k)));
-  const outcomes = chips.filter(c=>FO_TR[c]&&['Forms','CRUD','Visualization','Notification','RBAC','Search'].some(k=>FO_TR[c].includes(k)));
+  // 2. Bạn đang gặp vấn đề gì?
+  const s2 = document.getElementById('fo-inv-2');
+  const s2h = [
+    mkRow('Hiện đang làm bằng cách nào', mkChips(howdoing)),
+    mkRow('Vấn đề lớn nhất', mkChips(problems)),
+    mkRow('Mô tả thêm', mkQuote(d.desc)),
+    mkRow('Ngày làm việc điển hình', mkQuote(d.dailyPain)),
+  ].join('');
+  s2.innerHTML = s2h || empty;
 
-  if(chips.length||d.desc||d.dailyPain||d.workflow) {
-    addCat('🔍 Vấn đề & Bối cảnh');
-    chips.filter(c=>!outcomes.includes(c)).forEach(c=>addRow(c, FO_TR[c]||c));
-    if(d.desc) addRow(`"${d.desc}"`, 'Context noted');
-    if(d.dailyPain) addRow(`"${d.dailyPain}"`, 'User Story captured');
-    if(d.workflow) addRow(`Quy trình: ${d.workflow}`, 'Workflow mapped');
+  // 3. Ảnh / Video / Link tham khảo
+  const s3 = document.getElementById('fo-inv-3');
+  let s3h = '';
+  if(d.links) {
+    const linkArr = d.links.split(',').map(l=>l.trim()).filter(Boolean);
+    s3h += mkRow('Link tham khảo', `<div style="display:flex;flex-direction:column;gap:4px;margin-top:2px">${linkArr.map(l=>`<a href="${l}" target="_blank" class="fo-inv-link">🔗 ${l}</a>`).join('')}</div>`);
   }
-  if(outcomes.length) { addCat('✅ Tính năng cần xây dựng'); outcomes.forEach(o=>addRow(o, FO_TR[o]||o)); }
-  if(d.ui||d.referenceApps) {
-    addCat('🎨 Giao diện & Tham khảo');
-    if(d.ui) addRow('Muốn như: '+d.ui,'UI Reference noted');
-    if(d.referenceApps) addRow('App tham khảo: '+d.referenceApps,'Design Reference noted');
-    if(d.links) addRow('Link: '+d.links,'UI/UX Reference provided');
-  }
-  if(d.extraInfo||d.notes) {
-    addCat('📎 Thông tin bổ sung');
-    if(d.extraInfo) addRow(d.extraInfo,'Additional Requirement captured');
-    if(d.notes) addRow('Ghi chú: '+d.notes,'Noted for IT');
-  }
+  if(fileItems.length) s3h += mkRow(`File đính kèm (${fileItems.length})`, mkChips(fileItems.map(f=>'📎 '+f)));
+  s3.innerHTML = s3h || empty;
 
-  document.getElementById('fo-cx').innerHTML=[
-    ['Giao diện',d.ui?.includes('Dashboard')||d.ui?.includes('App')?75:45,'#2c5278'],
-    ['Logic nghiệp vụ',Math.min(outcomes.length*20+20,90),'#c77b30'],
-    ['Dữ liệu & Tích hợp',35,'#1e8449'],
-  ].map(([name,score,color])=>`<div style="flex:1;min-width:100px"><div style="height:6px;background:#e0d8c8;border-radius:3px;overflow:hidden;margin-bottom:5px"><div style="height:100%;width:${score}%;background:${color};border-radius:3px;transition:width 1s ease"></div></div><div style="font-size:10px;color:#95a5a6;text-transform:uppercase;letter-spacing:.06em">${name}</div></div>`).join('');
+  // 4. Ai sẽ dùng & dùng ở đâu?
+  const s4 = document.getElementById('fo-inv-4');
+  const s4h = [
+    mkRow('Người dùng', mkChips(users)),
+    mkRow('Thiết bị', mkChips(devices)),
+  ].join('');
+  s4.innerHTML = s4h || empty;
+
+  // 5. Kết quả bạn mong muốn
+  const s5 = document.getElementById('fo-inv-5');
+  const s5h = [
+    mkRow('Tính năng cần có', mkChips(features)),
+    mkRow('Kết nối phần mềm', mkChips(integrations)),
+    mkRow('Quy trình hình dung', mkQuote(d.workflow)),
+  ].join('');
+  s5.innerHTML = s5h || empty;
+
+  // 6. Giao diện trông như thế nào?
+  const s6 = document.getElementById('fo-inv-6');
+  const s6h = [
+    mkRow('Kiểu giao diện', mkChips(d.ui ? [d.ui] : [])),
+    mkRow('App tham khảo', mkVal(d.referenceApps)),
+  ].join('');
+  s6.innerHTML = s6h || empty;
+
+  // 7. Ghi chú thêm
+  const s7 = document.getElementById('fo-inv-7');
+  const s7h = [
+    mkRow('Ghi chú', mkQuote(d.notes)),
+    mkRow('Thông tin bổ sung', mkQuote(d.extraInfo)),
+  ].join('');
+  s7.innerHTML = s7h || empty;
+
+  // 8. Thông tin của bạn
+  const s8 = document.getElementById('fo-inv-8');
+  s8.innerHTML = [
+    mkRow('Họ và tên', mkVal(d.person)),
+    mkRow('Tổ chức / Phòng ban', mkVal(d.org)),
+    mkRow('Email', mkVal(d.email)),
+  ].join('') || empty;
 
   const cb=document.getElementById('foConfirmCheck');
   if(cb) cb.checked=false;
@@ -3033,7 +3112,7 @@ function projClickGuard(el, state) {
       <div class="fo-card-head"><div class="fo-card-icon">🔍</div><div><div class="fo-card-title">Bạn đang gặp vấn đề gì?</div><div class="fo-card-hint">Kể thoải mái — không có câu trả lời sai!</div></div></div>
       <div class="fo-field">
         <label class="fo-label">HIỆN ĐANG LÀM BẰNG CÁCH NÀO?</label>
-        <div class="fo-chips">
+        <div class="fo-chips" id="pf-howdoing">
           <div class="fo-chip" onclick="foToggle(this)">📊 Làm tay / nhập Excel</div>
           <div class="fo-chip" onclick="foToggle(this)">💬 Zalo / Email qua lại</div>
           <div class="fo-chip" onclick="foToggle(this)">🖥️ Phần mềm cũ không đủ</div>
@@ -3043,7 +3122,7 @@ function projClickGuard(el, state) {
       </div>
       <div class="fo-field">
         <label class="fo-label">VẤN ĐỀ LỚN NHẤT LÀ GÌ?</label>
-        <div class="fo-chips">
+        <div class="fo-chips" id="pf-problems">
           <div class="fo-chip" onclick="foToggle(this)">⏰ Mất nhiều thời gian</div>
           <div class="fo-chip" onclick="foToggle(this)">⚠️ Hay xảy ra sai sót</div>
           <div class="fo-chip" onclick="foToggle(this)">🔍 Khó theo dõi</div>
@@ -3069,7 +3148,7 @@ function projClickGuard(el, state) {
       </div>
       <div class="fo-field">
         <label class="fo-label">THIẾT BỊ SỬ DỤNG</label>
-        <div class="fo-chips">
+        <div class="fo-chips" id="pf-devices">
           <div class="fo-chip" onclick="foToggle(this)">💻 Máy tính văn phòng</div>
           <div class="fo-chip" onclick="foToggle(this)">📱 Điện thoại</div>
           <div class="fo-chip" onclick="foToggle(this)">📲 Máy tính bảng</div>
@@ -3082,7 +3161,7 @@ function projClickGuard(el, state) {
       <div class="fo-card-head"><div class="fo-card-icon">✅</div><div><div class="fo-card-title">Kết quả bạn mong muốn</div></div></div>
       <div class="fo-field">
         <label class="fo-label">TÍNH NĂNG CẦN CÓ</label>
-        <div class="fo-chips">
+        <div class="fo-chips" id="pf-features">
           <div class="fo-chip" onclick="foToggle(this)">✍️ Nhập liệu nhanh hơn</div>
           <div class="fo-chip" onclick="foToggle(this)">📋 Quản lý danh sách</div>
           <div class="fo-chip" onclick="foToggle(this)">📊 Báo cáo tự động</div>
@@ -3094,7 +3173,7 @@ function projClickGuard(el, state) {
       </div>
       <div class="fo-field">
         <label class="fo-label">KẾT NỐI VỚI PHẦN MỀM NÀO ĐANG DÙNG?</label>
-        <div class="fo-chips">
+        <div class="fo-chips" id="pf-integrations">
           <div class="fo-chip" onclick="foToggle(this)">🔒 Không cần</div>
           <div class="fo-chip" onclick="foToggle(this)">🟡 Google Workspace</div>
           <div class="fo-chip" onclick="foToggle(this)">💰 Kế toán</div>
@@ -3185,12 +3264,12 @@ function projClickGuard(el, state) {
 
   <!-- Feature summary -->
   <div id="panelFeatureSummary" style="display:none;background:#faf6f0;padding:20px 0">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#c77b30;margin-bottom:6px">── TÓM TẮT YÊU CẦU</div>
-    <div style="font-size:22px;font-weight:800;color:#0a1929;letter-spacing:-.02em;margin-bottom:4px">Bản Order hoàn chỉnh</div>
-    <div style="font-size:13px;color:#5d6d7e;margin-bottom:20px">Cột trái là ngôn ngữ của bạn — cột phải là những gì IT cần hiểu.</div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#c77b30;margin-bottom:6px">── HÓA ĐƠN YÊU CẦU</div>
+    <div style="font-size:22px;font-weight:800;color:#0a1929;letter-spacing:-.02em">Bản Order hoàn chỉnh</div>
+    <div style="font-size:13px;color:#5d6d7e;margin-bottom:20px">Đọc lại một lần — gửi rồi không chỉnh sửa được nhé!</div>
 
     <!-- Meta card -->
-    <div style="background:#0a1929;border-radius:16px;padding:20px 22px;margin-bottom:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div style="background:#0a1929;border-radius:16px;padding:20px 22px;margin-bottom:16px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
       <div>
         <div style="font-size:20px;font-weight:800;color:#faf6f0;letter-spacing:-.02em" id="fo-s-title">—</div>
         <div style="font-family:monospace;font-size:11px;color:#d89651;text-transform:uppercase;letter-spacing:.08em;margin-top:4px" id="fo-s-sub">—</div>
@@ -3198,23 +3277,44 @@ function projClickGuard(el, state) {
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start" id="fo-s-badges"></div>
     </div>
 
-    <!-- Dual table -->
-    <div style="background:#fff;border:1px solid #e0d8c8;border-radius:16px;overflow:hidden;margin-bottom:14px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;background:#f4ede0;border-bottom:1px solid #e0d8c8">
-        <div style="padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5d6d7e;display:flex;align-items:center;gap:8px;border-right:1px solid #e0d8c8"><div style="width:8px;height:8px;border-radius:2px;background:#c77b30"></div>🧑 Khách hàng nói</div>
-        <div style="padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5d6d7e;display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:2px;background:#1e8449"></div>⚙️ IT hiểu là</div>
+    <!-- 8 invoice sections — unified ticket -->
+    <div class="fo-inv-wrap">
+      <div class="fo-inv-section">
+        <div class="fo-inv-head"><span class="fo-inv-num">1</span><span class="fo-inv-icon">🎯</span><span class="fo-inv-title">Tên tính năng & Deadline</span></div>
+        <div class="fo-inv-body" id="fo-inv-1"></div>
       </div>
-      <div id="fo-s-rows"></div>
-    </div>
-
-    <!-- Complexity -->
-    <div style="background:#fff;border:1px solid #e0d8c8;border-radius:16px;padding:20px 22px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
-      <div style="font-size:14px;font-weight:700;color:#0a1929;flex-shrink:0">Ước tính độ phức tạp</div>
-      <div style="display:flex;gap:14px;flex:1;flex-wrap:wrap" id="fo-cx"></div>
+      <div class="fo-inv-section">
+        <div class="fo-inv-head"><span class="fo-inv-num">2</span><span class="fo-inv-icon">🔍</span><span class="fo-inv-title">Bạn đang gặp vấn đề gì?</span></div>
+        <div class="fo-inv-body" id="fo-inv-2"></div>
+      </div>
+      <div class="fo-inv-section">
+        <div class="fo-inv-head"><span class="fo-inv-num">3</span><span class="fo-inv-icon">📎</span><span class="fo-inv-title">Ảnh / Video / Link tham khảo</span></div>
+        <div class="fo-inv-body" id="fo-inv-3"></div>
+      </div>
+      <div class="fo-inv-section">
+        <div class="fo-inv-head"><span class="fo-inv-num">4</span><span class="fo-inv-icon">👥</span><span class="fo-inv-title">Ai sẽ dùng & dùng ở đâu?</span></div>
+        <div class="fo-inv-body" id="fo-inv-4"></div>
+      </div>
+      <div class="fo-inv-section">
+        <div class="fo-inv-head"><span class="fo-inv-num">5</span><span class="fo-inv-icon">✅</span><span class="fo-inv-title">Kết quả bạn mong muốn</span></div>
+        <div class="fo-inv-body" id="fo-inv-5"></div>
+      </div>
+      <div class="fo-inv-section">
+        <div class="fo-inv-head"><span class="fo-inv-num">6</span><span class="fo-inv-icon">🎨</span><span class="fo-inv-title">Giao diện trông như thế nào?</span></div>
+        <div class="fo-inv-body" id="fo-inv-6"></div>
+      </div>
+      <div class="fo-inv-section">
+        <div class="fo-inv-head"><span class="fo-inv-num">7</span><span class="fo-inv-icon">📝</span><span class="fo-inv-title">Ghi chú thêm</span></div>
+        <div class="fo-inv-body" id="fo-inv-7"></div>
+      </div>
+      <div class="fo-inv-section">
+        <div class="fo-inv-head"><span class="fo-inv-num">8</span><span class="fo-inv-icon">👤</span><span class="fo-inv-title">Thông tin của bạn</span></div>
+        <div class="fo-inv-body" id="fo-inv-8"></div>
+      </div>
     </div>
 
     <!-- Confirm checkbox -->
-    <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #e0d8c8;border-radius:10px;cursor:pointer;font-size:13px;color:#374151;margin-bottom:14px" id="foConfirmLabel">
+    <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #e0d8c8;border-radius:10px;cursor:pointer;font-size:13px;color:#374151;margin:16px 0 14px" id="foConfirmLabel">
       <input type="checkbox" id="foConfirmCheck" onchange="foToggleSubmit()" style="width:18px;height:18px;accent-color:#c77b30;cursor:pointer">
       Tôi đã đọc kỹ và xác nhận thông tin trên là chính xác
     </label>
@@ -3293,15 +3393,15 @@ function projClickGuard(el, state) {
         <div class="pick-card-icon pick-icon-blue">
           <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.85"/></svg>
         </div>
-        <div class="pick-card-label">Bánh Chưng</div>
-        <div class="pick-card-desc">Tư vấn với Bot Bánh Chưng</div>
+        <div class="pick-card-label">Bánh Chưng bot</div>
+        <div class="pick-card-desc">Tư vấn kỹ thuật với Bánh Chưng Bot</div>
       </div>
       <div class="pick-card" onclick="window.location.href='nquoc-it-request-v3_2.html'">
         <div class="pick-card-icon pick-icon-green">
           <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
         </div>
         <div class="pick-card-label">Tự điền phiếu</div>
-        <div class="pick-card-desc">Gửi phiếu yêu cầu hỗ trợ kỹ thuật đến team IT</div>
+        <div class="pick-card-desc">Gửi yêu cầu hỗ trợ</div>
       </div>
     </div>
   </div>
@@ -4263,5 +4363,78 @@ window.addEventListener('pageshow', function(e) {
 });
 </script>
 
+<!-- ═══ ONBOARDING TOUR ═══ -->
+<div id="tourOverlay"></div>
+<div id="tourHighlightBox"></div>
+<div id="tourTooltip">
+  <div id="tourTipArrow"></div>
+  <div id="tourTipTitle"></div>
+  <div id="tourTipText"></div>
+  <div id="tourTipActions">
+    <button id="tourNextBtn" onclick="_tourNext()">OK</button>
+  </div>
+</div>
+
+<script>
+var _tourStep=0;
+var _tourSteps=[
+  {sel:'.btn-create',   title:'Gửi yêu cầu',      text:'Gửi yêu cầu của bạn tại đây — tạo ticket bug, tính năng mới, hoặc tư vấn trực tiếp với IT.'},
+  {sel:'.topbar-title',  title:'Danh sách order',   text:'Xem danh sách order của bạn tại đây — trạng thái xử lý, deadline và người phụ trách.'},
+  {sel:'.search-wrap',  title:'Tìm kiếm',          text:'Tìm kiếm dự án theo mã của bạn — nhập mã order hoặc tên tính năng để lọc nhanh.'},
+  {sel:'.proj-section-head > div', title:'Dự án của tôi', text:'Xem tiến độ dự án của bạn tại đây — theo dõi trạng thái duyệt và phần trăm hoàn thành.'}
+];
+
+function _tourShow(i){
+  var s=_tourSteps[i];
+  var el=document.querySelector(s.sel);
+  if(!el){_tourEnd();return;}
+  var hbox=document.getElementById('tourHighlightBox');
+  var tooltip=document.getElementById('tourTooltip');
+  var arrow=document.getElementById('tourTipArrow');
+  document.getElementById('tourTipTitle').textContent=s.title;
+  document.getElementById('tourTipText').textContent=s.text;
+  document.getElementById('tourNextBtn').textContent='OK';
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+  setTimeout(function(){
+    var r=el.getBoundingClientRect(), P=8;
+    hbox.style.cssText='position:fixed;z-index:9998;border-radius:10px;pointer-events:none;opacity:1;'
+      +'top:'+(r.top-P)+'px;left:'+(r.left-P)+'px;width:'+(r.width+P*2)+'px;height:'+(r.height+P*2)+'px;'
+      +'box-shadow:0 0 0 9999px rgba(15,20,40,.58),0 0 0 3px #6366f1,0 0 0 7px rgba(99,102,241,.22),0 4px 28px rgba(99,102,241,.35)';
+    var TW=280,PAD=16,TH=170;
+    var spaceBelow=window.innerHeight-r.bottom;
+    var left=Math.max(PAD,Math.min(r.left+r.width/2-TW/2,window.innerWidth-TW-PAD));
+    var aLeft=Math.max(16,Math.min(r.left+r.width/2-left-6,TW-32));
+    if(spaceBelow>TH+20){
+      tooltip.style.cssText='position:fixed;z-index:9999;background:#fff;border-radius:14px;padding:18px 20px 14px;box-shadow:0 8px 32px rgba(10,20,40,.2),0 2px 8px rgba(10,20,40,.1);width:280px;pointer-events:all;opacity:1;top:'+(r.bottom+PAD)+'px;left:'+left+'px';
+      arrow.style.cssText='top:-6px;left:'+aLeft+'px;box-shadow:-2px -2px 4px rgba(0,0,0,.07)';
+    } else {
+      tooltip.style.cssText='position:fixed;z-index:9999;background:#fff;border-radius:14px;padding:18px 20px 14px;box-shadow:0 8px 32px rgba(10,20,40,.2),0 2px 8px rgba(10,20,40,.1);width:280px;pointer-events:all;opacity:1;top:'+(r.top-TH-PAD)+'px;left:'+left+'px';
+      arrow.style.cssText='bottom:-6px;left:'+aLeft+'px;box-shadow:2px 2px 4px rgba(0,0,0,.07)';
+    }
+  },650);
+}
+
+function _tourNext(){
+  _tourStep++;
+  if(_tourStep>=_tourSteps.length){_tourEnd();return;}
+  _tourShow(_tourStep);
+}
+
+function _tourEnd(){
+  document.getElementById('tourHighlightBox').style.cssText='display:none';
+  document.getElementById('tourTooltip').style.cssText='display:none';
+  document.getElementById('tourOverlay').classList.remove('active');
+  try{localStorage.setItem('nquoc_tour_v3','1');}catch(e){}
+}
+
+try{
+  if(!localStorage.getItem('nquoc_tour_v3')){
+    setTimeout(function(){
+      document.getElementById('tourOverlay').classList.add('active');
+      _tourShow(0);
+    },700);
+  }
+}catch(e){}
+</script>
 </body>
 </html>
