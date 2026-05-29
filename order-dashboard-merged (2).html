@@ -878,6 +878,16 @@ body::before{
       </div>
     </div>
   </div>
+  <div class="panel-chat-footer">
+    <div class="chat-input-wrap">
+      <textarea id="chatInput" placeholder="Nhắn tin..." rows="1"
+        oninput="autoResize(this)"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"></textarea>
+      <button class="chat-send" onclick="sendMessage()">
+        <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </div>
+  </div>
 </div>
 
 <script>
