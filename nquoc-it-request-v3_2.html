@@ -290,27 +290,27 @@ select{cursor:pointer}
   .expect-split{grid-template-columns:1fr}
   #beChip{bottom:16px;right:16px}
 }
-.fo-card{background:#fff;border:1px solid #e0d8c8;border-radius:16px;padding:22px;margin-bottom:12px}
+.fo-card{background:#fff;border:1px solid #ddd6fe;border-radius:16px;padding:22px;margin-bottom:12px}
 .fo-card-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px}
-.fo-card-icon{width:36px;height:36px;flex-shrink:0;background:#f5e6d3;border:1px solid #f0d4b0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.fo-card-icon{width:36px;height:36px;flex-shrink:0;background:#ede9fe;border:1px solid #c4b5fd;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
 .fo-card-title{font-size:16px;font-weight:700;color:#0a1929;margin-bottom:3px}
 .fo-card-hint{font-size:12px;color:#5d6d7e;line-height:1.5}
 .fo-field{margin-bottom:16px}
 .fo-field:last-child{margin-bottom:0}
-.fo-label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#2c5278;margin-bottom:8px}
-.fo-input{width:100%;background:#faf6f0;border:1.5px solid #e0d8c8;border-radius:8px;padding:10px 13px;font-size:14px;color:#1b1b1b;outline:none;font-family:inherit;resize:vertical;transition:border-color .2s}
-.fo-input:focus{border-color:#c77b30;background:#fff;box-shadow:0 0 0 3px #f5e6d3}
+.fo-label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--purple-dark);margin-bottom:8px}
+.fo-input{width:100%;background:#faf5ff;border:1.5px solid #ddd6fe;border-radius:8px;padding:10px 13px;font-size:14px;color:#1b1b1b;outline:none;font-family:inherit;resize:vertical;transition:border-color .2s}
+.fo-input:focus{border-color:var(--purple);background:#fff;box-shadow:0 0 0 3px var(--purple-glow)}
 .fo-input::placeholder{color:#95a5a6}
 .fo-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
-.fo-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#faf6f0;border:1.5px solid #e0d8c8;border-radius:100px;font-size:13px;color:#5d6d7e;cursor:pointer;transition:all .15s;user-select:none}
-.fo-chip:hover{border-color:#c77b30;color:#a8641e;background:#faf2e8}
-.fo-chip.on{background:#faf2e8;border-color:#c77b30;color:#a8641e;font-weight:600;box-shadow:0 0 0 3px #f5e6d3}
-.fo-chip-other{background:#faf6f0;border:1.5px dashed #e0d8c8;border-radius:100px;padding:7px 13px;font-size:13px;color:#1b1b1b;outline:none;font-family:inherit;min-width:120px;transition:all .15s}
-.fo-chip-other:focus{border-color:#c77b30;border-style:solid;background:#fff}
-.fo-ui-card{border:1.5px solid #e0d8c8;border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s;background:#faf6f0;text-align:center}
-.fo-ui-card:hover{border-color:#c77b30;transform:translateY(-1px)}
-.fo-ui-card.on{border-color:#c77b30;box-shadow:0 0 0 3px #f5e6d3}
-.fo-ui-preview{padding:14px;font-size:26px;background:#f4ede0;border-bottom:1px solid #e0d8c8}
+.fo-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#faf5ff;border:1.5px solid #ddd6fe;border-radius:100px;font-size:13px;color:#5d6d7e;cursor:pointer;transition:all .15s;user-select:none}
+.fo-chip:hover{border-color:var(--purple);color:var(--purple-dark);background:#ede9fe}
+.fo-chip.on{background:#ede9fe;border-color:var(--purple);color:var(--purple-dark);font-weight:600;box-shadow:0 0 0 3px var(--purple-glow)}
+.fo-chip-other{background:#faf5ff;border:1.5px dashed #ddd6fe;border-radius:100px;padding:7px 13px;font-size:13px;color:#1b1b1b;outline:none;font-family:inherit;min-width:120px;transition:all .15s}
+.fo-chip-other:focus{border-color:var(--purple);border-style:solid;background:#fff}
+.fo-ui-card{border:1.5px solid #ddd6fe;border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s;background:#faf5ff;text-align:center}
+.fo-ui-card:hover{border-color:var(--purple);transform:translateY(-1px)}
+.fo-ui-card.on{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-glow)}
+.fo-ui-preview{padding:14px;font-size:26px;background:#ede9fe;border-bottom:1px solid #ddd6fe}
 .fo-ui-label{padding:6px 8px;font-size:11px;font-weight:600;color:#0a1929}
 
 /* Conditional */
@@ -474,7 +474,7 @@ select{cursor:pointer}
 <div class="panel" id="panel2">
 
   <!-- FEATURE ORDER FORM — shown when type=feature -->
-  <div id="fo-panel" style="display:none;background:#faf6f0;border-radius:var(--radius);padding:20px 16px;font-family:'Inter Tight',-apple-system,system-ui,sans-serif">
+  <div id="fo-panel" style="display:none;background:#faf5ff;border-radius:var(--radius);padding:20px 16px;font-family:'Inter Tight',-apple-system,system-ui,sans-serif">
     <div class="section-icon" style="background:#ede9fe">✨</div>
     <div class="section-title">Chi tiết tính năng mới</div>
     <div class="section-sub" style="margin-bottom:20px">Điền càng đầy đủ, IT càng hiểu đúng yêu cầu của bạn.</div>
@@ -1032,14 +1032,14 @@ select{cursor:pointer}
 <div id="panelFeature" style="display:none;font-family:'Inter Tight',-apple-system,system-ui,sans-serif;color:#1b1b1b">
 
   <!-- Feature form -->
-  <div id="panelFeatureForm" style="background:#faf6f0;padding:20px 0">
+  <div id="panelFeatureForm" style="background:#faf5ff;padding:20px 0">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
       <div>
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#c77b30;margin-bottom:6px">── YÊU CẦU TÍNH NĂNG MỚI</div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--purple);margin-bottom:6px">── YÊU CẦU TÍNH NĂNG MỚI</div>
         <div style="font-size:22px;font-weight:800;color:#0a1929;letter-spacing:-.02em">Bạn muốn làm tính năng gì?</div>
-        <div style="font-size:13px;color:#5d6d7e;margin-top:4px">Cứ mô tả theo cách bạn cảm nhận — đừng lo sai 💛</div>
+        <div style="font-size:13px;color:#5d6d7e;margin-top:4px">Cứ mô tả theo cách bạn cảm nhận — đừng lo sai 💜</div>
       </div>
-      <button onclick="backFromFeature()" style="background:none;border:1px solid #e0d8c8;border-radius:8px;padding:6px 12px;font-size:13px;color:#5d6d7e;cursor:pointer">← Quay lại</button>
+      <button onclick="backFromFeature()" style="background:none;border:1px solid #ddd6fe;border-radius:8px;padding:6px 12px;font-size:13px;color:#5d6d7e;cursor:pointer">← Quay lại</button>
     </div>
 
     <!-- 1. Tên tính năng -->
@@ -1073,21 +1073,21 @@ select{cursor:pointer}
         </div>
       </div>
       <div class="fo-field"><label class="fo-label">KỂ THÊM CHO IT NGHE</label><textarea id="pf-desc" class="fo-input" rows="3" placeholder="Ví dụ: Mỗi tuần tôi mất 3 tiếng tổng hợp 5 file Excel..."></textarea></div>
-      <div class="fo-field" style="border-top:1px solid #f0e8d8;padding-top:14px;margin-top:4px">
+      <div class="fo-field" style="border-top:1px solid #ede9fe;padding-top:14px;margin-top:4px">
         <label class="fo-label">📎 ẢNH / VIDEO / LINK THAM KHẢO <span style="font-weight:400;text-transform:none;font-size:10px;color:#95a5a6">(tuỳ chọn)</span></label>
         <div id="pf-dropzone"
-          style="border:1.5px dashed #e0d8c8;border-radius:10px;padding:20px 16px;text-align:center;cursor:pointer;background:#faf6f0;transition:border-color .2s"
+          style="border:1.5px dashed #ddd6fe;border-radius:10px;padding:20px 16px;text-align:center;cursor:pointer;background:#faf5ff;transition:border-color .2s"
           onclick="document.getElementById('pf-files').click()"
-          ondragover="event.preventDefault();this.style.borderColor='#c77b30'"
-          ondragleave="this.style.borderColor='#e0d8c8'"
+          ondragover="event.preventDefault();this.style.borderColor='var(--purple)'"
+          ondragleave="this.style.borderColor='#ddd6fe'"
           ondrop="pfHandleDrop(event)">
           <div style="font-size:22px;margin-bottom:6px">📎</div>
-          <div style="font-size:13px;color:#5d6d7e"><strong style="color:#c77b30">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
+          <div style="font-size:13px;color:#5d6d7e"><strong style="color:var(--purple)">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
           <div style="display:flex;justify-content:center;gap:6px;margin-top:8px">
-            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PNG</span>
-            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">JPG</span>
-            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">MP4</span>
-            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PDF</span>
+            <span style="background:#fff;border:1px solid #ddd6fe;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PNG</span>
+            <span style="background:#fff;border:1px solid #ddd6fe;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">JPG</span>
+            <span style="background:#fff;border:1px solid #ddd6fe;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">MP4</span>
+            <span style="background:#fff;border:1px solid #ddd6fe;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PDF</span>
           </div>
           <input type="file" id="pf-files" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="pfHandleFiles(this.files)">
         </div>
@@ -1222,8 +1222,8 @@ select{cursor:pointer}
   </div>
 
   <!-- Feature summary -->
-  <div id="panelFeatureSummary" style="display:none;background:#faf6f0;padding:20px 0">
-    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#c77b30;margin-bottom:6px">── TÓM TẮT YÊU CẦU</div>
+  <div id="panelFeatureSummary" style="display:none;background:#faf5ff;padding:20px 0">
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--purple);margin-bottom:6px">── TÓM TẮT YÊU CẦU</div>
     <div style="font-size:22px;font-weight:800;color:#0a1929;letter-spacing:-.02em;margin-bottom:4px">Bản Order hoàn chỉnh</div>
     <div style="font-size:13px;color:#5d6d7e;margin-bottom:20px">Cột trái là ngôn ngữ của bạn — cột phải là những gì IT cần hiểu.</div>
 
@@ -1231,34 +1231,33 @@ select{cursor:pointer}
     <div style="background:#0a1929;border-radius:16px;padding:20px 22px;margin-bottom:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
       <div>
         <div style="font-size:20px;font-weight:800;color:#faf6f0;letter-spacing:-.02em" id="fo-s-title">—</div>
-        <div style="font-family:monospace;font-size:11px;color:#d89651;text-transform:uppercase;letter-spacing:.08em;margin-top:4px" id="fo-s-sub">—</div>
+        <div style="font-family:monospace;font-size:11px;color:#a78bfa;text-transform:uppercase;letter-spacing:.08em;margin-top:4px" id="fo-s-sub">—</div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start" id="fo-s-badges"></div>
     </div>
 
     <!-- Dual table -->
-    <div style="background:#fff;border:1px solid #e0d8c8;border-radius:16px;overflow:hidden;margin-bottom:14px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;background:#f4ede0;border-bottom:1px solid #e0d8c8">
-        <div style="padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5d6d7e;display:flex;align-items:center;gap:8px;border-right:1px solid #e0d8c8"><div style="width:8px;height:8px;border-radius:2px;background:#c77b30"></div>🧑 Khách hàng nói</div>
-        <div style="padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5d6d7e;display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:2px;background:#1e8449"></div>⚙️ IT hiểu là</div>
+    <div style="background:#fff;border:1px solid #ddd6fe;border-radius:16px;overflow:hidden;margin-bottom:14px">
+      <div style="background:#ede9fe;border-bottom:1px solid #ddd6fe">
+        <div style="padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5d6d7e;display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:2px;background:var(--purple)"></div>🧑 Thông tin yêu cầu</div>
       </div>
       <div id="fo-s-rows"></div>
     </div>
 
     <!-- Complexity -->
-    <div style="background:#fff;border:1px solid #e0d8c8;border-radius:16px;padding:20px 22px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+    <div style="background:#fff;border:1px solid #ddd6fe;border-radius:16px;padding:20px 22px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
       <div style="font-size:14px;font-weight:700;color:#0a1929;flex-shrink:0">Ước tính độ phức tạp</div>
       <div style="display:flex;gap:14px;flex:1;flex-wrap:wrap" id="fo-cx"></div>
     </div>
 
     <!-- Confirm checkbox -->
-    <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #e0d8c8;border-radius:10px;cursor:pointer;font-size:13px;color:#374151;margin-bottom:14px" id="foConfirmLabel">
-      <input type="checkbox" id="foConfirmCheck" onchange="foToggleSubmit()" style="width:18px;height:18px;accent-color:#c77b30;cursor:pointer">
+    <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #ddd6fe;border-radius:10px;cursor:pointer;font-size:13px;color:#374151;margin-bottom:14px" id="foConfirmLabel">
+      <input type="checkbox" id="foConfirmCheck" onchange="foToggleSubmit()" style="width:18px;height:18px;accent-color:var(--purple);cursor:pointer">
       Tôi đã đọc kỹ và xác nhận thông tin trên là chính xác
     </label>
 
     <div style="display:flex;gap:10px">
-      <button onclick="backToFeatureForm()" style="padding:12px 20px;background:#fff;border:1.5px solid #e0d8c8;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;color:#5d6d7e">✏️ Chỉnh sửa</button>
+      <button onclick="backToFeatureForm()" style="padding:12px 20px;background:#fff;border:1.5px solid #ddd6fe;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;color:#5d6d7e">✏️ Chỉnh sửa</button>
       <button id="foSubmitBtn" onclick="foSubmit()" disabled style="flex:1;padding:12px;background:#d1d5db;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:not-allowed;transition:all .3s;font-family:inherit">✅ Xác nhận & Gửi IT</button>
     </div>
 
@@ -1267,9 +1266,9 @@ select{cursor:pointer}
       <div style="font-size:48px;margin-bottom:12px">✓</div>
       <div style="font-size:20px;font-weight:800;color:#faf6f0;margin-bottom:8px">Đã gửi thành công!</div>
       <div style="font-size:13px;color:#8aaec8;margin-bottom:12px">Team IT đã nhận được yêu cầu. Chúng tôi sẽ liên hệ trong 1–2 ngày làm việc.</div>
-      <div id="foTicket" style="background:#0f2942;border:1px solid #2c5278;border-radius:8px;padding:6px 18px;display:inline-block;font-family:monospace;font-size:13px;font-weight:700;color:#d89651;margin-bottom:20px"></div>
+      <div id="foTicket" style="background:#2d1b69;border:1px solid #7c3aed;border-radius:8px;padding:6px 18px;display:inline-block;font-family:monospace;font-size:13px;font-weight:700;color:#a78bfa;margin-bottom:20px"></div>
       <br>
-      <button onclick="resetAll()" style="background:linear-gradient(135deg,#c77b30,#d89651);color:#0a1929;border:none;padding:12px 28px;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer">+ Tạo yêu cầu mới</button>
+      <button onclick="resetAll()" style="background:linear-gradient(135deg,var(--purple),var(--purple-mid));color:#fff;border:none;padding:12px 28px;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer">+ Tạo yêu cầu mới</button>
     </div>
   </div>
 </div>
@@ -1986,8 +1985,8 @@ function pfHandleFiles(files) {
   [...files].forEach(f=>{
     const ext = f.name.split('.').pop().toUpperCase();
     const item = document.createElement('div');
-    item.style.cssText='display:flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid #e0d8c8;border-radius:8px;background:#fff;font-size:13px';
-    item.innerHTML=`<span style="background:#faf2e8;border:1px solid #f0d4b0;color:#a8641e;border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700">${ext}</span><span style="flex:1;color:#1b1b1b">${f.name.substring(0,40)}</span><span style="color:#95a5a6">${(f.size/1024).toFixed(0)} KB</span><span onclick="this.parentElement.remove()" style="cursor:pointer;color:#95a5a6;font-size:16px;padding:0 2px">×</span>`;
+    item.style.cssText='display:flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid #ddd6fe;border-radius:8px;background:#fff;font-size:13px';
+    item.innerHTML=`<span style="background:#ede9fe;border:1px solid #c4b5fd;color:var(--purple-dark);border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700">${ext}</span><span style="flex:1;color:#1b1b1b">${f.name.substring(0,40)}</span><span style="color:#95a5a6">${(f.size/1024).toFixed(0)} KB</span><span onclick="this.parentElement.remove()" style="cursor:pointer;color:#95a5a6;font-size:16px;padding:0 2px">×</span>`;
     list.appendChild(item);
   });
 }
@@ -2001,7 +2000,7 @@ function foCheck() {
   const name = document.getElementById('pf-feat-name')?.value.trim();
   const hasName = name && name.length > 2;
   const btn = document.getElementById('foBtnNext');
-  if(btn) { btn.disabled=!hasName; btn.style.background=hasName?'#c77b30':'#d1d5db'; btn.style.cursor=hasName?'pointer':'not-allowed'; }
+  if(btn) { btn.disabled=!hasName; btn.style.background=hasName?'var(--purple)':'#d1d5db'; btn.style.cursor=hasName?'pointer':'not-allowed'; }
 }
 
 function showFeaturePage() {
@@ -2072,13 +2071,13 @@ function goFeatureSummary() {
   document.getElementById('fo-s-sub').textContent = `Deadline: ${dl}`;
   const badges = document.getElementById('fo-s-badges');
   badges.innerHTML = '';
-  if(d.org) badges.innerHTML+=`<span style="background:#c77b30;color:#0a1929;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600">🏢 ${d.org}</span>`;
+  if(d.org) badges.innerHTML+=`<span style="background:var(--purple);color:#fff;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600">🏢 ${d.org}</span>`;
   if(d.deadline) badges.innerHTML+=`<span style="background:#1a3a5c;color:#faf6f0;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600">📅 ${dl}</span>`;
 
   const cont = document.getElementById('fo-s-rows');
   cont.innerHTML = '';
-  const addCat = l => cont.innerHTML+=`<div style="padding:8px 16px;background:#faf2e8;border-bottom:1px solid #f0d4b0;font-family:monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#a8641e">${l}</div>`;
-  const addRow = (l,r) => cont.innerHTML+=`<div style="display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #f0e8dc"><div style="padding:11px 16px;font-size:13px;color:#1b1b1b;border-right:1px solid #f0e8dc">${l}</div><div style="padding:11px 16px"><span style="background:#f5e6d3;border:1px solid #f0d4b0;color:#a8641e;border-radius:4px;padding:2px 8px;font-size:12px;font-weight:500">${r}</span></div></div>`;
+  const addCat = l => cont.innerHTML+=`<div style="padding:8px 16px;background:#ede9fe;border-bottom:1px solid #ddd6fe;font-family:monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--purple-dark)">${l}</div>`;
+  const addRow = (l,r) => cont.innerHTML+=`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:11px 16px;border-bottom:1px solid #f3f0ff;gap:12px"><span style="font-size:13px;color:#1b1b1b">${l}</span></div>`;
 
   addCat('📋 Yêu cầu');
   if(d.name) addRow(d.name,'Feature Request');
@@ -2110,7 +2109,7 @@ function goFeatureSummary() {
 
   document.getElementById('fo-cx').innerHTML=[
     ['Giao diện',d.ui?.includes('Dashboard')||d.ui?.includes('App')?75:45,'#2c5278'],
-    ['Logic nghiệp vụ',Math.min(outcomes.length*20+20,90),'#c77b30'],
+    ['Logic nghiệp vụ',Math.min(outcomes.length*20+20,90),'var(--purple)'],
     ['Dữ liệu & Tích hợp',35,'#1e8449'],
   ].map(([name,score,color])=>`<div style="flex:1;min-width:100px"><div style="height:6px;background:#e0d8c8;border-radius:3px;overflow:hidden;margin-bottom:5px"><div style="height:100%;width:${score}%;background:${color};border-radius:3px;transition:width 1s ease"></div></div><div style="font-size:10px;color:#95a5a6;text-transform:uppercase;letter-spacing:.06em">${name}</div></div>`).join('');
 
@@ -2124,7 +2123,7 @@ function foToggleSubmit() {
   const checked=document.getElementById('foConfirmCheck').checked;
   const btn=document.getElementById('foSubmitBtn');
   btn.disabled=!checked;
-  btn.style.background=checked?'#c77b30':'#d1d5db';
+  btn.style.background=checked?'var(--purple)':'#d1d5db';
   btn.style.cursor=checked?'pointer':'not-allowed';
 }
 
