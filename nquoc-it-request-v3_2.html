@@ -1560,8 +1560,39 @@ function initAI() {
   wrap.innerHTML = '';
   document.getElementById('aiInputWrap').style.display='flex';
   document.getElementById('aiDoneWrap').style.display='none';
-  const qs = AI_QUESTIONS[S.type]||['Bạn có thêm thông tin gì muốn IT biết không?'];
-  setTimeout(()=>aiAsk(qs[0]), 400);
+
+  const fileCount = document.querySelectorAll('#fileList3 div').length;
+  const hasFiles = fileCount > 0;
+  let qs = [...(AI_QUESTIONS[S.type]||['Bạn có thêm thông tin gì muốn IT biết không?'])];
+
+  if (hasFiles) {
+    if (S.type === 'bug')  qs = qs.filter(q => !q.includes('tái hiện'));
+    if (S.type === 'perf') qs = qs.filter(q => !q.includes('video màn hình'));
+  }
+  S.aiQuestions = qs;
+
+  if (hasFiles) {
+    setTimeout(() => {
+      const msg = document.createElement('div');
+      msg.style.cssText = 'display:flex;align-items:flex-start;gap:10px';
+      const noMoreQs = qs.length === 0;
+      const body = noMoreQs
+        ? `📎 Bạn đã đính kèm ${fileCount} file — IT sẽ xem qua. Thông tin trông đầy đủ rồi, bấm tiếp tục để xem lại và gửi nhé!`
+        : `📎 Bạn đã đính kèm ${fileCount} file — IT sẽ xem qua. Tôi chỉ cần hỏi thêm ${qs.length} câu ngắn để hoàn chỉnh yêu cầu.`;
+      msg.innerHTML = `<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:14px;color:var(--text-mid);max-width:85%;line-height:1.5">${body}</div>`;
+      wrap.appendChild(msg);
+      wrap.scrollTop = wrap.scrollHeight;
+      if (noMoreQs) {
+        document.getElementById('aiInputWrap').style.display = 'none';
+        document.getElementById('aiDoneWrap').innerHTML = '<button onclick="go(4)" style="width:100%;padding:14px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer">✅ Xem lại & gửi yêu cầu →</button>';
+        document.getElementById('aiDoneWrap').style.display = 'block';
+      } else {
+        setTimeout(() => aiAsk(qs[0]), 700);
+      }
+    }, 400);
+  } else {
+    setTimeout(()=>aiAsk(qs[0]), 400);
+  }
 }
 
 function aiAsk(q) {
@@ -1586,7 +1617,7 @@ function sendAI() {
   const input = document.getElementById('aiInput');
   const text = input.value.trim();
   if(!text) return;
-  const qs = AI_QUESTIONS[S.type]||['Bạn có thêm thông tin gì muốn IT biết không?'];
+  const qs = S.aiQuestions||AI_QUESTIONS[S.type]||['Bạn có thêm thông tin gì muốn IT biết không?'];
   S.chatAnswers.push({q:qs[S.chatIdx], a:text});
   const wrap = document.getElementById('aiChatWrap');
   const reply = document.createElement('div');
