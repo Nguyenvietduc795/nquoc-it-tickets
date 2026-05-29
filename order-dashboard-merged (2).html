@@ -508,10 +508,13 @@ body::before{
 .pm-chat-msgs{max-height:160px;overflow-y:auto;padding:0 22px 6px;display:flex;flex-direction:column;gap:6px}
 .pm-chat-msgs-empty{text-align:center;color:var(--text-faint);font-size:12px;padding:10px 0}
 .pm-chat-input-wrap{display:flex;gap:8px;align-items:flex-end;padding:8px 22px 14px}
-.pm-chat-input{flex:1;border:1.5px solid var(--border);border-radius:16px;padding:8px 13px;font-size:13px;resize:none;font-family:inherit;outline:none;line-height:1.4;max-height:80px;transition:border-color .15s}
-.pm-chat-input:focus{border-color:var(--primary-light)}
-.pm-chat-send{background:var(--primary);color:#fff;border:none;border-radius:16px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;flex-shrink:0;transition:background .15s;height:36px}
-.pm-chat-send:hover{background:#15803D}
+.pm-chat-input-wrap-inner{display:flex;gap:8px;align-items:flex-end;border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;background:#FAFAFA;transition:border .2s;width:100%}
+.pm-chat-input-wrap-inner:focus-within{border-color:#A5B4FC;background:#fff}
+.pm-chat-input{flex:1;border:none;background:transparent;font-family:var(--font);font-size:13px;color:var(--text);resize:none;outline:none;line-height:1.5;min-height:20px;max-height:80px;overflow-y:auto}
+.pm-chat-input::placeholder{color:var(--text-faint)}
+.pm-chat-send{width:28px;height:28px;border-radius:var(--radius-xs);border:none;background:var(--text);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s;padding:0}
+.pm-chat-send:hover{background:#374151}
+.pm-chat-send svg{width:13px;height:13px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .pm-msg-row{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
 .pm-msg-row.mine{align-items:flex-end}
 .pm-msg-bubble{background:#F3F4F6;padding:7px 12px;border-radius:14px;font-size:12.5px;line-height:1.45;max-width:82%;color:var(--text);word-break:break-word}
@@ -3282,9 +3285,13 @@ function projClickGuard(el, state) {
         <div class="pm-chat-msgs-empty">Chưa có tin nhắn. Bắt đầu trao đổi về dự án!</div>
       </div>
       <div class="pm-chat-input-wrap">
-        <textarea class="pm-chat-input" id="pmChatInput" placeholder="Nhắn tin về dự án này..." rows="1"
-          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendProjMsg();}"></textarea>
-        <button class="pm-chat-send" onclick="sendProjMsg()">Gửi</button>
+        <div class="pm-chat-input-wrap-inner">
+          <textarea class="pm-chat-input" id="pmChatInput" placeholder="Nhắn tin về dự án này..." rows="1"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendProjMsg();}"></textarea>
+          <button class="pm-chat-send" onclick="sendProjMsg()">
+            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>
