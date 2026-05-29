@@ -479,19 +479,13 @@ select{cursor:pointer}
     <div class="section-title">Chi tiết tính năng mới</div>
     <div class="section-sub" style="margin-bottom:20px">Điền càng đầy đủ, IT càng hiểu đúng yêu cầu của bạn.</div>
 
+    <!-- 1. Tên tính năng -->
     <div class="fo-card">
-      <div class="fo-card-head"><div class="fo-card-icon">👤</div><div><div class="fo-card-title">Thông tin của bạn</div><div class="fo-card-hint">Để IT biết ai đang yêu cầu và liên hệ lại khi cần.</div></div></div>
-      <div class="fo-field"><label class="fo-label">HỌ VÀ TÊN *</label><input type="text" id="fo-name" class="fo-input" placeholder="Ví dụ: Nguyễn Thị Lan"></div>
-      <div class="fo-field"><label class="fo-label">TỔ CHỨC / PHÒNG BAN *</label><input type="text" id="fo-org" class="fo-input" placeholder="Ví dụ: Phòng Kinh doanh..."></div>
-      <div class="fo-field"><label class="fo-label">EMAIL LIÊN HỆ</label><input type="email" id="fo-email" class="fo-input" placeholder="email@company.com"></div>
-    </div>
-
-    <div class="fo-card">
-      <div class="fo-card-head"><div class="fo-card-icon">🎯</div><div><div class="fo-card-title">Tên tính năng & Deadline</div><div class="fo-card-hint">Gọi nó bằng cái tên bạn hay dùng khi kể cho đồng nghiệp nghe.</div></div></div>
+      <div class="fo-card-head"><div class="fo-card-icon">🎯</div><div><div class="fo-card-title">Tên tính năng</div><div class="fo-card-hint">Gọi nó bằng cái tên bạn hay dùng khi kể cho đồng nghiệp nghe.</div></div></div>
       <div class="fo-field"><label class="fo-label">TÊN TÍNH NĂNG *</label><input type="text" id="fo-feat-name" class="fo-input" placeholder="Ví dụ: Hệ thống quản lý đơn hàng nội bộ" oninput="foCheck()"></div>
-      <div class="fo-field"><label class="fo-label">DEADLINE MONG MUỐN</label><input type="date" id="fo-deadline" class="fo-input"></div>
     </div>
 
+    <!-- 2. Bạn đang gặp vấn đề gì? + Ảnh / Video / Link tham khảo -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">🔍</div><div><div class="fo-card-title">Bạn đang gặp vấn đề gì?</div><div class="fo-card-hint">Kể thoải mái — không có câu trả lời sai ở đây đâu nhé!</div></div></div>
       <div class="fo-field">
@@ -516,8 +510,30 @@ select{cursor:pointer}
         </div>
       </div>
       <div class="fo-field"><label class="fo-label">KỂ THÊM CHO IT NGHE (KHÔNG BẮT BUỘC)</label><textarea id="fo-desc" class="fo-input" rows="3" placeholder="Ví dụ: Mỗi tuần tôi mất 3 tiếng tổng hợp 5 file Excel..."></textarea></div>
+      <div class="fo-field" style="border-top:1px solid var(--border-soft);padding-top:14px;margin-top:4px">
+        <label class="fo-label">📎 ẢNH / VIDEO / LINK THAM KHẢO <span style="font-weight:400;text-transform:none;font-size:10px;color:var(--text-faint)">(tuỳ chọn)</span></label>
+        <div id="dropZoneFo"
+          style="border:1.5px dashed var(--gray-border);border-radius:var(--radius);padding:20px 16px;text-align:center;cursor:pointer;background:#fafafa;transition:border-color .2s"
+          onclick="document.getElementById('allFilesFo').click()"
+          ondragover="event.preventDefault();this.style.borderColor='var(--purple)'"
+          ondragleave="this.style.borderColor='var(--gray-border)'"
+          ondrop="handleDropFo(event)">
+          <div style="font-size:22px;margin-bottom:6px">📎</div>
+          <div style="font-size:13px;color:var(--text-mid)"><strong style="color:var(--purple)">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
+          <div style="display:flex;justify-content:center;gap:6px;margin-top:8px">
+            <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PNG</span>
+            <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">JPG</span>
+            <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">MP4</span>
+            <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PDF</span>
+          </div>
+          <input type="file" id="allFilesFo" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="handleFilesFo(this.files)">
+        </div>
+        <div id="fileListFo" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
+        <input type="text" id="fo-links" class="fo-input" placeholder="https://... hoặc nhiều link cách nhau bằng dấu phẩy" style="margin-top:8px">
+      </div>
     </div>
 
+    <!-- 3. Ai sẽ dùng & dùng ở đâu? -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">👥</div><div><div class="fo-card-title">Ai sẽ dùng & dùng ở đâu?</div><div class="fo-card-hint">Giúp IT hiểu quy mô và môi trường để thiết kế đúng nhất.</div></div></div>
       <div class="fo-field">
@@ -541,6 +557,7 @@ select{cursor:pointer}
       </div>
     </div>
 
+    <!-- 4. Kết quả mong muốn -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">✅</div><div><div class="fo-card-title">Kết quả bạn mong muốn</div><div class="fo-card-hint">Sau khi có tính năng này, cuộc sống của bạn sẽ dễ hơn như thế nào?</div></div></div>
       <div class="fo-field">
@@ -568,6 +585,7 @@ select{cursor:pointer}
       </div>
     </div>
 
+    <!-- 5. Giao diện trông như thế nào? -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">🎨</div><div><div class="fo-card-title">Giao diện trông như thế nào?</div><div class="fo-card-hint">Chọn kiểu gần nhất với hình dung của bạn.</div></div></div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px" id="fo-ui-grid">
@@ -580,10 +598,24 @@ select{cursor:pointer}
       </div>
     </div>
 
+    <!-- 6. Deadline mong muốn -->
     <div class="fo-card">
-      <div class="fo-card-head"><div class="fo-card-icon">📝</div><div><div class="fo-card-title">Thông tin thêm</div><div class="fo-card-hint">Link tham khảo, ảnh chụp màn hình, hay bất kỳ ghi chú nào.</div></div></div>
-      <div class="fo-field"><label class="fo-label">LINK THAM KHẢO</label><input type="text" id="fo-links" class="fo-input" placeholder="https://... hoặc nhiều link cách nhau bằng dấu phẩy"></div>
-      <div class="fo-field"><label class="fo-label">GHI CHÚ THÊM</label><textarea id="fo-notes" class="fo-input" rows="3" placeholder="Bất kỳ điều gì bạn muốn IT biết thêm..."></textarea></div>
+      <div class="fo-card-head"><div class="fo-card-icon">📅</div><div><div class="fo-card-title">Deadline mong muốn</div><div class="fo-card-hint">Bạn cần tính năng này trước ngày nào?</div></div></div>
+      <div class="fo-field"><label class="fo-label">DEADLINE MONG MUỐN</label><input type="date" id="fo-deadline" class="fo-input"></div>
+    </div>
+
+    <!-- 7. Ghi chú thêm -->
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">📝</div><div><div class="fo-card-title">Ghi chú thêm</div><div class="fo-card-hint">Bất kỳ điều gì bạn muốn IT biết thêm.</div></div></div>
+      <div class="fo-field"><textarea id="fo-notes" class="fo-input" rows="3" placeholder="Bất kỳ điều gì bạn muốn IT biết thêm..."></textarea></div>
+    </div>
+
+    <!-- 8. Thông tin của bạn -->
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">👤</div><div><div class="fo-card-title">Thông tin của bạn</div><div class="fo-card-hint">Để IT biết ai đang yêu cầu và liên hệ lại khi cần.</div></div></div>
+      <div class="fo-field"><label class="fo-label">HỌ VÀ TÊN *</label><input type="text" id="fo-name" class="fo-input" placeholder="Ví dụ: Nguyễn Thị Lan"></div>
+      <div class="fo-field"><label class="fo-label">TỔ CHỨC / PHÒNG BAN *</label><input type="text" id="fo-org" class="fo-input" placeholder="Ví dụ: Phòng Kinh doanh..."></div>
+      <div class="fo-field"><label class="fo-label">EMAIL LIÊN HỆ</label><input type="email" id="fo-email" class="fo-input" placeholder="email@company.com"></div>
     </div>
 
     <div class="nav-row"><button class="btn-back" onclick="go(1)">← Quay lại</button><button class="btn-next" id="btn2fo" onclick="go(3)" disabled>Tiếp theo →</button></div>
@@ -624,6 +656,30 @@ select{cursor:pointer}
       <span id="envOS">Windows</span>
       <span id="envRes">1920×1080</span>
     </div>
+  </div>
+
+  <!-- File đính kèm tài liệu -->
+  <div style="margin-top:24px">
+    <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;padding-top:16px;border-top:1px solid var(--gray-border)">Đính kèm tài liệu</div>
+    <div style="font-size:13px;font-weight:600;color:var(--text-mid);margin-bottom:8px" id="fileUploadLabel">ẢNH / VIDEO / FILE MÔ TẢ LỖI</div>
+    <div id="dropZone3"
+      style="border:1.5px dashed var(--gray-border);border-radius:var(--radius);padding:28px 20px;text-align:center;cursor:pointer;background:#fafafa;transition:border-color .2s"
+      onclick="document.getElementById('allFiles').click()"
+      ondragover="event.preventDefault();this.style.borderColor='var(--purple)'"
+      ondragleave="this.style.borderColor='var(--gray-border)'"
+      ondrop="handleDrop3(event)">
+      <div style="font-size:28px;margin-bottom:8px">📎</div>
+      <div style="font-size:14px;color:var(--text-mid)"><strong style="color:var(--purple)">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
+      <div style="display:flex;justify-content:center;gap:6px;margin-top:10px">
+        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PNG</span>
+        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">JPG</span>
+        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">MP4</span>
+        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PDF</span>
+      </div>
+      <input type="file" id="allFiles" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="handleFiles3(this.files)">
+    </div>
+    <div id="fileList3" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
+    <div id="linkList3" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
   </div>
 
   <!-- === BUG filter === -->
@@ -868,29 +924,6 @@ select{cursor:pointer}
     </div>
   </div>
 
-  <!-- File đính kèm tài liệu -->
-  <div style="margin-top:24px">
-    <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;padding-top:16px;border-top:1px solid var(--gray-border)">Đính kèm tài liệu</div>
-    <div style="font-size:13px;font-weight:600;color:var(--text-mid);margin-bottom:8px" id="fileUploadLabel">ẢNH / VIDEO / FILE MÔ TẢ LỖI</div>
-    <div id="dropZone3"
-      style="border:1.5px dashed var(--gray-border);border-radius:var(--radius);padding:28px 20px;text-align:center;cursor:pointer;background:#fafafa;transition:border-color .2s"
-      onclick="document.getElementById('allFiles').click()"
-      ondragover="event.preventDefault();this.style.borderColor='var(--purple)'"
-      ondragleave="this.style.borderColor='var(--gray-border)'"
-      ondrop="handleDrop3(event)">
-      <div style="font-size:28px;margin-bottom:8px">📎</div>
-      <div style="font-size:14px;color:var(--text-mid)"><strong style="color:var(--purple)">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
-      <div style="display:flex;justify-content:center;gap:6px;margin-top:10px">
-        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PNG</span>
-        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">JPG</span>
-        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">MP4</span>
-        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PDF</span>
-      </div>
-      <input type="file" id="allFiles" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="handleFiles3(this.files)">
-    </div>
-    <div id="fileList3" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
-    <div id="linkList3" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
-  </div>
 
   </div><!-- /normal-panel -->
 
@@ -1009,19 +1042,13 @@ select{cursor:pointer}
       <button onclick="backFromFeature()" style="background:none;border:1px solid #e0d8c8;border-radius:8px;padding:6px 12px;font-size:13px;color:#5d6d7e;cursor:pointer">← Quay lại</button>
     </div>
 
+    <!-- 1. Tên tính năng -->
     <div class="fo-card">
-      <div class="fo-card-head"><div class="fo-card-icon">👤</div><div><div class="fo-card-title">Thông tin của bạn</div><div class="fo-card-hint">Để IT biết ai đang yêu cầu và liên hệ lại khi cần.</div></div></div>
-      <div class="fo-field"><label class="fo-label">HỌ VÀ TÊN *</label><input type="text" id="pf-name" class="fo-input" placeholder="Ví dụ: Nguyễn Thị Lan"></div>
-      <div class="fo-field"><label class="fo-label">TỔ CHỨC / PHÒNG BAN *</label><input type="text" id="pf-org" class="fo-input" placeholder="Ví dụ: Phòng Kinh doanh..."></div>
-      <div class="fo-field"><label class="fo-label">EMAIL LIÊN HỆ</label><input type="email" id="pf-email" class="fo-input" placeholder="email@company.com"></div>
-    </div>
-
-    <div class="fo-card">
-      <div class="fo-card-head"><div class="fo-card-icon">🎯</div><div><div class="fo-card-title">Tên tính năng & Deadline</div><div class="fo-card-hint">Gọi nó bằng cái tên bạn hay dùng khi kể cho đồng nghiệp nghe.</div></div></div>
+      <div class="fo-card-head"><div class="fo-card-icon">🎯</div><div><div class="fo-card-title">Tên tính năng</div><div class="fo-card-hint">Gọi nó bằng cái tên bạn hay dùng khi kể cho đồng nghiệp nghe.</div></div></div>
       <div class="fo-field"><label class="fo-label">TÊN TÍNH NĂNG *</label><input type="text" id="pf-feat-name" class="fo-input" placeholder="Ví dụ: Hệ thống quản lý đơn hàng nội bộ" oninput="foCheck()"></div>
-      <div class="fo-field"><label class="fo-label">DEADLINE MONG MUỐN</label><input type="date" id="pf-deadline" class="fo-input"></div>
     </div>
 
+    <!-- 2. Bạn đang gặp vấn đề gì? + Ảnh / Video / Link tham khảo -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">🔍</div><div><div class="fo-card-title">Bạn đang gặp vấn đề gì?</div><div class="fo-card-hint">Kể thoải mái — không có câu trả lời sai!</div></div></div>
       <div class="fo-field">
@@ -1046,8 +1073,30 @@ select{cursor:pointer}
         </div>
       </div>
       <div class="fo-field"><label class="fo-label">KỂ THÊM CHO IT NGHE</label><textarea id="pf-desc" class="fo-input" rows="3" placeholder="Ví dụ: Mỗi tuần tôi mất 3 tiếng tổng hợp 5 file Excel..."></textarea></div>
+      <div class="fo-field" style="border-top:1px solid #f0e8d8;padding-top:14px;margin-top:4px">
+        <label class="fo-label">📎 ẢNH / VIDEO / LINK THAM KHẢO <span style="font-weight:400;text-transform:none;font-size:10px;color:#95a5a6">(tuỳ chọn)</span></label>
+        <div id="pf-dropzone"
+          style="border:1.5px dashed #e0d8c8;border-radius:10px;padding:20px 16px;text-align:center;cursor:pointer;background:#faf6f0;transition:border-color .2s"
+          onclick="document.getElementById('pf-files').click()"
+          ondragover="event.preventDefault();this.style.borderColor='#c77b30'"
+          ondragleave="this.style.borderColor='#e0d8c8'"
+          ondrop="pfHandleDrop(event)">
+          <div style="font-size:22px;margin-bottom:6px">📎</div>
+          <div style="font-size:13px;color:#5d6d7e"><strong style="color:#c77b30">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
+          <div style="display:flex;justify-content:center;gap:6px;margin-top:8px">
+            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PNG</span>
+            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">JPG</span>
+            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">MP4</span>
+            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PDF</span>
+          </div>
+          <input type="file" id="pf-files" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="pfHandleFiles(this.files)">
+        </div>
+        <div id="pf-file-list" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
+        <input type="text" id="pf-links" class="fo-input" placeholder="https://... hoặc nhiều link cách nhau bằng dấu phẩy" style="margin-top:8px">
+      </div>
     </div>
 
+    <!-- 3. Ai sẽ dùng & dùng ở đâu? -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">👥</div><div><div class="fo-card-title">Ai sẽ dùng & dùng ở đâu?</div></div></div>
       <div class="fo-field">
@@ -1071,6 +1120,7 @@ select{cursor:pointer}
       </div>
     </div>
 
+    <!-- 4. Kết quả mong muốn -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">✅</div><div><div class="fo-card-title">Kết quả bạn mong muốn</div></div></div>
       <div class="fo-field">
@@ -1098,6 +1148,7 @@ select{cursor:pointer}
       </div>
     </div>
 
+    <!-- 5. Giao diện trông như thế nào? -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">🎨</div><div><div class="fo-card-title">Giao diện trông như thế nào?</div></div></div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px" id="pf-ui-grid">
@@ -1110,30 +1161,24 @@ select{cursor:pointer}
       </div>
     </div>
 
+    <!-- 6. Deadline mong muốn -->
     <div class="fo-card">
-      <div class="fo-card-head"><div class="fo-card-icon">📝</div><div><div class="fo-card-title">Thông tin thêm</div></div></div>
-      <div class="fo-field"><label class="fo-label">LINK THAM KHẢO</label><input type="text" id="pf-links" class="fo-input" placeholder="https://... hoặc nhiều link cách nhau bằng dấu phẩy"></div>
-      <div class="fo-field">
-        <label class="fo-label">ẢNH / VIDEO / FILE MOCKUP <span style="font-weight:400;text-transform:none;font-size:10px;color:#95a5a6">(tuỳ chọn)</span></label>
-        <div id="pf-dropzone"
-          style="border:1.5px dashed #e0d8c8;border-radius:10px;padding:22px 16px;text-align:center;cursor:pointer;background:#faf6f0;transition:border-color .2s"
-          onclick="document.getElementById('pf-files').click()"
-          ondragover="event.preventDefault();this.style.borderColor='#c77b30'"
-          ondragleave="this.style.borderColor='#e0d8c8'"
-          ondrop="pfHandleDrop(event)">
-          <div style="font-size:24px;margin-bottom:6px">📎</div>
-          <div style="font-size:13px;color:#5d6d7e"><strong style="color:#c77b30">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
-          <div style="display:flex;justify-content:center;gap:6px;margin-top:8px">
-            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PNG</span>
-            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">JPG</span>
-            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">MP4</span>
-            <span style="background:#fff;border:1px solid #e0d8c8;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PDF</span>
-          </div>
-          <input type="file" id="pf-files" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="pfHandleFiles(this.files)">
-        </div>
-        <div id="pf-file-list" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
-      </div>
-      <div class="fo-field"><label class="fo-label">GHI CHÚ THÊM</label><textarea id="pf-notes" class="fo-input" rows="3" placeholder="Bất kỳ điều gì bạn muốn IT biết thêm..."></textarea></div>
+      <div class="fo-card-head"><div class="fo-card-icon">📅</div><div><div class="fo-card-title">Deadline mong muốn</div><div class="fo-card-hint">Bạn cần tính năng này trước ngày nào?</div></div></div>
+      <div class="fo-field"><label class="fo-label">DEADLINE MONG MUỐN</label><input type="date" id="pf-deadline" class="fo-input"></div>
+    </div>
+
+    <!-- 7. Ghi chú thêm -->
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">📝</div><div><div class="fo-card-title">Ghi chú thêm</div><div class="fo-card-hint">Bất kỳ điều gì bạn muốn IT biết thêm.</div></div></div>
+      <div class="fo-field"><textarea id="pf-notes" class="fo-input" rows="3" placeholder="Bất kỳ điều gì bạn muốn IT biết thêm..."></textarea></div>
+    </div>
+
+    <!-- 8. Thông tin của bạn -->
+    <div class="fo-card">
+      <div class="fo-card-head"><div class="fo-card-icon">👤</div><div><div class="fo-card-title">Thông tin của bạn</div><div class="fo-card-hint">Để IT biết ai đang yêu cầu và liên hệ lại khi cần.</div></div></div>
+      <div class="fo-field"><label class="fo-label">HỌ VÀ TÊN *</label><input type="text" id="pf-name" class="fo-input" placeholder="Ví dụ: Nguyễn Thị Lan"></div>
+      <div class="fo-field"><label class="fo-label">TỔ CHỨC / PHÒNG BAN *</label><input type="text" id="pf-org" class="fo-input" placeholder="Ví dụ: Phòng Kinh doanh..."></div>
+      <div class="fo-field"><label class="fo-label">EMAIL LIÊN HỆ</label><input type="email" id="pf-email" class="fo-input" placeholder="email@company.com"></div>
     </div>
 
     <button id="foBtnNext" onclick="foStep1Done()" disabled style="width:100%;padding:14px;background:#d1d5db;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:not-allowed;margin-top:8px;transition:all .3s;font-family:inherit">
@@ -1708,6 +1753,23 @@ function handleDrop3(e) {
   e.preventDefault();
   document.getElementById('dropZone3').style.borderColor='var(--gray-border)';
   handleFiles3(e.dataTransfer.files);
+}
+
+function handleFilesFo(files) {
+  const list = document.getElementById('fileListFo');
+  [...files].forEach(f=>{
+    const item = document.createElement('div');
+    item.style.cssText='display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--gray-border);border-radius:var(--radius-sm);background:#fff;font-size:13px';
+    const ext = f.name.split('.').pop().toUpperCase();
+    item.innerHTML=`<span style="background:var(--purple-light);color:var(--purple);border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700">${ext}</span><span style="flex:1;color:var(--text-mid)">${f.name}</span><span style="color:var(--text-muted)">${(f.size/1024).toFixed(0)} KB</span><span onclick="this.parentElement.remove()" style="cursor:pointer;color:var(--text-muted);font-size:16px;padding:0 4px">×</span>`;
+    list.appendChild(item);
+  });
+}
+
+function handleDropFo(e) {
+  e.preventDefault();
+  document.getElementById('dropZoneFo').style.borderColor='var(--gray-border)';
+  handleFilesFo(e.dataTransfer.files);
 }
 
 function addLink() {
