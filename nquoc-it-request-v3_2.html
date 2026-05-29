@@ -1868,6 +1868,7 @@ function handleDrop(e) {
 let foCelebrateCallback = null;
 let foChatStep = 0;
 let foChatAnswers = {};
+let foActiveChatFlow = [];
 
 const FO_CHAT_FLOW = [
   {key:'dailyPain', ask: d=>`Chào ${d.name||'bạn'}! 👋 Mình đã đọc qua yêu cầu về <strong>"${d.feat||'tính năng'}"</strong> rồi!\n\nBạn có thể kể ngắn gọn <strong>một ngày làm việc điển hình</strong> mà hay gặp vấn đề này không?\n\nVí dụ: <em>"Mỗi sáng thứ 2 tôi phải..."</em>`, qr:[]},
@@ -1919,6 +1920,48 @@ function foCelebrateDone() {
   if(foCelebrateCallback) { foCelebrateCallback(); foCelebrateCallback=null; }
 }
 
+// ── Scan form → trả về tối đa 2 câu hỏi còn thiếu ──
+function foScanGaps() {
+  const desc     = (document.getElementById('pf-desc')?.value||'').trim();
+  const deadline = (document.getElementById('pf-deadline')?.value||'').trim();
+  const links    = (document.getElementById('pf-links')?.value||'').trim();
+  const fileCount = document.querySelectorAll('#pf-file-list div').length;
+  const hasMedia = fileCount > 0 || links.length > 0;
+  const uiSelected = document.querySelectorAll('#pf-ui-grid .fo-ui-card.on').length > 0
+                  || (document.getElementById('pf-ui-other')?.value||'').trim().length > 0;
+
+  const gaps = [];
+
+  // Thiếu mô tả vấn đề VÀ không có file/link nào chứng minh
+  if (!desc && !hasMedia) {
+    gaps.push({
+      key: 'dailyPain',
+      ask: () => `Mình thấy chưa có mô tả vấn đề. Bạn có thể kể ngắn gọn: <strong>hiện đang làm bằng cách nào</strong> và điều gì bất tiện nhất không?`,
+      qr: []
+    });
+  }
+
+  // Thiếu deadline
+  if (!deadline) {
+    gaps.push({
+      key: 'deadline',
+      ask: () => `Bạn cần tính năng này trước khoảng thời gian nào? Có deadline cụ thể hoặc mức độ cấp bách không?`,
+      qr: ['Càng sớm càng tốt', 'Trong tháng này', 'Không cần gấp']
+    });
+  }
+
+  // Không có media VÀ chưa chọn giao diện → hỏi tham khảo
+  if (!hasMedia && !uiSelected) {
+    gaps.push({
+      key: 'referenceApps',
+      ask: () => `Bạn có app hoặc website nào muốn tính năng mình trông giống vậy không? Không bắt buộc, nhưng giúp IT hình dung nhanh hơn!`,
+      qr: ['Không có tham khảo cụ thể']
+    });
+  }
+
+  return gaps.slice(0, 2); // tối đa 2 câu
+}
+
 function foStartChat() {
   foChatStep = 0; foChatAnswers = {};
   document.getElementById('foChatMsgs').innerHTML='';
@@ -1926,13 +1969,45 @@ function foStartChat() {
   document.getElementById('foChatSendBtn').disabled=false;
   document.getElementById('foChatInput').placeholder='Nhập câu trả lời của bạn...';
   document.getElementById('foChatToSummaryBtn').style.display='none';
-  const d = { name: document.getElementById('pf-feat-name')?.value||'', feat: document.getElementById('pf-feat-name')?.value||'' };
-  setTimeout(()=>foAskNext(d), 400);
+
+  const fileCount = document.querySelectorAll('#pf-file-list div').length;
+  const links = (document.getElementById('pf-links')?.value||'').trim();
+  const hasMedia = fileCount > 0 || links.length > 0;
+
+  foActiveChatFlow = foScanGaps();
+
+  // Pre-fill các key bị skip do có media
+  if (hasMedia) {
+    foChatAnswers['dailyPain']      = fileCount > 0 ? `[${fileCount} file đính kèm]` : `[link: ${links}]`;
+    foChatAnswers['referenceApps']  = foChatAnswers['dailyPain'];
+  }
+
+  setTimeout(() => {
+    if (foActiveChatFlow.length === 0) {
+      // Đủ thông tin → không hỏi gì
+      foAddBotMsg(`✅ Thông tin đã đủ rồi! Bấm gửi để IT bắt đầu xử lý nhé 👍`, []);
+      document.getElementById('foChatInput').disabled = true;
+      document.getElementById('foChatSendBtn').disabled = true;
+      document.getElementById('foChatInput').placeholder = 'Không cần bổ sung thêm';
+      setTimeout(() => {
+        document.getElementById('foChatToSummaryBtn').style.display = 'block';
+      }, 600);
+    } else {
+      const mediaNote = hasMedia
+        ? `📎 Đã thấy file/link của bạn — mình bỏ qua mấy câu mô tả rồi nhé! `
+        : '';
+      const intro = foActiveChatFlow.length === 1
+        ? `${mediaNote}Chỉ cần thêm <strong>1 thông tin nhỏ</strong> thôi 👇`
+        : `${mediaNote}Mình cần hỏi thêm <strong>${foActiveChatFlow.length} điều nhỏ</strong> để IT hiểu đúng hơn 👇`;
+      foAddBotMsg(intro, []);
+      setTimeout(() => foAskNext({}), 800);
+    }
+  }, 400);
 }
 
 function foAskNext(d) {
-  if(foChatStep >= FO_CHAT_FLOW.length) { foFinishChat(); return; }
-  const q = FO_CHAT_FLOW[foChatStep];
+  if(foChatStep >= foActiveChatFlow.length) { foFinishChat(); return; }
+  const q = foActiveChatFlow[foChatStep];
   foShowTyping(()=>foAddBotMsg(q.ask(d||{}), q.qr));
 }
 
@@ -1969,8 +2044,8 @@ function foSendChat() {
   inp.value=''; inp.style.height='';
   document.querySelectorAll('#foChatMsgs button').forEach(b=>b.remove());
   foAddUserMsg(text);
-  if(foChatStep < FO_CHAT_FLOW.length) {
-    foChatAnswers[FO_CHAT_FLOW[foChatStep].key] = text;
+  if(foChatStep < foActiveChatFlow.length) {
+    foChatAnswers[foActiveChatFlow[foChatStep].key] = text;
     foChatStep++;
     setTimeout(()=>foAskNext({}), 400);
   }
@@ -1979,8 +2054,8 @@ function foSendChat() {
 function foQuickReply(text) {
   document.querySelectorAll('#foChatMsgs button').forEach(b=>b.parentElement.remove());
   foAddUserMsg(text);
-  if(foChatStep < FO_CHAT_FLOW.length) {
-    foChatAnswers[FO_CHAT_FLOW[foChatStep].key] = text;
+  if(foChatStep < foActiveChatFlow.length) {
+    foChatAnswers[foActiveChatFlow[foChatStep].key] = text;
     foChatStep++;
     setTimeout(()=>foAskNext({}), 400);
   }
