@@ -816,6 +816,17 @@ body::before{
   </div><!-- /card-grid -->
 
 
+  <!-- ═══ DỰ ÁN CỦA TÔI ═══ -->
+  <div class="proj-section">
+    <div class="proj-section-head">
+      <div>
+        <div class="proj-section-title">Dự án của tôi</div>
+        <div class="proj-section-sub">Theo dõi trạng thái duyệt và tiến độ thực hiện</div>
+      </div>
+      <button onclick="openPick()" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:#3B82F6;color:#fff;border:none;border-radius:100px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);white-space:nowrap;box-shadow:0 2px 6px rgba(59,130,246,.3)">+ Gửi dự án mới</button>
+    </div>
+    <div class="proj-grid" id="projGrid"></div>
+  </div>
 
 </div><!-- /main -->
 
@@ -867,17 +878,6 @@ body::before{
       </div>
     </div>
   </div>
-</div>
-<div class="panel-chat-footer">
-  <div class="chat-input-wrap">
-    <textarea id="chatInput" placeholder="Nhắn tin..." rows="1"
-      oninput="autoResize(this)"
-      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}"></textarea>
-    <button class="chat-send" onclick="sendMessage()">
-      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-    </button>
-  </div>
-
 </div>
 
 <script>
