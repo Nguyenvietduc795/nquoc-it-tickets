@@ -3284,11 +3284,12 @@ function projClickGuard(el, state) {
       <div class="pm-chat-msgs" id="pmChatMsgs">
         <div class="pm-chat-msgs-empty">Chưa có tin nhắn. Bắt đầu trao đổi về dự án!</div>
       </div>
-      <div class="pm-chat-input-wrap">
-        <div class="pm-chat-input-wrap-inner">
-          <textarea class="pm-chat-input" id="pmChatInput" placeholder="Nhắn tin về dự án này..." rows="1"
+      <div style="padding:0 22px 14px">
+        <div class="chat-input-wrap">
+          <textarea id="pmChatInput" placeholder="Nhắn tin về dự án này..." rows="1"
+            style="flex:1;border:none;background:transparent;font-family:var(--font);font-size:13px;color:var(--text);resize:none;outline:none;line-height:1.5;min-height:20px;max-height:80px;overflow-y:auto"
             onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendProjMsg();}"></textarea>
-          <button class="pm-chat-send" onclick="sendProjMsg()">
+          <button class="chat-send" onclick="sendProjMsg()">
             <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
         </div>
