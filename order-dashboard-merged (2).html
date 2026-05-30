@@ -3380,7 +3380,7 @@ var MOCK_PROJ_ORDERS = [
     stages:[
       {name:'Xem xét yêu cầu',status:'done'},
       {name:'Lên phương án',status:'active'},
-      {name:'Đang xây dựng',status:'todo'},
+      {name:'Đang làm',status:'todo'},
       {name:'Kiểm tra & hoàn thiện',status:'todo'},
       {name:'Ra mắt',status:'todo'}
     ]
@@ -3396,7 +3396,7 @@ var MOCK_PROJ_ORDERS = [
     stages:[
       {name:'Xem xét yêu cầu',status:'active'},
       {name:'Lên phương án',status:'todo'},
-      {name:'Đang xây dựng',status:'todo'},
+      {name:'Đang làm',status:'todo'},
       {name:'Kiểm tra & hoàn thiện',status:'todo'},
       {name:'Ra mắt',status:'todo'}
     ]
@@ -3411,7 +3411,7 @@ var MOCK_PROJ_ORDERS = [
     stages:[
       {name:'Xem xét yêu cầu',status:'done'},
       {name:'Lên phương án',status:'done'},
-      {name:'Đang xây dựng',status:'done'},
+      {name:'Đang làm',status:'done'},
       {name:'Kiểm tra & hoàn thiện',status:'active'},
       {name:'Ra mắt',status:'todo'}
     ]
@@ -3454,7 +3454,7 @@ function initOrders() {
         ord.stages = [
           {name:'Xem xét yêu cầu',status:'active'},
           {name:'Lên phương án',status:'todo'},
-          {name:'Đang xây dựng',status:'todo'},
+          {name:'Đang làm',status:'todo'},
           {name:'Kiểm tra & hoàn thiện',status:'todo'},
           {name:'Ra mắt',status:'todo'}
         ];
@@ -3635,8 +3635,8 @@ var STAGE_CHECKLISTS = {
       }
     ]
   },
-  'Đang xây dựng': {
-    label: 'Đang xây dựng',
+  'Đang làm': {
+    label: 'Đang làm',
     emoji: '⚙️',
     groups: [
       {
