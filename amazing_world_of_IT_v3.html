@@ -601,16 +601,37 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 .task-urg-dlabel{font-size:9px;color:var(--ink4);margin-top:1px}
 
 /* ── ORDER REQUEST (in Projects view) ── */
-.order-banner{background:linear-gradient(135deg,#E8492A,#C03000);border-radius:var(--r-md);padding:13px 15px;margin-bottom:14px;display:flex;align-items:flex-start;gap:12px;animation:pop-in .4s ease}
+.order-banner{
+  background:#FFFFFF;
+  border:1.5px solid #E5E7EB;
+  border-left:4px solid #D1D5DB;
+  border-radius:14px;padding:14px 16px;margin-bottom:12px;
+  display:flex;align-items:flex-start;gap:12px;
+  animation:pop-in .4s ease;
+  box-shadow:0 1px 4px rgba(0,0,0,.05)
+}
+.order-banner[data-priority="hot"]{border-left-color:#EF4444}
+.order-banner[data-priority="warm"]{border-left-color:#F59E0B}
+.order-banner[data-priority="cool"]{border-left-color:#22C55E}
 .order-banner-ico{font-size:22px;flex-shrink:0;margin-top:2px}
 .order-banner-body{flex:1}
-.order-banner-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:3px}
-.order-banner-desc{font-size:12px;color:rgba(255,255,255,.8);line-height:1.5;margin-bottom:9px}
+.order-banner-title{font-size:13px;font-weight:800;color:#111827;margin-bottom:3px}
+.order-banner-desc{font-size:12px;color:#6B7280;line-height:1.5;margin-bottom:9px}
 .order-banner-acts{display:flex;gap:7px}
-.order-approve{padding:7px 16px;border:none;border-radius:20px;background:#fff;color:#C03000;font-family:var(--f);font-size:12px;font-weight:800;cursor:pointer;transition:all .17s}
-.order-approve:hover{background:#FFF0EC;transform:translateY(-1px)}
-.order-decline{padding:7px 16px;border:1.5px solid rgba(255,255,255,.4);border-radius:20px;background:transparent;color:rgba(255,255,255,.8);font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer;transition:all .17s}
-.order-decline:hover{background:rgba(255,255,255,.1)}
+.order-approve{
+  padding:7px 18px;border:none;border-radius:20px;
+  background:#16A34A;color:#fff;
+  font-family:var(--f);font-size:12px;font-weight:700;
+  cursor:pointer;transition:all .17s
+}
+.order-approve:hover{background:#15803D;transform:translateY(-1px)}
+.order-decline{
+  padding:7px 16px;border:1.5px solid #E5E7EB;border-radius:20px;
+  background:transparent;color:#6B7280;
+  font-family:var(--f);font-size:12px;font-weight:600;
+  cursor:pointer;transition:all .17s
+}
+.order-decline:hover{background:#F9FAFB;border-color:#D1D5DB;color:#374151}
 
 /* ── EXPERT BADGE on comments ── */
 .expert-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;padding:2px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:middle}
@@ -1534,7 +1555,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
               <div class="order-banner-ico">🖨️</div>
               <div class="order-banner-body">
                 <div class="order-banner-title">Export báo cáo PDF — NhiLe Platform v2</div>
-                <div class="order-banner-desc">Khách yêu cầu export dashboard sang PDF: biểu đồ doanh thu, danh sách đơn hàng, filter theo tháng.<br><span style="color:rgba(255,255,255,.6);font-size:11px">📅 Deadline: 30/5/2026 &nbsp;·&nbsp; 🔴 Ưu tiên cao</span></div>
+                <div class="order-banner-desc">Khách yêu cầu export dashboard sang PDF: biểu đồ doanh thu, danh sách đơn hàng, filter theo tháng.<br><span style="color:#9CA3AF;font-size:11px">📅 Deadline: 30/5/2026 &nbsp;·&nbsp; 🔴 Ưu tiên cao</span></div>
                 <div class="order-banner-acts">
                   <button class="order-approve" onclick="handleOrder('order-1',true)">✓ Duyệt & tạo task</button>
                   <button class="order-decline" onclick="handleOrder('order-1',false)">✗ Từ chối</button>
@@ -1542,11 +1563,11 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
               </div>
             </div>
 
-            <div class="order-banner" id="order-2" data-proj="nedu" data-task-name="Push notification real-time" data-task-dl="5/6" data-task-ico="🔔" data-priority="warm" data-order-id="ORDER-002" style="background:linear-gradient(135deg,#1a4a8a,#0a2a6a)">
+            <div class="order-banner" id="order-2" data-proj="nedu" data-task-name="Push notification real-time" data-task-dl="5/6" data-task-ico="🔔" data-priority="warm" data-order-id="ORDER-002">
               <div class="order-banner-ico">🔔</div>
               <div class="order-banner-body">
                 <div class="order-banner-title">Push notification real-time — Nedu CRM</div>
-                <div class="order-banner-desc">Khách muốn nhận push notification khi học viên đăng ký mới, thanh toán thành công, hoặc có câu hỏi.<br><span style="color:rgba(255,255,255,.6);font-size:11px">📅 Deadline: 5/6/2026 &nbsp;·&nbsp; 🟡 Ưu tiên trung bình</span></div>
+                <div class="order-banner-desc">Khách muốn nhận push notification khi học viên đăng ký mới, thanh toán thành công, hoặc có câu hỏi.<br><span style="color:#9CA3AF;font-size:11px">📅 Deadline: 5/6/2026 &nbsp;·&nbsp; 🟡 Ưu tiên trung bình</span></div>
                 <div class="order-banner-acts">
                   <button class="order-approve" onclick="handleOrder('order-2',true)">✓ Duyệt & tạo task</button>
                   <button class="order-decline" onclick="handleOrder('order-2',false)">✗ Từ chối</button>
@@ -1554,11 +1575,11 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
               </div>
             </div>
 
-            <div class="order-banner" id="order-3" data-proj="nhile" data-task-name="Dashboard KPI cho leader" data-task-dl="10/6" data-task-ico="📊" data-priority="cool" data-order-id="ORDER-003" style="background:linear-gradient(135deg,#5a3e1a,#3a2000)">
+            <div class="order-banner" id="order-3" data-proj="nhile" data-task-name="Dashboard KPI cho leader" data-task-dl="10/6" data-task-ico="📊" data-priority="cool" data-order-id="ORDER-003">
               <div class="order-banner-ico">📊</div>
               <div class="order-banner-body">
                 <div class="order-banner-title">Dashboard KPI cho leader — NhiLe Platform v2</div>
-                <div class="order-banner-desc">Leader muốn tổng quan: số task hoàn thành/tuần, velocity team, burn-down chart, top performer.<br><span style="color:rgba(255,255,255,.6);font-size:11px">📅 Deadline: 10/6/2026 &nbsp;·&nbsp; 🟢 Ưu tiên bình thường</span></div>
+                <div class="order-banner-desc">Leader muốn tổng quan: số task hoàn thành/tuần, velocity team, burn-down chart, top performer.<br><span style="color:#9CA3AF;font-size:11px">📅 Deadline: 10/6/2026 &nbsp;·&nbsp; 🟢 Ưu tiên bình thường</span></div>
                 <div class="order-banner-acts">
                   <button class="order-approve" onclick="handleOrder('order-3',true)">✓ Duyệt & tạo task</button>
                   <button class="order-decline" onclick="handleOrder('order-3',false)">✗ Từ chối</button>
@@ -2857,7 +2878,7 @@ function handleOrder(id, approved) {
     el.style.transition = 'all .35s';
     el.style.background = 'linear-gradient(135deg,#1a5e3a,#2E4A38)';
     el.querySelector('.order-banner-title').innerHTML = '✓ Đã duyệt — task đã vào ' + projName;
-    el.querySelector('.order-banner-acts').innerHTML  = '<span style="color:rgba(255,255,255,.7);font-size:11px">📋 Xem trong project bên dưới →</span>';
+    el.querySelector('.order-banner-acts').innerHTML  = '<span style="color:#9CA3AF;font-size:11px">📋 Xem trong project bên dưới →</span>';
     setTimeout(function(){
       el.style.opacity='0'; el.style.transform='translateY(-6px)';
       setTimeout(function(){ el.style.display='none'; updateOrderCount(); }, 300);
@@ -2905,13 +2926,13 @@ function initUserOrders() {
       el.setAttribute('data-task-ico', o.icon || '📋');
       el.setAttribute('data-priority', o.priority || 'cool');
       el.setAttribute('data-order-id', o.id);
-      el.style.background = 'linear-gradient(135deg,#2a1a5e,#1a0a42)';
+      /* background set via CSS data-priority */
       el.innerHTML =
         '<div class="order-banner-ico">' + (o.icon || '📋') + '</div>' +
         '<div class="order-banner-body">' +
           '<div class="order-banner-title">' + o.name + (o.projName ? ' — ' + o.projName : '') + '</div>' +
           '<div class="order-banner-desc">' + (o.desc || '') + '<br>' +
-            '<span style="color:rgba(255,255,255,.6);font-size:11px">📅 Deadline: ' + (o.deadline || 'TBD') +
+            '<span style="color:#9CA3AF;font-size:11px">📅 Deadline: ' + (o.deadline || 'TBD') +
             ' &nbsp;·&nbsp; ' + (priEmojis[o.priority] || '📋') + ' ' + (priTexts[o.priority] || '') + '</span>' +
           '</div>' +
           '<div class="order-banner-acts">' +
