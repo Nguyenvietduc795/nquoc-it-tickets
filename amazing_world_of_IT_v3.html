@@ -1183,10 +1183,14 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 .td-cl-item{border-bottom:1px solid #F3F4F6}
 .td-cl-cb{border:1.5px solid #D1D5DB}
 .td-cl-cb.chk{background:#16A34A;border-color:#16A34A}
-/* Checklist tab — force visible text, clear all bg */
-.td-cl-item{background:transparent!important}
-.td-cl-text{color:#374151!important;background:transparent!important}
-.td-cl-text.done{color:#9CA3AF!important;background:transparent!important;text-decoration:line-through}
+/* Checklist — high-specificity overrides so white text on white bg is fixed */
+#tdPanel .td-cl-item{background:transparent!important}
+#tdPanel .td-cl-text{color:#374151!important;background:transparent!important}
+#tdPanel .td-cl-text.done{color:#9CA3AF!important;background:transparent!important;text-decoration:line-through!important}
+#tdPanel .td-sec-label{color:#9CA3AF!important}
+#tdPanel .td-cl-pct{color:#16A34A!important}
+#tdPanel .td-cl-bar{background:#E5E7EB!important}
+#tdPanel .td-cl-bar-fill{background:linear-gradient(90deg,#16A34A,#22C55E)!important}
 
 /* Log tab */
 .td-log-item{border-bottom:1px solid #F3F4F6}
