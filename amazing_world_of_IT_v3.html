@@ -962,8 +962,8 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 .sb-it i{color:#9CA3AF}
 .sb-it:hover{background:#F9FAFB;color:#111827}
 .sb-it:hover i{color:#6B7280}
-.sb-it.act{background:#FFF7ED;color:#EA580C;border-color:#FFEDD5;font-weight:700}
-.sb-it.act i{color:#EA580C}
+.sb-it.act{background:#FEF3C7;color:#92400E;border-color:transparent;font-weight:700}
+.sb-it.act i{color:#D97706}
 .sb-bdg{background:#EF4444;font-size:9px}
 .sb-bdg.g{background:#22C55E}
 .sb-members{border-top:1px solid #F3F4F6;padding:10px 14px}
@@ -997,63 +997,74 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 .notif-msg{font-size:11px;color:#374151}
 .notif-time{color:#9CA3AF}
 
-/* ── Feed cards — bitepoint order card style ── */
+/* ════ FEED CARDS — bitepoint order card style ════ */
+/* Card outer: no border on sides except subtle, no overflow:hidden */
 .post{
   border-radius:16px!important;
-  border:1px solid #E5E7EB!important;
-  box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 12px rgba(0,0,0,.05)!important;
-  overflow:hidden
+  border:1.5px solid #E5E7EB!important;
+  box-shadow:0 1px 2px rgba(0,0,0,.04),0 4px 14px rgba(0,0,0,.06)!important;
+  overflow:visible!important;
+  position:relative
 }
 .post:hover{
   transform:translateY(-2px);
-  box-shadow:0 4px 12px rgba(0,0,0,.08),0 10px 28px rgba(0,0,0,.07)!important
+  box-shadow:0 6px 22px rgba(0,0,0,.1)!important
 }
-/* Card header — white, minimal, status shown via small badge */
-.post.pending .post-hbar,.post.done .post-hbar{
-  background:#FFFFFF!important;
-  color:#9CA3AF!important;
-  border-bottom:1px solid #F3F4F6;
-  height:44px;
-  padding:0 12px
+/* ── Collapse the colored header bar ── */
+.post-hbar{
+  height:0!important;min-height:0!important;
+  padding:0!important;border:none!important;
+  background:transparent!important;
+  overflow:visible!important;position:relative;z-index:5
 }
-.hbar-text{font-size:10.5px;font-weight:600;color:#9CA3AF}
-.post.pending .hbar-text{color:#D97706}
-.post.done .hbar-text{color:#16A34A}
-.post-hbar i{font-size:13px;opacity:.6}
-.post.pending .post-hbar i{color:#F59E0B}
-.post.done .post-hbar i{color:#16A34A}
-
-/* Ship btn = "Pay Bills" amber button */
+.hbar-text{display:none!important}
+.post-hbar>i{display:none!important}
+/* ── Ship btn = amber "Pay Bills" — floats top-right ── */
 .ship-btn{
+  position:absolute!important;top:16px!important;right:14px!important;
   background:#F59E0B!important;border:none!important;color:#fff!important;
-  border-radius:8px!important;padding:5px 13px!important;
+  border-radius:20px!important;padding:5px 14px!important;
   font-size:11px!important;font-weight:700!important;
-  box-shadow:0 2px 6px rgba(245,158,11,.25)!important;
-  animation:none!important
+  display:none;align-items:center;gap:4px;
+  box-shadow:0 2px 8px rgba(245,158,11,.3)!important;
+  animation:none!important;z-index:6;cursor:pointer;white-space:nowrap
 }
-.ship-btn:hover{background:#D97706!important;transform:none!important}
-/* Save CS btn = "See Details" outline button */
+.ship-btn.vis{display:flex!important}
+.ship-btn:hover{background:#D97706!important;transform:scale(1.04)!important}
+/* ── Save CS btn = white "See Details" — floats top-right ── */
 .save-cs-btn{
+  position:absolute!important;top:16px!important;right:14px!important;
   background:#FFFFFF!important;border:1.5px solid #E5E7EB!important;
-  color:#6B7280!important;border-radius:8px!important;
-  padding:5px 13px!important;font-size:11px!important;
-  cursor:default!important;animation:none!important
+  color:#6B7280!important;border-radius:20px!important;
+  padding:5px 14px!important;font-size:11px!important;font-weight:600!important;
+  display:none;align-items:center;gap:4px;
+  animation:none!important;z-index:6;cursor:default;white-space:nowrap
 }
+.save-cs-btn.vis{display:flex!important}
 .save-cs-btn.lit{
   background:#FFFBEB!important;border-color:#FDE68A!important;
-  color:#D97706!important;cursor:pointer!important;animation:none!important
+  color:#D97706!important;cursor:pointer!important
 }
 .save-cs-btn.lit:hover{background:#FEF3C7!important}
 
-/* Card body */
-.post-body{background:#FFFFFF;padding:14px 16px}
-.post-av{width:40px;height:40px;border-radius:12px;border:none}
-.post-aname{font-size:13.5px;font-weight:700;color:#111827}
-.post-astatus{font-size:11px;color:#9CA3AF}
+/* ── Card body ── */
+.post-body{
+  background:#FFFFFF;padding:18px 16px 14px;
+  border-radius:16px 16px 0 0
+}
+/* Leave space on right for the floating badge */
+.post-auth{padding-right:115px!important}
+.post-av{
+  width:44px!important;height:44px!important;
+  border-radius:50%!important;border:none!important;
+  font-size:14px!important;flex-shrink:0
+}
+.post-aname{font-size:14px;font-weight:700;color:#111827}
+.post-astatus{font-size:11.5px;color:#9CA3AF;margin-top:2px}
 .post-astatus strong{color:#F59E0B;font-weight:600}
-.post-content{font-size:13px;color:#374151;line-height:1.65}
-.post-stk{font-size:20px;letter-spacing:4px}
-.post-meta{border-top:1px solid #F3F4F6;padding-top:8px}
+.post-content{font-size:13px;color:#374151;line-height:1.65;margin-bottom:10px}
+.post-stk{font-size:20px;letter-spacing:4px;margin-bottom:8px}
+.post-meta{border-top:1.5px solid #F3F4F6;padding-top:10px;margin-top:6px}
 
 /* Task link = order number badge */
 .task-lnk{
@@ -1112,7 +1123,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 .gao-bub{background:#1F2937;border-radius:12px 12px 2px 12px}
 .gao-bub.notify{background:#D97706}
 ::-webkit-scrollbar-thumb{background:#D1D5DB}
-.feed-wrap{padding:16px 20px;gap:14px}
+.feed-wrap{padding:18px 22px;gap:16px;max-width:760px}
 
 </style>
 </head>
