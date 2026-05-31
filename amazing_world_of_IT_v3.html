@@ -1097,12 +1097,12 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
       <div class="sb-prog-tr"><div class="sb-prog-fill" id="sbProgFill" style="width:17%"></div></div>
     </div>
     <div class="sb-sec">Menu chính</div>
-    <div class="sb-it"    id="nav-profile"   onclick="goView('profile')">  <i class="ti ti-user-circle"></i> Trang cá nhân <span class="sb-bdg" id="urgBdg" style="background:#E8492A">3</span></div>
+    <div class="sb-it"    id="nav-profile"   onclick="goView('profile')" style="display:none">  <i class="ti ti-user-circle"></i> Trang cá nhân <span class="sb-bdg" id="urgBdg" style="background:#E8492A">3</span></div>
     <div class="sb-it"    id="nav-hub"       onclick="goView('hub')">      <i class="ti ti-folder"></i> Projects <span class="sb-bdg" id="newOrderBdg" style="background:#E8492A;display:none">!</span></div>
-    <div class="sb-it"    id="nav-docs"      onclick="goView('docs')">     <i class="ti ti-book"></i> Tài liệu</div>
-    <div class="sb-it"    id="nav-checklist" onclick="goView('checklist')"><i class="ti ti-checklist"></i> Checklist của tôi <span class="sb-bdg" id="remBdg" style="display:none"></span></div>
+    <div class="sb-it"    id="nav-docs"      onclick="goView('docs')" style="display:none">     <i class="ti ti-book"></i> Tài liệu</div>
+    <div class="sb-it"    id="nav-checklist" onclick="goView('checklist')" style="display:none"><i class="ti ti-checklist"></i> Checklist của tôi <span class="sb-bdg" id="remBdg" style="display:none"></span></div>
     <div class="sb-it act" id="nav-feed"    onclick="goView('feed')">     <i class="ti ti-layout-dashboard"></i> Feed <span class="sb-bdg" id="pendBdg">2</span></div>
-    <div class="sb-it"    id="nav-contacts"  onclick="goView('contacts')"> <i class="ti ti-users"></i> Team &amp; contacts</div>
+    <div class="sb-it"    id="nav-contacts"  onclick="goView('contacts')" style="display:none"> <i class="ti ti-users"></i> Team &amp; contacts</div>
     <div class="sb-it"    id="nav-casestudy" onclick="goView('casestudy')"><i class="ti ti-archive"></i> Kho Case Study <span class="sb-bdg g" id="csBdg">1</span></div>
     <div class="sb-sec">Chuyển vai</div>
     <div class="role-wrap" id="roleWrap">
@@ -1129,17 +1129,17 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
         </div>
       </div>
     </div>
-    <div class="sb-sec">Liên kết</div>
-    <div class="sb-it"    id="nav-telegram"  onclick="openTg()">           <i class="ti ti-speakerphone"></i> Ới đồng đội!</div>
-    <div class="sb-it"    id="nav-settings"  onclick="goView('settings')"> <i class="ti ti-settings"></i> Cài đặt</div>
-    <div class="sb-members">
+    <div class="sb-sec" style="display:none">Liên kết</div>
+    <div class="sb-it"    id="nav-telegram"  onclick="openTg()" style="display:none">           <i class="ti ti-speakerphone"></i> Ới đồng đội!</div>
+    <div class="sb-it"    id="nav-settings"  onclick="goView('settings')" style="display:none"> <i class="ti ti-settings"></i> Cài đặt</div>
+    <div class="sb-members" style="display:none">
       <div class="sb-ml">Team Online</div>
       <div class="sb-mr"><div class="sb-mr-av" style="background:#C97550">NH</div><div class="sb-mr-nm">Ngọc Hân</div><div class="sb-dot" style="background:#4A6E56"></div></div>
       <div class="sb-mr"><div class="sb-mr-av" style="background:#C2A84E">TL</div><div class="sb-mr-nm">Tuấn Long</div><div class="sb-dot" style="background:#C2A84E"></div></div>
       <div class="sb-mr"><div class="sb-mr-av" style="background:#4A6E56">MT</div><div class="sb-mr-nm">Minh Tú</div><div class="sb-dot" style="background:#4A6E56"></div></div>
       <div class="sb-mr"><div class="sb-mr-av" style="background:#2E4A38">PK</div><div class="sb-mr-nm">Phúc Khang</div><div class="sb-dot" style="background:#B8AA98"></div></div>
     </div>
-    <div class="sb-foot">Cần hỗ trợ? Liên hệ leader<br><strong>Văn Đức Tân · @tannguyen</strong></div>
+    <div class="sb-foot" style="display:none">Cần hỗ trợ? Liên hệ leader<br><strong>Văn Đức Tân · @tannguyen</strong></div>
   </div>
 
   <!-- MAIN SHELL -->
@@ -1688,7 +1688,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 
   <!-- RIGHT PANEL -->
   <div class="rp-wrap" id="rpWrap">
-    <div class="rp-sec">
+    <div class="rp-sec" style="display:none">
       <div class="rp-t">🏅 Huy hiệu tuần này</div>
       <div style="display:flex;flex-direction:column;gap:7px">
         <div class="bdg-row2"><div class="bdg-av2" style="background:#C97550">NH</div><div style="flex:1"><div style="font-size:11px;font-weight:700;color:var(--ink)">Ngọc Hân</div><div style="font-size:9px;color:var(--ink3)">Reviewer siêng nhất</div></div><span style="font-size:15px">🔍</span></div>
@@ -1945,7 +1945,7 @@ function confirmMood() {
   setGaoBub(m.msg);
   updEChips(selMood);
   renderMoodCal(selMood);
-  document.getElementById('rpCalSec').style.display = 'block';
+  /* rpCalSec hidden intentionally */
   startGaoTimer();
   goView('profile');
 }
