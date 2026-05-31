@@ -1183,21 +1183,63 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 .td-cl-item{border-bottom:1px solid #F3F4F6}
 .td-cl-cb{border:1.5px solid #D1D5DB}
 .td-cl-cb.chk{background:#16A34A;border-color:#16A34A}
-.td-cl-text{color:#374151}
-.td-cl-text.done{color:#9CA3AF}
+/* Checklist tab — force visible text */
+.td-cl-text{color:#374151!important}
+.td-cl-text.done{color:#9CA3AF!important;text-decoration:line-through}
+
+/* Log tab */
 .td-log-item{border-bottom:1px solid #F3F4F6}
 .td-log-dot{background:#16A34A}
-.td-log-msg{color:#374151}
-.td-log-time{color:#9CA3AF}
-.td-deploy-card{background:#F9FAFB;border:1px solid #E5E7EB}
-.td-deploy-env{color:#9CA3AF}
-.td-ov-cl-wrap{background:#F9FAFB;border:1px solid #E5E7EB}
-.td-ov-cl-ttl{color:#6B7280}
-.td-ov-cl-pct{color:#16A34A}
-.td-ov-cl-bar{background:#E5E7EB}
-.td-ov-cl-fill{background:linear-gradient(90deg,#16A34A,#22C55E)}
-.td-ov-cl-btn{color:#16A34A;background:#F0FDF4;border:1px solid #BBF7D0}
-.td-ov-cl-btn:hover{background:#DCFCE7}
+.td-log-msg{color:#374151!important}
+.td-log-time{color:#9CA3AF!important}
+
+/* Log note textarea */
+#tdLogNote{background:#F9FAFB;border:1.5px solid #E5E7EB;border-radius:10px;color:#374151;font-family:var(--f);font-size:12px;padding:10px 12px;resize:vertical;width:100%;outline:none}
+#tdLogNote:focus{border-color:#16A34A}
+#tdLogNote::placeholder{color:#9CA3AF}
+.td-log-save{background:#16A34A;color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;transition:background .15s;font-family:var(--f)}
+.td-log-save:hover{background:#15803D}
+
+/* Deploy tab */
+.td-deploy-card{background:#F9FAFB!important;border:1px solid #E5E7EB!important}
+.td-deploy-env{color:#9CA3AF!important}
+.td-deploy-status{color:#374151}
+.td-deploy-dot.none{background:#D1D5DB}
+/* Deploy stats */
+.td-deploy-stat,.td-dl-stat{background:#F9FAFB!important;border:1px solid #E5E7EB!important}
+.td-deploy-stat-num,.td-dl-stat-num{color:#111827!important}
+.td-deploy-stat-num.warn,.td-dl-stat-num.warn{color:#EF4444!important}
+.td-deploy-stat-label,.td-dl-stat-lbl{color:#9CA3AF!important}
+/* Deploy checklist layers */
+.td-dl-layer{border:1px solid #E5E7EB!important}
+.td-dl-hd{background:#FFFFFF!important}
+.td-dl-hd:hover{background:#F9FAFB!important}
+.td-dl-name{color:#111827!important}
+.td-dl-sub{color:#9CA3AF!important}
+.td-dl-badge{background:#F3F4F6!important;color:#6B7280!important}
+.td-dl-badge.all-done{background:#DCFCE7!important;color:#16A34A!important}
+.td-dl-chev{color:#9CA3AF!important}
+.td-dl-body{background:#F9FAFB!important}
+.td-dl-item{border-top:1px solid #F3F4F6!important}
+.td-dl-cb{border:1.5px solid #D1D5DB!important;background:transparent}
+.td-dl-cb.chk{background:#16A34A!important;border-color:#16A34A!important}
+.td-dl-txt-main{color:#374151!important}
+.td-dl-txt-main.done{color:#9CA3AF!important}
+.td-dl-hint{color:#9CA3AF!important}
+.td-dl-grp-lbl{color:#9CA3AF!important;border-top:1px solid #F3F4F6!important}
+.td-dl-grp-lbl.hard{color:#DC2626!important}
+.td-dl-block{color:#DC2626!important;background:#FEF2F2!important}
+.td-dl-stat-badge{background:#FEF2F2;color:#DC2626}
+.td-dl-stat-badge.ok{background:#DCFCE7;color:#16A34A}
+
+/* Overview checklist widget */
+.td-ov-cl-wrap{background:#F9FAFB!important;border:1px solid #E5E7EB!important}
+.td-ov-cl-ttl{color:#6B7280!important}
+.td-ov-cl-pct{color:#16A34A!important}
+.td-ov-cl-bar{background:#E5E7EB!important}
+.td-ov-cl-fill{background:linear-gradient(90deg,#16A34A,#22C55E)!important}
+.td-ov-cl-btn{color:#16A34A!important;background:#F0FDF4!important;border:1px solid #BBF7D0!important}
+.td-ov-cl-btn:hover{background:#DCFCE7!important}
 
 </style>
 </head>
