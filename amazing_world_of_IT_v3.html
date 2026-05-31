@@ -981,7 +981,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
     <div class="mo-lbl">Mô tả (tối thiểu 20 từ)</div>
     <textarea class="mo-inp" id="nContent" rows="4" placeholder="Chia sẻ hành trình — thử thách, cảm xúc, bài học..."></textarea>
     <div class="wc w" id="nWC" style="margin-top:-7px;margin-bottom:8px">0/20 từ</div>
-    <div class="gao-sug">
+    <div class="gao-sug" style="display:none">
       <div class="gao-sug-lbl">🌾 Gạo gợi ý cảm xúc:</div>
       <div class="chips" id="eChips"></div>
     </div>
@@ -2139,7 +2139,7 @@ function getRRReviewers(authorName) {
   _rrTesterIdx = (_rrTesterIdx + t + 1) % tstrList.length;
   return { dev: dev, tester: tester };
 }
-var STICKERS = ['🌾','🎉','🔥','💪','😅','🤯','✨','🐛','🚀','💳','🧪','🎯','🌿','💚'];
+var STICKERS = ['😀','😃','😄','😁','😆','😊','🙂','😂','🤣','😍','🥰','😎','🤩','😋','😛','😜','🤪','😝','🥲','😇'];
 (function(){
   document.getElementById('stkRow').innerHTML = STICKERS.map(function(s,i){
     return '<button class="stk-btn'+(i===0?' sel':'')+'" onclick="selS(this,\''+s+'\')">'+s+'</button>';
