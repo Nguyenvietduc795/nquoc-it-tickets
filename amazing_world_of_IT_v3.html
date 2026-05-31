@@ -9,13 +9,13 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
 :root{
-  --cream:#F7EEDD;--cream2:#F0E4CC;--cream3:#E4D5B4;
-  --terra:#C97550;--terra-d:#8B4A2F;--terra-bg:#FBF1EB;
-  --gold:#C2A84E;--gold-d:#7A6228;--gold-bg:#FBF6E4;
-  --forest:#2E4A38;--fmid:#4A6E56;--flight:#7FA88C;--fbg:#EBF2EC;
-  --ink:#2C1F0E;--ink2:#5A4A38;--ink3:#8A7A6A;--ink4:#B8AA98;
-  --sf:#FFFDF8;--sf2:#F9F4EC;
-  --bd:rgba(44,31,14,.10);--bd2:rgba(44,31,14,.18);
+  --cream:#F1F5F9;--cream2:#E2E8F0;--cream3:#CBD5E1;
+  --terra:#F59E0B;--terra-d:#92400E;--terra-bg:#FFFBEB;
+  --gold:#F59E0B;--gold-d:#78350F;--gold-bg:#FFFBEB;
+  --forest:#16A34A;--fmid:#22C55E;--flight:#86EFAC;--fbg:#F0FDF4;
+  --ink:#0F172A;--ink2:#1E293B;--ink3:#64748B;--ink4:#94A3B8;
+  --sf:#FFFFFF;--sf2:#F8FAFC;
+  --bd:rgba(15,23,42,.08);--bd2:rgba(15,23,42,.16);
   --f:'Be Vietnam Pro',sans-serif;--fh:'Baloo 2',cursive;
 }
 [data-bw]{
@@ -939,6 +939,106 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 /* ── HUB SEARCH INPUT ── */
 #hubSearchInp::placeholder{color:var(--ink4)}
 .hub-dropdown{min-width:220px}
+
+/* ══════════════════════════════════════
+   BITEPOINT-STYLE LIGHT UI REDESIGN
+══════════════════════════════════════ */
+
+/* Sidebar — white light */
+.sb{background:#FFFFFF;border-right:1.5px solid #E2E8F0}
+.sb-logo{border-bottom-color:#E2E8F0}
+.sb-logo-name{color:#0F172A}
+.sb-logo-sub{color:#94A3B8}
+.sb-user:hover{background:#F8FAFC}
+.sb-uname{color:#0F172A}
+.sb-umood{color:#64748B}
+.sb-prog{border-bottom-color:#E2E8F0}
+.sb-prog-lbl{color:#94A3B8}
+.sb-prog-tr{background:#E2E8F0}
+.sb-prog-fill{background:#16A34A}
+.sb-sec{color:#94A3B8}
+.sb-it{color:#64748B}
+.sb-it i{color:#94A3B8}
+.sb-it:hover{background:#F1F5F9;color:#0F172A}
+.sb-it:hover i{color:#64748B}
+.sb-it.act{background:#F0FDF4;color:#16A34A;border-color:#BBF7D0}
+.sb-it.act i{color:#16A34A}
+.sb-bdg{background:#EF4444}
+.sb-bdg.g{background:#16A34A}
+.sb-members{border-top-color:#E2E8F0}
+.sb-ml{color:#94A3B8}
+.sb-mr-nm{color:#475569}
+.sb-foot{color:#94A3B8;border-top-color:#E2E8F0}
+.sb-foot strong{color:#64748B}
+/* Role switcher */
+.role-wrap{border-bottom-color:#E2E8F0}
+.role-chip{background:#F8FAFC;border-color:#E2E8F0;color:#374151}
+.role-chip:hover{background:#F1F5F9;border-color:#CBD5E1;color:#0F172A}
+.role-chip svg{stroke:#64748B}
+.role-dd{background:#FFFFFF;border-color:#E2E8F0;box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.role-dd-item{color:#374151}
+.role-dd-item:hover{background:#F8FAFC;color:#0F172A}
+.role-dd-item.active{color:#0F172A;font-weight:700}
+.role-dd-item svg{stroke:#64748B}
+.role-dd-item .chk{stroke:#16A34A;opacity:0}
+.role-dd-item.active .chk{opacity:1}
+.role-dd-sep{background:#E2E8F0;margin:3px 0}
+
+/* Topbar — white */
+.topbar{background:#FFFFFF;border-bottom:1.5px solid #E2E8F0;height:52px}
+.topbar-title{color:#0F172A;font-size:16px}
+
+/* Right panel — white */
+.rp-wrap{background:#FFFFFF;border-left-color:#E2E8F0}
+.rp-sec{border-bottom-color:#E2E8F0}
+.rp-t{color:#94A3B8}
+
+/* Feed cards — cleaner */
+.post{border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.07),0 4px 16px rgba(0,0,0,.04)}
+.post.pending{border-color:#FDE68A}
+.post.done{border-color:#BBF7D0}
+.post.pending .post-hbar{background:linear-gradient(90deg,#F59E0B,#FBBF24);color:#fff}
+.post.done .post-hbar{background:linear-gradient(90deg,#16A34A,#22C55E);color:#fff}
+.post-body{background:#FFFFFF}
+.post-content{color:#374151}
+.cmt-sec{background:#F8FAFC;border-top-color:#E2E8F0}
+.cmt-bub{background:#FFFFFF;border-color:#E2E8F0}
+.cmt-ta{border-color:#E2E8F0;background:#FFFFFF}
+.cmt-ta:focus{border-color:#16A34A}
+.cmt-send{background:#16A34A}
+.post-meta{border-top-color:#E2E8F0}
+.task-lnk{background:#FFFBEB;border-color:#FDE68A;color:#92400E}
+.task-lnk:hover{background:#FEF3C7}
+.rev-chip.need{background:#FFFBEB;color:#92400E;border-color:#FDE68A}
+.rev-chip.ok{background:#F0FDF4;color:#15803D;border-color:#BBF7D0}
+
+/* Project cards */
+.proj-card{background:#FFFFFF;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.proj-card:hover{box-shadow:0 6px 20px rgba(0,0,0,.1)}
+
+/* Feed wrap spacing */
+.feed-wrap{gap:14px}
+
+/* Modal */
+.mo-box{background:#FFFFFF;border-color:#E2E8F0}
+.mo-inp{border-color:#E2E8F0;background:#F8FAFC}
+.mo-inp:focus{border-color:#16A34A}
+.mo-cancel{border-color:#E2E8F0;color:#64748B}
+.mo-cancel:hover{background:#F1F5F9}
+.mo-submit{background:#16A34A}
+
+/* Ship & CTA buttons */
+.ship-btn{background:rgba(255,255,255,.9);border-color:rgba(255,255,255,.9);color:#16A34A}
+.btn-new{background:#16A34A;box-shadow:0 3px 10px rgba(22,163,74,.25)}
+
+/* Notifications */
+.notif-dot{background:#F59E0B}
+
+/* Toast */
+.toast{background:#16A34A}
+
+/* Scrollbar */
+::-webkit-scrollbar-thumb{background:#CBD5E1}
 
 </style>
 </head>
