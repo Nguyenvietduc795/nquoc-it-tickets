@@ -1287,7 +1287,7 @@ input[type=text],input[type=date],input[type=email],textarea,select{
     <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--purple-light),#7DC9A0);display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto 20px;box-shadow:0 0 0 12px rgba(46,177,101,.08),var(--shadow-lg);animation:stepPop .5s cubic-bezier(.34,1.56,.64,1) both .1s">✅</div>
     <div style="font-size:24px;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-.3px">Đã gửi thành công!</div>
     <div class="ticket-id" id="ticketId">IT-2026-001</div>
-    <div style="font-size:14px;color:var(--text-muted);margin:12px 0 20px;line-height:1.6" id="successSub">IT sẽ phản hồi theo SLA đã cam kết.</div>
+    <div style="font-size:14px;color:var(--text-muted);margin:12px 0 20px;line-height:1.6" id="successSub"></div>
     <div class="sla-badge" id="slaBadge" style="margin:0 auto 32px">⏱ IT phản hồi trong thời gian sớm nhất</div>
     <button class="btn-next" onclick="resetAll()" style="margin:0 auto">+ Tạo yêu cầu mới</button>
   </div>
@@ -2006,7 +2006,7 @@ function gv(id){
 function submit() {
   const id = 'IT-'+new Date().getFullYear()+'-'+String(Math.floor(Math.random()*999)+1).padStart(3,'0');
   document.getElementById('ticketId').textContent = id;
-  document.getElementById('successSub').textContent = S.prio ? 'IT sẽ phản hồi theo mức '+S.prio+' đã cam kết.' : 'IT sẽ phản hồi theo SLA đã cam kết.';
+  document.getElementById('successSub').textContent = '';
   document.getElementById('slaBadge').textContent = '⏱ IT phản hồi trong '+(SLA[S.prio]||'thời gian sớm nhất');
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panelDone').classList.add('active');
