@@ -813,11 +813,14 @@ body::before{
 .pm-rating-submit:hover{background:#16A34A;transform:translateY(-1px)}
 .pm-rating-skip{width:100%;padding:7px;border-radius:10px;border:1.5px solid #E2E8F0;background:none;font-size:11.5px;font-weight:600;color:#94A3B8;cursor:pointer;font-family:var(--font);transition:all .15s}
 .pm-rating-skip:hover{border-color:#CBD5E1;color:#64748B}
-.pm-rating-anon{font-size:9px;font-weight:800;letter-spacing:.7px;color:#94A3B8;text-transform:uppercase;margin-bottom:10px;padding:6px 10px;background:#F8FAFC;border-radius:8px;border:1px solid #E2E8F0}
-.pm-rating-anon-note{font-size:11px;color:#64748B;margin:4px 0 12px;padding-left:2px;display:flex;align-items:flex-start;gap:5px}
-.pm-rating-stars-row{display:flex;gap:3px;margin:6px 0 4px;cursor:pointer}
-.pm-rating-star{font-size:20px;line-height:1;transition:transform .12s;user-select:none}
-.pm-rating-star:hover{transform:scale(1.2)}
+.pm-rating-anon{font-size:10px;font-weight:800;letter-spacing:.7px;color:#64748B;text-transform:uppercase;margin-bottom:14px;padding:7px 12px;background:#F8FAFC;border-radius:8px;border:1px solid #E2E8F0}
+.pm-rating-overall-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.pm-rating-overall-lbl{font-size:14px;font-weight:700;color:#1E293B;white-space:nowrap}
+.pm-rating-anon-note{font-size:11.5px;color:#64748B;margin:4px 0 14px;padding-left:2px}
+.pm-rating-stars-row{display:flex;gap:4px;cursor:pointer}
+.pm-rating-star{font-size:28px;line-height:1;transition:transform .1s,color .1s;user-select:none;color:#E2E8F0}
+.pm-rating-star.active{color:#F59E0B}
+.pm-rating-star:hover{transform:scale(1.15)}
 .pm-rating-val-lbl{font-size:11px;color:#64748B;font-weight:600;min-height:16px}
 .pm-rating-comment{width:100%;min-height:72px;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:10px;font-size:12px;font-family:var(--font);color:#0F172A;background:#F8FAFC;resize:vertical;outline:none;margin-bottom:10px;transition:border-color .15s;line-height:1.5}
 .pm-rating-comment:focus{border-color:#22C55E;background:#fff}
@@ -3617,10 +3620,17 @@ function projClickGuard(el, state) {
         title="Vui lòng kiểm tra đủ các mục bắt buộc trước"
         onclick="completeProjOrder()">Hoàn thành</button>
       <div id="pmRatingWrap" style="display:none" class="pm-rating-wrap">
-        <div class="pm-rating-anon">🔒 ĐÁNH GIÁ ẨN DANH – CHỈ BẠN BIẾT (IT KHÔNG THẤY TÊN)</div>
-        <div class="pm-rating-ttl">🌟 Bạn cảm thấy thế nào về dịch vụ lần này?</div>
-        <div class="pm-rating-row1" id="pmRatingRow1"></div>
-        <div class="pm-rating-row2" id="pmRatingRow2"></div>
+        <div class="pm-rating-anon">ĐÁNH GIÁ ẨN DANH – CHỈ BẠN BIẾT (IT KHÔNG THẤY TÊN)</div>
+        <div class="pm-rating-overall-row">
+          <span class="pm-rating-overall-lbl">Hài lòng tổng thể:</span>
+          <div class="pm-rating-stars-row" id="pmOverallStars">
+            <span class="pm-rating-star" data-n="1" onclick="setOverallStar(1)" onmouseover="hoverOverallStar(1)" onmouseout="unhoverOverallStar()">★</span>
+            <span class="pm-rating-star" data-n="2" onclick="setOverallStar(2)" onmouseover="hoverOverallStar(2)" onmouseout="unhoverOverallStar()">★</span>
+            <span class="pm-rating-star" data-n="3" onclick="setOverallStar(3)" onmouseover="hoverOverallStar(3)" onmouseout="unhoverOverallStar()">★</span>
+            <span class="pm-rating-star" data-n="4" onclick="setOverallStar(4)" onmouseover="hoverOverallStar(4)" onmouseout="unhoverOverallStar()">★</span>
+            <span class="pm-rating-star" data-n="5" onclick="setOverallStar(5)" onmouseover="hoverOverallStar(5)" onmouseout="unhoverOverallStar()">★</span>
+          </div>
+        </div>
         <div class="pm-rating-anon-note">• Đánh giá này ẩn danh – giúp cải thiện cách làm việc mà không gây khó xử</div>
         <textarea class="pm-rating-comment" id="pmRatingComment" placeholder="💬 Góp ý thêm cho IT Team — điều gì bạn thấy ổn hoặc muốn cải thiện lần sau? (tuỳ chọn)"></textarea>
         <button class="pm-rating-submit" onclick="submitRating()">✅ Gửi đánh giá &amp; hoàn tất</button>
@@ -4396,6 +4406,18 @@ function unhoverRatingStar(rid) {
 }
 
 function updateRatingStars(rid) { /* legacy no-op */ }
+
+/* ── Overall single star rating ── */
+var _overallScore = 5;
+function _paintOverall(n) {
+  document.querySelectorAll('#pmOverallStars .pm-rating-star').forEach(function(s) {
+    s.classList.toggle('active', parseInt(s.dataset.n) <= n);
+  });
+}
+function setOverallStar(n) { _overallScore = n; _paintOverall(n); }
+function hoverOverallStar(n) { _paintOverall(n); }
+function unhoverOverallStar() { _paintOverall(_overallScore); }
+function renderRatingGrid() { _overallScore = 5; _paintOverall(5); }
 
 function showRatingStep(orderName, taskId) {
   _ratingCompletionData = {orderName: orderName, taskId: taskId};
