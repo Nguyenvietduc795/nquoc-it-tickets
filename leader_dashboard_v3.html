@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Leader Dashboard · NhiLe IT</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* ── Bitepoint palette ── */
+  --bg:#EEEEE8;
+  --s1:#ffffff;--s2:#F5F5EF;--s3:#E8E8E2;--s4:#F0F0EA;
+  --bdr:#E0E0D8;--bdr2:#C8C8C0;
+  --t1:#1A1A1A;--t2:#555550;--t3:#8A8A84;--t4:#B8B8B2;
+  /* accent: yellow (bitepoint primary) */
+  --yellow:#F5C842;--yellow-dark:#D4A800;--yellow-bg:#FFF8D6;--yellow-bdr:#F0D060;
+  /* teal (bitepoint secondary — avatar bg) */
+  --teal-dark:#1E6B5C;--teal-mid:#2D8C78;--teal-bg:#E0F5F0;
+  /* standard semantics */
+  --blue:#2563EB;--blue2:rgba(37,99,235,0.1);--blue3:rgba(37,99,235,0.05);
+  --green:#16A34A;--green2:rgba(22,163,74,0.12);--green3:rgba(22,163,74,0.06);
+  --red:#DC2626;--red2:rgba(220,38,38,0.1);--red3:rgba(220,38,38,0.05);
+  --amber:#D97706;--amber2:rgba(217,119,6,0.14);
+  --orange:#EA580C;--orange2:rgba(234,88,12,0.12);
+  --purple:#7C3AED;--purple2:rgba(124,58,237,0.12);
+  --teal:#0E7A68;--teal2:rgba(14,122,104,0.12);
+  --warn:#D97706;--warn2:rgba(217,119,6,0.12);
+  --r8:8px;--r12:12px;--r16:16px;--r20:20px;--r24:24px;
+  --sb:230px;
+  --shadow:0 1px 4px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:0 4px 16px rgba(0,0,0,0.08),0 2px 6px rgba(0,0,0,0.05);
+  --shadow-card:0 2px 8px rgba(0,0,0,0.06);
+}
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--t1);font-family:'Plus Jakarta Sans',-apple-system,sans-serif;display:flex}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--s3);border-radius:3px}
+
+/* ══ SIDEBAR — bitepoint: white, clean, yellow active ══ */
+.sb{
+  width:var(--sb);height:100vh;
+  background:#ffffff;
+  border-right:1px solid var(--bdr);
+  display:flex;flex-direction:column;flex-shrink:0;
+  box-shadow:2px 0 12px rgba(0,0,0,0.04);
+}
+.sb-logo{
+  padding:20px 20px 16px;
+  display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid var(--bdr);
+}
+.sb-mark{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--teal-dark);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;flex-shrink:0;color:#fff;
+  letter-spacing:-.5px;
+}
+.sb-text{font-size:14px;font-weight:800;color:var(--t1);letter-spacing:-.3px}
+.sb-sub{font-size:10px;color:var(--t3);margin-top:1px;font-weight:500}
+.sb-nav{padding:12px 12px;flex:1;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.nav-sec{
+  font-size:10px;font-weight:700;color:var(--t4);
+  letter-spacing:1px;text-transform:uppercase;
+  padding:12px 8px 5px;
+}
+.ni{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 12px;
+  border-radius:var(--r12);
+  cursor:pointer;transition:all .15s;
+  color:var(--t2);font-size:13px;font-weight:600;
+  border:none;background:transparent;width:100%;text-align:left;position:relative;
+}
+.ni:hover{background:var(--s2);color:var(--t1)}
+/* ── ACTIVE: solid yellow like bitepoint ── */
+.ni.on{
+  background:var(--yellow);
+  color:#1A1A1A;
+  box-shadow:0 2px 8px rgba(245,200,66,0.35);
+}
+.ni-ico{
+  width:28px;height:28px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;background:var(--s2);
+  transition:background .15s;
+}
+.ni.on .ni-ico{background:rgba(255,255,255,0.5)}
+.ni:hover:not(.on) .ni-ico{background:var(--s3)}
+.ni-badge{
+  margin-left:auto;background:var(--red);color:#fff;
+  font-size:9px;font-weight:700;padding:2px 7px;
+  border-radius:20px;min-width:18px;text-align:center;
+}
+.ni.on .ni-badge{background:rgba(0,0,0,0.2);color:#fff}
+.ni-warn{
+  margin-left:auto;background:rgba(217,119,6,0.15);color:var(--amber);
+  font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;
+  border:1px solid rgba(217,119,6,0.3);
+}
+.sb-footer{
+  padding:12px;border-top:1px solid var(--bdr);
+}
+.u-row{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:var(--r12);
+  background:var(--s2);
+}
+.u-av{
+  width:32px;height:32px;border-radius:10px;
+  background:var(--teal-dark);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;flex-shrink:0;color:#fff;
+}
+.u-name{font-size:12px;font-weight:700;color:var(--t1)}
+.u-role{font-size:10px;color:var(--t3);font-weight:500}
+.u-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:#22C55E;margin-left:auto;
+  box-shadow:0 0 0 2px rgba(34,197,94,0.25);
+}
+
+/* ══ MAIN ══ */
+.main{flex:1;overflow-y:auto;height:100vh;background:var(--bg)}
+.page{padding:32px 36px;display:none;animation:fi .18s ease}
+.page.on{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.page-full{display:none;height:100vh;overflow:hidden;animation:fi .18s ease}
+.page-full.on{display:flex}
+
+/* ══ PAGE HEADER ══ */
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px}
+.ph-title{font-size:22px;font-weight:800;letter-spacing:-.5px;color:var(--t1)}
+.ph-sub{font-size:12px;color:var(--t3);margin-top:3px;font-weight:500}
+.ts-pill{
+  background:#fff;border:1px solid var(--bdr);
+  border-radius:20px;padding:6px 14px;
+  font-size:11px;color:var(--t2);font-weight:600;
+  box-shadow:var(--shadow);
+}
+
+/* ══ SECTION HEADER ══ */
+.sh{display:flex;align-items:center;gap:10px;margin:24px 0 12px}
+.sh-title{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.8px;text-transform:uppercase}
+.sh-act{margin-left:auto;font-size:11px;color:var(--teal);cursor:pointer;font-weight:600}
+
+/* ══ GRIDS ══ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+/* ══ CARD — bitepoint: white, rounded, clean shadow ══ */
+.card{
+  background:#fff;border:1px solid var(--bdr);
+  border-radius:var(--r20);padding:20px;
+  transition:box-shadow .2s,border-color .2s;
+  box-shadow:var(--shadow-card);
+}
+.card:hover{border-color:var(--bdr2);box-shadow:var(--shadow-md)}
+.card-sm{
+  background:#fff;border:1px solid var(--bdr);
+  border-radius:var(--r16);padding:16px;
+  box-shadow:var(--shadow-card);
+}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.card-title{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:.6px;text-transform:uppercase}
+
+/* ══ STAT CARDS ══ */
+.scard{
+  border-radius:var(--r20);padding:22px;
+  position:relative;overflow:hidden;
+  border:1px solid var(--bdr);
+  background:#fff;box-shadow:var(--shadow-card);
+}
+.scard-glow{
+  position:absolute;top:-20px;right:-20px;
+  width:80px;height:80px;border-radius:50%;
+  filter:blur(28px);opacity:.2;
+}
+.scard .s-lbl{font-size:10px;font-weight:700;color:var(--t3);margin-bottom:10px;text-transform:uppercase;letter-spacing:.8px}
+.scard .s-val{font-size:36px;font-weight:800;letter-spacing:-1.5px;line-height:1}
+.scard .s-sub{font-size:11px;color:var(--t3);margin-top:6px;font-weight:500}
+.scard.blue{background:linear-gradient(140deg,rgba(37,99,235,.07) 0%,#fff 70%)}.scard.blue .scard-glow{background:var(--blue)}.scard.blue .s-val{color:var(--blue)}
+.scard.red{background:linear-gradient(140deg,rgba(220,38,38,.07) 0%,#fff 70%)}.scard.red .scard-glow{background:var(--red)}.scard.red .s-val{color:var(--red)}
+.scard.amber{background:linear-gradient(140deg,rgba(245,200,66,.12) 0%,#fff 70%)}.scard.amber .scard-glow{background:var(--yellow)}.scard.amber .s-val{color:#A37800}
+.scard.green{background:linear-gradient(140deg,rgba(22,163,74,.07) 0%,#fff 70%)}.scard.green .scard-glow{background:var(--green)}.scard.green .s-val{color:var(--green)}
+
+/* ══ PIPELINE ══ */
+.pipe{
+  display:flex;border-radius:var(--r16);overflow:hidden;
+  border:1px solid var(--bdr);margin-bottom:24px;
+  background:#fff;box-shadow:var(--shadow-card);
+}
+.ps{flex:1;padding:18px 14px;text-align:center;position:relative;cursor:pointer;transition:background .15s}
+.ps:not(:last-child){border-right:1px solid var(--bdr)}
+.ps:not(:last-child)::after{display:none}
+.ps:hover{background:var(--s2)}
+.ps-ico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:16px}
+.ps-n{font-size:26px;font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:4px}
+.ps-l{font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.6px}
+.ps.incoming .ps-ico{background:#EBF3FF}.ps.incoming .ps-n{color:var(--blue)}
+.ps.progress .ps-ico{background:#F3EEFF}.ps.progress .ps-n{color:var(--purple)}
+.ps.review .ps-ico{background:#FFFBEA}.ps.review .ps-n{color:#A37800}
+.ps.fix .ps-ico{background:#FFF3EB}.ps.fix .ps-n{color:var(--orange)}
+.ps.done .ps-ico{background:#EDFBF3}.ps.done .ps-n{color:var(--green)}
+@keyframes pipe-done-flash{0%{background:rgba(22,163,74,.14)}100%{background:transparent}}
+.ps.done.flash{animation:pipe-done-flash 1.4s ease-out forwards}
+
+/* ══ ACTION ITEMS ══ */
+.ai{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px;border-radius:var(--r16);
+  border:1px solid var(--bdr);background:#fff;
+  transition:all .15s;cursor:pointer;margin-bottom:10px;
+  box-shadow:var(--shadow-card);
+}
+.ai:hover{border-color:var(--bdr2);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.ai-ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ai-ico.red{background:#FEE8E8}.ai-ico.amber{background:#FFF3D4}.ai-ico.blue{background:#EBF3FF}
+.ai-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:20px;margin-bottom:4px}
+.ai-badge.red{background:#FEE8E8;color:var(--red)}
+.ai-badge.amber{background:#FFF3D4;color:#A37800}
+.ai-badge.blue{background:#EBF3FF;color:var(--blue)}
+.ai-title{font-size:13px;font-weight:600;margin-bottom:2px;color:var(--t1)}
+.ai-sub{font-size:11px;color:var(--t3);font-weight:500}
+.ai-arrow{margin-left:auto;color:var(--t3);font-size:16px;flex-shrink:0;align-self:center}
+
+/* ══ FEEDBACK BARS ══ */
+.fb-item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--bdr)}
+.fb-item:last-child{border-bottom:none}
+.fb-label{font-size:12px;font-weight:600;flex:0 0 170px;color:var(--t2)}
+.fb-bar-wrap{flex:1;height:5px;background:var(--s3);border-radius:4px;overflow:hidden}
+.fb-bar{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--yellow),var(--orange))}
+.fb-count{font-size:11px;color:var(--t3);flex:0 0 26px;text-align:right;font-weight:700}
+
+/* ══ PROJECT CARDS ══ */
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.pc{
+  background:#fff;border:1px solid var(--bdr);
+  border-radius:var(--r20);padding:20px;
+  cursor:pointer;transition:all .2s;position:relative;overflow:hidden;
+  box-shadow:var(--shadow-card);
+}
+.pc:hover{border-color:var(--bdr2);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.pc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.pc.blue::before{background:var(--blue)}.pc.green::before{background:var(--green)}
+.pc.amber::before{background:var(--yellow)}.pc.purple::before{background:var(--purple)}
+.pc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.pc-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.pc-ico.blue{background:#EBF3FF;color:var(--blue)}.pc-ico.green{background:#EDFBF3;color:var(--green)}
+.pc-ico.amber{background:var(--yellow-bg);color:#A37800}.pc-ico.purple{background:#F3EEFF;color:var(--purple)}
+.pc-badges{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.pc-status{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:700}
+.pc-status.active{background:#EDFBF3;color:var(--green)}.pc-status.onboarding{background:var(--yellow-bg);color:#A37800}
+.pc-warn{font-size:9px;padding:2px 8px;border-radius:10px;background:#FFF3D4;border:1px solid #F0D060;color:#A37800;font-weight:700}
+.pc-name{font-size:14px;font-weight:700;margin-bottom:3px;color:var(--t1)}
+.pc-meta{font-size:11px;color:var(--t3);margin-bottom:14px;font-weight:500}
+.pc-stats{display:flex;gap:20px}
+.pc-sv{font-size:16px;font-weight:800;color:var(--t1)}.pc-sl{font-size:10px;color:var(--t3);margin-top:1px;font-weight:500}
+.pc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid var(--bdr)}
+.pc-avs{display:flex}
+.pc-av{
+  width:22px;height:22px;border-radius:7px;border:2px solid #fff;
+  font-size:8px;font-weight:800;display:flex;align-items:center;justify-content:center;
+  margin-right:-5px;background:var(--teal-dark);color:#fff;
+}
+.add-pc{
+  border:2px dashed var(--bdr2);background:transparent;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:190px;gap:8px;border-radius:var(--r20);
+  cursor:pointer;transition:all .2s;box-shadow:none;
+}
+.add-pc:hover{background:#fff;border-color:var(--teal-mid);box-shadow:var(--shadow-card)}
+.add-plus{font-size:24px;color:var(--t3)}.add-lbl{font-size:12px;color:var(--t2);font-weight:600}
+
+/* ══ GLOBAL ALERT BANNER ══ */
+.g-alert{
+  background:#FFF8D6;border:1px solid var(--yellow-bdr);
+  border-radius:var(--r16);padding:12px 16px;
+  display:flex;align-items:center;gap:10px;margin-bottom:20px;
+}
+.ga-text{flex:1;font-size:12px;color:#A37800;line-height:1.4;font-weight:500}
+.ga-text strong{font-weight:700;color:#92400E}
+.ga-btn{font-size:11px;color:#A37800;font-weight:700;cursor:pointer;text-decoration:underline;white-space:nowrap}
+
+/* ══ PROJECT DETAIL LAYOUT ══ */
+.proj-detail{display:flex;height:100%;width:100%}
+.proj-sb{
+  width:220px;min-width:220px;background:#fff;
+  border-right:1px solid var(--bdr);
+  display:flex;flex-direction:column;height:100%;overflow-y:auto;
+  box-shadow:2px 0 8px rgba(0,0,0,0.04);
+}
+.psb-hd{padding:16px 16px;border-bottom:1px solid var(--bdr)}
+.psb-name{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--t1)}
+.psb-meta{font-size:10px;color:var(--t3);margin-top:2px;font-weight:500}
+.psb-leader{display:flex;align-items:center;gap:8px;margin-top:10px}
+.psb-av{
+  width:24px;height:24px;border-radius:8px;
+  background:var(--teal-dark);
+  display:flex;align-items:center;justify-content:center;
+  font-size:9px;font-weight:800;flex-shrink:0;color:#fff;
+}
+.psb-uname{font-size:11px;font-weight:600;color:var(--t1)}.psb-role{font-size:9px;color:var(--t3);font-weight:500}
+.psb-nav{padding:10px 10px;flex:1;display:flex;flex-direction:column;gap:2px}
+.psb-sec{font-size:9px;font-weight:700;color:var(--t4);letter-spacing:1px;text-transform:uppercase;padding:10px 8px 4px}
+.pni{
+  display:flex;align-items:center;gap:10px;padding:8px 10px;
+  border-radius:var(--r12);cursor:pointer;transition:all .12s;
+  color:var(--t2);font-size:12px;font-weight:600;
+  width:100%;text-align:left;background:transparent;border:none;
+}
+.pni:hover{background:var(--s2);color:var(--t1)}
+.pni.on{background:var(--yellow);color:#1A1A1A;box-shadow:0 2px 8px rgba(245,200,66,0.3)}
+.pni-dot{width:7px;height:7px;border-radius:2px;flex-shrink:0}
+.pni-warn{
+  margin-left:auto;background:#FFF3D4;color:#A37800;
+  font-size:9px;font-weight:700;padding:1px 5px;border-radius:8px;
+  border:1px solid #F0D060;
+}
+.share-sec{padding:14px 16px;border-top:1px solid var(--bdr);margin-top:auto}
+.share-lbl{font-size:10px;color:var(--t3);margin-bottom:6px;font-weight:600}
+.share-box{display:flex;gap:6px}
+.share-inp{
+  flex:1;font-size:10px;padding:6px 9px;
+  border:1px solid var(--bdr2);border-radius:var(--r8);
+  background:var(--s2);color:var(--t2);
+  font-family:'SF Mono','Fira Mono',monospace;min-width:0;
+}
+.share-btn{
+  padding:6px 9px;font-size:10px;
+  border:1px solid var(--bdr2);border-radius:var(--r8);
+  background:var(--s2);cursor:pointer;white-space:nowrap;color:var(--t2);font-weight:600;
+}
+.share-btn:hover{background:var(--yellow-bg);color:#A37800;border-color:var(--yellow-bdr)}
+.share-note{font-size:10px;color:var(--t3);margin-top:5px;line-height:1.4;font-weight:500}
+.proj-main{
+  flex:1;overflow-y:auto;padding:28px 30px;
+  background:var(--bg);display:flex;flex-direction:column;gap:14px;
+}
+.pscreen{display:none;flex-direction:column;gap:14px}
+.pscreen.on{display:flex}
+
+/* ══ PILLS ══ */
+.pill{font-size:10px;padding:4px 10px;border-radius:20px;font-weight:700;white-space:nowrap}
+.pill-blue{background:#EBF3FF;color:var(--blue)}
+.pill-green{background:#EDFBF3;color:var(--green)}
+.pill-amber{background:var(--yellow-bg);color:#A37800}
+.pill-red{background:#FEE8E8;color:var(--red)}
+.pill-gray{background:var(--s2);color:var(--t2)}
+.pill-purple{background:#F3EEFF;color:var(--purple)}
+
+/* ══ METRICS ══ */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.mc{background:#fff;border:1px solid var(--bdr);border-radius:var(--r16);padding:16px;box-shadow:var(--shadow-card)}
+.mc-l{font-size:10px;color:var(--t3);margin-bottom:6px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.mc-v{font-size:24px;font-weight:800;letter-spacing:-.5px;color:var(--t1)}
+.mc-s{font-size:10px;color:var(--t3);margin-top:3px;font-weight:500}
+.pbar-bg{height:4px;background:var(--s3);border-radius:2px;overflow:hidden;margin-top:8px}
+.pbar-fill{height:4px;border-radius:2px;background:var(--blue)}
+
+/* ══ MISSING BANNER ══ */
+.miss-banner{
+  background:#FFF8D6;border:1px solid var(--yellow-bdr);
+  border-radius:var(--r16);padding:14px 16px;
+  display:flex;align-items:flex-start;gap:12px;
+}
+.mb-ico{width:34px;height:34px;border-radius:10px;background:var(--yellow-bg);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.mb-body{flex:1}
+.mb-title{font-size:13px;font-weight:700;color:#92400E}
+.mb-sub{font-size:11px;color:#A37800;margin-top:2px;line-height:1.4;font-weight:500}
+.mb-items{display:flex;flex-direction:column;gap:3px;margin-top:8px}
+.mb-item{font-size:11px;color:#A37800;display:flex;align-items:center;gap:6px;font-weight:500}
+.mb-dot{width:5px;height:5px;border-radius:50%;background:#D97706;flex-shrink:0}
+.mb-btn{
+  font-size:11px;padding:6px 14px;border-radius:var(--r8);
+  background:var(--yellow);color:#1A1A1A;
+  border:none;font-family:inherit;font-weight:700;cursor:pointer;margin-top:10px;
+}
+
+/* ══ EMPTY STATE ══ */
+.es{display:flex;flex-direction:column;align-items:center;padding:32px;text-align:center;gap:8px}
+.es-ico{font-size:28px}.es-title{font-size:13px;font-weight:600;color:var(--t2)}.es-sub{font-size:11px;color:var(--t3);font-weight:500}
+.es-btn{
+  font-size:11px;padding:7px 16px;
+  border:1px solid var(--bdr2);border-radius:var(--r8);
+  background:#fff;cursor:pointer;color:var(--t2);font-family:inherit;
+  margin-top:4px;font-weight:600;
+}
+.es-btn:hover{background:var(--yellow-bg);border-color:var(--yellow-bdr);color:#A37800}
+
+/* ══ BIG PICTURE ══ */
+.bp-text{font-size:13px;color:var(--t1);line-height:1.6;margin-bottom:10px;font-weight:500}
+.bp-tags{display:flex;gap:6px;flex-wrap:wrap}
+.bp-tag{font-size:11px;background:#EBF3FF;color:var(--blue);padding:3px 10px;border-radius:20px;font-weight:600}
+
+/* ══ GUIDELINE ══ */
+.g-row{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--bdr);cursor:pointer}
+.g-row:last-child{border-bottom:none}
+.g-row:hover .g-link{text-decoration:underline}
+.g-link{font-size:12px;color:var(--teal);flex:1;font-weight:600}
+.g-arr{font-size:13px;color:var(--t3)}
+.g-rules{font-size:11px;color:var(--t2);line-height:1.7;border-top:1px solid var(--bdr);padding-top:10px;margin-top:6px;font-weight:500}
+.g-rule-lbl{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:5px;font-weight:700}
+
+/* ══ INLINE EDITOR ══ */
+.ie-box{
+  background:#FFF8D6;border:1px solid var(--yellow-bdr);
+  border-radius:var(--r16);padding:18px;
+}
+.ie-title{font-size:12px;font-weight:700;color:#92400E;margin-bottom:14px}
+.ie-lbl{font-size:10px;color:#A37800;font-weight:700;margin-bottom:4px}
+.ie-inp{
+  width:100%;padding:8px 10px;
+  border:1px solid var(--yellow-bdr);border-radius:var(--r8);
+  font-family:inherit;font-size:12px;background:#fff;color:var(--t1);
+}
+.ie-inp:focus{outline:none;border-color:var(--yellow)}
+.ie-ta{
+  width:100%;padding:8px 10px;
+  border:1px solid var(--yellow-bdr);border-radius:var(--r8);
+  font-family:inherit;font-size:12px;background:#fff;color:var(--t1);
+  resize:vertical;min-height:64px;line-height:1.5;
+}
+.ie-ta:focus{outline:none;border-color:var(--yellow)}
+.ie-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ie-save{
+  padding:8px 18px;background:var(--yellow);color:#1A1A1A;
+  border:none;border-radius:var(--r8);
+  font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;
+}
+.ie-cancel{
+  padding:8px 14px;background:transparent;
+  border:1px solid var(--yellow-bdr);border-radius:var(--r8);
+  font-family:inherit;font-size:12px;cursor:pointer;color:#A37800;font-weight:600;
+}
+
+/* ══ MEMBER CARDS ══ */
+.mem-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:12px}
+.mem-card{
+  background:#fff;border:1px solid var(--bdr);
+  border-radius:var(--r20);padding:18px;
+  cursor:pointer;transition:all .2s;
+  box-shadow:var(--shadow-card);
+}
+.mem-card:hover{border-color:var(--bdr2);transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.mem-card.burnout{border-color:rgba(220,38,38,.3);background:#FFFAFA}
+.mem-card.idle{border-color:rgba(37,99,235,.2);background:#F8FBFF}
+.mem-card.warn{border-color:rgba(245,200,66,.4);background:#FFFDF0}
+.mem-av{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;margin-bottom:12px;position:relative}
+.mem-av-dot{position:absolute;bottom:2px;right:2px;width:8px;height:8px;border-radius:50%;border:2px solid #fff}
+.mem-av-dot.ok{background:#22C55E}.mem-av-dot.burnout{background:var(--red);animation:p1 1.5s infinite}
+.mem-av-dot.warn{background:var(--amber);animation:p2 2s infinite}.mem-av-dot.idle{background:var(--blue)}
+@keyframes p1{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.4)}50%{box-shadow:0 0 0 5px rgba(220,38,38,0)}}
+@keyframes p2{0%,100%{box-shadow:0 0 0 0 rgba(217,119,6,.4)}50%{box-shadow:0 0 0 5px rgba(217,119,6,0)}}
+.mem-name{font-size:13px;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--t1)}
+.mem-role{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;display:inline-block;margin-bottom:10px}
+.mem-role.exp{background:#EBF3FF;color:var(--blue)}.mem-role.vibe{background:var(--s2);color:var(--t3)}
+.mem-stat{font-size:11px;color:var(--t2);margin-bottom:7px;font-weight:500}
+.load-bar{height:4px;background:var(--s3);border-radius:3px;overflow:hidden}
+.load-fill{height:100%;border-radius:3px}
+.ok .load-fill{background:#22C55E}.warn .load-fill{background:var(--amber)}.burnout .load-fill{background:var(--red)}.idle .load-fill{background:var(--t3)}
+
+/* ══ ONBOARD ROWS ══ */
+.av-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--bdr);cursor:pointer}
+.av-row:last-child{border-bottom:none;padding-bottom:0}
+.av-row:hover{opacity:.8}
+.av-sm{
+  width:28px;height:28px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:800;flex-shrink:0;
+  background:var(--teal-dark);color:#fff;
+}
+.av-info{flex:1}.av-name{font-size:12px;font-weight:600;color:var(--t1)}.av-role{font-size:10px;color:var(--t3);font-weight:500}
+.pbar-w{width:80px}.ppct{font-size:9px;color:var(--t3);text-align:right;margin-top:2px;font-weight:600}
+.mem-detail{background:var(--s2);border-radius:var(--r12);padding:12px;margin-top:4px;display:none}
+.mem-detail.open{display:block}
+.detail-email{font-size:11px;color:var(--t3);margin-bottom:8px;font-weight:500}
+.ds-steps{display:flex;flex-direction:column;gap:5px;margin-bottom:8px}
+.ds-row{display:flex;align-items:center;gap:6px;font-size:11px}
+.ds-chk{width:14px;height:14px;border-radius:50%;border:2px solid var(--bdr2);flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.ds-chk.done{background:var(--green);border-color:var(--green)}
+.ds-cm{width:6px;height:4px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translateY(-1px)}
+.ds-lbl{color:var(--t2);font-weight:500}.ds-lbl.done{text-decoration:line-through;color:var(--t3)}
+.ds-tag{font-size:9px;padding:2px 7px;border-radius:8px;margin-left:auto;background:#EBF3FF;color:var(--blue);font-weight:700}
+.ds-tag.d2{background:#F3EEFF;color:var(--purple)}.ds-tag.w1{background:var(--yellow-bg);color:#A37800}
+
+/* ══ ACCESS MANAGER ══ */
+.pending-c{
+  background:#FFF8D6;border:1px solid var(--yellow-bdr);
+  border-radius:var(--r16);padding:14px;
+}
+.pending-c.info{background:#EBF3FF;border-color:rgba(37,99,235,.2)}
+.pc-t{font-size:12px;font-weight:700;color:#92400E}.pending-c.info .pc-t{color:var(--blue)}
+.pc-s{font-size:11px;color:#A37800;margin-top:2px;font-weight:500}.pending-c.info .pc-s{color:rgba(37,99,235,.8)}
+.pc-e{font-size:11px;font-weight:600;color:#A37800;margin-top:6px}.pending-c.info .pc-e{color:var(--blue)}
+.ac-table{width:100%;border-collapse:collapse;font-size:11px}
+.ac-table th{font-size:10px;color:var(--t3);font-weight:700;padding:6px 10px;text-align:left;border-bottom:1px solid var(--bdr);letter-spacing:.5px;text-transform:uppercase}
+.ac-table td{padding:8px 10px;border-bottom:1px solid var(--bdr);vertical-align:middle}
+.ac-table tr:last-child td{border-bottom:none}
+.sdot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
+.sd-g{background:var(--green)}.sd-a{background:var(--amber)}.sd-n{background:var(--t4)}
+
+/* ══ TEMPLATE ══ */
+.track-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.track-tab{font-size:11px;padding:6px 13px;border-radius:20px;border:1px solid var(--bdr);background:#fff;color:var(--t2);cursor:pointer;font-weight:600}
+.track-tab.on{background:var(--yellow);color:#1A1A1A;border-color:var(--yellow);font-weight:700}
+.step-row{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--bdr);font-size:11px}
+.step-row:last-child{border-bottom:none}
+.drag-h{color:var(--t3);cursor:grab;font-size:14px;width:14px;text-align:center}
+.fake-chk{width:13px;height:13px;border-radius:50%;border:2px solid var(--bdr2);flex-shrink:0}
+.step-lbl{flex:1;color:var(--t2);font-weight:500}
+.step-tag{font-size:9px;padding:2px 7px;border-radius:8px;background:#EBF3FF;color:var(--blue);font-weight:700}
+.step-del{color:var(--t3);cursor:pointer;padding:2px;font-size:12px}
+.step-del:hover{color:var(--red)}
+.custom-badge{font-size:9px;background:#F3EEFF;color:var(--purple);padding:1px 5px;border-radius:8px;margin-left:4px;font-weight:700}
+.add-step-row{display:flex;gap:8px;margin-top:12px}
+.add-inp{
+  flex:1;font-size:11px;padding:8px 10px;
+  border:1px solid var(--bdr2);border-radius:var(--r8);
+  font-family:inherit;color:var(--t1);background:#fff;
+}
+.add-inp:focus{outline:none;border-color:var(--yellow)}
+.add-sel{
+  font-size:11px;padding:8px 8px;
+  border:1px solid var(--bdr2);border-radius:var(--r8);
+  font-family:inherit;background:#fff;color:var(--t1);
+}
+.add-btn{
+  font-size:11px;padding:8px 13px;border-radius:var(--r8);
+  border:none;color:#1A1A1A;background:var(--yellow);
+  cursor:pointer;font-family:inherit;font-weight:700;
+}
+
+/* ══ SETTINGS ══ */
+.setting-row{display:flex;align-items:flex-start;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--bdr);gap:20px}
+.setting-row:last-child{border-bottom:none}
+.sl{font-size:12px;font-weight:600;margin-bottom:3px;color:var(--t1)}
+.sd{font-size:11px;color:var(--t3);line-height:1.4;font-weight:500}
+.s-inp{
+  font-size:11px;padding:7px 11px;
+  border:1px solid var(--bdr2);border-radius:var(--r8);
+  font-family:inherit;background:#fff;color:var(--t1);width:190px;
+}
+.s-inp:focus{outline:none;border-color:var(--yellow)}
+.tog{width:38px;height:22px;border-radius:11px;background:var(--teal-dark);cursor:pointer;position:relative;flex-shrink:0}
+.tog.off{background:var(--s3)}
+.tok{width:18px;height:18px;border-radius:50%;background:white;position:absolute;top:2px;right:2px;transition:right .15s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.tog.off .tok{right:18px}
+
+/* ══ KANBAN ══ */
+.kb-wrap{display:flex;gap:14px;overflow-x:auto;padding-bottom:12px}
+.kb-col{flex:0 0 240px;display:flex;flex-direction:column}
+.kb-hdr{border-radius:var(--r12);padding:10px 13px;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.kb-lbl{font-size:11px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;flex:1}
+.kb-cnt{font-size:11px;font-weight:800;padding:2px 9px;border-radius:10px}
+.tc{
+  background:#fff;border:1px solid var(--bdr);
+  border-radius:var(--r16);padding:14px;margin-bottom:8px;
+  position:relative;overflow:hidden;cursor:pointer;
+  transition:all .15s;box-shadow:var(--shadow-card);
+}
+.tc:hover{border-color:var(--bdr2);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.tc.od{border-color:rgba(220,38,38,.25);background:#FFFAFA}
+.tc-sev{position:absolute;top:0;left:0;right:0;height:3px}
+.tc-sev.p0{background:var(--red)}.tc-sev.p1{background:var(--yellow)}.tc-sev.p2{background:var(--yellow)}.tc-sev.p3{background:var(--green)}
+.tc-top{display:flex;align-items:center;gap:6px;margin-bottom:8px;padding-top:4px}
+.tc-id{font-family:'SF Mono','Fira Mono',monospace;font-size:9px;color:var(--t3);font-weight:600}
+.tc-sb{font-size:9px;font-weight:700;padding:3px 8px;border-radius:6px;margin-left:auto}
+.tc-sb.p0{background:#FEE8E8;color:var(--red)}.tc-sb.p1{background:#FFF3EB;color:var(--orange)}
+.tc-sb.p2{background:var(--yellow-bg);color:#A37800}.tc-sb.p3{background:#EDFBF3;color:var(--green)}
+.tc-title{font-size:12.5px;font-weight:600;line-height:1.4;margin-bottom:9px;color:var(--t1)}
+.tc-meta{display:flex;flex-direction:column;gap:4px}
+.tc-row{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--t3);font-weight:500}
+.od-badge{
+  display:inline-flex;align-items:center;gap:3px;
+  background:#FEE8E8;color:var(--red);
+  font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;
+  animation:ob 2s infinite;
+}
+@keyframes ob{0%,100%{opacity:1}50%{opacity:.7}}
+.rv-badge{background:var(--yellow-bg);color:#A37800;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px}
+.unassigned{
+  display:inline-flex;align-items:center;gap:4px;
+  background:#EBF3FF;color:var(--blue);
+  font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;
+}
+.kb-empty{text-align:center;padding:28px 12px;color:var(--t3);font-size:12px;font-weight:500}
+.frow{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
+.flbl{font-size:11px;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+.fp{
+  padding:5px 14px;border-radius:20px;
+  border:1px solid var(--bdr);background:#fff;
+  color:var(--t3);cursor:pointer;font-size:11px;font-weight:600;
+  transition:all .15s;font-family:inherit;
+}
+.fp.on{background:var(--yellow);border-color:var(--yellow);color:#1A1A1A;box-shadow:0 2px 8px rgba(245,200,66,0.3)}
+.fp:not(.on):hover{border-color:var(--bdr2);color:var(--t2);background:var(--s2)}
+
+/* ══ HEALTH ══ */
+.hcard{background:#fff;border:1px solid var(--bdr);border-radius:var(--r20);padding:20px;box-shadow:var(--shadow-card)}
+.hcard-ico{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:12px}
+.hcard.red .hcard-ico{background:#FEE8E8}.hcard.blue .hcard-ico{background:#EBF3FF}.hcard.amber .hcard-ico{background:var(--yellow-bg)}
+.hcard-title{font-size:14px;font-weight:700;margin-bottom:4px;color:var(--t1)}
+.hcard-sub{font-size:11px;color:var(--t3);margin-bottom:14px;line-height:1.5;font-weight:500}
+.hmem-row{display:flex;align-items:center;gap:9px;padding:10px;border-radius:var(--r12);background:var(--s2);margin-bottom:5px}
+.hmav{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}
+.hmem-row.r .hmav{background:#FEE8E8;color:var(--red)}.hmem-row.o .hmav{background:#FFF3EB;color:var(--orange)}.hmem-row.b .hmav{background:#EBF3FF;color:var(--blue)}
+.hmem-name{font-size:12px;font-weight:600;color:var(--t1)}.hmem-stat{font-size:10px;margin-top:1px;font-weight:500}
+.hmem-row.r .hmem-stat{color:rgba(220,38,38,.7)}.hmem-row.o .hmem-stat{color:rgba(234,88,12,.7)}.hmem-row.b .hmem-stat{color:rgba(37,99,235,.7)}
+.hload{height:4px;flex:1;background:var(--s3);border-radius:2px;overflow:hidden}
+.hload-f{height:100%;border-radius:2px}.hmem-row.r .hload-f{background:var(--red)}.hmem-row.o .hload-f{background:var(--yellow)}.hmem-row.b .hload-f{background:var(--blue)}
+
+/* ══ AI PANEL ══ */
+.ai-panel{
+  background:linear-gradient(140deg,#EBF3FF 0%,#F3EEFF 100%);
+  border:1px solid rgba(37,99,235,.15);
+  border-radius:var(--r20);padding:22px;margin-bottom:14px;
+}
+.ai-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ai-logo{
+  width:36px;height:36px;border-radius:11px;
+  background:var(--teal-dark);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:800;color:#fff;
+}
+.ai-msg{
+  background:#fff;border-radius:var(--r12);padding:12px 14px;margin-bottom:10px;
+  font-size:13px;line-height:1.6;color:var(--t2);
+  border-left:3px solid var(--yellow);
+  box-shadow:var(--shadow);font-weight:500;
+}
+.ai-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:6px 12px;border-radius:20px;font-size:11px;font-weight:600;
+  border:1px solid var(--bdr);background:#fff;
+  cursor:pointer;transition:all .15s;
+  margin-right:6px;margin-bottom:6px;color:var(--t2);
+}
+.ai-tag:hover{border-color:var(--yellow);color:#A37800;background:var(--yellow-bg)}
+.ai-respond{margin-top:12px;display:none}
+.ai-respond.on{display:block}
+.ai-bubble{
+  background:#fff;border-radius:var(--r12);padding:14px;
+  font-size:13px;color:var(--t2);line-height:1.65;
+  border:1px solid var(--bdr);box-shadow:var(--shadow);font-weight:500;
+}
+.typing{display:flex;gap:4px;align-items:center;padding:4px 0}
+.typing span{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--teal-dark);animation:ty 1.2s infinite;
+}
+.typing span:nth-child(2){animation-delay:.2s}.typing span:nth-child(3){animation-delay:.4s}
+@keyframes ty{0%,80%,100%{transform:scale(.8);opacity:.4}40%{transform:scale(1);opacity:1}}
+
+/* ══ MODALS ══ */
+.modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,.35);
+  z-index:300;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .2s;backdrop-filter:blur(4px);
+}
+.modal-bg.on{opacity:1;pointer-events:all}
+.modal-box{
+  background:#fff;border:1px solid var(--bdr2);
+  border-radius:var(--r24);width:520px;max-height:80vh;overflow-y:auto;
+  padding:28px;animation:ms .2s ease;box-shadow:var(--shadow-md);
+}
+@keyframes ms{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-close{
+  float:right;background:var(--s2);border:none;border-radius:var(--r8);
+  color:var(--t2);padding:5px 10px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:600;
+}
+
+.cpm-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);
+  z-index:200;align-items:flex-start;justify-content:center;
+  padding:36px 20px;overflow-y:auto;backdrop-filter:blur(4px);
+}
+.cpm-overlay.open{display:flex}
+.cpm{
+  background:#fff;border:1px solid var(--bdr2);
+  border-radius:var(--r24);padding:30px;
+  width:600px;max-width:95vw;margin:auto;
+  animation:ms .2s ease;box-shadow:var(--shadow-md);
+}
+.cpm-title{font-size:18px;font-weight:800;margin-bottom:4px;letter-spacing:-.4px;color:var(--t1)}
+.cpm-sub{font-size:12px;color:var(--t3);margin-bottom:6px;font-weight:500}
+.bp-tip{
+  background:var(--yellow-bg);border:1px solid var(--yellow-bdr);
+  border-radius:var(--r12);padding:10px 14px;margin-bottom:18px;
+  font-size:11px;color:#A37800;line-height:1.5;font-weight:600;
+}
+.form-sec{
+  font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;
+  letter-spacing:1px;padding:16px 0 8px;border-top:1px solid var(--bdr);
+}
+.form-sec:first-of-type{border-top:none;padding-top:0}
+.form-group{margin-bottom:12px}
+.form-lbl{font-size:11px;color:var(--t2);font-weight:600;margin-bottom:5px;display:flex;align-items:center;gap:6px}
+.badge-opt{font-size:9px;background:var(--s3);color:var(--t3);padding:2px 7px;border-radius:8px;font-weight:700}
+.badge-rec{font-size:9px;background:var(--yellow-bg);color:#A37800;padding:2px 7px;border-radius:8px;font-weight:700}
+.form-inp{
+  width:100%;padding:9px 12px;
+  border:1px solid var(--bdr2);border-radius:var(--r8);
+  font-family:inherit;font-size:12px;color:var(--t1);background:#fff;transition:border-color .15s;
+}
+.form-inp:focus{outline:none;border-color:var(--yellow)}
+.form-ta{
+  width:100%;padding:9px 12px;
+  border:1px solid var(--bdr2);border-radius:var(--r8);
+  font-family:inherit;font-size:12px;color:var(--t1);background:#fff;
+  resize:vertical;min-height:68px;line-height:1.5;transition:border-color .15s;
+}
+.form-ta:focus{outline:none;border-color:var(--yellow)}
+.form-hint{font-size:10px;color:var(--t3);margin-top:4px;font-weight:500}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tpl-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
+.tpl-opt{
+  padding:10px;border:1px solid var(--bdr2);border-radius:var(--r12);
+  cursor:pointer;font-size:11px;text-align:center;transition:all .15s;background:#fff;
+}
+.tpl-opt.sel{border-color:var(--yellow);background:var(--yellow-bg);color:#A37800}
+.tpl-opt-name{font-weight:700;margin-bottom:2px;color:var(--t1)}
+.tpl-opt-meta{font-size:10px;color:var(--t3);font-weight:500}
+.tpl-opt.sel .tpl-opt-meta{color:#A37800}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:22px}
+.btn-cancel{
+  padding:9px 16px;border:1px solid var(--bdr2);border-radius:var(--r8);
+  background:#fff;font-family:inherit;font-size:12px;cursor:pointer;color:var(--t2);font-weight:600;
+}
+.btn-cancel:hover{background:var(--s2)}
+/* ── PRIMARY BUTTON: yellow solid (bitepoint "Pay Bills" style) ── */
+.btn-create{
+  padding:9px 20px;
+  background:var(--yellow);
+  color:#1A1A1A;border:none;border-radius:var(--r8);
+  font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;
+  box-shadow:0 2px 8px rgba(245,200,66,.4);
+  transition:all .15s;
+}
+.btn-create:hover{background:#E8BC30;box-shadow:0 4px 12px rgba(245,200,66,.5)}
+.btn-sm{font-size:10px;padding:5px 11px;border-radius:var(--r8);cursor:pointer;border:1px solid;font-family:inherit;font-weight:700}
+.btn-g{border-color:rgba(22,163,74,.3);color:var(--green);background:#EDFBF3}
+.btn-r{border-color:rgba(220,38,38,.3);color:var(--red);background:#FEE8E8}
+.btn-gray{border-color:var(--bdr2);color:var(--t2);background:#fff}
+.btn-row{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap}
+.add-m-card{border-color:rgba(14,122,104,.2)!important}
+
+/* ══ NOTIF ROWS ══ */
+.notif-row{display:flex;align-items:flex-start;gap:8px;padding:10px 0;border-bottom:1px solid var(--bdr)}
+.notif-row:last-child{border-bottom:none}
+.ndot{width:7px;height:7px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.nd-a{background:var(--amber)}.nd-p{background:var(--blue)}.nd-g{background:var(--t3)}
+.ntext{font-size:11px;line-height:1.4;color:var(--t2);font-weight:500}
+.ntime{font-size:10px;color:var(--t3);margin-top:2px;font-weight:500}
+
+/* ══ MISC ══ */
+.tag{display:inline-block;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:700}
+.tag.exp{background:#EBF3FF;color:var(--blue)}.tag.vibe{background:var(--s2);color:var(--t3)}
+.toast-bar{
+  position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%) translateY(60px);
+  background:#1A1A1A;border:1px solid rgba(255,255,255,.12);color:#fff;
+  padding:11px 20px;border-radius:var(--r12);font-size:12px;font-weight:600;
+  transition:transform .25s;z-index:9999;white-space:nowrap;
+  box-shadow:0 8px 24px rgba(0,0,0,.25);
+}
+.toast-bar.show{transform:translateX(-50%) translateY(0)}
+
+/* ══ ROLE SWITCHER ══ */
+.role-wrap-sb{position:relative;padding:10px 12px 6px}
+.user-chip-sb{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 14px;border:1px solid var(--bdr2);border-radius:20px;
+  font-size:12px;font-weight:600;color:var(--t2);background:var(--s2);
+  cursor:pointer;transition:all .2s;width:100%;
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+.user-chip-sb:hover{background:var(--s3);color:var(--t1);border-color:var(--teal-mid)}
+.user-chip-sb svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+.user-chip-sb span{flex:1;text-align:left}
+.role-dd-sb{
+  position:absolute;top:calc(100% + 4px);left:12px;right:12px;
+  background:#fff;border:1px solid var(--bdr);border-radius:14px;
+  box-shadow:var(--shadow-md);padding:6px;z-index:300;display:none;
+}
+@keyframes rdFadeDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.role-dd-sb.open{display:block;animation:rdFadeDown .15s ease both}
+.role-dd-sb-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:10px;
+  font-size:12px;font-weight:600;color:var(--t2);
+  cursor:pointer;transition:background .15s;
+}
+.role-dd-sb-item:hover{background:var(--s2);color:var(--t1)}
+.role-dd-sb-item.active{color:var(--t1);font-weight:700}
+.role-dd-sb-item svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+.role-dd-sb-item .chk{color:var(--teal-dark);margin-left:auto}
+.role-dd-sb-sep{height:1px;background:var(--bdr);margin:4px 0}
+
+</style>
+</head>
+<body>
+
+<!-- ── GLOBAL SIDEBAR ── -->
+<nav class="sb">
+  <div class="sb-logo">
+    <div class="sb-mark">N</div>
+    <div><div class="sb-text">NhiLe IT</div><div class="sb-sub">Leader Dashboard</div></div>
+  </div>
+  <!-- Role switcher -->
+  <div class="role-wrap-sb" id="roleWrap" style="padding:10px 12px 6px">
+    <button class="user-chip-sb" onclick="toggleRoleMenu(event)">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      <span>Leader IT</span>
+      <svg viewBox="0 0 24 24" style="width:11px;height:11px;opacity:.4;margin-left:auto"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="role-dd-sb" id="roleMenu">
+      <div class="role-dd-sb-item" onclick="selectRole('order')">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Người order
+      </div>
+      <div class="role-dd-sb-sep"></div>
+      <div class="role-dd-sb-item" onclick="selectRole('member_it')">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        Member IT
+      </div>
+      <div class="role-dd-sb-item active" onclick="selectRole('leader_it')">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Leader IT
+        <svg class="chk" viewBox="0 0 24 24" style="width:13px;height:13px;fill:none;stroke-width:2.5;stroke-linecap:round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+    </div>
+  </div>
+  <div class="sb-nav">
+    <div class="nav-sec">Tổng quan</div>
+    <button class="ni on" onclick="NAV('dash',this)">
+      <div class="ni-ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></div>
+      Dashboard
+      <span class="ni-badge" id="alert-cnt">5</span>
+    </button>
+    <div class="nav-sec">SOP & Onboarding</div>
+    <button class="ni" id="nav-projects-btn" onclick="NAV('projects',this)">
+      <div class="ni-ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div>
+      Projects
+      <span class="ni-warn" id="proj-warn-badge" style="display:none">!</span>
+    </button>
+    <div class="nav-sec">IT Ops</div>
+    <button class="ni" onclick="NAV('members',this)">
+      <div class="ni-ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
+      Thành viên
+    </button>
+    <button class="ni" onclick="NAV('tasks',this)">
+      <div class="ni-ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="4" height="18" rx="1"/><rect x="10" y="3" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="10" rx="1"/></svg></div>
+      Nhiệm vụ
+    </button>
+    <button class="ni" onclick="NAV('health',this)">
+      <div class="ni-ico"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+      Sức Khỏe
+    </button>
+  </div>
+  <div class="sb-footer">
+    <div class="u-row">
+      <div class="u-av">VĐT</div>
+      <div><div class="u-name">Văn Đức Tân</div><div class="u-role">Leader · NhiLe IT</div></div>
+      <div class="u-dot"></div>
+    </div>
+  </div>
+</nav>
+
+<div class="main" id="main-area">
+
+<!-- ══ DASHBOARD ══ -->
+<div id="p-dash" class="page on">
+  <div class="ph">
+    <div><div class="ph-title">Dashboard</div><div class="ph-sub">Tổng quan hoạt động Team IT · NhiLe Holding</div></div>
+    <div class="ts-pill" id="ts-label"></div>
+  </div>
+  <div style="background:#EBF3FF;border:1px solid rgba(37,99,235,0.18);border-radius:16px;padding:12px 18px;display:flex;align-items:center;gap:16px;margin-bottom:20px">
+    <div style="font-size:18px">👁️</div>
+    <div style="flex:1"><div style="font-size:12px;font-weight:600;color:var(--blue);margin-bottom:4px">Leader quan sát — không làm thay</div>
+    <div style="font-size:11px;color:var(--t3);display:flex;gap:16px;flex-wrap:wrap">
+      <span>⚡ <strong style="color:var(--t2)">P0 chưa assign</strong> · phân công</span>
+      <span>🔥 <strong style="color:var(--t2)">Burnout / Idle thực sự</strong> · điều phối</span>
+      <span>⚔️ <strong style="color:var(--t2)">Resource conflict</strong> · quyết định</span>
+    </div></div>
+  </div>
+  <div class="g4" id="stat-cards" style="margin-bottom:20px"></div>
+  <div class="sh"><div class="sh-title">Pipeline Task</div></div>
+  <div class="pipe" id="pipeline"></div>
+  <div class="g2">
+    <div>
+      <div class="sh"><div class="sh-title">🚨 Cần hành động ngay</div></div>
+      <div id="actions"></div>
+    </div>
+    <div>
+      <div class="sh"><div class="sh-title">💬 Feedback từ khách hàng</div></div>
+      <div class="card">
+        <div class="fb-item" style="padding-top:0"><div class="fb-label">Làm xong mới báo sai</div><div class="fb-bar-wrap"><div class="fb-bar" style="width:87%"></div></div><div class="fb-count">13</div></div>
+        <div class="fb-item"><div class="fb-label">Trễ deadline không báo</div><div class="fb-bar-wrap"><div class="fb-bar" style="width:67%"></div></div><div class="fb-count">10</div></div>
+        <div class="fb-item"><div class="fb-label">Hiểu sai yêu cầu</div><div class="fb-bar-wrap"><div class="fb-bar" style="width:53%"></div></div><div class="fb-count">8</div></div>
+        <div class="fb-item"><div class="fb-label">Không update tiến độ</div><div class="fb-bar-wrap"><div class="fb-bar" style="width:40%"></div></div><div class="fb-count">6</div></div>
+        <div class="fb-item"><div class="fb-label">UI/UX khó dùng</div><div class="fb-bar-wrap"><div class="fb-bar" style="width:27%"></div></div><div class="fb-count">4</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PROJECTS LIST ══ -->
+<div id="p-projects" class="page">
+  <div class="ph">
+    <div><div class="ph-title">Projects</div><div class="ph-sub">Quản lý SOP · Big Picture · Onboarding</div></div>
+    <button class="btn-create" style="font-size:12px;padding:8px 16px;border-radius:var(--r8)" onclick="openNewModal()">+ Tạo project mới</button>
+  </div>
+  <div class="g-alert" id="global-alert" style="display:none">
+    <span style="font-size:16px">⚠️</span>
+    <div class="ga-text"><strong id="ga-count">2 dự án</strong> chưa có Big Picture hoặc Guideline — member mới sẽ không biết bắt đầu từ đâu.</div>
+    <span class="ga-btn" onclick="scrollToMissing()">Xem ngay →</span>
+  </div>
+  <div class="proj-grid" id="proj-grid"></div>
+</div>
+
+<!-- ══ PROJECT DETAIL ══ -->
+<div id="p-project-detail" class="page-full">
+  <div class="proj-detail">
+    <div class="proj-sb">
+      <div class="psb-hd">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+          <span style="font-size:11px;color:var(--blue);cursor:pointer" onclick="backToProjects()">← Projects</span>
+        </div>
+        <div class="psb-name" id="psb-name">NhiLe Platform v2</div>
+        <div class="psb-meta" id="psb-meta">Next.js · Supabase · TS</div>
+        <div class="psb-leader">
+          <div class="psb-av">VĐT</div>
+          <div><div class="psb-uname">Văn Đức Tân</div><div class="psb-role">Leader</div></div>
+        </div>
+      </div>
+      <div class="psb-nav">
+        <div class="psb-sec">Dự án</div>
+        <button class="pni on" id="pnav-overview" onclick="goScreen('overview')"><div class="pni-dot" style="background:var(--blue)"></div>Tổng quan</button>
+        <button class="pni" id="pnav-bigpicture" onclick="goScreen('bigpicture')"><div class="pni-dot" style="background:var(--yellow)"></div>Big Picture<span class="pni-warn" id="pnav-bp-warn" style="display:none">!</span></button>
+        <button class="pni" id="pnav-members" onclick="goScreen('members')"><div class="pni-dot" style="background:var(--teal)"></div>Thành viên</button>
+        <button class="pni" id="pnav-tasks" onclick="goScreen('tasks')"><div class="pni-dot" style="background:var(--purple)"></div>Tasks<span class="ni-badge" id="proj-task-badge" style="font-size:9px;margin-left:auto;display:none">0</span></button>
+        <button class="pni" id="pnav-access" onclick="goScreen('access')"><div class="pni-dot" style="background:var(--yellow)"></div>Access manager<span class="ni-badge" id="access-badge" style="font-size:9px;margin-left:auto">2</span></button>
+        <div class="psb-sec">Cấu hình</div>
+        <button class="pni" id="pnav-template" onclick="goScreen('template')"><div class="pni-dot" style="background:var(--green)"></div>Template & SOP</button>
+        <button class="pni" id="pnav-settings" onclick="goScreen('settings')"><div class="pni-dot" style="background:var(--t3)"></div>Cài đặt</button>
+      </div>
+      <div class="share-sec">
+        <div class="share-lbl">Link onboarding cho member</div>
+        <div class="share-box">
+          <input class="share-inp" id="share-link" value="sop.nhile.vn/join/nhile-v2" readonly/>
+          <button class="share-btn" onclick="copyLink()">Copy</button>
+        </div>
+        <div class="share-note">Gửi cho member mới — tự đọc và làm theo</div>
+      </div>
+    </div>
+    <div class="proj-main" id="proj-main">
+      <!-- OVERVIEW -->
+      <div class="pscreen on" id="pscreen-overview">
+        <div class="ph" style="margin-bottom:0">
+          <div><div class="ph-title" id="pov-title">NhiLe Platform v2</div><div class="ph-sub">Snapshot nhanh toàn bộ dự án</div></div>
+          <div style="display:flex;gap:6px"><span class="pill pill-blue" id="pov-proj">NhiLe Platform v2</span><span class="pill pill-amber" id="pov-pending">2 pending</span></div>
+        </div>
+        <div id="pov-miss-banner"></div>
+        <div class="metrics">
+          <div class="mc"><div class="mc-l">Đang onboard</div><div class="mc-v" id="pov-onboard">3</div><div class="mc-s">chưa xong</div></div>
+          <div class="mc"><div class="mc-l">Hoàn thành</div><div class="mc-v" style="color:var(--green)" id="pov-done">2</div><div class="mc-s">active member</div></div>
+          <div class="mc"><div class="mc-l">Access pending</div><div class="mc-v" style="color:var(--orange)" id="pov-access">2</div><div class="mc-s">chờ duyệt</div></div>
+          <div class="mc"><div class="mc-l">Tiến độ chung</div><div class="mc-v" style="color:var(--blue)" id="pov-prog">58%</div><div class="mc-s">tổng team</div></div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="card-hd"><div class="card-title">TIẾN ĐỘ THÀNH VIÊN</div><span class="pill pill-gray" style="cursor:pointer" onclick="goScreen('members')">Chi tiết →</span></div>
+            <div class="av-row"><div class="av-sm">MT</div><div class="av-info"><div class="av-name">Minh Tú</div><div class="av-role">Dev · Ngày 3</div></div><div class="pbar-w"><div class="pbar-bg"><div class="pbar-fill" style="width:42%;background:var(--blue)"></div></div><div class="ppct">5/12 · 42%</div></div></div>
+            <div class="av-row"><div class="av-sm" style="background:var(--teal2);color:var(--teal)">HN</div><div class="av-info"><div class="av-name">Hà Nhi</div><div class="av-role">Design · Ngày 2</div></div><div class="pbar-w"><div class="pbar-bg"><div class="pbar-fill" style="width:37%;background:var(--teal)"></div></div><div class="ppct">3/8 · 37%</div></div></div>
+            <div class="av-row"><div class="av-sm" style="background:var(--amber2);color:var(--amber)">QA</div><div class="av-info"><div class="av-name">Quốc An</div><div class="av-role">Tester · Ngày 1</div></div><div class="pbar-w"><div class="pbar-bg"><div class="pbar-fill" style="width:22%;background:var(--yellow)"></div></div><div class="ppct">2/9 · 22%</div></div></div>
+            <div class="av-row"><div class="av-sm" style="background:var(--purple2);color:var(--purple)">BL</div><div class="av-info"><div class="av-name">Bảo Linh</div><div class="av-role">BA · Tuần 2</div></div><div class="pbar-w"><div class="pbar-bg"><div class="pbar-fill" style="width:89%;background:var(--green)"></div></div><div class="ppct">8/9 · 89%</div></div></div>
+          </div>
+          <div class="card">
+            <div class="card-hd" id="leader-notif-hd"><div class="card-title">THÔNG BÁO</div><span class="pill pill-amber" id="leader-notif-pill">2 cần xử lý</span></div>
+            <div class="notif-row"><div class="ndot nd-a"></div><div><div class="ntext"><strong>Quốc An</strong> yêu cầu access — Tester</div><div class="ntime">15 phút trước · <span style="color:var(--green)">⚡ Auto-invite theo role template · Đang xử lý</span></div></div></div>
+            <div class="notif-row"><div class="ndot nd-a"></div><div><div class="ntext"><strong>Hà Nhi</strong> chưa có Figma access</div><div class="ntime">2 giờ trước · <span style="color:var(--green)">⚡ Auto-invite Figma · Đang xử lý</span></div></div></div>
+            <div class="notif-row"><div class="ndot nd-p"></div><div><div class="ntext">Minh Tú hoàn thành "Clone repo & chạy local"</div><div class="ntime">9:14 sáng nay</div></div></div>
+            <div class="notif-row"><div class="ndot nd-g"></div><div><div class="ntext">Bảo Linh còn 1 bước — check-in 1:1</div><div class="ntime">Hôm qua</div></div></div>
+          </div>
+        </div>
+      </div>
+      <!-- BIG PICTURE -->
+      <div class="pscreen" id="pscreen-bigpicture">
+        <div class="ph" style="margin-bottom:0">
+          <div><div class="ph-title">Big Picture</div><div class="ph-sub">Context dự án — member đọc đầu tiên</div></div>
+          <button class="btn-sm btn-gray" onclick="toggleBpEditor()">✏️ Chỉnh sửa</button>
+        </div>
+        <div id="bp-editor" style="display:none">
+          <div class="ie-box">
+            <div class="ie-title">✏️ Cập nhật Big Picture</div>
+            <div class="ie-row" style="margin-bottom:10px"><div class="ie-lbl">Mô tả dự án (1–2 câu)</div><textarea class="ie-ta" id="edit-bp" placeholder="Dự án này làm gì, phục vụ ai, kết quả là gì?"></textarea></div>
+            <div class="ie-2" style="margin-bottom:12px">
+              <div><div class="ie-lbl">Phục vụ ai</div><input class="ie-inp" id="edit-bp-for" placeholder="VD: IT member mới"/></div>
+              <div><div class="ie-lbl">Kết quả cụ thể</div><input class="ie-inp" id="edit-bp-result" placeholder="VD: tự onboard trong 2 ngày"/></div>
+            </div>
+            <div style="display:flex;gap:8px"><button class="ie-save" onclick="saveBP()">Lưu</button><button class="ie-cancel" onclick="toggleBpEditor()">Huỷ</button></div>
+          </div>
+        </div>
+        <div id="bp-content"></div>
+        <div style="background:#EBF3FF;border:1px solid rgba(37,99,235,0.18);border-radius:var(--r16);padding:14px 18px;display:flex;align-items:center;gap:12px">
+          <span style="font-size:16px">📋</span>
+          <div style="flex:1"><div style="font-size:12px;font-weight:500;color:var(--t2)">SOP · Template · Guideline nằm ở mục <strong style="color:var(--blue)">Template & SOP</strong></div><div style="font-size:11px;color:var(--t3);margin-top:2px">Architecture doc · Golden Rules · Quy ước làm việc · Checklist onboarding</div></div>
+          <button class="btn-sm btn-gray" onclick="goScreen('template')" style="white-space:nowrap">Đến Template &amp; SOP →</button>
+        </div>
+      </div>
+      <!-- MEMBERS ONBOARD -->
+      <div class="pscreen" id="pscreen-members">
+        <div class="ph" style="margin-bottom:0">
+          <div><div class="ph-title">Theo dõi thành viên</div><div class="ph-sub">Tiến độ onboarding từng người</div></div>
+          <button class="btn-sm btn-g" style="padding:5px 12px;font-size:11px" onclick="showAddMember()">+ Thêm</button>
+        </div>
+        <div class="card add-m-card" id="add-mem-card" style="display:none">
+          <div class="card-hd"><div class="card-title">THÊM THÀNH VIÊN</div><span style="font-size:11px;color:var(--t3);cursor:pointer" onclick="hideAddMember()">✕ Đóng</span></div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <input class="add-inp" placeholder="Tên" id="new-name" style="width:130px;flex:none"/>
+            <input class="add-inp" placeholder="Email" id="new-email" style="width:180px;flex:none"/>
+            <select class="add-sel" id="new-role"><option value="">Role</option><option>Developer</option><option>Designer</option><option>BA</option><option>Tester</option></select>
+            <button class="add-btn" onclick="addMember()">Thêm & invite</button>
+            <button class="btn-sm btn-gray" onclick="hideAddMember()">Huỷ</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">DEVELOPER TRACK</div><span class="pill pill-blue">12 steps</span></div>
+          <div class="av-row" onclick="toggleDetail('mt')"><div class="av-sm">MT</div><div class="av-info"><div class="av-name">Minh Tú</div><div class="av-role">Ngày 3 · 5/12</div></div><div class="pbar-w"><div class="pbar-bg"><div class="pbar-fill" style="width:42%;background:var(--blue)"></div></div><div class="ppct">42%</div></div><span class="pill pill-amber" style="margin-left:8px">Onboarding</span></div>
+          <div class="mem-detail" id="detail-mt"><div class="detail-email">minhtu@gmail.com · 3/4/2026</div><div class="ds-steps"><div class="ds-row"><div class="ds-chk done"><div class="ds-cm"></div></div><span class="ds-lbl done">Join Telegram nhóm</span><span class="ds-tag">Day 1</span></div><div class="ds-row"><div class="ds-chk done"><div class="ds-cm"></div></div><span class="ds-lbl done">Đọc Big Picture & Guideline</span><span class="ds-tag">Day 1</span></div><div class="ds-row"><div class="ds-chk done"><div class="ds-cm"></div></div><span class="ds-lbl done">Nhận access GitHub & Supabase</span><span class="ds-tag">Day 1</span></div><div class="ds-row"><div class="ds-chk done"><div class="ds-cm"></div></div><span class="ds-lbl done">Clone repo & chạy local</span><span class="ds-tag d2">Day 2</span></div><div class="ds-row"><div class="ds-chk"></div><span class="ds-lbl">Nắm git workflow</span><span class="ds-tag d2">Day 2</span></div></div><div style="font-size:10px;color:var(--t3);margin-top:6px">Member tự quản lý tiến độ — liên hệ nếu block quá 2 ngày</div></div>
+          <div class="av-row" onclick="toggleDetail('nl')"><div class="av-sm" style="background:var(--green2);color:var(--green)">NL</div><div class="av-info"><div class="av-name">Ngọc Lan</div><div class="av-role">Active · 12/12</div></div><div class="pbar-w"><div class="pbar-bg"><div class="pbar-fill" style="width:100%;background:var(--green)"></div></div><div class="ppct">100%</div></div><span class="pill pill-green" style="margin-left:8px">Active</span></div>
+          <div class="mem-detail" id="detail-nl"><div class="detail-email">ngoclan@nhile.vn · 10/3/2026</div><div style="font-size:11px;color:var(--green);background:var(--green2);padding:7px 10px;border-radius:var(--r8)">Đã hoàn thành toàn bộ onboarding ✓</div><div style="font-size:10px;color:var(--green);margin-top:6px">✓ Onboarding hoàn tất · Đang chủ động</div></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">BA & TESTER</div></div>
+          <div class="av-row" onclick="toggleDetail('bl')"><div class="av-sm" style="background:var(--purple2);color:var(--purple)">BL</div><div class="av-info"><div class="av-name">Bảo Linh</div><div class="av-role">Tuần 2 · 8/9</div></div><div class="pbar-w"><div class="pbar-bg"><div class="pbar-fill" style="width:89%;background:var(--purple)"></div></div><div class="ppct">89%</div></div><span class="pill pill-amber" style="margin-left:8px">Sắp xong</span></div>
+          <div class="mem-detail" id="detail-bl"><div style="font-size:11px;color:var(--orange);background:var(--amber2);padding:7px 10px;border-radius:var(--r8);margin-bottom:8px">Còn 1 bước: Check-in 1:1 với leader · Bảo Linh đặt lịch tự động khi sẵn sàng</div></div>
+          <div class="av-row" onclick="toggleDetail('qa')"><div class="av-sm" style="background:var(--orange2);color:var(--orange)">QA</div><div class="av-info"><div class="av-name">Quốc An</div><div class="av-role">Ngày 1 · 2/9</div></div><div class="pbar-w"><div class="pbar-bg"><div class="pbar-fill" style="width:22%;background:var(--yellow)"></div></div><div class="ppct">22%</div></div><span class="pill pill-red" style="margin-left:8px" id="qa-status-pill">Chờ access</span></div>
+          <div class="mem-detail" id="detail-qa"><div id="qa-notice" style="font-size:11px;color:var(--green);background:var(--green2);padding:7px 10px;border-radius:var(--r8);margin-bottom:8px">⚡ Đang xử lý: Cấp GitHub Read + Task board theo role Tester</div></div>
+        </div>
+      </div>
+      <!-- TASKS -->
+      <div class="pscreen" id="pscreen-tasks">
+        <div class="ph" style="margin-bottom:0">
+          <div><div class="ph-title">Tasks</div><div class="ph-sub" id="ptask-sub">Theo dõi task trong dự án</div></div>
+          <button class="btn-create" style="font-size:11px;padding:6px 14px;border-radius:var(--r8)" onclick="openAddTask()">+ Thêm task</button>
+        </div>
+        <!-- Add task form -->
+        <div id="add-task-form" style="display:none">
+          <div class="ie-box" style="background:#F8F3FF;border-color:rgba(124,58,237,0.25)">
+            <div class="ie-title" style="color:var(--purple)">+ Thêm task mới</div>
+            <div class="ie-2" style="margin-bottom:10px">
+              <div><div class="ie-lbl" style="color:var(--purple)">Tên task</div><input class="ie-inp" id="nt-title" placeholder="VD: Fix bug login page" style="border-color:rgba(124,58,237,0.2);background:#F8F3FF"/></div>
+              <div><div class="ie-lbl" style="color:var(--purple)">Deadline</div><input class="ie-inp" type="date" id="nt-dl" style="border-color:rgba(124,58,237,0.2);background:#F8F3FF"/></div>
+            </div>
+            <div class="ie-2" style="margin-bottom:12px">
+              <div><div class="ie-lbl" style="color:var(--purple)">Ưu tiên</div>
+                <select class="ie-inp" id="nt-sev" style="border-color:rgba(124,58,237,0.2);background:#F8F3FF">
+                  <option value="0">P0 — Khẩn cấp</option><option value="1">P1 — Cao</option><option value="2" selected>P2 — Trung bình</option><option value="3">P3 — Thấp</option>
+                </select>
+              </div>
+              <div><div class="ie-lbl" style="color:var(--purple)">Module</div><input class="ie-inp" id="nt-module" placeholder="VD: Auth, Dashboard..." style="border-color:rgba(124,58,237,0.2);background:#F8F3FF"/></div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="ie-save" style="background:var(--purple)" onclick="addProjectTask()">Thêm task</button>
+              <button class="ie-cancel" style="border-color:rgba(191,90,242,0.25);color:var(--purple)" onclick="closeAddTask()">Huỷ</button>
+            </div>
+          </div>
+        </div>
+        <!-- Filter -->
+        <div class="frow" style="margin-bottom:12px">
+          <span class="flbl">Lọc:</span>
+          <button class="fp on" id="ptf-all" onclick="filterProjTasks('all',this)">Tất cả</button>
+          <button class="fp" id="ptf-0" onclick="filterProjTasks(0,this)"><span style="color:var(--red)">●</span> P0</button>
+          <button class="fp" id="ptf-1" onclick="filterProjTasks(1,this)"><span style="color:var(--orange)">●</span> P1</button>
+          <button class="fp" id="ptf-2" onclick="filterProjTasks(2,this)"><span style="color:var(--amber)">●</span> P2</button>
+          <button class="fp" id="ptf-3" onclick="filterProjTasks(3,this)"><span style="color:var(--green)">●</span> P3</button>
+        </div>
+        <!-- Kanban -->
+        <div class="kb-wrap" id="proj-kanban"></div>
+      </div>
+      <!-- ACCESS MANAGER -->
+      <div class="pscreen" id="pscreen-access">
+        <div class="ph" style="margin-bottom:0">
+          <div><div class="ph-title">Access manager</div><div class="ph-sub">Auto-processed theo role template · Leader chỉ xem exception</div></div>
+          <span class="pill pill-green" id="access-pending-lbl">2 đang xử lý</span>
+        </div>
+        <div class="g2" id="pending-cards">
+          <div class="pending-c" id="pc-qa" style="border-color:rgba(22,163,74,0.25);background:#EDFBF3"><div class="pc-t" style="color:var(--green)">Quốc An — Tester · ⚡ Auto-processing</div><div class="pc-s" style="color:rgba(22,163,74,.7)">15 phút trước · Cấp tự động theo role template</div><div class="pc-e" style="color:var(--t3)">quocan@gmail.com</div><div style="display:flex;gap:5px;margin-top:7px;flex-wrap:wrap"><span class="pill pill-gray">GitHub · Read</span><span class="pill pill-blue">Task board</span></div><div style="font-size:11px;color:var(--green);margin-top:8px">✓ Invite đã gửi tự động · Không cần action từ leader</div></div>
+          <div class="pending-c info" id="pc-hn" style="border-color:rgba(22,163,74,0.25);background:#EDFBF3"><div class="pc-t" style="color:var(--green)">Hà Nhi — Designer · ⚡ Auto-processing</div><div class="pc-s" style="color:rgba(22,163,74,.7)">Role: Designer · Tự động phát hiện</div><div class="pc-e" style="color:var(--t3)">hanni@gmail.com</div><div style="display:flex;gap:5px;margin-top:7px"><span class="pill pill-green">Figma · Edit</span></div><div style="font-size:11px;color:var(--green);margin-top:8px">✓ Invite Figma đã gửi tự động · Không cần action từ leader</div></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">ACCESS MATRIX</div></div>
+          <table class="ac-table">
+            <thead><tr><th>Thành viên</th><th>Role</th><th>GitHub</th><th>Supabase</th><th>Figma</th><th>Task board</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av-sm" style="width:22px;height:22px;font-size:9px;border-radius:7px">MT</div>Minh Tú</div></td><td><span class="pill pill-blue">Dev</span></td><td><span class="sdot sd-g"></span>Write</td><td><span class="sdot sd-g"></span>Full</td><td><span class="sdot sd-g"></span>View</td><td><span class="sdot sd-g"></span>Edit</td><td><span style="font-size:10px;color:var(--t3)">Auto-managed</span></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av-sm" style="width:22px;height:22px;font-size:9px;border-radius:7px;background:var(--teal2);color:var(--teal)">HN</div>Hà Nhi</div></td><td><span class="pill pill-purple">Design</span></td><td><span class="sdot sd-n"></span>—</td><td><span class="sdot sd-n"></span>—</td><td><span class="sdot sd-g"></span>Processing</td><td><span class="sdot sd-g"></span>Edit</td><td><span style="font-size:10px;color:var(--green)">⚡ Auto-sent</span></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av-sm" style="width:22px;height:22px;font-size:9px;border-radius:7px;background:var(--amber2);color:var(--amber)">QA</div>Quốc An</div></td><td><span class="pill pill-amber">Tester</span></td><td><span class="sdot sd-g"></span>Processing</td><td><span class="sdot sd-n"></span>—</td><td><span class="sdot sd-n"></span>—</td><td><span class="sdot sd-g"></span>Processing</td><td><span style="font-size:10px;color:var(--green)">⚡ Auto-sent</span></td></tr>
+              <tr><td><div style="display:flex;align-items:center;gap:7px"><div class="av-sm" style="width:22px;height:22px;font-size:9px;border-radius:7px;background:var(--purple2);color:var(--purple)">BL</div>Bảo Linh</div></td><td><span class="pill pill-amber">BA</span></td><td><span class="sdot sd-n"></span>—</td><td><span class="sdot sd-g"></span>Read</td><td><span class="sdot sd-g"></span>View</td><td><span class="sdot sd-g"></span>Edit</td><td><span style="font-size:10px;color:var(--t3)">Auto-managed</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- TEMPLATE & SOP -->
+      <div class="pscreen" id="pscreen-template">
+        <div class="ph" style="margin-bottom:0"><div><div class="ph-title">Template &amp; SOP</div><div class="ph-sub">Guideline · Checklist onboarding · Bước tùy chỉnh</div></div><span class="pill pill-green">Standard IT</span></div>
+        <!-- GUIDELINE SECTION -->
+        <div id="guide-content"></div>
+        <div id="guide-editor" style="display:none">
+          <div class="ie-box" style="background:#EBF3FF;border-color:rgba(37,99,235,0.2)">
+            <div class="ie-title" style="color:var(--blue)">✏️ Cập nhật Guideline</div>
+            <div class="ie-row" style="margin-bottom:10px"><div class="ie-lbl">Link Big Picture doc</div><input class="ie-inp" id="edit-g-bp" placeholder="notion.so/..." style="border-color:rgba(37,99,235,0.25)"/></div>
+            <div class="ie-2" style="margin-bottom:10px">
+              <div><div class="ie-lbl">Link Architecture doc</div><input class="ie-inp" id="edit-g-arch" placeholder="notion.so/..." style="border-color:rgba(37,99,235,0.25)"/></div>
+              <div><div class="ie-lbl">Link Golden Rules</div><input class="ie-inp" id="edit-g-rules" placeholder="notion.so/..." style="border-color:rgba(37,99,235,0.25)"/></div>
+            </div>
+            <div class="ie-row" style="margin-bottom:12px"><div class="ie-lbl">Quy ước làm việc</div><textarea class="ie-ta" id="edit-g-conv" placeholder="VD: Tên task: [Module] Mô tả&#10;Báo tiến độ: comment vào task mỗi ngày" style="border-color:rgba(37,99,235,0.25)"></textarea></div>
+            <div style="display:flex;gap:8px"><button class="ie-save" style="background:var(--blue)" onclick="saveGuideline()">Lưu</button><button class="ie-cancel" onclick="toggleGuideEditor()">Huỷ</button></div>
+          </div>
+        </div>
+        <div class="g2">
+          <div class="card"><div class="card-hd"><div class="card-title">TEMPLATES</div></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bdr);font-size:12px"><div><div style="font-weight:500">Standard IT Project</div><div style="font-size:10px;color:var(--t3)">4 tracks · 38 steps</div></div><span class="pill pill-green">Active</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--bdr);font-size:12px"><div><div style="font-weight:500">Mini project</div><div style="font-size:10px;color:var(--t3)">2 tracks · 18 steps</div></div><button class="btn-sm btn-g" style="font-size:10px;padding:2px 9px">Dùng</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;font-size:12px"><div><div style="font-weight:500">Backend only</div><div style="font-size:10px;color:var(--t3)">1 track · 10 steps</div></div><button class="btn-sm btn-g" style="font-size:10px;padding:2px 9px">Dùng</button></div>
+          </div>
+          <div class="card"><div class="card-hd"><div class="card-title">CUSTOM STEPS</div></div>
+            <div style="font-size:11px;padding:7px 10px;background:var(--purple2);border-radius:var(--r8);color:var(--purple);margin-bottom:5px">+ Đọc tài liệu Supabase RLS <span class="custom-badge">custom</span></div>
+            <div style="font-size:11px;padding:7px 10px;background:var(--purple2);border-radius:var(--r8);color:var(--purple)">+ Setup n8n webhook local <span class="custom-badge">custom</span></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">CHỈNH SỬA STEPS</div></div>
+          <div class="track-tabs"><div class="track-tab on" onclick="selTrack(this)">Developer</div><div class="track-tab" onclick="selTrack(this)">Designer</div><div class="track-tab" onclick="selTrack(this)">BA</div><div class="track-tab" onclick="selTrack(this)">Tester</div></div>
+          <div id="track-steps">
+            <div class="step-row"><div class="drag-h">⠿</div><div class="fake-chk"></div><div class="step-lbl">Join Telegram nhóm dự án</div><span class="step-tag">Day 1</span><div class="step-del">✕</div></div>
+            <div class="step-row"><div class="drag-h">⠿</div><div class="fake-chk"></div><div class="step-lbl">Đọc Big Picture & Guideline</div><span class="step-tag">Day 1</span><div class="step-del">✕</div></div>
+            <div class="step-row"><div class="drag-h">⠿</div><div class="fake-chk"></div><div class="step-lbl">Nhận access GitHub & Supabase</div><span class="step-tag">Day 1</span><div class="step-del">✕</div></div>
+            <div class="step-row"><div class="drag-h">⠿</div><div class="fake-chk"></div><div class="step-lbl">Clone repo & chạy local</div><span class="step-tag d2" style="background:var(--purple2);color:var(--purple)">Day 2</span><div class="step-del">✕</div></div>
+            <div class="step-row"><div class="drag-h">⠿</div><div class="fake-chk"></div><div class="step-lbl">Đọc kiến trúc & DB schema</div><span class="step-tag d2" style="background:var(--purple2);color:var(--purple)">Day 2</span><div class="step-del">✕</div></div>
+            <div class="step-row"><div class="drag-h">⠿</div><div class="fake-chk"></div><div class="step-lbl">Nắm git workflow</div><span class="step-tag d2" style="background:var(--purple2);color:var(--purple)">Day 2–3</span><div class="step-del">✕</div></div>
+          </div>
+          <div class="add-step-row">
+            <input class="add-inp" id="new-step-inp" placeholder="Thêm bước custom..."/>
+            <select class="add-sel" id="new-step-tag"><option>Day 1</option><option>Day 2</option><option>Week 1</option><option>Week 2</option></select>
+            <button class="add-btn" onclick="addStep()">+ Thêm</button>
+          </div>
+        </div>
+      </div>
+      <!-- SETTINGS -->
+      <div class="pscreen" id="pscreen-settings">
+        <div class="ph" style="margin-bottom:0"><div><div class="ph-title">Cài đặt dự án</div><div class="ph-sub">Thông tin và tự động hoá</div></div></div>
+        <div class="card"><div class="card-hd"><div class="card-title">THÔNG TIN</div></div>
+          <div class="setting-row"><div><div class="sl">Tên dự án</div><div class="sd">Hiển thị trên dashboard và link share</div></div><input class="s-inp" value="NhiLe Platform v2"/></div>
+          <div class="setting-row"><div><div class="sl">Template</div><div class="sd">Standard IT Project · 4 tracks · 38 steps</div></div><button class="btn-sm btn-gray">Đổi</button></div>
+          <div class="setting-row"><div><div class="sl">Link share member</div></div><input class="s-inp" value="sop.nhile.vn/join/nhile-v2" style="font-family:monospace;font-size:10px"/></div>
+          <div class="setting-row"><div><div class="sl">Telegram nhóm</div></div><input class="s-inp" value="t.me/nhile_platform"/></div>
+        </div>
+        <div class="card"><div class="card-hd"><div class="card-title">TỰ ĐỘNG HOÁ</div></div>
+          <div class="setting-row"><div><div class="sl">Telegram notification</div><div class="sd">Nhận thông báo khi có access request mới</div></div><div class="tog"><div class="tok"></div></div></div>
+          <div class="setting-row"><div><div class="sl">Auto-invite theo role template</div><div class="sd">Cấp access tự động khi member join · Không cần leader duyệt từng người</div></div><span class="pill pill-green" style="flex-shrink:0">Always ON</span></div>
+          <div class="setting-row"><div><div class="sl">Thu hồi access khi offboard</div></div><div class="tog"><div class="tok"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MEMBERS (IT OPS) ══ -->
+<div id="p-members" class="page">
+  <div class="ph">
+    <div><div class="ph-title">Thành viên Team</div><div class="ph-sub">20 thành viên · 5 Kinh nghiệm · 15 Vibe Coding</div></div>
+  </div>
+  <div class="sh"><div class="sh-title">Toàn bộ thành viên</div></div>
+  <div class="mem-grid" id="mem-grid"></div>
+</div>
+
+<!-- ══ TASKS (KANBAN) ══ -->
+<div id="p-tasks" class="page">
+  <div class="ph"><div><div class="ph-title">Nhiệm vụ</div><div class="ph-sub">Theo dõi tiến độ tất cả task đang vận hành</div></div></div>
+  <div class="frow">
+    <span class="flbl">Ưu tiên:</span>
+    <button class="fp on" onclick="TF('all',this)">Tất cả</button>
+    <button class="fp" onclick="TF(0,this)"><span style="color:var(--red)">●</span> P0 Khẩn</button>
+    <button class="fp" onclick="TF(1,this)"><span style="color:var(--orange)">●</span> P1 Cao</button>
+    <button class="fp" onclick="TF(2,this)"><span style="color:var(--amber)">●</span> P2 TB</button>
+    <button class="fp" onclick="TF(3,this)"><span style="color:var(--green)">●</span> P3 Thấp</button>
+  </div>
+  <div class="kb-wrap" id="kanban"></div>
+</div>
+
+<!-- ══ HEALTH ══ -->
+<div id="p-health" class="page">
+  <div class="ph"><div><div class="ph-title">Sức Khỏe Team</div><div class="ph-sub">Burnout · Idle · Chất lượng công việc</div></div></div>
+  <div class="ai-panel">
+    <div class="ai-hdr"><div class="ai-logo">AI</div><div><div style="font-size:13px;font-weight:600">Trợ lý AI · NhiLe IT</div><div style="font-size:11px;color:var(--t3)">Phân tích sức khỏe team và đề xuất giải pháp</div></div></div>
+    <div class="ai-msg" id="ai-main-msg"></div>
+    <div>
+      <span class="ai-tag" onclick="AI_Q(0)">📊 Phân tích toàn diện team</span>
+      <span class="ai-tag" onclick="AI_Q(1)">🔥 Ai đang burnout?</span>
+      <span class="ai-tag" onclick="AI_Q(2)">😴 Ai đang idle?</span>
+      <span class="ai-tag" onclick="AI_Q(3)">🔄 Giải pháp điều phối task</span>
+    </div>
+    <div class="ai-respond" id="ai-respond"><div style="height:8px"></div><div class="ai-bubble" id="ai-bubble"></div></div>
+  </div>
+  <div class="g2" id="health-cards"></div>
+  <div class="sh"><div class="sh-title">Toàn bộ chỉ số sức khỏe</div></div>
+  <div class="card" id="health-table"></div>
+</div>
+
+</div><!-- /main -->
+
+<!-- MEMBER MODAL -->
+<div class="modal-bg" id="modal-bg" onclick="CLM(event)">
+  <div class="modal-box" id="modal-content"></div>
+</div>
+
+<!-- CREATE PROJECT MODAL -->
+<div class="cpm-overlay" id="cpm-overlay">
+  <div class="cpm">
+    <div class="cpm-title">Tạo project mới</div>
+    <div class="cpm-sub">Điền Big Picture và Guideline ngay — tránh 80% câu hỏi lặp từ member mới</div>
+    <div class="bp-tip">💡 Big Picture + Guideline là 2 thứ member đọc đầu tiên. Điền khi tạo — không cần update sau.</div>
+    <div class="form-sec">Thông tin cơ bản</div>
+    <div class="form-group"><div class="form-lbl">Tên dự án <span class="badge-rec">bắt buộc</span></div><input class="form-inp" id="m-name" placeholder="VD: NhiLe CRM v3"/></div>
+    <div class="form-row">
+      <div class="form-group"><div class="form-lbl">Tech stack</div><input class="form-inp" id="m-tech" placeholder="Next.js · Supabase"/></div>
+      <div class="form-group"><div class="form-lbl">GitHub Org/Repo</div><input class="form-inp" id="m-github" placeholder="nhile-team/repo"/></div>
+    </div>
+    <div class="form-sec">📌 Big Picture <span class="badge-rec" style="font-size:10px">khuyến nghị điền ngay</span></div>
+    <div class="form-group"><div class="form-lbl">Mô tả dự án (1–2 câu)</div><textarea class="form-ta" id="m-bp" placeholder="Dự án này làm gì, phục vụ ai, khi xong người dùng được gì?"></textarea><div class="form-hint">Ví dụ: Nền tảng onboarding tự động cho IT team — giúp member mới làm việc trong 2 ngày.</div></div>
+    <div class="form-row">
+      <div class="form-group"><div class="form-lbl">Phục vụ ai</div><input class="form-inp" id="m-bp-for" placeholder="VD: IT member mới"/></div>
+      <div class="form-group"><div class="form-lbl">Kết quả cụ thể</div><input class="form-inp" id="m-bp-result" placeholder="VD: onboard độc lập 2 ngày"/></div>
+    </div>
+    <div class="form-sec">📋 Guideline <span class="badge-opt">có thể thêm sau</span></div>
+    <div class="form-row">
+      <div class="form-group"><div class="form-lbl">Link Big Picture doc</div><input class="form-inp" id="m-g-bp" placeholder="notion.so/..."/></div>
+      <div class="form-group"><div class="form-lbl">Link Architecture doc</div><input class="form-inp" id="m-g-arch" placeholder="notion.so/..."/></div>
+    </div>
+    <div class="form-group"><div class="form-lbl">Link Golden Rules</div><input class="form-inp" id="m-g-rules" placeholder="notion.so/..."/></div>
+    <div class="form-group"><div class="form-lbl">Quy ước làm việc</div><textarea class="form-ta" id="m-g-conv" placeholder="VD: Tên task: [Module] Mô tả&#10;Báo tiến độ: comment vào task mỗi ngày&#10;Bị block: báo Leader ngay"></textarea></div>
+    <div class="form-sec">Onboarding Template</div>
+    <div class="tpl-opts">
+      <div class="tpl-opt sel" onclick="selTpl(this)"><div class="tpl-opt-name">Standard IT</div><div class="tpl-opt-meta">4 roles · 38 steps</div></div>
+      <div class="tpl-opt" onclick="selTpl(this)"><div class="tpl-opt-name">Mini project</div><div class="tpl-opt-meta">2 roles · 18 steps</div></div>
+      <div class="tpl-opt" onclick="selTpl(this)"><div class="tpl-opt-name">Backend only</div><div class="tpl-opt-meta">1 role · 10 steps</div></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeNewModal()">Huỷ</button>
+      <button class="btn-create" onclick="createProject()">Tạo & lấy link share →</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-bar" id="toast"></div>
+
+<script>
+/* ══ DATA ══ */
+const TODAY='08/04';
+const M=[
+  {id:1,n:'Minh Trần',t:'exp',a:7,od:2,idle:0,rv:5,fb:3},
+  {id:2,n:'Linh Nguyễn',t:'exp',a:5,od:1,idle:0,rv:3,fb:1},
+  {id:3,n:'Tuấn Lê',t:'exp',a:3,od:0,idle:0,rv:1,fb:0},
+  {id:4,n:'Thu Phạm',t:'exp',a:4,od:0,idle:0,rv:2,fb:1},
+  {id:5,n:'Huy Vũ',t:'exp',a:1,od:0,idle:0,rv:0,fb:0},
+  {id:6,n:'Nam Đỗ',t:'vibe',a:0,od:0,idle:3,rv:0,fb:0},
+  {id:7,n:'Dung Trần',t:'vibe',a:2,od:1,idle:0,rv:2,fb:2},
+  {id:8,n:'Phúc Bùi',t:'vibe',a:6,od:2,idle:0,rv:4,fb:3},
+  {id:9,n:'Lan Hoàng',t:'vibe',a:1,od:0,idle:0,rv:0,fb:0},
+  {id:10,n:'Trang Lý',t:'vibe',a:0,od:0,idle:1,rv:0,fb:0},
+  {id:11,n:'Bảo Trương',t:'vibe',a:3,od:0,idle:0,rv:1,fb:0},
+  {id:12,n:'Khoa Đặng',t:'vibe',a:2,od:0,idle:0,rv:2,fb:1},
+  {id:13,n:'Thảo Mai',t:'vibe',a:0,od:0,idle:4,rv:0,fb:0},
+  {id:14,n:'Đức Phan',t:'vibe',a:4,od:1,idle:0,rv:3,fb:2},
+  {id:15,n:'Hải Ngô',t:'vibe',a:1,od:0,idle:0,rv:0,fb:0},
+  {id:16,n:'Mai Đinh',t:'vibe',a:2,od:0,idle:0,rv:1,fb:0},
+  {id:17,n:'Tiến Cao',t:'vibe',a:3,od:1,idle:0,rv:2,fb:1},
+  {id:18,n:'Yến Lưu',t:'vibe',a:0,od:0,idle:2,rv:0,fb:0},
+  {id:19,n:'Quân Tô',t:'vibe',a:5,od:0,idle:0,rv:1,fb:0},
+  {id:20,n:'Ngọc Phan',t:'vibe',a:2,od:0,idle:0,rv:1,fb:0}
+];
+const TASKS=[
+  {id:'IT-025',title:'Không load được trang chủ',s:0,mid:null,st:'incoming',dl:'08/04',rv:0,team:'Admin'},
+  {id:'IT-024',title:'Tích hợp thanh toán VNPay',s:1,mid:null,st:'incoming',dl:'10/04',rv:0,team:'Finance'},
+  {id:'IT-026',title:'Export báo cáo Excel',s:2,mid:null,st:'incoming',dl:'12/04',rv:0,team:'HR'},
+  {id:'IT-027',title:'Cập nhật landing page',s:3,mid:null,st:'incoming',dl:'15/04',rv:0,team:'MKT'},
+  {id:'IT-018',title:'Fix bug xác thực 2FA',s:0,mid:1,st:'in_progress',dl:'07/04',rv:0,team:'Security'},
+  {id:'IT-015',title:'Fix lỗi upload file >5MB',s:1,mid:1,st:'in_progress',dl:'06/04',rv:1,team:'Admin'},
+  {id:'IT-021',title:'Tích hợp Zalo notification',s:1,mid:2,st:'in_progress',dl:'09/04',rv:0,team:'Admin'},
+  {id:'IT-019',title:'Tối ưu query báo cáo',s:1,mid:3,st:'in_progress',dl:'09/04',rv:0,team:'Finance'},
+  {id:'IT-022',title:'Dashboard doanh thu',s:2,mid:4,st:'in_progress',dl:'13/04',rv:0,team:'Finance'},
+  {id:'IT-020',title:'Form đăng ký nhân viên',s:2,mid:8,st:'in_progress',dl:'11/04',rv:1,team:'HR'},
+  {id:'IT-016',title:'Role quản lý kho',s:2,mid:8,st:'in_progress',dl:'07/04',rv:0,team:'WH'},
+  {id:'IT-014',title:'API đồng bộ dữ liệu KH',s:1,mid:3,st:'in_review',dl:'08/04',rv:2,team:'CRM'},
+  {id:'IT-012',title:'Auto gửi email báo cáo',s:2,mid:5,st:'in_review',dl:'09/04',rv:1,team:'Finance'},
+  {id:'IT-013',title:'UX trang đăng nhập',s:3,mid:7,st:'in_review',dl:'10/04',rv:3,team:'All'},
+  {id:'IT-009',title:'Backup tự động',s:2,mid:19,st:'in_review',dl:'11/04',rv:1,team:'Infra'},
+  {id:'IT-010',title:'Filter nâng cao báo cáo',s:3,mid:12,st:'in_review',dl:'12/04',rv:4,team:'Finance'},
+  {id:'IT-008',title:'Tìm kiếm global',s:1,mid:4,st:'needs_fix',dl:'09/04',rv:3,team:'All'},
+  {id:'IT-007',title:'Lỗi mobile sidebar',s:2,mid:2,st:'needs_fix',dl:'08/04',rv:2,team:'All'},
+  {id:'IT-006',title:'Chấm công tự động',s:2,mid:14,st:'needs_fix',dl:'08/04',rv:3,team:'HR'}
+];
+const PROJECTS={
+  'nhile-platform-v2':{name:'NhiLe Platform v2',meta:'Next.js · Supabase · TS',color:'blue',icon:'NP',status:'onboarding',statusLbl:'3 onboarding',members:5,pending:2,progress:58,bp:'Nền tảng onboarding tự động cho IT team NhiLe — giúp member mới bắt đầu làm việc trong 2 ngày mà không cần hỏi leader.',bpFor:'IT member mới tham gia team',bpResult:'Tự onboard độc lập trong 2 ngày',guideline:{bigPicDoc:'notion.so/nhile/big-picture',archDoc:'notion.so/nhile/architecture',goldenRules:'notion.so/nhile/10-golden-rules',convention:'Tên task: [Module] Mô tả ngắn\nBáo tiến độ: comment vào task mỗi ngày\nBị block: báo Leader ngay'},
+    tasks:[
+      {id:'NP-001',title:'Setup CI/CD pipeline',s:1,st:'done',assignee:'Ngọc Lan',dl:'01/04',rv:0,module:'Infra'},
+      {id:'NP-002',title:'Auth module — JWT + refresh token',s:0,st:'in_progress',assignee:'Minh Tú',dl:'10/04',rv:1,module:'Auth'},
+      {id:'NP-003',title:'Onboarding checklist UI',s:1,st:'in_progress',assignee:'Hà Nhi',dl:'12/04',rv:0,module:'UI'},
+      {id:'NP-004',title:'Role permission system',s:1,st:'in_review',assignee:'Minh Tú',dl:'08/04',rv:2,module:'Auth'},
+      {id:'NP-005',title:'Telegram bot notify khi access request',s:2,st:'incoming',assignee:null,dl:'15/04',rv:0,module:'Bot'},
+      {id:'NP-006',title:'Dashboard leader overview',s:2,st:'in_progress',assignee:'Bảo Linh',dl:'14/04',rv:0,module:'Dashboard'},
+      {id:'NP-007',title:'Fix mobile layout sidebar',s:2,st:'needs_fix',assignee:'Hà Nhi',dl:'08/04',rv:2,module:'UI'},
+      {id:'NP-008',title:'Viết unit test auth flow',s:3,st:'incoming',assignee:null,dl:'18/04',rv:0,module:'Test'}
+    ]},
+  'nedu-app':{name:'N-Education App',meta:'React Native · Firebase',color:'green',icon:'NE',status:'active',statusLbl:'Active',members:4,pending:0,progress:100,bp:null,bpFor:'',bpResult:'',guideline:null,
+    tasks:[
+      {id:'NE-001',title:'Màn hình danh sách khóa học',s:1,st:'done',assignee:'Team Nedu',dl:'20/03',rv:0,module:'Course'},
+      {id:'NE-002',title:'Push notification học viên',s:2,st:'done',assignee:'Team Nedu',dl:'25/03',rv:1,module:'Notify'},
+      {id:'NE-003',title:'Video player offline mode',s:1,st:'in_review',assignee:'Team Nedu',dl:'10/04',rv:1,module:'Player'},
+      {id:'NE-004',title:'Fix crash trên Android 12',s:0,st:'needs_fix',assignee:'Team Nedu',dl:'07/04',rv:3,module:'Bug'}
+    ]},
+  'pixelcollab-v1':{name:'PixelCollab v1',meta:'Vue.js · Supabase · Tailwind',color:'amber',icon:'PC',status:'onboarding',statusLbl:'1 onboarding',members:3,pending:1,progress:33,bp:'Platform quản lý creative assets cho agency PixelCollab — team design review, approve và export file trong 1 workflow thống nhất.',bpFor:'Design team PixelCollab',bpResult:'Giảm 70% thời gian review file',guideline:null,
+    tasks:[
+      {id:'PC-001',title:'Asset upload & tagging system',s:1,st:'in_progress',assignee:'PixelCollab Dev',dl:'14/04',rv:0,module:'Assets'},
+      {id:'PC-002',title:'Review & approve workflow',s:0,st:'incoming',assignee:null,dl:'10/04',rv:0,module:'Workflow'},
+      {id:'PC-003',title:'Export to Figma integration',s:2,st:'incoming',assignee:null,dl:'20/04',rv:0,module:'Export'},
+      {id:'PC-004',title:'User permission roles',s:1,st:'in_review',assignee:'PixelCollab Dev',dl:'09/04',rv:2,module:'Auth'}
+    ]}
+};
+
+/* ══ LOCALSTORAGE PROJECT SYNC ══ */
+const LS_PROJ_KEY = 'nhile_projects';
+function saveProjectsLS() {
+  try {
+    const out = {};
+    Object.entries(PROJECTS).forEach(([slug, p]) => {
+      if (p.fromLeader) out[slug] = {
+        name:p.name, meta:p.meta, color:p.color, icon:p.icon,
+        status:p.status, progress:p.progress||0, tasks:p.tasks||[],
+        leader:p.leader||{init:'LĐ',bg:'#5B4FE8',name:'Leader'}
+      };
+    });
+    localStorage.setItem(LS_PROJ_KEY, JSON.stringify(out));
+  } catch(e) {}
+}
+/* Merge stored projects into PROJECTS on startup */
+(function(){
+  try {
+    const stored = JSON.parse(localStorage.getItem(LS_PROJ_KEY)||'{}');
+    Object.entries(stored).forEach(([slug, p]) => {
+      if (!PROJECTS[slug]) PROJECTS[slug] = Object.assign({},p,{
+        fromLeader:true, members:1, pending:0,
+        statusLbl:p.status==='active'?'Active':'Mới tạo',
+        bp:null, bpFor:'', bpResult:'', guideline:null
+      });
+    });
+  } catch(e) {}
+})();
+function createProjectFromOrder(orderId, orderName) {
+  const n = document.getElementById('m-name');
+  if (n) n.value = orderName;
+  window._fromOrderId = orderId;
+  openNewModal();
+}
+
+/* ══ HELPERS ══ */
+function mst(m){if(m.idle>=2)return'idle';if(m.a>=6||m.od>=2||m.fb>=3)return'burnout';if(m.a>=4||m.od>=1||m.rv>=3)return'warn';return'ok';}
+function iav(n){const p=n.split(' ');return(p[p.length-2]?.charAt(0)||'')+(p[p.length-1]?.charAt(0)||'');}
+function mn(id){const m=M.find(x=>x.id===id);return m?m.n:'';}
+function iod(dl){return dl<=TODAY;}
+function ic(d,sz=14,cl='currentColor'){return`<svg width="${sz}" height="${sz}" viewBox="0 0 24 24" fill="none" stroke="${cl}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;}
+const AV_COLORS=[['rgba(10,132,255,.2)','#0A84FF'],['rgba(48,209,88,.2)','#30D158'],['rgba(191,90,242,.2)','#BF5AF2'],['rgba(255,159,10,.2)','#FF9F0A'],['rgba(94,92,230,.2)','#5E5CE6'],['rgba(255,214,10,.2)','#FFD60A']];
+function avc(i){return AV_COLORS[i%AV_COLORS.length];}
+const SL=['P0','P1','P2','P3'];const SC=['p0','p1','p2','p3'];
+
+/* ══ RENDER DASHBOARD ══ */
+function rStats(){
+  const a=TASKS.filter(t=>t.st!=='done').length;const o=TASKS.filter(t=>iod(t.dl)&&t.st!=='done').length;
+  const rv=TASKS.filter(t=>t.st==='in_review').length;const risk=M.filter(m=>mst(m)!=='ok').length;
+  const aC=o+M.filter(m=>mst(m)==='burnout').length+TASKS.filter(t=>t.s===0&&!t.mid).length;
+  document.getElementById('alert-cnt').textContent=aC;
+  document.getElementById('stat-cards').innerHTML=[
+    {c:'blue',v:a,l:'Task đang chạy',s:'Tất cả trạng thái',ico:'<path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>'},
+    {c:'red',v:o,l:'Trễ deadline',s:'Cần xử lý gấp',ico:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>'},
+    {c:'amber',v:rv,l:'Chờ review',s:'Đợi feedback',ico:'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'},
+    {c:'green',v:`${risk}/20`,l:'Cần chú ý',s:'Burnout · Idle · Overload',ico:'<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>'}
+  ].map(c=>`<div class="scard ${c.c}"><div class="scard-glow"></div>${ic(c.ico,17,`var(--${c.c})`)}<div class="s-val" style="margin-top:10px">${c.v}</div><div class="s-lbl" style="margin-top:4px;margin-bottom:0">${c.l}</div><div class="s-sub">${c.s}</div></div>`).join('');
+}
+function rPipe(){
+  const cfg=[{st:'incoming',cls:'incoming',l:'Chờ nhận',ico:'📥'},{st:'in_progress',cls:'progress',l:'Đang làm',ico:'⚙️'},{st:'in_review',cls:'review',l:'Chờ review',ico:'👁️'},{st:'needs_fix',cls:'fix',l:'Cần sửa',ico:'🔧'},{st:'done',cls:'done',l:'Hoàn thành',ico:'✅'}];
+  document.getElementById('pipeline').innerHTML=cfg.map(p=>`<div class="ps ${p.cls}"><div class="ps-ico">${p.ico}</div><div class="ps-n">${TASKS.filter(t=>t.st===p.st).length}</div><div class="ps-l">${p.l}</div></div>`).join('');
+}
+function getUserOrders(){
+  try{ return JSON.parse(localStorage.getItem('nhile_user_submitted')||'[]'); }catch(e){return [];}
+}
+function rActions(){
+  let h='';
+  /* ── Incoming user orders (IT Request / Bánh Chưng) ── */
+  const userOrders = getUserOrders().filter(o=>o.status==='waiting');
+  userOrders.forEach(o=>{
+    const srcLabel = o.source==='banh-chung'?'🍀 Bánh Chưng':o.source==='nquoc-it-request'?'📋 IT Request':'📬 Order';
+    h+=`<div class="ai" style="border-color:rgba(59,130,246,.35);background:rgba(59,130,246,.06)"><div class="ai-ico blue">${o.icon||'📋'}</div><div style="flex:1"><div class="ai-badge blue">${srcLabel} · Chờ duyệt</div><div class="ai-title">${o.name}</div><div class="ai-sub">${o.submittedAt||''}${o.team?' · '+o.team:''} · ${o.id}</div></div><button onclick="createProjectFromOrder('${o.id}',${JSON.stringify(o.name)})" style="flex-shrink:0;padding:5px 10px;font-size:11px;font-weight:700;background:rgba(91,79,232,.15);color:#7C6FE0;border:1px solid rgba(91,79,232,.3);border-radius:8px;cursor:pointer;white-space:nowrap">📂 Tạo project</button></div>`;
+  });
+  M.filter(m=>m.a>=6||m.od>=2).forEach(m=>{h+=`<div class="ai" onclick="OM(${m.id})"><div class="ai-ico red">🔥</div><div><div class="ai-badge red">Burnout Risk</div><div class="ai-title">${m.n} — ${m.a} task · ${m.od} trễ</div><div class="ai-sub">Xem chi tiết member · Cân nhắc điều phối nếu cần</div></div><div class="ai-arrow">›</div></div>`;});
+  TASKS.filter(t=>t.s===0&&!t.mid&&t.st==='incoming').forEach(t=>{h+=`<div class="ai" onclick="NAV('tasks',document.querySelector('.ni'))"><div class="ai-ico red">⚡</div><div><div class="ai-badge red">P0 · Chưa assign</div><div class="ai-title">${t.id} — ${t.title}</div><div class="ai-sub">Deadline: ${t.dl} · Vào Tasks để phân công</div></div><div class="ai-arrow">›</div></div>`;});
+  TASKS.filter(t=>iod(t.dl)&&t.st!=='done'&&t.mid).forEach(t=>{h+=`<div class="ai" onclick="OM(${TASKS.find(x=>x.id===t.id)?M.find(m=>m.id===t.mid)?.id:0})"><div class="ai-ico amber">⏰</div><div><div class="ai-badge amber">Trễ Deadline</div><div class="ai-title">${t.id} — ${t.title}</div><div class="ai-sub">${mn(t.mid)} đang xử lý · Deadline: ${t.dl}</div></div><div class="ai-arrow">›</div></div>`;});
+  TASKS.filter(t=>t.rv>=3).forEach(t=>{h+=`<div class="ai"><div class="ai-ico amber">🔄</div><div><div class="ai-badge amber">${t.rv} vòng review</div><div class="ai-title">${t.id} — ${t.title}</div><div class="ai-sub">${mn(t.mid)} · Pattern lặp — kiểm tra lại yêu cầu gốc</div></div></div>`;});
+  M.filter(m=>m.idle>=2).forEach(m=>{h+=`<div class="ai" onclick="OM(${m.id})"><div class="ai-ico blue">🌙</div><div><div class="ai-badge blue">Idle ${m.idle} ngày</div><div class="ai-title">${m.n} — Không có task</div><div class="ai-sub">Signal để theo dõi · Member tự nhận task mới</div></div><div class="ai-arrow">›</div></div>`;});
+  if(!h)h='<div class="ai"><div class="ai-ico blue">✅</div><div><div class="ai-title">Team đang hoạt động tốt</div><div class="ai-sub">Không có vấn đề nào cần xử lý ngay</div></div></div>';
+  document.getElementById('actions').innerHTML=h;
+  /* Update alert badge to include user orders */
+  const aC=M.filter(m=>m.a>=6||m.od>=2).length+TASKS.filter(t=>t.s===0&&!t.mid&&t.st==='incoming').length+userOrders.length;
+  const alertEl=document.getElementById('alert-cnt');
+  if(alertEl) alertEl.textContent=aC>0?aC:'✓';
+}
+
+/* ══ RENDER MEMBERS (IT OPS) ══ */
+function rMembers(){
+  document.getElementById('mem-grid').innerHTML=M.map((m,i)=>{
+    const st=mst(m);const [bg,cl]=avc(i);const pct=Math.min(m.a/8*100,100);
+    const sub=st==='idle'?`😴 Idle ${m.idle} ngày`:st==='burnout'?`🔥 ${m.a} task · ${m.od} trễ`:st==='warn'?`⚠️ ${m.a} task${m.od?' · '+m.od+' trễ':''}`:m.a===0?'Chưa có task':`${m.a} task đang làm`;
+    return `<div class="mem-card ${st}" onclick="OM(${m.id})">
+      <div class="mem-av" style="background:${bg};color:${cl}">${iav(m.n)}<div class="mem-av-dot ${st}"></div></div>
+      <div class="mem-name">${m.n}</div>
+      <div class="mem-role ${m.t}">${m.t==='exp'?'Kinh nghiệm':'Vibe Coding'}</div>
+      <div class="mem-stat">${sub}</div>
+      <div class="load-bar ${st}"><div class="load-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+/* ══ RENDER KANBAN ══ */
+let CF='all';
+const KCOLS=[{id:'incoming',cls:'incoming',l:'Chờ nhận',clr:'var(--blue)'},{id:'in_progress',cls:'progress',l:'Đang làm',clr:'var(--purple)'},{id:'in_review',cls:'review',l:'Chờ review',clr:'var(--amber)'},{id:'needs_fix',cls:'fix',l:'Cần sửa',clr:'var(--orange)'}];
+function rKanban(){
+  document.getElementById('kanban').innerHTML=KCOLS.map(col=>{
+    let tasks=TASKS.filter(t=>t.st===col.id);if(CF!=='all')tasks=tasks.filter(t=>t.s===CF);
+    return `<div class="kb-col"><div class="kb-hdr ${col.cls}" style="background:${col.clr}18;border:1px solid ${col.clr}30"><div class="kb-lbl" style="color:${col.clr}">${col.l}</div><div class="kb-cnt" style="background:${col.clr}20;color:${col.clr}">${tasks.length}</div></div>
+    <div>${tasks.map(t=>{const od=iod(t.dl);const mv=M.find(x=>x.id===t.mid);
+      return `<div class="tc${od?' od':''}">
+        <div class="tc-sev ${SC[t.s]}"></div>
+        <div class="tc-top"><span class="tc-id">${t.id}</span><span style="font-family:monospace;font-size:9px;padding:1px 6px;border-radius:5px;background:var(--s2);color:var(--t3)">${t.team}</span><span class="tc-sb ${SC[t.s]}">${SL[t.s]}</span></div>
+        <div class="tc-title">${t.title}</div>
+        <div class="tc-meta">
+          <div class="tc-row">${ic('<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>',11)} ${t.mid?`<span>${mn(t.mid)}</span>${mv?.t==='exp'?`<span class="tag exp" style="font-size:8px;margin-left:3px">EXP</span>`:''}`:`<span class="unassigned">+ Chưa nhận</span>`}</div>
+          <div class="tc-row">${ic('<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',11)} ${od?`<span class="od-badge">Trễ · ${t.dl}</span>`:`<span>${t.dl}</span>`}</div>
+          ${t.rv>0?`<div class="tc-row">${ic('<polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/>',11)}<span class="${t.rv>=3?'rv-badge':''}">Review ${t.rv}${t.rv>=3?' ⚡':''}</span></div>`:''}
+        </div>
+      </div>`;}).join('')||'<div class="kb-empty">Không có task nào</div>'}</div></div>`;
+  }).join('');
+}
+
+/* ══ RENDER HEALTH ══ */
+function rHealth(){
+  const burnout=M.filter(m=>mst(m)==='burnout');const idle=M.filter(m=>mst(m)==='idle');
+  document.getElementById('health-cards').innerHTML=`
+  <div class="hcard red"><div class="hcard-ico">🔥</div><div class="hcard-title">Nguy cơ Burnout · ${burnout.length} người</div><div class="hcard-sub">Quá nhiều task, trễ deadline, feedback tiêu cực. Cần giảm tải ngay.</div>${burnout.map(m=>`<div class="hmem-row r"><div class="hmav">${iav(m.n)}</div><div style="flex:1"><div class="hmem-name">${m.n}</div><div class="hmem-stat">${m.a} task · ${m.od} trễ · ${m.fb} feedback xấu</div></div><div class="hload"><div class="hload-f" style="width:${Math.min(m.a/8*100,100)}%"></div></div></div>`).join('')}</div>
+  <div class="hcard blue"><div class="hcard-ico">😴</div><div class="hcard-title">Không có Task · ${idle.length} người</div><div class="hcard-sub">Idle nhiều ngày liên tiếp. Có thể mất động lực hoặc chưa biết cách tự nhận task.</div>${idle.map(m=>`<div class="hmem-row b"><div class="hmav">${iav(m.n)}</div><div style="flex:1"><div class="hmem-name">${m.n}</div><div class="hmem-stat">Idle ${m.idle} ngày · ${m.t==='vibe'?'Vibe Coding':''}</div></div><div class="hload"><div class="hload-f" style="width:5%"></div></div></div>`).join('')}</div>`;
+  document.getElementById('health-table').innerHTML=`<table style="width:100%;border-collapse:collapse;font-size:12px">
+    <thead><tr style="border-bottom:1px solid var(--bdr)">${['Thành viên','Vai trò','Task','Trễ','Review','Feedback','Trạng thái'].map(h=>`<th style="padding:9px 12px;text-align:left;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.8px">${h}</th>`).join('')}</tr></thead>
+    <tbody>${M.map((m,i)=>{const st=mst(m);const [bg,cl]=avc(i);const stLbl=st==='burnout'?`<span style="background:var(--red2);color:var(--red);padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600">Burnout</span>`:st==='idle'?`<span style="background:var(--yellow-bg);color:#A37800;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600">Idle ${m.idle}d</span>`:st==='warn'?`<span style="background:var(--orange2);color:var(--orange);padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600">Overload</span>`:`<span style="background:var(--green2);color:var(--green);padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600">Ổn</span>`;
+    return `<tr style="border-bottom:1px solid var(--bdr);cursor:pointer" onmouseover="this.style.background='var(--s1)'" onmouseout="this.style.background=''" onclick="OM(${m.id})"><td style="padding:10px 12px;display:flex;align-items:center;gap:8px"><div style="width:26px;height:26px;border-radius:8px;background:${bg};color:${cl};display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0">${iav(m.n)}</div><span style="font-weight:500">${m.n}</span></td><td style="padding:10px 12px"><span class="tag ${m.t}">${m.t==='exp'?'Exp':'Vibe'}</span></td><td style="padding:10px 12px;color:${m.a>=6?'var(--red)':m.a>=4?'var(--orange)':'var(--t1)'}"><b>${m.a}</b></td><td style="padding:10px 12px;color:${m.od>0?'var(--red)':'var(--t3)'}">${m.od}</td><td style="padding:10px 12px;color:${m.rv>=3?'var(--amber)':'var(--t3)'}">${m.rv}</td><td style="padding:10px 12px;color:${m.fb>=2?'var(--red)':'var(--t3)'}">${m.fb}</td><td style="padding:10px 12px">${stLbl}</td></tr>`;}).join('')}</tbody></table>`;
+  const bo=M.filter(m=>mst(m)==='burnout').length,id=M.filter(m=>mst(m)==='idle').length,od=TASKS.filter(t=>iod(t.dl)&&t.st!=='done').length;
+  document.getElementById('ai-main-msg').textContent=`📊 Tổng quan: ${bo} người có nguy cơ burnout, ${id} người đang idle, ${od} task trễ deadline. Chọn câu hỏi bên dưới để tôi đưa ra giải pháp cụ thể.`;
+}
+
+/* ══ AI PANEL ══ */
+const AI_ANSWERS=[
+  `📊 Phân tích toàn diện:\n• ${Math.round((M.filter(m=>mst(m)==='ok').length/20)*100)}% thành viên hoạt động bình thường.\n• ${M.filter(m=>mst(m)==='burnout').length} người có dấu hiệu burnout — gánh quá nhiều task.\n• ${M.filter(m=>mst(m)==='idle').length} người idle — cần trao cơ hội nhận task mới.\n• ${TASKS.filter(t=>t.rv>=3).length} task qua 3+ vòng review — cần cải thiện quy trình hiểu yêu cầu.\n\n💡 Đề xuất: Tổ chức review yêu cầu 15 phút trước khi bắt đầu mỗi task lớn.`,
+  `🔥 Thành viên nguy cơ Burnout:\n${M.filter(m=>mst(m)==='burnout').map(m=>`• ${m.n}: ${m.a} task, ${m.od} trễ, ${m.fb} feedback tiêu cực`).join('\n')}\n\n💡 Giải pháp:\n1. Chuyển 1–2 task ít ưu tiên sang người đang rảnh.\n2. Check-in 1-on-1 để hiểu vấn đề cụ thể.\n3. Tạm dừng nhận task mới cho đến khi backlog < 4 task.`,
+  `😴 Thành viên đang Idle:\n${M.filter(m=>mst(m)==='idle').map(m=>`• ${m.n}: ${m.idle} ngày không có task (${m.t==='vibe'?'Vibe Coder':'Experienced'})`).join('\n')}\n\n💡 Giải pháp:\n1. Giao task nhỏ phù hợp với level để lấy đà.\n2. Kiểm tra xem họ có khó khăn khi tự nhận task không.\n3. Vibe Coder mới → pair với người có kinh nghiệm.`,
+  `🔄 Điều phối task ngay:\n1. Chuyển task từ ${M.filter(m=>mst(m)==='burnout')[0]?.n||'người burnout'} → ${M.filter(m=>mst(m)==='idle')[0]?.n||'người idle'} (1–2 task ưu tiên thấp).\n2. P0 chưa ai nhận: Broadcast Telegram để ai rảnh nhận.\n3. Task nhiều vòng review: yêu cầu dev đọc lại brief gốc.\n4. Mục tiêu: 3–5 task/người = healthy, ≥6 = nguy hiểm.`
+];
+function AI_Q(i){
+  const el=document.getElementById('ai-respond');const bub=document.getElementById('ai-bubble');
+  el.classList.add('on');bub.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
+  setTimeout(()=>{bub.innerHTML=AI_ANSWERS[i].replace(/\n/g,'<br>');},900);
+}
+
+/* ══ MEMBER MODAL ══ */
+function OM(id){
+  const m=M.find(x=>x.id===id);if(!m)return;
+  const st=mst(m);const [bg,cl]=avc(id-1);
+  const tasks=TASKS.filter(t=>t.mid===id);
+  const stColor=st==='burnout'?'var(--red)':st==='idle'?'var(--blue)':st==='warn'?'var(--orange)':'var(--green)';
+  const stLabel=st==='burnout'?'🔥 Burnout Risk':st==='idle'?'😴 Idle':st==='warn'?'⚠️ Overload':'✅ Ổn';
+  document.getElementById('modal-content').innerHTML=`
+    <button class="modal-close" onclick="CLM()">Đóng ✕</button>
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:22px">
+      <div style="width:52px;height:52px;border-radius:16px;background:${bg};color:${cl};display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0">${iav(m.n)}</div>
+      <div><div style="font-size:17px;font-weight:700;margin-bottom:4px">${m.n}</div>
+      <div style="display:flex;gap:8px;align-items:center"><span class="tag ${m.t}">${m.t==='exp'?'Kinh nghiệm':'Vibe Coding'}</span><span style="background:${stColor}22;color:${stColor};padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600">${stLabel}</span></div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin-bottom:22px">
+      ${[['Task đang chạy',m.a,m.a>=6?'var(--red)':m.a>=4?'var(--orange)':'var(--t1)'],['Trễ deadline',m.od,m.od>0?'var(--red)':'var(--t1)'],['Vòng review',m.rv,m.rv>=3?'var(--amber)':'var(--t1)'],['Feedback xấu',m.fb,m.fb>=2?'var(--red)':'var(--t1)']].map(([l,v,c])=>`<div style="background:var(--s2);border-radius:var(--r12);padding:12px;text-align:center"><div style="font-size:20px;font-weight:700;color:${c}">${v}</div><div style="font-size:10px;color:var(--t3);margin-top:3px">${l}</div></div>`).join('')}
+    </div>
+    <div style="font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Task đang phụ trách (${tasks.length})</div>
+    ${tasks.length?tasks.map(t=>`<div style="background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r12);padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px"><div style="width:3px;height:34px;border-radius:2px;background:${['var(--red)','var(--orange)','var(--amber)','var(--green)'][t.s]};flex-shrink:0"></div><div style="flex:1"><div style="font-size:10px;font-family:monospace;color:var(--t3)">${t.id}</div><div style="font-size:12px;font-weight:500;margin-top:1px">${t.title}</div></div><div style="text-align:right"><div style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;background:${['var(--red2)','var(--orange2)','var(--amber2)','var(--green2)'][t.s]};color:${['var(--red)','var(--orange)','var(--amber)','var(--green)'][t.s]}">${SL[t.s]}</div><div style="font-size:10px;color:${iod(t.dl)?'var(--red)':'var(--t3)'};margin-top:4px">${t.dl}</div></div></div>`).join(''):'<div style="color:var(--t3);font-size:13px;padding:10px 0">Không có task nào</div>'}`;
+  document.getElementById('modal-bg').classList.add('on');
+}
+function CLM(e){if(!e||e.target===document.getElementById('modal-bg'))document.getElementById('modal-bg').classList.remove('on');}
+
+/* ══ PROJECT LIST ══ */
+let currentSlug='nhile-platform-v2';
+let bpEditorOpen=false;
+function renderProjectList(){
+  let missing=0;let html='';
+  Object.entries(PROJECTS).forEach(([slug,p])=>{
+    const mBP=!p.bp,mG=!p.guideline;
+    if(mBP||mG)missing++;
+    const warns=[mBP?'<span class="pc-warn">⚠ Big Picture</span>':'',mG?'<span class="pc-warn">⚠ Guideline</span>':''].filter(Boolean).join('');
+    const pc=p.progress===100?'var(--green)':p.progress>=50?'var(--blue)':'var(--orange)';
+    html+=`<div class="pc ${p.color}" onclick="openProject('${slug}','${p.name}','${p.meta}')">
+      <div class="pc-top"><div class="pc-ico ${p.color}">${p.icon}</div><div class="pc-badges"><span class="pc-status ${p.status}">${p.statusLbl}</span>${warns}</div></div>
+      <div class="pc-name">${p.name}</div><div class="pc-meta">${p.meta}</div>
+      <div class="pc-stats">
+        <div><div class="pc-sv">${p.members}</div><div class="pc-sl">Thành viên</div></div>
+        <div><div class="pc-sv" style="color:${p.pending>0?'var(--orange)':'var(--green)'}">${p.pending}</div><div class="pc-sl">Pending</div></div>
+        <div><div class="pc-sv" style="color:${pc}">${p.progress}%</div><div class="pc-sl">Tiến độ</div></div>
+      </div>
+      <div class="pc-footer"><div class="pc-avs">${Array(Math.min(p.members,3)).fill(0).map((_,i)=>`<div class="pc-av">${p.icon[i]||'?'}</div>`).join('')}${p.members>3?`<div class="pc-av">+${p.members-3}</div>`:''}</div><span class="${p.pending>0?'pill pill-amber':'pill pill-green'}">${p.pending>0?p.pending+' pending':'OK'}</span></div>
+    </div>`;
+  });
+  html+=`<div class="pc add-pc" onclick="openNewModal()"><div class="add-plus">+</div><div class="add-lbl">Tạo project mới</div></div>`;
+  document.getElementById('proj-grid').innerHTML=html;
+  const ga=document.getElementById('global-alert');
+  const wb=document.getElementById('proj-warn-badge');
+  if(missing>0){ga.style.display='flex';document.getElementById('ga-count').textContent=missing+' dự án';wb.style.display='';wb.textContent=missing;}
+  else{ga.style.display='none';wb.style.display='none';}
+}
+
+/* ══ MISSING BANNER ══ */
+function renderMissingBanner(slug){
+  const p=PROJECTS[slug];const el=document.getElementById('pov-miss-banner');
+  if(!p.bp&&!p.guideline){el.innerHTML=`<div class="miss-banner"><div class="mb-ico">⚠️</div><div class="mb-body"><div class="mb-title">Dự án này chưa đủ thông tin cho member mới</div><div class="mb-sub">Member join sẽ không biết bắt đầu từ đâu.</div><div class="mb-items"><div class="mb-item"><div class="mb-dot"></div>Chưa có <strong>Big Picture</strong></div><div class="mb-item"><div class="mb-dot"></div>Chưa có <strong>Guideline</strong></div></div><div style="display:flex;gap:6px;margin-top:8px"><button class="mb-btn" onclick="goScreen('bigpicture')">Điền Big Picture →</button><button class="mb-btn" onclick="goScreen('template')">Điền Guideline →</button></div></div></div>`;}
+  else if(!p.bp){el.innerHTML=`<div class="miss-banner"><div class="mb-ico">⚠️</div><div class="mb-body"><div class="mb-title">Chưa có Big Picture</div><div class="mb-sub">Member không biết dự án làm gì, phục vụ ai.</div><button class="mb-btn" onclick="goScreen('bigpicture')">Điền Big Picture →</button></div></div>`;}
+  else if(!p.guideline){el.innerHTML=`<div class="miss-banner"><div class="mb-ico">⚠️</div><div class="mb-body"><div class="mb-title">Chưa có Guideline</div><div class="mb-sub">Member không biết doc nào cần đọc, quy ước ra sao.</div><button class="mb-btn" onclick="goScreen('template')">Điền Guideline →</button></div></div>`;}
+  else el.innerHTML='';
+}
+
+/* ══ RENDER BP SCREEN ══ */
+function renderBPScreen(slug){
+  const p=PROJECTS[slug];
+  const warn=!p.bp;
+  document.getElementById('pnav-bp-warn').style.display=warn?'':'none';
+  const bp=document.getElementById('bp-content');
+  if(!p.bp){bp.innerHTML=`<div class="card"><div class="card-hd"><div class="card-title">BIG PICTURE</div><span class="pill pill-amber">Chưa điền</span></div><div class="es"><div class="es-ico">📌</div><div class="es-title">Chưa có Big Picture</div><div class="es-sub">Member mới sẽ không biết dự án đang làm gì, phục vụ ai.</div><button class="es-btn" onclick="openBpEditor()">+ Điền Big Picture ngay</button></div></div>`;}
+  else{bp.innerHTML=`<div class="card"><div class="card-hd"><div class="card-title">BIG PICTURE</div><span class="pill pill-green">✓ Đã điền</span></div><div class="bp-text">${p.bp}</div><div class="bp-tags">${p.bpFor?`<span class="bp-tag">Phục vụ: ${p.bpFor}</span>`:''} ${p.bpResult?`<span class="bp-tag">Kết quả: ${p.bpResult}</span>`:''}</div></div>`;}
+  document.getElementById('edit-bp').value=p.bp||'';
+  document.getElementById('edit-bp-for').value=p.bpFor||'';
+  document.getElementById('edit-bp-result').value=p.bpResult||'';
+}
+function saveBP(){
+  const p=PROJECTS[currentSlug];
+  p.bp=document.getElementById('edit-bp').value.trim()||null;
+  p.bpFor=document.getElementById('edit-bp-for').value.trim();
+  p.bpResult=document.getElementById('edit-bp-result').value.trim();
+  bpEditorOpen=false;document.getElementById('bp-editor').style.display='none';
+  renderBPScreen(currentSlug);renderMissingBanner(currentSlug);renderProjectList();
+  toast('✓ Đã lưu Big Picture');
+}
+function toggleBpEditor(){bpEditorOpen=!bpEditorOpen;document.getElementById('bp-editor').style.display=bpEditorOpen?'block':'none';}
+function openBpEditor(){bpEditorOpen=true;document.getElementById('bp-editor').style.display='block';document.getElementById('bp-editor').scrollIntoView({behavior:'smooth'});}
+let guideEditorOpen=false;
+function toggleGuideEditor(){guideEditorOpen=!guideEditorOpen;document.getElementById('guide-editor').style.display=guideEditorOpen?'block':'none';}
+function saveGuideline(){
+  const p=PROJECTS[currentSlug];
+  const gBP=document.getElementById('edit-g-bp').value.trim();const gArch=document.getElementById('edit-g-arch').value.trim();
+  const gR=document.getElementById('edit-g-rules').value.trim();const gC=document.getElementById('edit-g-conv').value.trim();
+  p.guideline=(gBP||gArch||gR||gC)?{bigPicDoc:gBP,archDoc:gArch,goldenRules:gR,convention:gC}:null;
+  guideEditorOpen=false;document.getElementById('guide-editor').style.display='none';
+  renderGuideScreen(currentSlug);renderMissingBanner(currentSlug);renderProjectList();
+  toast('✓ Đã lưu Guideline & SOP');
+}
+function renderGuideScreen(slug){
+  const p=PROJECTS[slug];
+  const g=document.getElementById('guide-content');
+  if(!g)return;
+  document.getElementById('edit-g-bp').value=(p.guideline&&p.guideline.bigPicDoc)||'';
+  document.getElementById('edit-g-arch').value=(p.guideline&&p.guideline.archDoc)||'';
+  document.getElementById('edit-g-rules').value=(p.guideline&&p.guideline.goldenRules)||'';
+  document.getElementById('edit-g-conv').value=(p.guideline&&p.guideline.convention)||'';
+  if(!p.guideline){g.innerHTML=`<div class="card"><div class="card-hd"><div class="card-title">GUIDELINE DỰ ÁN</div><span class="pill pill-amber">Chưa điền</span></div><div class="es"><div class="es-ico">📋</div><div class="es-title">Chưa có Guideline</div><div class="es-sub">Member sẽ không biết doc nào cần đọc và quy ước làm việc.</div><button class="es-btn" onclick="toggleGuideEditor()">+ Điền Guideline ngay</button></div></div>`;}
+  else{const gd=p.guideline;g.innerHTML=`<div class="card"><div class="card-hd"><div class="card-title">GUIDELINE DỰ ÁN</div><span class="pill pill-green">✓ Đã điền</span><button class="btn-sm btn-gray" style="margin-left:auto" onclick="toggleGuideEditor()">✏️ Sửa</button></div>${gd.bigPicDoc?`<div class="g-row" onclick="toast('📄 Mở Big Picture doc')"><span style="font-size:14px">📄</span><span class="g-link">${gd.bigPicDoc}</span><span class="g-arr">→</span></div>`:''} ${gd.archDoc?`<div class="g-row" onclick="toast('🗺 Mở Architecture doc')"><span style="font-size:14px">🗺</span><span class="g-link">${gd.archDoc}</span><span class="g-arr">→</span></div>`:''} ${gd.goldenRules?`<div class="g-row" onclick="toast('✅ Mở Golden Rules')"><span style="font-size:14px">✅</span><span class="g-link">${gd.goldenRules}</span><span class="g-arr">→</span></div>`:''} ${gd.convention?`<div class="g-rules"><div class="g-rule-lbl">Quy ước làm việc</div>${gd.convention.split('\n').map(r=>`<div>· ${r}</div>`).join('')}</div>`:''}</div>`;}
+}
+
+/* ══ NAVIGATION ══ */
+const PAGE_MAP={dash:'p-dash',projects:'p-projects',members:'p-members',tasks:'p-tasks',health:'p-health'};
+function NAV(page,btn){
+  Object.values(PAGE_MAP).forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('on');});
+  const pd=document.getElementById('p-project-detail');if(pd)pd.classList.remove('on');
+  const target=document.getElementById(PAGE_MAP[page]);if(target)target.classList.add('on');
+  document.querySelectorAll('.ni').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+}
+function openProject(slug,name,meta){
+  currentSlug=slug;bpEditorOpen=false;guideEditorOpen=false;
+  document.getElementById('bp-editor').style.display='none';
+  document.getElementById('guide-editor').style.display='none';
+  Object.values(PAGE_MAP).forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('on');});
+  document.getElementById('p-project-detail').classList.add('on');
+  document.querySelectorAll('.ni').forEach(b=>b.classList.remove('on'));
+  document.getElementById('nav-projects-btn').classList.add('on');
+  document.getElementById('psb-name').textContent=name;
+  document.getElementById('psb-meta').textContent=meta;
+  document.getElementById('share-link').value='sop.nhile.vn/join/'+slug;
+  renderMissingBanner(slug);renderBPScreen(slug);renderGuideScreen(slug);
+  goScreen('overview');
+}
+const PSCREENS=['overview','bigpicture','members','tasks','access','template','settings'];
+function goScreen(id){
+  PSCREENS.forEach(s=>{
+    document.getElementById('pscreen-'+s).classList.toggle('on',s===id);
+    document.getElementById('pnav-'+s).classList.toggle('on',s===id);
+  });
+  if(id==='tasks') renderProjectTasks(currentSlug);
+}
+
+/* ══ PROJECT TASKS ══ */
+let projTaskFilter='all';
+const PT_COLS=[
+  {id:'incoming',cls:'incoming',l:'Chờ nhận',clr:'var(--blue)'},
+  {id:'in_progress',cls:'progress',l:'Đang làm',clr:'var(--purple)'},
+  {id:'in_review',cls:'review',l:'Chờ review',clr:'var(--amber)'},
+  {id:'needs_fix',cls:'fix',l:'Cần sửa',clr:'var(--orange)'},
+  {id:'done',cls:'done',l:'Hoàn thành',clr:'var(--green)'}
+];
+function renderProjectTasks(slug){
+  const p=PROJECTS[slug];const tasks=p.tasks||[];
+  const pending=tasks.filter(t=>t.st!=='done').length;
+  document.getElementById('proj-task-badge').textContent=pending;
+  document.getElementById('proj-task-badge').style.display=pending>0?'':'none';
+  document.getElementById('ptask-sub').textContent=`${tasks.length} tasks · ${tasks.filter(t=>t.st==='done').length} hoàn thành · ${tasks.filter(t=>iod(t.dl)&&t.st!=='done').length} trễ deadline`;
+  const kanban=document.getElementById('proj-kanban');
+  kanban.innerHTML=PT_COLS.map(col=>{
+    let cols=tasks.filter(t=>t.st===col.id);
+    if(projTaskFilter!=='all')cols=cols.filter(t=>t.s===projTaskFilter);
+    return `<div class="kb-col" style="flex:0 0 210px">
+      <div class="kb-hdr ${col.cls}" style="background:${col.clr}18;border:1px solid ${col.clr}30">
+        <div class="kb-lbl" style="color:${col.clr}">${col.l}</div>
+        <div class="kb-cnt" style="background:${col.clr}20;color:${col.clr}">${cols.length}</div>
+      </div>
+      <div>${cols.map(t=>{
+        const od=iod(t.dl)&&t.st!=='done';
+        const SC2=['p0','p1','p2','p3'];const SL2=['P0','P1','P2','P3'];
+        const sevClr=['var(--red)','var(--orange)','var(--amber)','var(--green)'][t.s];
+        return `<div class="tc${od?' od':''}">
+          <div class="tc-sev ${SC2[t.s]}"></div>
+          <div class="tc-top">
+            <span class="tc-id">${t.id}</span>
+            <span style="font-family:monospace;font-size:9px;padding:1px 6px;border-radius:5px;background:var(--s2);color:var(--t3)">${t.module||''}</span>
+            <span class="tc-sb ${SC2[t.s]}">${SL2[t.s]}</span>
+          </div>
+          <div class="tc-title">${t.title}</div>
+          <div class="tc-meta">
+            <div class="tc-row">👤 ${t.assignee?`<span>${t.assignee}</span>`:`<span class="unassigned">+ Chưa nhận</span>`}</div>
+            <div class="tc-row">📅 ${od?`<span class="od-badge">Trễ · ${t.dl}</span>`:`<span>${t.dl||'—'}</span>`}</div>
+            ${t.rv>0?`<div class="tc-row"><span class="${t.rv>=3?'rv-badge':''}">Review ${t.rv}${t.rv>=3?' ⚡':''}</span></div>`:''}
+          </div>
+          <div style="display:flex;gap:5px;margin-top:10px;flex-wrap:wrap">
+            <span style="font-size:9px;color:var(--t3);padding:2px 0">Member tự update trạng thái</span>
+          </div>
+        </div>`;
+      }).join('')||`<div class="kb-empty">Không có task</div>`}</div>
+    </div>`;
+  }).join('');
+}
+function filterProjTasks(val,btn){
+  projTaskFilter=val;
+  document.querySelectorAll('[id^="ptf-"]').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderProjectTasks(currentSlug);
+}
+function openAddTask(){document.getElementById('add-task-form').style.display='block';document.getElementById('add-task-form').scrollIntoView({behavior:'smooth'});}
+function closeAddTask(){document.getElementById('add-task-form').style.display='none';}
+function addProjectTask(){
+  const title=document.getElementById('nt-title').value.trim();
+  if(!title){toast('Vui lòng nhập tên task');return;}
+  const p=PROJECTS[currentSlug];if(!p.tasks)p.tasks=[];
+  const prefix=currentSlug.split('-').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const id=prefix+'-'+(p.tasks.length+1).toString().padStart(3,'0');
+  const dl=document.getElementById('nt-dl').value;
+  const dlFmt=dl?new Date(dl).toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'}).replace(/\//g,'/'):'—';
+  p.tasks.push({id,title,s:parseInt(document.getElementById('nt-sev').value),st:'incoming',assignee:null,dl:dlFmt,rv:0,module:document.getElementById('nt-module').value.trim()||'General'});
+  closeAddTask();
+  ['nt-title','nt-module'].forEach(i=>document.getElementById(i).value='');
+  saveProjectsLS();
+  renderProjectTasks(currentSlug);
+  toast('✓ Đã thêm task '+id);
+}
+function moveTask(slug,tid,newSt){
+  const p=PROJECTS[slug];const t=p.tasks.find(x=>x.id===tid);
+  if(t){t.st=newSt;renderProjectTasks(slug);}
+}
+function removeTask(slug,tid){
+  const p=PROJECTS[slug];p.tasks=p.tasks.filter(x=>x.id!==tid);
+  renderProjectTasks(slug);toast('Đã xoá task '+tid);
+}
+
+/* ══ MODAL ══ */
+function openNewModal(){document.getElementById('cpm-overlay').classList.add('open');}
+function closeNewModal(){document.getElementById('cpm-overlay').classList.remove('open');}
+function selTpl(el){document.querySelectorAll('.tpl-opt').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');}
+function createProject(){
+  const name=document.getElementById('m-name').value.trim();if(!name){toast('Vui lòng nhập tên dự án');return;}
+  const tech=document.getElementById('m-tech').value.trim()||'Chưa cập nhật';
+  const bp=document.getElementById('m-bp').value.trim();
+  const gBP=document.getElementById('m-g-bp').value.trim();const gArch=document.getElementById('m-g-arch').value.trim();
+  const gR=document.getElementById('m-g-rules').value.trim();const gC=document.getElementById('m-g-conv').value.trim();
+  const slug=name.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');
+  const colors=['blue','green','amber','purple'];const clr=colors[Object.keys(PROJECTS).length%4];
+  const icon=name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  PROJECTS[slug]={name,meta:tech,color:clr,icon,status:'onboarding',statusLbl:'Mới tạo',members:1,pending:0,progress:0,tasks:[],leader:{init:'LĐ',bg:'#5B4FE8',name:'Leader'},fromLeader:true,bp:bp||null,bpFor:document.getElementById('m-bp-for').value.trim(),bpResult:document.getElementById('m-bp-result').value.trim(),guideline:(gBP||gArch||gR||gC)?{bigPicDoc:gBP,archDoc:gArch,goldenRules:gR,convention:gC}:null};
+  saveProjectsLS();
+  if(window._fromOrderId){
+    try{
+      const q=JSON.parse(localStorage.getItem('nhile_user_submitted')||'[]');
+      const idx=q.findIndex(o=>o.id===window._fromOrderId);
+      if(idx>=0){q[idx].status='approved';q[idx].approvedAs='project:'+slug;}
+      localStorage.setItem('nhile_user_submitted',JSON.stringify(q));
+    }catch(e){}
+    window._fromOrderId=null;
+  }
+  ['m-name','m-tech','m-github','m-bp','m-bp-for','m-bp-result','m-g-bp','m-g-arch','m-g-rules','m-g-conv'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  closeNewModal();renderProjectList();
+  T((!bp||!(gBP||gArch||gR||gC))?'✓ Đã tạo "'+name+'" — nhớ điền Big Picture & Guideline!':'✓ Đã tạo "'+name+'" — đầy đủ thông tin!');
+  setTimeout(()=>openProject(slug,name,tech),400);
+}
+document.getElementById('cpm-overlay').addEventListener('click',function(e){if(e.target===this)closeNewModal();});
+
+/* ══ ACCESS ══ */
+let pendingCount=2;
+function approve(who){
+  if(who==='qa'){const pc=document.getElementById('pc-qa');if(pc){pc.style.background='rgba(48,209,88,0.08)';pc.style.borderColor='rgba(48,209,88,0.25)';pc.querySelector('.pc-t').style.color='var(--green)';pc.querySelector('.pc-t').textContent='Quốc An — đã invite';pc.querySelector('.btn-row').innerHTML='<span style="font-size:11px;color:var(--green)">✓ Invite gửi tới quocan@gmail.com</span>';}const qn=document.getElementById('qa-notice');if(qn){qn.style.background='var(--green2)';qn.style.color='var(--green)';qn.textContent='✓ Đã cấp GitHub Read + Task board';}const qs=document.getElementById('qa-status-pill');if(qs){qs.className='pill pill-green';qs.textContent='Access OK';}}
+  if(who==='hn'){const ph=document.getElementById('pc-hn');if(ph){ph.style.background='rgba(48,209,88,0.08)';ph.style.borderColor='rgba(48,209,88,0.25)';ph.querySelector('.pc-t').style.color='var(--green)';ph.querySelector('.pc-t').textContent='Hà Nhi — Figma đã cấp';ph.querySelector('.btn-row').innerHTML='<span style="font-size:11px;color:var(--green)">✓ Invite Figma gửi tới hanni@gmail.com</span>';}}
+  pendingCount=Math.max(0,pendingCount-1);
+  const b=document.getElementById('access-badge');if(b){b.textContent=pendingCount;b.style.display=pendingCount>0?'':'none';}
+  const l=document.getElementById('access-pending-lbl');if(l)l.textContent=pendingCount+' chờ duyệt';
+  const ov=document.getElementById('pov-access');if(ov)ov.textContent=pendingCount;
+  const op=document.getElementById('pov-pending');if(op)op.textContent=pendingCount+' pending';
+  toast('✓ Đã approve và gửi invite tự động');
+}
+
+/* ══ MEMBER ONBOARD ══ */
+function toggleDetail(id){document.getElementById('detail-'+id).classList.toggle('open');}
+function showAddMember(){document.getElementById('add-mem-card').style.display='block';}
+function hideAddMember(){document.getElementById('add-mem-card').style.display='none';}
+function addMember(){const n=document.getElementById('new-name').value.trim();const r=document.getElementById('new-role').value;if(!n||!r){toast('Điền đủ tên và role');return;}toast('✓ Đã thêm '+n+' — invite gửi tự động');hideAddMember();document.getElementById('new-name').value='';document.getElementById('new-email').value='';}
+
+/* ══ TEMPLATE ══ */
+function selTrack(el){document.querySelectorAll('.track-tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');}
+function addStep(){const v=document.getElementById('new-step-inp').value.trim();const tag=document.getElementById('new-step-tag').value;if(!v)return;const row=document.createElement('div');row.className='step-row';row.innerHTML=`<div class="drag-h">⠿</div><div class="fake-chk"></div><div class="step-lbl" style="color:var(--purple)">${v} <span class="custom-badge">custom</span></div><span class="step-tag" style="background:var(--purple2);color:var(--purple)">${tag}</span><div class="step-del" onclick="this.parentElement.remove()">✕</div>`;document.getElementById('track-steps').appendChild(row);document.getElementById('new-step-inp').value='';toast('✓ Đã thêm bước custom');}
+
+/* ══ UTILS ══ */
+function copyLink(){const v=document.getElementById('share-link').value;navigator.clipboard.writeText(v).catch(()=>{});toast('✓ Đã copy link share');}
+function scrollToMissing(){const first=Object.entries(PROJECTS).find(([,p])=>!p.bp||!p.guideline);if(first)openProject(first[0],first[1].name,first[1].meta);}
+let _t;
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(_t);_t=setTimeout(()=>el.classList.remove('show'),2500);}
+function backToProjects(){NAV('projects',document.getElementById('nav-projects-btn'));}
+function TF(sev,btn){CF=sev;document.querySelectorAll('.fp').forEach(b=>b.classList.remove('on'));btn.classList.add('on');rKanban();}
+
+/* ══ INIT ══ */
+document.getElementById('ts-label').textContent=new Date().toLocaleString('vi-VN',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+rStats();rPipe();rActions();rMembers();rKanban();rHealth();renderProjectList();
+function toggleRoleMenu(e){
+  e.stopPropagation();
+  document.getElementById('roleMenu').classList.toggle('open');
+}
+document.addEventListener('click',function(){
+  var m=document.getElementById('roleMenu');
+  if(m) m.classList.remove('open');
+});
+function selectRole(role){
+  document.getElementById('roleMenu').classList.remove('open');
+  if(role==='order') window.location.href='iT_-_nlt.html';
+  else if(role==='member_it') window.location.href='amazing_world_of_IT_v3.html';
+}
+
+/* ── Ting ting sound (Web Audio) ── */
+function playTingTing(){
+  try{
+    var ctx=new(window.AudioContext||window.webkitAudioContext)();
+    function ping(t,f){
+      var o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.type='sine';o.frequency.value=f;
+      g.gain.setValueAtTime(0.22,t);
+      g.gain.exponentialRampToValueAtTime(0.001,t+0.7);
+      o.start(t);o.stop(t+0.7);
+    }
+    ping(ctx.currentTime,880);
+    ping(ctx.currentTime+0.38,1100);
+  }catch(e){}
+}
+
+/* ── Handle cross-tab order completion ── */
+var _doneNotifTs = 0; /* dedup guard */
+function onOrderCompleted(data, playSnd){
+  if(_doneNotifTs === data.ts) return; /* already processed */
+  _doneNotifTs = data.ts;
+  if(playSnd) playTingTing();
+
+  /* Update pipeline done counter */
+  var pipe=document.getElementById('pipeline');
+  if(pipe){
+    var doneNum=pipe.querySelector('.ps.done .ps-n');
+    if(doneNum){
+      doneNum.textContent=(parseInt(doneNum.textContent)||0)+1;
+      var doneStage=doneNum.closest('.ps');
+      doneStage.classList.remove('flash');
+      void doneStage.offsetWidth; /* reflow to restart animation */
+      doneStage.classList.add('flash');
+    }
+  }
+
+  /* Prepend green notification row */
+  var hd=document.getElementById('leader-notif-hd');
+  if(hd){
+    var now=new Date();
+    var t=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+    var row=document.createElement('div');
+    row.className='notif-row';
+    row.style.cssText='background:rgba(48,209,88,.07);border-radius:8px;padding:7px 8px;margin-bottom:4px';
+    row.innerHTML='<div class="ndot" style="background:var(--green);margin-top:4px;flex-shrink:0"></div>'+
+      '<div><div class="ntext">✅ <strong>'+(data.orderName||data.orderId)+'</strong> — KH đã nghiệm thu!</div>'+
+      '<div class="ntime">'+t+' vừa xong</div></div>';
+    hd.insertAdjacentElement('afterend',row);
+  }
+
+  /* Update notif pill to green */
+  var pill=document.getElementById('leader-notif-pill');
+  if(pill){
+    var cur=parseInt(pill.dataset.done||'0')+1;
+    pill.dataset.done=cur;
+    pill.className='pill pill-green';
+    pill.textContent=cur+' ✅ hoàn thành';
+  }
+}
+
+/* Real-time cross-tab: play sound */
+window.addEventListener('storage',function(ev){
+  if(ev.key!=='it_order_completed'||!ev.newValue)return;
+  try{onOrderCompleted(JSON.parse(ev.newValue),true);}catch(e){}
+});
+/* On page load: silent check, 7-day window — works across sessions */
+(function(){
+  try{
+    var d=JSON.parse(localStorage.getItem('it_order_completed')||'null');
+    if(d&&(Date.now()-d.ts)<604800000)onOrderCompleted(d,false);
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
