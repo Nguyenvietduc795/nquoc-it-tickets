@@ -3771,7 +3771,7 @@ function saveOrders(orders) {
   try { localStorage.setItem(LS_ORDERS,JSON.stringify(orders)); } catch(e){}
 }
 
-var ORDERS_VERSION = 'v5';
+var ORDERS_VERSION = 'v6';
 function initOrders() {
   var orders = getOrders();
   /* Reset mock data if version mismatch — but preserve user-submitted orders */
