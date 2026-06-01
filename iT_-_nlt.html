@@ -822,6 +822,11 @@ body::before{
 .pm-rating-star.active{color:#F59E0B}
 .pm-rating-star:hover{transform:scale(1.15)}
 .pm-rating-val-lbl{font-size:11px;color:#64748B;font-weight:600;min-height:16px}
+.pm-rating-emoji-row{display:flex;gap:10px;margin:14px 0 10px}
+.pm-rating-emoji-opt{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 8px;border-radius:12px;border:1.5px solid #E2E8F0;background:#F8FAFC;cursor:pointer;transition:all .15s;font-size:28px}
+.pm-rating-emoji-opt span{font-size:12px;font-weight:600;color:#64748B}
+.pm-rating-emoji-opt:hover{border-color:#F59E0B;background:#FFFBEB;transform:translateY(-2px)}
+.pm-rating-emoji-opt.sel{border-color:#F59E0B;background:#FEF3C7;box-shadow:0 0 0 3px rgba(245,158,11,.15)}
 .pm-rating-comment{width:100%;min-height:72px;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:10px;font-size:12px;font-family:var(--font);color:#0F172A;background:#F8FAFC;resize:vertical;outline:none;margin-bottom:10px;transition:border-color .15s;line-height:1.5}
 .pm-rating-comment:focus{border-color:#22C55E;background:#fff}
 .pm-rating-comment::placeholder{color:#94A3B8}
@@ -3631,6 +3636,11 @@ function projClickGuard(el, state) {
             <span class="pm-rating-star" data-n="5" onclick="setOverallStar(5)" onmouseover="hoverOverallStar(5)" onmouseout="unhoverOverallStar()">★</span>
           </div>
         </div>
+        <div class="pm-rating-emoji-row">
+          <div class="pm-rating-emoji-opt" id="remo-1" onclick="selectRatingEmoji(1)">😞<span>Kém</span></div>
+          <div class="pm-rating-emoji-opt" id="remo-2" onclick="selectRatingEmoji(2)">😐<span>Bình thường</span></div>
+          <div class="pm-rating-emoji-opt" id="remo-3" onclick="selectRatingEmoji(3)">😊<span>Tốt</span></div>
+        </div>
         <div class="pm-rating-anon-note">• Đánh giá này ẩn danh – giúp cải thiện cách làm việc mà không gây khó xử</div>
         <textarea class="pm-rating-comment" id="pmRatingComment" placeholder="💬 Góp ý thêm cho IT Team — điều gì bạn thấy ổn hoặc muốn cải thiện lần sau? (tuỳ chọn)"></textarea>
         <button class="pm-rating-submit" onclick="submitRating()">✅ Gửi đánh giá &amp; hoàn tất</button>
@@ -4417,7 +4427,15 @@ function _paintOverall(n) {
 function setOverallStar(n) { _overallScore = n; _paintOverall(n); }
 function hoverOverallStar(n) { _paintOverall(n); }
 function unhoverOverallStar() { _paintOverall(_overallScore); }
-function renderRatingGrid() { _overallScore = 5; _paintOverall(5); }
+var _emojiScore = 0;
+function selectRatingEmoji(n) {
+  _emojiScore = n;
+  [1,2,3].forEach(function(i){
+    var el = document.getElementById('remo-'+i);
+    if(el) el.classList.toggle('sel', i===n);
+  });
+}
+function renderRatingGrid() { _overallScore = 5; _emojiScore = 0; _paintOverall(5); }
 
 function showRatingStep(orderName, taskId) {
   _ratingCompletionData = {orderName: orderName, taskId: taskId};
