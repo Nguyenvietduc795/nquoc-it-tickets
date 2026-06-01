@@ -1146,6 +1146,42 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 ::-webkit-scrollbar-thumb{background:#D1D5DB}
 .feed-wrap{padding:18px 22px;gap:16px;max-width:760px}
 
+/* ═══ 5 TÌNH HUỐNG HAY GẶP — Accordion ═══ */
+.sit-wrap{max-width:700px;margin:0 auto;padding:18px 20px 24px}
+.sit-header{margin-bottom:18px}
+.sit-tag{display:inline-flex;align-items:center;gap:6px;background:#F3F4F6;border:1px solid #E5E7EB;border-radius:20px;padding:4px 12px;font-size:10px;font-weight:700;color:#6B7280;margin-bottom:10px;letter-spacing:.4px}
+.sit-title{font-size:22px;font-weight:800;color:#111827;line-height:1.2;margin-bottom:6px;font-family:var(--fh)}
+.sit-sub{font-size:12.5px;color:#6B7280;line-height:1.5}
+.sit-card{background:#FFFFFF;border:1.5px solid #E5E7EB;border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);transition:border-color .2s,box-shadow .2s}
+.sit-card.open{border-color:#16A34A;box-shadow:0 4px 18px rgba(22,163,74,.1)}
+.sit-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none}
+.sit-head:hover{background:#FAFAFA}
+.sit-num{width:28px;height:28px;border-radius:50%;background:#F3F4F6;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#6B7280;flex-shrink:0;transition:all .2s}
+.sit-card.open .sit-num{background:#16A34A;color:#fff}
+.sit-head-info{flex:1;min-width:0}
+.sit-head-title{font-size:13.5px;font-weight:700;color:#111827}
+.sit-head-sub{font-size:11px;color:#9CA3AF;margin-top:2px;font-style:italic}
+.sit-chev{color:#9CA3AF;font-size:12px;transition:transform .2s;flex-shrink:0}
+.sit-card.open .sit-chev{transform:rotate(180deg);color:#16A34A}
+.sit-body{display:none;padding:0 16px 16px;border-top:1.5px solid #F3F4F6}
+.sit-card.open .sit-body{display:block}
+.sit-sec-lbl{font-size:9px;font-weight:800;color:#9CA3AF;letter-spacing:1px;text-transform:uppercase;margin:14px 0 7px}
+.sit-danger{background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;padding:11px 14px}
+.sit-danger-ttl{font-size:9px;font-weight:800;color:#DC2626;letter-spacing:.6px;text-transform:uppercase;margin-bottom:5px}
+.sit-danger-txt{font-size:12.5px;color:#374151;line-height:1.6}
+.sit-steps{display:flex;flex-direction:column;gap:8px}
+.sit-step{display:flex;gap:10px;align-items:flex-start}
+.sit-step-n{width:22px;height:22px;border-radius:50%;background:#F0FDF4;border:1.5px solid #BBF7D0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#16A34A;flex-shrink:0;margin-top:1px}
+.sit-step-t{font-size:12.5px;color:#374151;line-height:1.55;flex:1}
+.sit-quote{border-left:3px solid;border-radius:0 10px 10px 0;padding:10px 14px;margin-bottom:8px}
+.sit-quote:last-child{margin-bottom:0}
+.sit-quote.son{border-color:#F59E0B;background:#FFFBEB}
+.sit-quote.nhi{border-color:#16A34A;background:#F0FDF4}
+.sit-quote-name{font-size:9px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;margin-bottom:5px}
+.sit-quote.son .sit-quote-name{color:#D97706}
+.sit-quote.nhi .sit-quote-name{color:#16A34A}
+.sit-quote-text{font-size:12px;color:#374151;line-height:1.65;font-style:italic}
+
 /* ════════════════════════════════
    TASK DETAIL PANEL — light theme
 ════════════════════════════════ */
@@ -1786,7 +1822,147 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 
     <!-- CASE STUDY -->
     <div class="view" id="view-casestudy" style="overflow-y:auto">
-      <div class="proj-wrap">
+
+      <!-- 5 TÌNH HUỐNG HAY GẶP -->
+      <div class="sit-wrap">
+        <div class="sit-header">
+          <div class="sit-tag">💬 IT × TEAM KHÁC</div>
+          <div class="sit-title">5 Tình Huống Hay Gặp</div>
+          <div class="sit-sub">SOP xử lý từng tình huống + Mindset từ anh Sơn và chị Nhi. Bấm vào từng tình huống để xem.</div>
+        </div>
+
+        <!-- 1 -->
+        <div class="sit-card" id="sit-1">
+          <div class="sit-head" onclick="toggleSit('sit-1')">
+            <div class="sit-num">1</div>
+            <div class="sit-head-info">
+              <div class="sit-head-title">Đổi yêu cầu giữa chừng</div>
+              <div class="sit-head-sub">"Làm rồi họ bảo không phải cái này"</div>
+            </div>
+            <i class="ti ti-chevron-down sit-chev"></i>
+          </div>
+          <div class="sit-body">
+            <div class="sit-sec-lbl">🪤 Bẫy dễ mắc nhất</div>
+            <div class="sit-danger"><div class="sit-danger-ttl">Đừng làm</div><div class="sit-danger-txt">Đổ lỗi cho team khác, bực tức, làm lại mà không nói gì — dẫn đến vòng lặp vô tận.</div></div>
+            <div class="sit-sec-lbl">📋 SOP – Làm theo thứ tự này</div>
+            <div class="sit-steps">
+              <div class="sit-step"><div class="sit-step-n">1</div><div class="sit-step-t">Không phòng thủ – xác nhận yêu cầu mới bằng văn bản ngay lập tức.</div></div>
+              <div class="sit-step"><div class="sit-step-n">2</div><div class="sit-step-t">So sánh với tiêu chí đã chốt. Đây là thay đổi mới, không phải "sửa lỗi" – phải gọi đúng tên.</div></div>
+              <div class="sit-step"><div class="sit-step-n">3</div><div class="sit-step-t">Tính lại thời gian và tác động → thông báo minh bạch trước khi làm tiếp.</div></div>
+              <div class="sit-step"><div class="sit-step-n">4</div><div class="sit-step-t">Cập nhật tiêu chí → chốt lại với hai bên → rồi mới tiến hành.</div></div>
+            </div>
+            <div class="sit-sec-lbl">🧠 Mindset cần nắm</div>
+            <div class="sit-quote son"><div class="sit-quote-name">Anh Sơn</div><div class="sit-quote-text">"Đừng blame người ta. Nhìn lại – tiêu chí có được định nghĩa rõ từ đầu không? Nếu không, đây là lỗi của mình, không phải của họ. Tách tình cảm ra khỏi công việc."</div></div>
+            <div class="sit-quote nhi"><div class="sit-quote-name">Chị Nhi</div><div class="sit-quote-text">"Nếu yêu cầu thay đổi giữa chừng, nghĩa là bước đầu chưa đủ rõ. Complexity là dấu hiệu chưa distill đủ sâu."</div></div>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="sit-card" id="sit-2">
+          <div class="sit-head" onclick="toggleSit('sit-2')">
+            <div class="sit-num">2</div>
+            <div class="sit-head-info">
+              <div class="sit-head-title">Yêu cầu không rõ, hỏi thì họ cũng không biết</div>
+              <div class="sit-head-sub">"Tôi cũng không biết mình muốn gì cụ thể"</div>
+            </div>
+            <i class="ti ti-chevron-down sit-chev"></i>
+          </div>
+          <div class="sit-body">
+            <div class="sit-sec-lbl">🪤 Bẫy dễ mắc nhất</div>
+            <div class="sit-danger"><div class="sit-danger-ttl">Đừng làm</div><div class="sit-danger-txt">Tự đoán và điền chỗ trống theo ý IT – hoặc cứ build trước rồi tính sau. Cả hai đều dẫn đến không ai dùng.</div></div>
+            <div class="sit-sec-lbl">📋 SOP – Làm theo thứ tự này</div>
+            <div class="sit-steps">
+              <div class="sit-step"><div class="sit-step-n">1</div><div class="sit-step-t">Không bắt đầu code khi chưa rõ – dù bị áp lực deadline.</div></div>
+              <div class="sit-step"><div class="sit-step-n">2</div><div class="sit-step-t">Hỏi 3 câu chốt: "Hiện đang làm cách nào? Vấn đề lớn nhất là gì? Xong trông như thế nào?"</div></div>
+              <div class="sit-step"><div class="sit-step-n">3</div><div class="sit-step-t">Tự viết lại bằng lời của mình → confirm với họ trước khi làm.</div></div>
+              <div class="sit-step"><div class="sit-step-n">4</div><div class="sit-step-t">Chỉ bắt đầu sau khi họ gật đầu với bản tóm tắt đó.</div></div>
+            </div>
+            <div class="sit-sec-lbl">🧠 Mindset cần nắm</div>
+            <div class="sit-quote son"><div class="sit-quote-name">Anh Sơn</div><div class="sit-quote-text">"Nếu không nói được 1 câu rõ ràng 'xong là gì' thì chưa đủ rõ để bắt đầu. Đừng đoán. Test: ai là người chịu trách nhiệm? Outcome là gì? Không trả lời được → hỏi tiếp."</div></div>
+            <div class="sit-quote nhi"><div class="sit-quote-name">Chị Nhi</div><div class="sit-quote-text">"PO: người dùng thật phải được xác định – ai, ở giai đoạn nào, muốn gì. Không có cái này thì không build."</div></div>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="sit-card" id="sit-3">
+          <div class="sit-head" onclick="toggleSit('sit-3')">
+            <div class="sit-num">3</div>
+            <div class="sit-head-info">
+              <div class="sit-head-title">Làm xong nhưng không ai dùng</div>
+              <div class="sit-head-sub">"Product đẹp, không ai login"</div>
+            </div>
+            <i class="ti ti-chevron-down sit-chev"></i>
+          </div>
+          <div class="sit-body">
+            <div class="sit-sec-lbl">🪤 Bẫy dễ mắc nhất</div>
+            <div class="sit-danger"><div class="sit-danger-ttl">Đừng làm</div><div class="sit-danger-txt">Kết luận ngay "họ lười" hoặc cố giải thích cách dùng thêm – thay vì nhìn lại sản phẩm.</div></div>
+            <div class="sit-sec-lbl">📋 SOP – Làm theo thứ tự này</div>
+            <div class="sit-steps">
+              <div class="sit-step"><div class="sit-step-n">1</div><div class="sit-step-t">Không kết luận ngay. Hỏi 2–3 người lẽ ra nên dùng: tại sao không dùng?</div></div>
+              <div class="sit-step"><div class="sit-step-n">2</div><div class="sit-step-t">Phân loại lý do: không biết tồn tại / không hiểu cách dùng / không giải quyết đúng vấn đề / có tool khác tiện hơn.</div></div>
+              <div class="sit-step"><div class="sit-step-n">3</div><div class="sit-step-t">Nếu "không hiểu cách dùng" → thiết kế lại, không giải thích thêm.</div></div>
+              <div class="sit-step"><div class="sit-step-n">4</div><div class="sit-step-t">Nếu "không giải quyết đúng vấn đề" → thừa nhận và pivot, đừng cố cứu vãn.</div></div>
+            </div>
+            <div class="sit-sec-lbl">🧠 Mindset cần nắm</div>
+            <div class="sit-quote son"><div class="sit-quote-name">Anh Sơn</div><div class="sit-quote-text">"Nếu sản phẩm không ai xài → nhìn vào team trước, không đổ lỗi người dùng. Đã hỏi họ chưa? Đã build thứ họ cần, hay thứ mình thích làm?"</div></div>
+            <div class="sit-quote nhi"><div class="sit-quote-name">Chị Nhi</div><div class="sit-quote-text">"Sản phẩm tốt không cần được giải thích. Người dùng mở lên và biết ngay làm gì. Nếu cần giải thích cách dùng bằng lời → UX fail."</div></div>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="sit-card" id="sit-4">
+          <div class="sit-head" onclick="toggleSit('sit-4')">
+            <div class="sit-num">4</div>
+            <div class="sit-head-info">
+              <div class="sit-head-title">Gật đầu cho qua nhưng không hài lòng</div>
+              <div class="sit-head-sub">"Ổn rồi" nhưng sau lưng vẫn kêu</div>
+            </div>
+            <i class="ti ti-chevron-down sit-chev"></i>
+          </div>
+          <div class="sit-body">
+            <div class="sit-sec-lbl">🪤 Bẫy dễ mắc nhất</div>
+            <div class="sit-danger"><div class="sit-danger-ttl">Đừng làm</div><div class="sit-danger-txt">Tin vào "ổn rồi" bề mặt và đóng ticket – không biết vấn đề vẫn còn đó.</div></div>
+            <div class="sit-sec-lbl">📋 SOP – Làm theo thứ tự này</div>
+            <div class="sit-steps">
+              <div class="sit-step"><div class="sit-step-n">1</div><div class="sit-step-t">Sau nghiệm thu, cho chấm điểm ẩn danh – không chỉ dựa vào lời nói.</div></div>
+              <div class="sit-step"><div class="sit-step-n">2</div><div class="sit-step-t">Quan sát hành vi thực tế: họ có thật sự dùng sau 1 tuần không?</div></div>
+              <div class="sit-step"><div class="sit-step-n">3</div><div class="sit-step-t">Nếu nghi ngờ, hỏi thẳng: "Nếu không phải báo cáo với tôi, bạn thấy cái này còn thiếu gì?"</div></div>
+              <div class="sit-step"><div class="sit-step-n">4</div><div class="sit-step-t">Không phòng thủ khi nhận feedback thật – cảm ơn, ghi lại, fix.</div></div>
+            </div>
+            <div class="sit-sec-lbl">🧠 Mindset cần nắm</div>
+            <div class="sit-quote son"><div class="sit-quote-name">Anh Sơn</div><div class="sit-quote-text">"Thảo mai nguy hiểm hơn nói dối vì khó phát hiện và từ từ làm hỏng văn hóa tổ chức. Phải tạo điều kiện để người ta thật sự nói thật – không chỉ tạo cơ hội."</div></div>
+            <div class="sit-quote nhi"><div class="sit-quote-name">Chị Nhi</div><div class="sit-quote-text">"Đừng reward sự đồng ý – reward sự trung thực dù khó nghe. Test thật: hỏi câu người ta ngại trả lời thật nhất."</div></div>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="sit-card" id="sit-5">
+          <div class="sit-head" onclick="toggleSit('sit-5')">
+            <div class="sit-num">5</div>
+            <div class="sit-head-info">
+              <div class="sit-head-title">Phải nói "không" hoặc "chưa được"</div>
+              <div class="sit-head-sub">Deadline không thực tế, scope quá lớn</div>
+            </div>
+            <i class="ti ti-chevron-down sit-chev"></i>
+          </div>
+          <div class="sit-body">
+            <div class="sit-sec-lbl">🪤 Bẫy dễ mắc nhất</div>
+            <div class="sit-danger"><div class="sit-danger-ttl">Đừng làm</div><div class="sit-danger-txt">Vòng vo "để tôi xem xét" khi biết chắc không được – hoặc nhận rồi làm ẩu cho có.</div></div>
+            <div class="sit-sec-lbl">📋 SOP – Làm theo thứ tự này</div>
+            <div class="sit-steps">
+              <div class="sit-step"><div class="sit-step-n">1</div><div class="sit-step-t">Nói thẳng ngay – không "để tôi xem" khi đã biết chắc câu trả lời.</div></div>
+              <div class="sit-step"><div class="sit-step-n">2</div><div class="sit-step-t">Giải thích lý do cụ thể: tại sao không khả thi (thời gian, scope, resource – có số liệu).</div></div>
+              <div class="sit-step"><div class="sit-step-n">3</div><div class="sit-step-t">Đề xuất thay thế cụ thể: phiên bản nhỏ hơn? Deadline khác? Bỏ tính năng nào trước?</div></div>
+              <div class="sit-step"><div class="sit-step-n">4</div><div class="sit-step-t">Nếu vẫn mâu thuẫn về priority → leo thang đúng kênh, để leader quyết định.</div></div>
+            </div>
+            <div class="sit-sec-lbl">🧠 Mindset cần nắm</div>
+            <div class="sit-quote son"><div class="sit-quote-name">Anh Sơn</div><div class="sit-quote-text">"Thẳng thắn = tôn trọng. Thảo mai, vòng vo = thiếu tôn trọng – vì đang giả định họ không chịu được sự thật. Nói thẳng VÌ muốn người đó và project tốt hơn."</div></div>
+            <div class="sit-quote nhi"><div class="sit-quote-name">Chị Nhi</div><div class="sit-quote-text">"Direct nhưng caring. Không formal kiểu văn bản hành chính. Phải nghe như người đang nói chuyện thật với người – không phải đọc email từ chối."</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-wrap" style="padding-top:0">
         <div class="sect-title">📚 Kho Case Study</div>
         <div class="sect-sub">Click vào project để xem các case study đã lưu</div>
         <div class="proj-grid">
@@ -1814,6 +1990,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
           </div>
         </div>
       </div>
+      </div><!-- /proj-wrap -->
       <!-- CS DETAIL PANEL (slide in from right) -->
       <div class="cs-detail-ov" id="csDetailOv" onclick="closeCsDetail()"></div>
       <div class="cs-detail-panel" id="csDetailPanel">
@@ -4650,6 +4827,14 @@ window.addEventListener('storage', function(ev) {
     if (d && (Date.now() - d.ts) < 604800000) _showMemberCompletionNotif(d, false);
   } catch(e) {}
 })();
+
+/* ── 5 Tình Huống Hay Gặp accordion ── */
+function toggleSit(id) {
+  var card = document.getElementById(id);
+  var isOpen = card.classList.contains('open');
+  document.querySelectorAll('.sit-card').forEach(function(c){ c.classList.remove('open'); });
+  if (!isOpen) card.classList.add('open');
+}
 
 </script>
 </body>
