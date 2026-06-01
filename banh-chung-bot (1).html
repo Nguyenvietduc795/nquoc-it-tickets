@@ -478,6 +478,25 @@ function showLockedCard() {
       addBubble('gao','🍀 Xong rồi '+ui.name+'! IT đã nhận ticket và bắt đầu làm. Mình sẽ thông báo khi có cập nhật nhé!');
       setProg(FLOW.length);
       showToast();
+      // Save to localStorage for cross-dashboard sync
+      try{
+        var tname=sopChat.team||ui.team;
+        var projTeam={'N-EDU':'nedu'}[tname]||'nhile';
+        var order={
+          id:'BC-'+tcFrom(tname)+'-'+String(Math.floor(Math.random()*89)+10),
+          name:sopChat.story||sopChat.problem||'Yêu cầu từ Bánh Chưng Bot',
+          icon:'🍀', desc:sopChat.problem, status:'waiting', priority:'warm',
+          source:'banh-chung', proj:projTeam,
+          projName:projTeam==='nedu'?'Nedu CRM':'NhiLe Platform v2',
+          deadline:'TBD', submittedAt:today(), submittedBy:ui.name, team:tname,
+          criteria:[sopChat.c1,sopChat.c2,sopChat.c3], tags:['Bot',tname]
+        };
+        var q=JSON.parse(localStorage.getItem('nhile_user_submitted')||'[]');
+        q.unshift(order);
+        localStorage.setItem('nhile_user_submitted',JSON.stringify(q));
+      }catch(e){}
+      waiting=true;
+      document.getElementById('sendbtn').disabled=false;
     });
   }, 400);
   scrollBot();
@@ -680,51 +699,10 @@ function nextStep(){
     typing(function(){
       sopChat.team = (ans.team_sel||ui.team||'').replace(/^.\s+/,'');
       sopChat.problem = ans.problem||'';
-      addBubble('gao','Cảm ơn '+ui.name+'! 🍀 Mình đã nhận yêu cầu. IT sẽ dịch lại thành tiêu chí kỹ thuật bên dưới nhé 👇');
+      addBubble('gao','Cảm ơn '+ui.name+'! 🍀 Mình đã nhận yêu cầu. IT sẽ dịch lại thành tiêu chí bên dưới nhé 👇');
       setTimeout(function(){
-        typing(function(){
-          showTranslateCard();
-          /* keep original output hidden — skipped */
-          if(false){showOutput(buildUS());
-          setTimeout(function(){
-            typing(function(){
-              showToast(); }
-              /* ── Save to localStorage for cross-dashboard sync ── */
-              (function(){
-                var bcId='BC-'+tcFrom(ui.team)+'-'+String(Math.floor(Math.random()*89)+10);
-                var teamProjMap={'N-EDU':'nedu','Bloom':'nhile','NhiLe System':'nhile','NQuoc':'nhile'};
-                var projTeam=teamProjMap[ui.team]||'nhile';
-                var order={
-                  id:bcId,
-                  name:(ans.feature||'Yêu cầu từ Bánh Chưng Bot'),
-                  icon:'🍀',
-                  desc:(ans.pain||'Yêu cầu từ Bánh Chưng Bot')+' (Gửi bởi: '+ui.name+' — '+ui.team+')',
-                  status:'waiting', priority:'warm', source:'banh-chung',
-                  proj:projTeam,
-                  projName:projTeam==='nedu'?'Nedu CRM':'NhiLe Platform v2',
-                  deadline:'TBD',
-                  submittedAt:today(),
-                  submittedBy:ui.name,
-                  team:ui.team,
-                  tags:['Bot',ui.team]
-                };
-                try{
-                  var q=JSON.parse(localStorage.getItem('nhile_user_submitted')||'[]');
-                  q.unshift(order);
-                  localStorage.setItem('nhile_user_submitted',JSON.stringify(q));
-                }catch(e){}
-              })();
-              setTimeout(function(){
-                typing(function(){
-                  addBubble('gao','Xong rồi nha! 🌾 Phiếu đã gửi cho team IT.\nNếu cần tạo thêm, nhấn "↺ Đổi" để bắt đầu lại nhé!');
-                  waiting=true;
-                  document.getElementById('sendbtn').disabled=false;
-                });
-              },500);
-            });
-          },400);
-        });
-      },600);
+        typing(function(){ showTranslateCard(); });
+      }, 600);
     });
     return;
   }
