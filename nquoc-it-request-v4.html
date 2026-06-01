@@ -789,12 +789,6 @@ input[type=text],input[type=date],input[type=email],textarea,select{
     </div>
   </div>
 
-  <!-- Link trang -->
-  <div class="field-group">
-    <div class="field-label" id="linkLabel">Link trang đang bị lỗi <span class="opt">(tuỳ chọn)</span></div>
-    <input type="text" id="bugLink" placeholder="Link trang lỗi hoặc Google Drive, Loom...">
-  </div>
-
   <!-- Môi trường (ẩn, thu thập ngầm) -->
   <div style="display:none" id="envInfo">
     <span id="envBrowser">Chrome</span>
@@ -936,6 +930,10 @@ input[type=text],input[type=date],input[type=email],textarea,select{
     </div>
     <div id="fileList3" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
     <div id="linkList3" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
+    <div style="margin-top:14px">
+      <div class="field-label" id="linkLabel" style="margin-bottom:6px">🔗 Link trang đang bị lỗi <span class="opt">(tuỳ chọn)</span></div>
+      <input type="text" id="bugLink" placeholder="Link trang lỗi hoặc Google Drive, Loom..." style="width:100%;padding:10px 12px;border:1.5px solid var(--gray-border-soft);border-radius:var(--radius-sm);font-size:14px;font-family:var(--font);outline:none;background:var(--bg-surface);color:var(--text)">
+    </div>
     </div>
   </div>
 
@@ -977,24 +975,6 @@ input[type=text],input[type=date],input[type=email],textarea,select{
       </div>
     </div>
 
-    <!-- Vấn đề gốc -->
-    <div class="sub-section">
-      <div class="sub-section-header">
-        <div class="sub-section-icon" style="background:#eff6ff">🔎</div>
-        <div><div class="sub-section-title">Vấn đề gốc</div><div class="sub-section-sub">Giúp IT hiểu bối cảnh — để fix đúng chỗ, không bị tái phát</div></div>
-      </div>
-      <div class="field-group">
-        <div class="field-label">⚙️ Bạn đang làm việc này như thế nào trước khi bị lỗi?</div>
-        <div class="field-hint">Ví dụ: Tôi vào trang X → làm bước Y → rồi lỗi xuất hiện ở bước Z.</div>
-        <textarea id="bugProcess" placeholder="VD: Tôi mở trang quản lý đơn hàng, bấm nút Tạo mới, điền form rồi bấm Lưu..."></textarea>
-      </div>
-      <div class="field-group">
-        <div class="field-label">🚨 Nếu chưa fix, điều gì sẽ xảy ra?</div>
-        <div class="field-hint">Điều này giúp IT ưu tiên task cho bạn.</div>
-        <textarea id="bugImpact" placeholder="VD: Không gửi được báo cáo cho khách, mất khoảng 2 tiếng xử lý thủ công mỗi ngày..."></textarea>
-      </div>
-
-    </div>
   </div>
 
   <!-- === FEATURE filter === -->
