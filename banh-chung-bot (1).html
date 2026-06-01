@@ -101,6 +101,46 @@ header{background:linear-gradient(135deg,#1D4D2A,#0F3018);height:56px;padding:0 
 #sendbtn:disabled{opacity:.35}
 
 .hidden{display:none!important}
+
+/* ── SOP STEP SCREENS ── */
+.sop-screen{position:fixed;inset:0;z-index:200;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#0D2B0F;padding:28px 18px 70px;font-family:'Nunito',sans-serif;color:#fff}
+.sop-inner{max-width:520px;margin:0 auto}
+.sop-role{display:inline-block;padding:5px 13px;border-radius:20px;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px}
+.sop-role.req{background:rgba(200,150,42,.18);color:#F5C842;border:1px solid rgba(245,200,66,.28)}
+.sop-role.it{background:rgba(90,220,90,.12);color:#6EE67E;border:1px solid rgba(110,230,126,.25)}
+.sop-role.both{background:rgba(100,160,255,.12);color:#89B4FF;border:1px solid rgba(137,180,255,.25)}
+.sop-stepnum{font-size:12px;color:rgba(255,255,255,.42);font-weight:700;margin-bottom:6px;letter-spacing:.5px}
+.sop-title{font-size:28px;font-weight:900;line-height:1.15;margin-bottom:8px;letter-spacing:-.4px}
+.sop-sub{font-size:13px;color:rgba(255,255,255,.5);line-height:1.65;margin-bottom:22px}
+.sop-sub em{font-style:italic;color:rgba(255,255,255,.7)}
+.sop-lbl{font-size:10px;font-weight:800;color:rgba(255,255,255,.38);letter-spacing:1px;text-transform:uppercase;margin:18px 0 8px}
+.sop-teams{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:4px}
+.sop-topt{display:flex;flex-direction:column;align-items:center;gap:5px;padding:11px 6px;border-radius:12px;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);font-size:12px;font-weight:700;color:rgba(255,255,255,.45);cursor:pointer;transition:all .15s;touch-action:manipulation}
+.sop-topt .ico{font-size:20px}
+.sop-topt.sel{border-color:#C8962A;background:rgba(200,150,42,.18);color:#F5C842}
+.sop-ta{width:100%;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.1);border-radius:12px;padding:13px 14px;font-size:15px;font-family:'Nunito',sans-serif;font-weight:500;color:#fff;min-height:100px;resize:none;outline:none;line-height:1.6}
+.sop-ta:focus{border-color:rgba(200,150,42,.55)}
+.sop-ta::placeholder{color:rgba(255,255,255,.2)}
+.sop-inp{width:100%;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 14px;font-size:15px;font-family:'Nunito',sans-serif;font-weight:500;color:#fff;outline:none}
+.sop-inp:focus{border-color:rgba(200,150,42,.55)}
+.sop-inp::placeholder{color:rgba(255,255,255,.2)}
+.sop-hint{font-size:11px;color:rgba(255,255,255,.28);font-style:italic;margin-top:6px;line-height:1.5}
+.sop-orig-box{background:rgba(220,60,60,.09);border:1.5px solid rgba(220,60,60,.32);border-radius:12px;padding:14px;margin-bottom:4px}
+.sop-orig-lbl{font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:rgba(220,90,90,.85);margin-bottom:7px}
+.sop-orig-txt{font-size:13px;color:rgba(255,255,255,.78);line-height:1.65;font-style:italic}
+.sop-crit-row{display:flex;gap:9px;align-items:flex-start;margin-bottom:9px}
+.sop-crit-n{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:rgba(255,255,255,.55);flex-shrink:0;margin-top:2px}
+.sop-crit-box{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 14px;font-size:13px;color:rgba(255,255,255,.82);line-height:1.5;flex:1}
+.sop-locked{background:rgba(200,150,42,.08);border:1.5px solid rgba(200,150,42,.28);border-radius:14px;padding:18px;text-align:center;margin-bottom:18px}
+.sop-lock-icon{font-size:34px;margin-bottom:9px}
+.sop-lock-title{font-size:15px;font-weight:800;color:#F5C842;margin-bottom:4px}
+.sop-lock-sub{font-size:11px;color:rgba(255,255,255,.4);line-height:1.5}
+.sop-note-box{background:rgba(255,255,255,.04);border-radius:10px;padding:12px 14px;font-size:11px;color:rgba(255,255,255,.38);line-height:1.6;margin-top:14px;font-style:italic}
+.sop-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;margin-top:16px;border-radius:14px;border:none;font-size:15px;font-weight:800;letter-spacing:.2px;cursor:pointer;touch-action:manipulation;font-family:'Nunito',sans-serif}
+.sop-btn-g{background:linear-gradient(135deg,#1D4D2A,#3A7D52);color:#fff;box-shadow:0 4px 16px rgba(74,124,63,.35)}
+.sop-btn-confirm{background:linear-gradient(135deg,#1A5C2E,#28A745);color:#fff;box-shadow:0 4px 16px rgba(40,167,69,.35)}
+.sop-btn-revise{background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.15)!important;color:rgba(255,255,255,.65);margin-top:8px}
+.sop-btn-lock{background:linear-gradient(135deg,#9B6F1A,#C8962A);color:#fff;box-shadow:0 4px 16px rgba(200,150,42,.35)}
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 </style>
@@ -196,6 +236,92 @@ header{background:linear-gradient(135deg,#1D4D2A,#0F3018);height:56px;padding:0 
   </div>
 </div>
 
+<!-- SOP BƯỚC 1: Người đặt kể vấn đề -->
+<div id="sop1" class="sop-screen hidden">
+  <div class="sop-inner">
+    <div class="sop-role req">NGƯỜI ĐẶT YÊU CẦU</div>
+    <div class="sop-stepnum">BƯỚC 1 / 4</div>
+    <div class="sop-title">Kể vấn đề của bạn</div>
+    <div class="sop-sub">Kể chuyện bằng lời của bạn — không cần biết gì về IT. Càng cụ thể càng tốt.</div>
+    <div class="sop-lbl">BẠN ĐANG Ở TEAM NÀO?</div>
+    <div class="sop-teams" id="s1teams">
+      <button class="sop-topt" data-t="Content"><div class="ico">✍️</div>Content</button>
+      <button class="sop-topt" data-t="Design"><div class="ico">🎨</div>Design</button>
+      <button class="sop-topt" data-t="Admin"><div class="ico">⚙️</div>Admin</button>
+      <button class="sop-topt" data-t="HR"><div class="ico">👥</div>HR</button>
+      <button class="sop-topt" data-t="Academy"><div class="ico">🎓</div>Academy</button>
+      <button class="sop-topt" data-t="N-EDU"><div class="ico">📚</div>N-EDU</button>
+    </div>
+    <div class="sop-lbl">VẤN ĐỀ CỦA BẠN LÀ GÌ?</div>
+    <textarea class="sop-ta" id="s1problem" rows="5" placeholder="Hiện tại mình đang làm... Mất khoảng... Điều bất tiện là..."></textarea>
+    <div class="sop-hint">Gợi ý: Mô tả bạn đang làm gì, mất bao lâu, vấn đề cụ thể là gì.</div>
+    <button class="sop-btn sop-btn-g" onclick="submitSop1()">Gửi cho IT →</button>
+  </div>
+</div>
+
+<!-- SOP BƯỚC 2: IT dịch lại -->
+<div id="sop2" class="sop-screen hidden">
+  <div class="sop-inner">
+    <div class="sop-role it">IT TEAM</div>
+    <div class="sop-stepnum">BƯỚC 2 / 4</div>
+    <div class="sop-title">IT dịch lại thành tiêu chí</div>
+    <div class="sop-sub">Đọc yêu cầu của bên kia. Dịch lại bằng ngôn ngữ mà <em>họ</em> kiểm tra được — không phải ngôn ngữ tech của mình.</div>
+    <div class="sop-lbl">YÊU CẦU GỐC TỪ TEAM <span id="s2teamlbl" style="color:#F5C842"></span></div>
+    <div class="sop-orig-box">
+      <div class="sop-orig-lbl">YÊU CẦU GỐC</div>
+      <div class="sop-orig-txt" id="s2orig"></div>
+    </div>
+    <div class="sop-lbl">USER STORY – "LÀ [AI], TÔI MUỐN [GÌ], ĐỂ [LÀM GÌ]"</div>
+    <textarea class="sop-ta" id="s2story" rows="3" placeholder="Là leader team ..., tôi muốn ... bằng 1 nút bấm, để tiết kiệm ... và không còn ..."></textarea>
+    <div class="sop-hint">Phần "để..." là quan trọng nhất — đó là lý do thật sự họ cần cái này.</div>
+    <div class="sop-lbl">3 TIÊU CHÍ NGHIỆM THU – VIẾT ĐỂ HỌ TỰ MẮT KIỂM TRA ĐƯỢC</div>
+    <div class="sop-crit-row"><div class="sop-crit-n">1</div><input class="sop-inp" id="s2c1" placeholder="Bấm nút → ...xảy ra trong vòng ... giây" /></div>
+    <div class="sop-crit-row"><div class="sop-crit-n">2</div><input class="sop-inp" id="s2c2" placeholder="File / kết quả có đầy đủ... cột / trường..." /></div>
+    <div class="sop-crit-row"><div class="sop-crit-n">3</div><input class="sop-inp" id="s2c3" placeholder="Mở được / hiển thị đúng trên..." /></div>
+    <div class="sop-hint">Không viết "API trả 200" — viết kiểu "bấm nút → thấy gì, trong bao lâu".</div>
+    <button class="sop-btn sop-btn-g" onclick="submitSop2()">Gửi cho người đặt xác nhận →</button>
+  </div>
+</div>
+
+<!-- SOP BƯỚC 3: Người đặt xác nhận -->
+<div id="sop3" class="sop-screen hidden">
+  <div class="sop-inner">
+    <div class="sop-role req">NGƯỜI ĐẶT YÊU CẦU</div>
+    <div class="sop-stepnum">BƯỚC 3 / 4</div>
+    <div class="sop-title">Bạn xác nhận bản dịch</div>
+    <div class="sop-sub">IT vừa dịch yêu cầu của bạn lại. Đọc kỹ — nếu IT hiểu đúng thì bước tiếp theo sẽ dùng những tiêu chí này để kiểm tra kết quả.</div>
+    <div class="sop-lbl">IT HIỂU YÊU CẦU CỦA BẠN LÀ</div>
+    <div class="sop-orig-box"><div class="sop-orig-txt" id="s3story"></div></div>
+    <div class="sop-lbl">TIÊU CHÍ KIỂM TRA – BẠN CÓ THỂ TỰ KIỂM TỪNG CÁI NÀY KHÔNG?</div>
+    <div class="sop-crit-row"><div class="sop-crit-n">1</div><div class="sop-crit-box" id="s3c1"></div></div>
+    <div class="sop-crit-row"><div class="sop-crit-n">2</div><div class="sop-crit-box" id="s3c2"></div></div>
+    <div class="sop-crit-row"><div class="sop-crit-n">3</div><div class="sop-crit-box" id="s3c3"></div></div>
+    <div class="sop-hint">Nếu đọc hiểu và tự kiểm tra được từng tiêu chí → bấm xác nhận. Nếu IT hiểu chưa đúng ý → bấm yêu cầu sửa.</div>
+    <button class="sop-btn sop-btn-confirm" onclick="confirmSop()">Đúng rồi – Xác nhận và tiến hành</button>
+    <button class="sop-btn sop-btn-revise" onclick="reviseSop()">IT hiểu chưa đúng, sửa lại</button>
+  </div>
+</div>
+
+<!-- SOP BƯỚC 4: Tiêu chí đã khóa -->
+<div id="sop4" class="sop-screen hidden">
+  <div class="sop-inner">
+    <div class="sop-role both">CẢ HAI BÊN</div>
+    <div class="sop-stepnum">BƯỚC 4 / 4</div>
+    <div class="sop-title">Tiêu chí đã được khóa</div>
+    <div class="sop-sub">Tiêu chí đã được khóa — không ai thay đổi được nữa. Đây là định nghĩa của chữ "xong" mà cả hai bên đã đồng ý.</div>
+    <div class="sop-locked">
+      <div class="sop-lock-icon">🔒</div>
+      <div class="sop-lock-title">Hợp đồng đã chốt</div>
+      <div class="sop-lock-sub">Sản phẩm chỉ được gọi là "xong" khi người đặt tự tick xong 3 tiêu chí này</div>
+    </div>
+    <div class="sop-crit-row"><div class="sop-crit-n">1</div><div class="sop-crit-box" id="s4c1"></div></div>
+    <div class="sop-crit-row"><div class="sop-crit-n">2</div><div class="sop-crit-box" id="s4c2"></div></div>
+    <div class="sop-crit-row"><div class="sop-crit-n">3</div><div class="sop-crit-box" id="s4c3"></div></div>
+    <div class="sop-note-box">IT không được tự bấm "xong" sau bước này. Người kiểm tra duy nhất là người đặt – khi họ tick xong 3 tiêu chí trên.</div>
+    <button class="sop-btn sop-btn-lock" onclick="finishSop()">IT vào làm việc →</button>
+  </div>
+</div>
+
 <script>
 // ── STATE ──
 var ui = {name:'', team:'', tele:''};
@@ -232,15 +358,88 @@ document.getElementById('reloadbtn').addEventListener('click', function(){
   location.reload();
 });
 
+// ── SOP STATE ──
+var sopState = { team:'', problem:'', story:'', c1:'', c2:'', c3:'' };
+
+function goSop(n) {
+  [1,2,3,4].forEach(function(i){ document.getElementById('sop'+i).classList.add('hidden'); });
+  document.getElementById('sop'+n).classList.remove('hidden');
+  document.getElementById('sop'+n).scrollTop = 0;
+}
+
+// Step 1 team selection
+(function(){
+  var grid = document.getElementById('s1teams');
+  if(!grid) return;
+  grid.querySelectorAll('.sop-topt').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      grid.querySelectorAll('.sop-topt').forEach(function(b){ b.classList.remove('sel'); });
+      btn.classList.add('sel');
+      sopState.team = btn.getAttribute('data-t');
+    });
+  });
+})();
+
+function submitSop1() {
+  var problem = document.getElementById('s1problem').value.trim();
+  if (!sopState.team) { alert('Bạn chưa chọn team nha 😊'); return; }
+  if (problem.length < 10) { alert('Kể thêm một chút nha — càng cụ thể IT càng dễ hiểu 🙏'); return; }
+  sopState.problem = problem;
+  // Populate step 2
+  document.getElementById('s2teamlbl').textContent = sopState.team;
+  document.getElementById('s2orig').textContent = problem;
+  goSop(2);
+}
+
+function submitSop2() {
+  var story = document.getElementById('s2story').value.trim();
+  var c1 = document.getElementById('s2c1').value.trim();
+  var c2 = document.getElementById('s2c2').value.trim();
+  var c3 = document.getElementById('s2c3').value.trim();
+  if (!story) { alert('Bạn chưa điền user story nha'); return; }
+  if (!c1 || !c2 || !c3) { alert('Cần điền đủ 3 tiêu chí nhé'); return; }
+  sopState.story = story; sopState.c1 = c1; sopState.c2 = c2; sopState.c3 = c3;
+  // Populate step 3
+  document.getElementById('s3story').textContent = story;
+  document.getElementById('s3c1').textContent = c1;
+  document.getElementById('s3c2').textContent = c2;
+  document.getElementById('s3c3').textContent = c3;
+  goSop(3);
+}
+
+function confirmSop() {
+  // Populate step 4
+  document.getElementById('s4c1').textContent = sopState.c1;
+  document.getElementById('s4c2').textContent = sopState.c2;
+  document.getElementById('s4c3').textContent = sopState.c3;
+  goSop(4);
+}
+
+function reviseSop() {
+  // Go back to step 2, keep existing data
+  goSop(2);
+}
+
+function finishSop() {
+  // Hide all SOP screens, show the original chat app
+  [1,2,3,4].forEach(function(i){ document.getElementById('sop'+i).classList.add('hidden'); });
+  document.getElementById('app').classList.remove('hidden');
+  initChat();
+}
+
 function doStart(){
   var name = document.getElementById('w-name').value.trim() || 'Bạn';
   var tele = document.getElementById('w-tele').value.trim();
-  var team = selTeam || 'NhiLe';
+  var team = selTeam || '';
   ui = {name: name, team: team, tele: tele};
-  document.getElementById('uchip').textContent = '🌾 ' + name + ' · ' + team;
+  document.getElementById('uchip').textContent = '🌾 ' + name + (team ? ' · ' + team : '');
   document.getElementById('welcome').classList.add('hidden');
-  document.getElementById('app').classList.remove('hidden');
-  initChat();
+  // Pre-select team in SOP step 1 if chosen in welcome
+  if (team) {
+    var btn = document.querySelector('#s1teams [data-t="'+team+'"]');
+    if (btn) { btn.classList.add('sel'); sopState.team = team; }
+  }
+  goSop(1);
 }
 
 // ── CHAT HELPERS ──
