@@ -1154,7 +1154,7 @@ body::before{
         <span class="pj-stage active">Kiểm tra &amp; hoàn thiện</span>
         <span class="pj-stage">Ra mắt</span>
       </div>
-      <div class="pj-checklist-alert">📋 Checklist nghiệm thu đang chờ — bấm để kiểm tra!</div>
+      <div class="pj-checklist-alert" onclick="openStaticProjCL(2)">📋 Checklist nghiệm thu đang chờ — bấm để kiểm tra!</div>
       <button class="pj-btn" onclick="openStaticProj(2)">🔎 Xem tiến độ chi tiết →</button>
     </div>
 
@@ -3833,7 +3833,7 @@ function renderProjGrid(orders) {
       if (o.status==='done') {
         html+='<div class="proj-done-banner">✅ Đã nghiệm thu hoàn tất!</div>';
       } else if (isQAStage(o)) {
-        html+='<div class="proj-qa-cta">📋 Checklist nghiệm thu đang chờ — bấm để kiểm tra!</div>';
+        html+='<div class="proj-qa-cta" onclick="event.stopPropagation();openProjDetail(\''+o.id+'\');setTimeout(function(){switchPmTab(\'checklist\');},80)">📋 Checklist nghiệm thu đang chờ — bấm để kiểm tra!</div>';
       } else {
         html+='<div class="proj-view-btn">👁 Xem tiến độ chi tiết →</div>';
       }
@@ -4830,6 +4830,34 @@ function sendStaticMsg(idx) {
       +'</div>';
   }).join('');
   setTimeout(function(){ el.scrollTop = el.scrollHeight; }, 30);
+}
+
+/* ── Mở static pj-card với tab Checklist ── */
+function openStaticProjCL(idx) {
+  var p = STATIC_PROJS[idx];
+  if (!p) return;
+  var fakeId = 'STATIC-' + idx;
+  var stageNames = ['Xem xét yêu cầu','Lên phương án','Đang làm','Kiểm tra & hoàn thiện','Ra mắt'];
+  var stages = stageNames.map(function(n, i) {
+    return { name: n, status: i < p.stage ? 'done' : (i === p.stage ? 'active' : 'todo') };
+  });
+  var fakeOrder = {
+    id: fakeId,
+    name: p.title,
+    projName: p.sub,
+    progress: p.pct,
+    deadline: p.deadline || '—',
+    approvedAt: '—',
+    taskId: p.taskId || '',
+    status: 'approved',
+    stages: stages
+  };
+  var orders = getOrders() || [];
+  var existing = orders.findIndex(function(o){ return o.id === fakeId; });
+  if (existing >= 0) orders[existing] = fakeOrder; else orders.push(fakeOrder);
+  saveOrders(orders);
+  openProjDetail(fakeId);
+  setTimeout(function(){ switchPmTab('checklist'); }, 80);
 }
 
 </script>
