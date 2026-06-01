@@ -1123,9 +1123,9 @@ body::before{
       <div class="pj-top"><div class="pj-status">● Đã duyệt</div><div class="pj-date">23/05/2026</div></div>
       <div class="pj-header">
         <div class="pj-icon" style="background:#FFFBEB">🔔</div>
-        <div><div class="pj-title">Push notification real-time</div><div class="pj-platform">Nedu CRM</div></div>
+        <div><div class="pj-title">Thông báo tự động cho học viên</div><div class="pj-platform">Nedu CRM</div></div>
       </div>
-      <div class="pj-desc">Nhận push notification khi học viên đăng ký mới, thanh toán thành công hoặc có câu hỏi.</div>
+      <div class="pj-desc">Tự động gửi thông báo khi học viên đăng ký mới, thanh toán thành công hoặc gửi câu hỏi.</div>
       <div class="pj-tags">
         <span class="pj-tag-date">📅 05/06/2026</span>
         <span class="pj-priority mid">⚡ Trung bình</span>
@@ -1150,9 +1150,9 @@ body::before{
       <div class="pj-top"><div class="pj-status">● Đã duyệt</div><div class="pj-date">20/05/2026</div></div>
       <div class="pj-header">
         <div class="pj-icon" style="background:#F0FDF4">📊</div>
-        <div><div class="pj-title">Dashboard KPI cho leader</div><div class="pj-platform">NhiLe Platform v2</div></div>
+        <div><div class="pj-title">Dashboard theo dõi hiệu suất nhóm</div><div class="pj-platform">NhiLe Platform v2</div></div>
       </div>
-      <div class="pj-desc">Tổng quan: số task hoàn thành/tuần, velocity team, burn-down chart, top performer.</div>
+      <div class="pj-desc">Xem tổng quan: số việc hoàn thành mỗi tuần, tốc độ xử lý của nhóm, biểu đồ tiến độ và thành viên nổi bật.</div>
       <div class="pj-tags">
         <span class="pj-tag-date">📅 10/06/2026</span>
         <span class="pj-priority low">⚡ Thấp</span>
@@ -3732,8 +3732,8 @@ var MOCK_PROJ_ORDERS = [
     ]
   },
   {
-    id:'ORDER-002', name:'Push notification real-time', icon:'🔔',
-    desc:'Nhận push notification khi học viên đăng ký mới, thanh toán thành công hoặc có câu hỏi.',
+    id:'ORDER-002', name:'Thông báo tự động cho học viên', icon:'🔔',
+    desc:'Tự động gửi thông báo khi học viên đăng ký mới, thanh toán thành công hoặc gửi câu hỏi.',
     status:'approved', priority:'warm',
     proj:'nedu', projName:'Nedu CRM',
     deadline:'05/06/2026', submittedAt:'23/05/2026',
@@ -3748,8 +3748,8 @@ var MOCK_PROJ_ORDERS = [
     ]
   },
   {
-    id:'ORDER-003', name:'Dashboard KPI cho leader', icon:'📊',
-    desc:'Tổng quan: số task hoàn thành/tuần, velocity team, burn-down chart, top performer.',
+    id:'ORDER-003', name:'Dashboard theo dõi hiệu suất nhóm', icon:'📊',
+    desc:'Xem tổng quan: số việc hoàn thành mỗi tuần, tốc độ xử lý của nhóm, biểu đồ tiến độ và thành viên nổi bật.',
     status:'approved', priority:'cool',
     proj:'nhile', projName:'NhiLe Platform v2',
     deadline:'10/06/2026', submittedAt:'20/05/2026',
@@ -3771,7 +3771,7 @@ function saveOrders(orders) {
   try { localStorage.setItem(LS_ORDERS,JSON.stringify(orders)); } catch(e){}
 }
 
-var ORDERS_VERSION = 'v6';
+var ORDERS_VERSION = 'v7';
 function initOrders() {
   var orders = getOrders();
   /* Reset mock data if version mismatch — but preserve user-submitted orders */
