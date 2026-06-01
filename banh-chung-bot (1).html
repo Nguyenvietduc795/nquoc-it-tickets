@@ -101,6 +101,31 @@ header{background:linear-gradient(135deg,#1D4D2A,#0F3018);height:56px;padding:0 
 #sendbtn:disabled{opacity:.35}
 
 .hidden{display:none!important}
+/* SOP inline chat cards */
+.sop-chat-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.scc-hdr{background:linear-gradient(135deg,#1D4D2A,#0F3018);padding:10px 13px}
+.scc-tag{font-size:9px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:2px}
+.scc-title{font-size:13px;font-weight:800;color:#fff}
+.scc-body{padding:12px 13px}
+.scc-orig{background:rgba(200,40,40,.07);border:1.5px solid rgba(200,40,40,.25);border-radius:9px;padding:10px 12px;margin-bottom:10px}
+.scc-orig-lbl{font-size:9px;font-weight:800;color:rgba(170,30,30,.8);letter-spacing:.8px;text-transform:uppercase;margin-bottom:4px}
+.scc-orig-txt{font-size:12px;color:var(--text);line-height:1.6;font-style:italic}
+.scc-flbl{font-size:9px;font-weight:800;color:var(--light);letter-spacing:.7px;text-transform:uppercase;margin:10px 0 5px}
+.scc-ta{width:100%;background:var(--grain);border:1.5px solid var(--border);border-radius:9px;padding:10px 12px;font-size:13px;font-family:'Nunito',sans-serif;font-weight:500;color:var(--text);resize:none;outline:none;line-height:1.5}
+.scc-ta:focus,.scc-inp:focus{border-color:var(--pl)}
+.scc-inp{width:100%;background:var(--grain);border:1.5px solid var(--border);border-radius:9px;padding:9px 12px;font-size:13px;font-family:'Nunito',sans-serif;font-weight:500;color:var(--text);outline:none}
+.scc-hint{font-size:10px;color:var(--light);font-style:italic;margin-top:5px;line-height:1.4}
+.scc-submit{width:100%;margin-top:11px;padding:12px;background:linear-gradient(135deg,#1D4D2A,#3A7D52);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;touch-action:manipulation}
+.scc-crit-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:7px}
+.scc-cn{width:20px;height:20px;border-radius:50%;background:var(--steam);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:var(--paddy);flex-shrink:0;margin-top:2px}
+.scc-cv{background:var(--grain);border:1.5px solid var(--border);border-radius:8px;padding:9px 11px;font-size:12px;color:var(--text);line-height:1.4;flex:1}
+.scc-two-btns{display:flex;flex-direction:column;gap:7px;margin-top:11px}
+.scc-btn-ok{padding:12px;background:linear-gradient(135deg,#1A5C2E,#28A745);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;touch-action:manipulation}
+.scc-btn-rev{padding:12px;background:var(--grain);border:2px solid var(--border);color:var(--muted);border-radius:9px;font-size:13px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;touch-action:manipulation}
+.scc-locked-top{text-align:center;padding:14px 12px;background:linear-gradient(135deg,#9B6F1A,#C8962A)}
+.scc-lico{font-size:28px;margin-bottom:5px}
+.scc-ltitle{font-size:14px;font-weight:800;color:#fff}
+.scc-lsub{font-size:10px;color:rgba(255,255,255,.55);line-height:1.4;margin-top:3px}
 
 /* ── SOP STEP SCREENS ── */
 .sop-screen{position:fixed;inset:0;z-index:200;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#0D2B0F;padding:28px 18px 70px;font-family:'Nunito',sans-serif;color:#fff}
@@ -331,15 +356,11 @@ var ans = {};
 var waiting = false;
 
 var FLOW = [
-  {key:'feature',  ask:'Bạn đang muốn IT làm gì? Mô tả bằng lời thường ngày nhé 😊'},
-  {key:'type',     ask:'Yêu cầu này thuộc loại nào?', opts:['🔄 Có quy trình từng bước','📊 Theo dõi / ghi lại / báo cáo','🔗 Kết nối 2 team tự động']},
-  {key:'current',  ask:'Hiện tại đang làm việc này bằng cách nào?\n(Sheet, WhatsApp, form tay...)'},
-  {key:'pain',     ask:'Điều gì đang làm bạn khó chịu nhất với cách đang làm?'},
-  {key:'who',      ask:'Ai sẽ dùng tính năng này? Khoảng bao nhiêu người?'},
-  {key:'perm',     ask:'Họ cần làm được gì trong đó?', opts:['👁 Xem thôi','✏️ Xem + sửa','✅ Xem + duyệt','🔑 Toàn quyền']},
-  {key:'portal',   ask:'Tính năng này sẽ nằm ở đâu?', opts:['🏠 nquoc.vn','👔 team.nquoc.vn','📚 nedu.vn','🤷 Để IT quyết định']},
-  {key:'criteria', ask:'Câu cuối! Làm sao biết tính năng hoạt động đúng?\nKể 2-3 điều "khi xong thì thấy được..."'},
+  {key:'team_sel', ask:'Bạn đang ở team nào? 👇', opts:['✍️ Content','🎨 Design','⚙️ Admin','👥 HR','🎓 Academy','📚 N-EDU']},
+  {key:'problem',  ask:'Vấn đề của bạn là gì?\nKể chuyện bằng lời thường ngày — không cần biết gì về IT. Càng cụ thể IT càng làm nhanh 😊\n\nGợi ý: bạn đang làm gì, mất bao lâu, điều bất tiện là gì.'},
 ];
+// SOP chat state
+var sopChat = {team:'', problem:'', story:'', c1:'', c2:'', c3:''};
 
 // ── WELCOME EVENTS ──
 document.querySelectorAll('.topt').forEach(function(btn){
@@ -360,6 +381,107 @@ document.getElementById('reloadbtn').addEventListener('click', function(){
 
 // ── SOP STATE ──
 var sopState = { team:'', problem:'', story:'', c1:'', c2:'', c3:'' };
+
+// ── SOP INLINE CARD FUNCTIONS ──
+function showTranslateCard() {
+  var m = $msgs();
+  var wrap = document.createElement('div'); wrap.className = 'outwrap';
+  var card = document.createElement('div'); card.className = 'sop-chat-card';
+  var tname = sopChat.team || ui.team || 'team bạn';
+  card.innerHTML =
+    '<div class="scc-hdr"><div class="scc-tag">IT TEAM · BƯỚC 2 / 4</div><div class="scc-title">Dịch yêu cầu thành tiêu chí</div></div>' +
+    '<div class="scc-body">' +
+    '<div class="scc-orig"><div class="scc-orig-lbl">Yêu cầu gốc từ team ' + tname + '</div><div class="scc-orig-txt" id="cc-orig">' + (sopChat.problem||'').replace(/</g,'&lt;') + '</div></div>' +
+    '<div class="scc-flbl">User Story — "Là [ai], tôi muốn [gì], để [làm gì]"</div>' +
+    '<textarea class="scc-ta" id="cc-story" rows="3" placeholder="Là ' + tname + ', tôi muốn... để..."></textarea>' +
+    '<div class="scc-flbl">Tiêu chí 1</div><input class="scc-inp" id="cc-c1" placeholder="Bấm nút → xảy ra trong vòng ... giây"/>' +
+    '<div class="scc-flbl">Tiêu chí 2</div><input class="scc-inp" id="cc-c2" placeholder="Kết quả có đầy đủ các mục..."/>' +
+    '<div class="scc-flbl">Tiêu chí 3</div><input class="scc-inp" id="cc-c3" placeholder="Mở được / hiển thị đúng trên..."/>' +
+    '<div class="scc-hint">Viết để người đặt tự mắt kiểm tra được — không dùng ngôn ngữ tech.</div>' +
+    '<button class="scc-submit" onclick="submitTranslate()">Gửi cho người đặt xác nhận →</button>' +
+    '</div>';
+  wrap.appendChild(card); m.appendChild(wrap); scrollBot();
+}
+
+function submitTranslate() {
+  var story = (document.getElementById('cc-story')||{}).value||'';
+  var c1 = (document.getElementById('cc-c1')||{}).value||'';
+  var c2 = (document.getElementById('cc-c2')||{}).value||'';
+  var c3 = (document.getElementById('cc-c3')||{}).value||'';
+  story=story.trim(); c1=c1.trim(); c2=c2.trim(); c3=c3.trim();
+  if(!story){alert('Điền user story nhé 🙏');return;}
+  if(!c1||!c2||!c3){alert('Cần điền đủ 3 tiêu chí nhé');return;}
+  sopChat.story=story; sopChat.c1=c1; sopChat.c2=c2; sopChat.c3=c3;
+  ['cc-story','cc-c1','cc-c2','cc-c3'].forEach(function(id){var e=document.getElementById(id);if(e)e.disabled=true;});
+  var sb=document.querySelector('.scc-submit');if(sb){sb.disabled=true;sb.textContent='✓ Đã gửi';}
+  setTimeout(function(){
+    addBubble('gao','Okay '+ui.name+'! IT vừa dịch xong. Bạn đọc kỹ và xác nhận nhé 👇');
+    setTimeout(function(){ typing(function(){ showConfirmCard(); }); }, 500);
+  }, 300);
+}
+
+function showConfirmCard() {
+  var m = $msgs();
+  var wrap = document.createElement('div'); wrap.className = 'outwrap';
+  var card = document.createElement('div'); card.className = 'sop-chat-card';
+  card.innerHTML =
+    '<div class="scc-hdr"><div class="scc-tag">NGƯỜI ĐẶT YÊU CẦU · BƯỚC 3 / 4</div><div class="scc-title">Xác nhận bản dịch</div></div>' +
+    '<div class="scc-body">' +
+    '<div class="scc-flbl">IT hiểu yêu cầu của bạn là</div>' +
+    '<div class="scc-orig" style="margin-bottom:10px"><div class="scc-orig-txt">' + sopChat.story.replace(/</g,'&lt;') + '</div></div>' +
+    '<div class="scc-flbl">3 Tiêu chí kiểm tra</div>' +
+    '<div class="scc-crit-row"><div class="scc-cn">1</div><div class="scc-cv">'+ sopChat.c1.replace(/</g,'&lt;') +'</div></div>' +
+    '<div class="scc-crit-row"><div class="scc-cn">2</div><div class="scc-cv">'+ sopChat.c2.replace(/</g,'&lt;') +'</div></div>' +
+    '<div class="scc-crit-row"><div class="scc-cn">3</div><div class="scc-cv">'+ sopChat.c3.replace(/</g,'&lt;') +'</div></div>' +
+    '<div class="scc-hint" style="margin-top:8px">Nếu IT hiểu đúng → xác nhận. Nếu chưa đúng → yêu cầu sửa.</div>' +
+    '<div class="scc-two-btns">' +
+    '<button class="scc-btn-ok" onclick="confirmTranslate(this)">✅ Đúng rồi – Xác nhận và tiến hành</button>' +
+    '<button class="scc-btn-rev" onclick="reviseTranslate(this)">🔄 IT hiểu chưa đúng, sửa lại</button>' +
+    '</div></div>';
+  wrap.appendChild(card); m.appendChild(wrap); scrollBot();
+}
+
+function confirmTranslate(btn) {
+  btn.closest('.scc-two-btns').querySelectorAll('button').forEach(function(b){b.disabled=true;});
+  addBubble('user','✅ Đúng rồi – Xác nhận!');
+  setTimeout(function(){ typing(function(){ showLockedCard(); }); }, 400);
+}
+
+function reviseTranslate(btn) {
+  btn.closest('.scc-two-btns').querySelectorAll('button').forEach(function(b){b.disabled=true;});
+  addBubble('user','🔄 Cần chỉnh lại');
+  setTimeout(function(){
+    typing(function(){
+      addBubble('gao','Được rồi! IT sẽ điều chỉnh lại. Bạn xem form bên dưới và chỉnh nhé 👇');
+      setTimeout(function(){ showTranslateCard(); }, 400);
+    });
+  }, 400);
+}
+
+function showLockedCard() {
+  var m = $msgs();
+  var wrap = document.createElement('div'); wrap.className = 'outwrap';
+  var card = document.createElement('div'); card.className = 'sop-chat-card';
+  card.innerHTML =
+    '<div class="scc-locked-top"><div class="scc-lico">🔒</div>' +
+    '<div class="scc-ltitle">Tiêu chí đã được khóa!</div>' +
+    '<div class="scc-lsub">Sản phẩm chỉ được gọi là "xong" khi người đặt tự tick xong 3 tiêu chí này</div></div>' +
+    '<div class="scc-body">' +
+    '<div class="scc-crit-row"><div class="scc-cn">1</div><div class="scc-cv">'+ sopChat.c1.replace(/</g,'&lt;') +'</div></div>' +
+    '<div class="scc-crit-row"><div class="scc-cn">2</div><div class="scc-cv">'+ sopChat.c2.replace(/</g,'&lt;') +'</div></div>' +
+    '<div class="scc-crit-row"><div class="scc-cn">3</div><div class="scc-cv">'+ sopChat.c3.replace(/</g,'&lt;') +'</div></div>' +
+    '<div class="scc-hint" style="margin-top:10px">IT không được tự bấm "xong". Người kiểm tra duy nhất là người đặt – khi tick xong 3 tiêu chí trên.</div>' +
+    '</div>';
+  wrap.appendChild(card); m.appendChild(wrap);
+  setTimeout(function(){
+    typing(function(){
+      addBubble('gao','🍀 Xong rồi '+ui.name+'! IT đã nhận ticket và bắt đầu làm. Mình sẽ thông báo khi có cập nhật nhé!');
+      setProg(FLOW.length);
+      showToast();
+    });
+  }, 400);
+  scrollBot();
+}
 
 function goSop(n) {
   [1,2,3,4].forEach(function(i){ document.getElementById('sop'+i).classList.add('hidden'); });
@@ -556,13 +678,17 @@ function nextStep(){
   if(step>=FLOW.length){
     document.getElementById('pfill').style.width='100%';
     typing(function(){
-      addBubble('gao','Tuyệt lắm '+ui.name+'! Đang dịch sang ngôn ngữ IT... 🍀');
+      sopChat.team = (ans.team_sel||ui.team||'').replace(/^.\s+/,'');
+      sopChat.problem = ans.problem||'';
+      addBubble('gao','Cảm ơn '+ui.name+'! 🍀 Mình đã nhận yêu cầu. IT sẽ dịch lại thành tiêu chí kỹ thuật bên dưới nhé 👇');
       setTimeout(function(){
         typing(function(){
-          showOutput(buildUS());
+          showTranslateCard();
+          /* keep original output hidden — skipped */
+          if(false){showOutput(buildUS());
           setTimeout(function(){
             typing(function(){
-              showToast();
+              showToast(); }
               /* ── Save to localStorage for cross-dashboard sync ── */
               (function(){
                 var bcId='BC-'+tcFrom(ui.team)+'-'+String(Math.floor(Math.random()*89)+10);
