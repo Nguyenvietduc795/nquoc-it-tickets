@@ -933,8 +933,15 @@ body::before{
 /* ── Cards: chỉ hiện tên + tiến độ, ẩn chi tiết ── */
 .pj-desc,.pj-tags,.pj-stages,.pj-platform{display:none!important}
 .proj-card-desc,.proj-card-meta,.proj-locked-msg{display:none!important}
-.pj-card{min-height:320px;display:flex;flex-direction:column;justify-content:space-between}
-.proj-card{min-height:320px;display:flex;flex-direction:column;justify-content:space-between}
+.pj-card{min-height:320px;display:flex;flex-direction:column}
+.pj-card .pj-checklist-alert{margin-top:auto}
+.pj-card .pj-btn{margin-top:8px}
+/* Card không có checklist: đẩy pj-btn xuống đáy */
+.pj-card>div:last-child{margin-top:auto}
+.pj-card .pj-prog-row{margin-top:12px}
+.proj-card{min-height:320px;display:flex;flex-direction:column}
+.proj-card .proj-view-btn,.proj-card .proj-done-banner{margin-top:auto}
+.proj-card .proj-progress-wrap{margin-top:12px}
 
 </style>
 </head>
