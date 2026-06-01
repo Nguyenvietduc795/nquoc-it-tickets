@@ -10,26 +10,32 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* ── Brand ── */
-  --purple:#5B4FE8;--purple-dark:#4338CA;--purple-deep:#312E81;
-  --purple-light:#EDE9FE;--purple-mid:#7C3AED;--purple-glow:rgba(91,79,232,.18);
+  /* ── Brand: xanh lá chủ đạo + cam vàng phụ ── */
+  --purple:#2EB165;         /* primary: xanh lá */
+  --purple-dark:#1E8A4A;    /* dark: xanh đậm */
+  --purple-deep:#145C32;    /* deep */
+  --purple-light:#E8F8EF;   /* light tint */
+  --purple-mid:#F6A621;     /* accent cam vàng */
+  --purple-glow:rgba(46,177,101,.18);
+  /* ── Amber accent ── */
+  --amber:#F6A621;--amber-dark:#D48B10;--amber-light:#FEF3E0;
   /* ── Surfaces ── */
-  --bg-page:#F8F7FF;--bg-card:#FFFFFF;--bg-surface:#F3F1FF;--bg-hover:#ECEAFF;
+  --bg-page:#F5FBF7;--bg-card:#FFFFFF;--bg-surface:#EEF8F3;--bg-hover:#E0F2EA;
   /* ── Text ── */
-  --text:#1E1B4B;--text-mid:#374151;--text-muted:#6B7280;--text-faint:#9CA3AF;
+  --text:#1A2E22;--text-mid:#374151;--text-muted:#6B7280;--text-faint:#9CA3AF;
   /* ── Semantic ── */
-  --green:#16A34A;--green-light:#DCFCE7;--green-mid:#22C55E;
-  --red:#DC2626;--red-light:#FEE2E2;
-  --orange:#EA580C;--orange-light:#FFEDD5;
+  --green:#2EB165;--green-light:#E8F8EF;--green-mid:#27A85C;
+  --red:#F6A621;--red-light:#FFF3DC;
+  --orange:#F6A621;--orange-light:#FEF3E0;
   --yellow:#CA8A04;--yellow-light:#FEF9C3;
   --cyan:#06B6D4;--cyan-light:#CFFAFE;--cyan-dark:#155E75;
-  --gray:#6B7280;--gray-light:#F3F4F6;--gray-border:#E5E7EB;--gray-border-soft:#EDE9FE;
+  --gray:#6B7280;--gray-light:#F3F4F6;--gray-border:#E5E7EB;--gray-border-soft:#D4EDDF;
   /* ── Spacing ── */
   --radius:14px;--radius-sm:10px;--radius-xs:8px;
   /* ── 3-tier shadow system (học từ Crisis Simulator) ── */
-  --shadow-sm:0 1px 3px rgba(91,79,232,.06),0 1px 2px rgba(91,79,232,.04);
-  --shadow-md:0 4px 16px rgba(91,79,232,.10),0 2px 6px rgba(91,79,232,.06);
-  --shadow-lg:0 8px 32px rgba(91,79,232,.14),0 4px 12px rgba(91,79,232,.08),0 1px 3px rgba(91,79,232,.04);
+  --shadow-sm:0 1px 3px rgba(46,177,101,.06),0 1px 2px rgba(46,177,101,.04);
+  --shadow-md:0 4px 16px rgba(46,177,101,.10),0 2px 6px rgba(46,177,101,.06);
+  --shadow-lg:0 8px 32px rgba(46,177,101,.14),0 4px 12px rgba(46,177,101,.08),0 1px 3px rgba(46,177,101,.04);
   /* ── Font ── */
   --font:'Be Vietnam Pro',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
@@ -39,9 +45,9 @@ body{font-family:var(--font);background:var(--bg-page);color:var(--text);min-hei
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background-image:
-    radial-gradient(circle at 15% 25%,rgba(91,79,232,.05) 0%,transparent 50%),
-    radial-gradient(circle at 85% 75%,rgba(91,79,232,.04) 0%,transparent 50%),
-    radial-gradient(circle at 50% 100%,rgba(124,58,237,.03) 0%,transparent 40%);
+    radial-gradient(circle at 15% 25%,rgba(46,177,101,.04) 0%,transparent 50%),
+    radial-gradient(circle at 85% 75%,rgba(246,166,33,.03) 0%,transparent 50%),
+    radial-gradient(circle at 50% 100%,rgba(46,177,101,.02) 0%,transparent 40%);
 }
 .container,.header{position:relative;z-index:1}
 
@@ -55,7 +61,7 @@ body::before{
 
 /* ── Review hero card (học từ Crisis Simulator) ── */
 .review-hero-card{
-  background:linear-gradient(135deg,#4338CA 0%,#5B4FE8 50%,#6D28D9 100%);
+  background:linear-gradient(135deg,#1E8A4A 0%,#2EB165 50%,#1E8A4A 100%);
   border-radius:var(--radius);padding:20px;margin-bottom:16px;color:#fff;
   position:relative;overflow:hidden;
   box-shadow:var(--shadow-lg);
@@ -69,7 +75,7 @@ body::before{
 .review-hero-card::after{
   content:'';position:absolute;bottom:-40px;left:-40px;
   width:160px;height:160px;border-radius:50%;
-  background:radial-gradient(circle,rgba(91,79,232,.3) 0%,transparent 70%);
+  background:radial-gradient(circle,rgba(46,177,101,.3) 0%,transparent 70%);
   pointer-events:none;
 }
 
@@ -87,21 +93,46 @@ body::before{
 /* Layout */
 .container{max-width:780px;margin:0 auto;padding:32px 24px 80px}
 
-/* ── Step nav ── */
-.step-nav{display:flex;align-items:center;margin-bottom:28px}
-.step-item{display:flex;flex-direction:column;align-items:center;gap:5px}
-.step-circle{width:36px;height:36px;border-radius:50%;border:2px solid var(--gray-border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--text-faint);background:#fff;transition:all .3s;position:relative}
+/* ── Step nav card — xanh lá chủ đạo ── */
+.step-nav-card{
+  background:#fff;border:1.5px solid var(--gray-border-soft);border-radius:16px;
+  padding:20px 24px 18px;margin-bottom:28px;
+  box-shadow:var(--shadow-md);position:relative;overflow:hidden;
+}
+.step-nav-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px}
+.step-nav-sub{font-size:12px;color:var(--text-muted);margin-bottom:16px}
+.step-track-outer{position:relative;margin-bottom:4px}
+.step-track-bg{
+  height:4px;background:var(--bg-hover);border-radius:2px;
+  position:absolute;top:19px;left:36px;right:36px;z-index:0;
+}
+.step-track-fill{
+  height:4px;background:var(--purple);border-radius:2px;
+  position:absolute;top:19px;left:36px;right:36px;z-index:1;
+  transform-origin:left center;
+  transform:scaleX(0);
+  transition:transform .45s cubic-bezier(.4,0,.2,1);
+}
+.step-nav{display:flex;align-items:flex-start;justify-content:space-between;position:relative;z-index:2;margin-bottom:0}
+.step-item{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:56px}
+.step-circle{
+  width:40px;height:40px;border-radius:50%;border:2px solid var(--gray-border);
+  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;
+  color:var(--text-faint);background:#fff;transition:all .3s;
+  box-shadow:0 1px 4px rgba(46,177,101,.08);
+}
 .step-circle svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.step-label{font-size:11px;color:var(--text-faint);white-space:nowrap;font-weight:500;transition:all .3s}
+.step-label{font-size:11px;color:var(--text-faint);white-space:nowrap;font-weight:500;transition:all .3s;text-align:center}
 .step-item.active .step-circle{border-color:var(--purple);background:var(--purple);color:#fff;box-shadow:0 0 0 4px var(--purple-glow)}
-.step-item.active .step-label{color:var(--purple);font-weight:600}
-.step-item.done .step-circle{border-color:var(--purple);background:var(--purple);color:#fff}
-.step-item.done .step-label{color:var(--purple)}
-.step-line{flex:1;height:2px;background:var(--gray-border);margin:0 4px;margin-bottom:16px;transition:background .4s}
-.step-line.done{background:var(--purple)}
+.step-item.active .step-label{color:var(--purple);font-weight:700}
+.step-item.done .step-circle{border-color:var(--purple);background:var(--purple);color:#fff;box-shadow:0 2px 8px rgba(46,177,101,.25)}
+.step-item.done .step-label{color:var(--purple);font-weight:600}
+.step-line{display:none}
+.step-nav-footer{display:flex;justify-content:space-between;font-size:12px;margin-top:10px;padding-top:10px;border-top:1px solid var(--gray-border-soft)}
+.step-nav-footer span{color:var(--purple);font-weight:600}
 
-/* ── Progress ── */
-.progress-wrap{margin-bottom:24px}
+/* ── Progress wrap (hidden, replaced by step-nav-card) ── */
+.progress-wrap{display:none}
 .progress-bar-outer{height:5px;background:var(--bg-hover);border-radius:3px;overflow:hidden;margin-bottom:8px}
 .progress-bar-inner{height:100%;background:var(--purple);border-radius:3px;transition:width .45s cubic-bezier(.4,0,.2,1)}
 .progress-label{font-size:12px;color:var(--text-muted);display:flex;justify-content:space-between}
@@ -136,15 +167,29 @@ body::before{
 .type-card .tc-desc{font-size:13px;color:var(--text-muted)}
 
 /* ── System chips ── */
-.chip-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;margin-bottom:4px}
 .chip{border:1.5px solid var(--gray-border-soft);border-radius:20px;padding:7px 15px;font-size:13px;cursor:pointer;color:var(--text-muted);background:#fff;transition:all .2s;display:flex;align-items:center;gap:6px;min-height:36px}
 .chip:hover{border-color:var(--purple);color:var(--purple);background:var(--bg-surface)}
 .chip.selected{border-color:var(--purple);background:var(--purple-light);color:var(--purple-dark);font-weight:600}
 
+/* ── Form card block (top-level field groups in step 2) ── */
+.field-card{
+  background:#fff;border:1.5px solid var(--gray-border-soft);border-radius:16px;
+  overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow-md);
+}
+.field-card-head{
+  display:flex;align-items:center;gap:10px;padding:13px 18px;
+  background:var(--bg-surface);border-bottom:1px solid var(--gray-border-soft);
+}
+.field-card-icon{width:34px;height:34px;border-radius:9px;background:var(--purple-light);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.field-card-title{font-size:14px;font-weight:700;color:var(--text)}
+.field-card-body{padding:18px 18px 24px}
+.field-card-body .field-group:last-child{margin-bottom:0}
+
 /* ── Form fields ── */
 .field-group{margin-bottom:20px}
 .field-label{font-size:12px;font-weight:600;color:var(--text-mid);margin-bottom:7px;display:flex;align-items:center;gap:6px;text-transform:uppercase;letter-spacing:.04em}
-.req{color:var(--red);font-size:11px;text-transform:none;letter-spacing:0}
+.req{color:#F6A621;font-size:11px;font-weight:600;text-transform:none;letter-spacing:0}
 .opt{color:var(--text-faint);font-size:11px;font-weight:400;text-transform:none;letter-spacing:0}
 .field-hint{font-size:12px;color:var(--text-muted);margin-bottom:8px;line-height:1.5}
 .field-env{background:var(--bg-surface);border:1px solid var(--gray-border-soft);border-radius:var(--radius-xs);padding:10px 14px;font-size:13px;color:var(--text-muted);display:flex;gap:12px}
@@ -162,19 +207,36 @@ input[type=text]:focus,input[type=date]:focus,input[type=email]:focus,textarea:f
 textarea{resize:vertical;min-height:84px;line-height:1.6}
 select{cursor:pointer}
 
-/* ── Sub-sections ── */
-.sub-section{background:var(--bg-card);border:1.5px solid var(--gray-border-soft);border-radius:var(--radius);padding:20px;margin-bottom:16px;box-shadow:var(--shadow-md)}
-.sub-section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-.sub-section-icon{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px}
-.sub-section-title{font-size:14px;font-weight:600;color:var(--text)}
-.sub-section-sub{font-size:12px;color:var(--text-muted)}
+/* ── Sub-sections — card style matching reference form ── */
+.sub-section{
+  background:var(--bg-card);border:1.5px solid var(--gray-border-soft);
+  border-radius:16px;overflow:hidden;margin-bottom:16px;
+  box-shadow:var(--shadow-md);
+}
+.sub-section-header{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 18px;
+  background:var(--bg-surface);
+  border-bottom:1px solid var(--gray-border-soft);
+  margin-bottom:0;
+}
+.sub-section-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.sub-section-title{font-size:15px;font-weight:700;color:var(--text)}
+.sub-section-sub{font-size:12px;color:var(--text-muted);margin-top:1px}
+/* all field-groups inside sub-section get padding */
+.sub-section>.field-group,.sub-section>div>.field-group{padding:0 18px;margin-bottom:22px}
+.sub-section>.field-group:first-child,.sub-section>div>.field-group:first-child{margin-top:20px}
+.sub-section>.field-group:last-child,.sub-section>div>.field-group:last-child{padding-bottom:20px;margin-bottom:0}
+/* inner content padding wrapper */
+.sub-section-body{padding:16px 18px 22px}
+.sub-section-body .field-group:last-child{margin-bottom:0}
 
 /* ── Expect split ── */
 .expect-split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .expect-box{border:1.5px solid var(--gray-border-soft);border-radius:var(--radius-xs);overflow:hidden}
 .expect-header{padding:9px 12px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
 .expect-header.good{background:#F0FDF4;color:#16A34A;border-bottom:1px solid #BBF7D0}
-.expect-header.bad{background:#FFF5F5;color:#DC2626;border-bottom:1px solid #FECACA}
+.expect-header.bad{background:#FFFBF0;color:#F6A621;border-bottom:1px solid #FBBF24}
 .expect-box textarea{border:none;border-radius:0;min-height:90px}
 .expect-box textarea:focus{box-shadow:none}
 
@@ -183,7 +245,7 @@ select{cursor:pointer}
 .btn-back{padding:11px 22px;border:1.5px solid var(--gray-border-soft);border-radius:var(--radius-xs);background:#fff;color:var(--text-mid);font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;min-height:44px}
 .btn-back:hover{border-color:var(--purple);color:var(--purple);background:var(--bg-surface)}
 .btn-next{padding:11px 28px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius-xs);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;min-height:44px;letter-spacing:.01em}
-.btn-next:hover{background:var(--purple-dark);transform:translateY(-1px);box-shadow:0 4px 12px rgba(91,79,232,.3)}
+.btn-next:hover{background:var(--purple-dark);transform:translateY(-1px);box-shadow:0 4px 12px rgba(46,177,101,.3)}
 .btn-next:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
 .btn-submit{padding:13px 32px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius-xs);font-size:15px;font-weight:700;cursor:pointer;transition:all .2s;min-height:48px;letter-spacing:.02em}
 .btn-submit:hover{background:var(--purple-dark)}
@@ -198,7 +260,7 @@ select{cursor:pointer}
 .completeness-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600}
 .badge-good{background:var(--green-light);color:var(--green)}
 .badge-warn{background:var(--yellow-light);color:var(--yellow)}
-.badge-bad{background:var(--red-light);color:var(--red)}
+.badge-bad{background:#FFF3DC;color:#F6A621}
 
 /* ── Completeness bar ── */
 .comp-bar-wrap{margin-bottom:20px}
@@ -214,7 +276,7 @@ select{cursor:pointer}
 
 /* ── Success ── */
 .success-wrap{text-align:center;padding:52px 24px}
-.ticket-id{display:inline-block;background:var(--purple-light);color:var(--purple-dark);border:1.5px solid #C4B5FD;border-radius:var(--radius-xs);padding:8px 22px;font-size:14px;font-weight:700;margin-bottom:24px;letter-spacing:.04em}
+.ticket-id{display:inline-block;background:var(--purple-light);color:var(--purple-dark);border:1.5px solid #7DC9A0;border-radius:var(--radius-xs);padding:8px 22px;font-size:14px;font-weight:700;margin-bottom:24px;letter-spacing:.04em}
 .sla-badge{display:inline-flex;align-items:center;gap:8px;background:var(--green-light);color:var(--green);border-radius:20px;padding:7px 18px;font-size:13px;font-weight:600}
 
 /* ── Divider ── */
@@ -255,7 +317,7 @@ select{cursor:pointer}
 /* ── Bé Chip Mascot ── */
 @keyframes chipBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes chipPop{0%{transform:scale(0.8);opacity:0}100%{transform:scale(1);opacity:1}}
-@keyframes chipGlow{0%,100%{filter:drop-shadow(0 0 8px rgba(91,79,232,.35)) drop-shadow(0 4px 12px rgba(91,79,232,.2))}50%{filter:drop-shadow(0 0 18px rgba(91,79,232,.65)) drop-shadow(0 4px 16px rgba(91,79,232,.35))}}
+@keyframes chipGlow{0%,100%{filter:drop-shadow(0 0 8px rgba(46,177,101,.35)) drop-shadow(0 4px 12px rgba(46,177,101,.2))}50%{filter:drop-shadow(0 0 18px rgba(46,177,101,.65)) drop-shadow(0 4px 16px rgba(46,177,101,.35))}}
 #beChip{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;align-items:flex-end;gap:10px}
 #chipBody{animation:chipBob 2.8s ease-in-out infinite,chipGlow 3s ease-in-out infinite;cursor:pointer}
 #chipBubble{background:#fff;border:1.5px solid var(--purple-light);border-radius:16px 16px 4px 16px;padding:10px 14px;font-size:12px;color:var(--text-mid);max-width:220px;line-height:1.6;box-shadow:var(--shadow-lg);animation:chipPop .3s ease both;display:none}
@@ -274,7 +336,7 @@ select{cursor:pointer}
 .cl-txt{font-size:13px;color:var(--text-mid);line-height:1.5;flex:1}
 .cl-txt.on{color:var(--text-faint);text-decoration:line-through}
 .cl-note{font-size:11px;color:var(--text-muted);margin-top:2px}
-.cl-hard{display:inline-block;font-size:10px;font-weight:500;padding:1px 6px;border-radius:20px;margin-left:6px;background:var(--red-light);color:var(--red)}
+.cl-hard{display:inline-block;font-size:10px;font-weight:500;padding:1px 6px;border-radius:20px;margin-left:6px;background:#FFF3DC;color:#F6A621}
 .cl-panel{display:none}
 .cl-panel.active{display:block}
 
@@ -290,28 +352,134 @@ select{cursor:pointer}
   .expect-split{grid-template-columns:1fr}
   #beChip{bottom:16px;right:16px}
 }
-.fo-card{background:#fff;border:1px solid #ddd6fe;border-radius:16px;padding:22px;margin-bottom:12px}
+.fo-card{background:#fff;border:1px solid #a8dfc0;border-radius:16px;padding:22px;margin-bottom:12px}
 .fo-card-head{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px}
-.fo-card-icon{width:36px;height:36px;flex-shrink:0;background:#ede9fe;border:1px solid #c4b5fd;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
-.fo-card-title{font-size:16px;font-weight:700;color:#0a1929;margin-bottom:3px}
+.fo-card-icon{width:36px;height:36px;flex-shrink:0;background:#e8f8ef;border:1px solid #7dc9a0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.fo-card-title{font-size:16px;font-weight:700;color:#1a2e22;margin-bottom:3px}
 .fo-card-hint{font-size:12px;color:#5d6d7e;line-height:1.5}
 .fo-field{margin-bottom:16px}
 .fo-field:last-child{margin-bottom:0}
 .fo-label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--purple-dark);margin-bottom:8px}
-.fo-input{width:100%;background:#faf5ff;border:1.5px solid #ddd6fe;border-radius:8px;padding:10px 13px;font-size:14px;color:#1b1b1b;outline:none;font-family:inherit;resize:vertical;transition:border-color .2s}
+.fo-input{width:100%;background:#f5fbf7;border:1.5px solid #a8dfc0;border-radius:8px;padding:10px 13px;font-size:14px;color:#1A2E22;outline:none;font-family:inherit;resize:vertical;transition:border-color .2s}
 .fo-input:focus{border-color:var(--purple);background:#fff;box-shadow:0 0 0 3px var(--purple-glow)}
 .fo-input::placeholder{color:#95a5a6}
 .fo-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
-.fo-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#faf5ff;border:1.5px solid #ddd6fe;border-radius:100px;font-size:13px;color:#5d6d7e;cursor:pointer;transition:all .15s;user-select:none}
-.fo-chip:hover{border-color:var(--purple);color:var(--purple-dark);background:#ede9fe}
-.fo-chip.on{background:#ede9fe;border-color:var(--purple);color:var(--purple-dark);font-weight:600;box-shadow:0 0 0 3px var(--purple-glow)}
-.fo-chip-other{background:#faf5ff;border:1.5px dashed #ddd6fe;border-radius:100px;padding:7px 13px;font-size:13px;color:#1b1b1b;outline:none;font-family:inherit;min-width:120px;transition:all .15s}
+.fo-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;background:#f5fbf7;border:1.5px solid #a8dfc0;border-radius:100px;font-size:13px;color:#5d6d7e;cursor:pointer;transition:all .15s;user-select:none}
+.fo-chip:hover{border-color:var(--purple);color:var(--purple-dark);background:#e8f8ef}
+.fo-chip.on{background:#e8f8ef;border-color:var(--purple);color:var(--purple-dark);font-weight:600;box-shadow:0 0 0 3px var(--purple-glow)}
+.fo-chip-other{background:#f5fbf7;border:1.5px dashed #a8dfc0;border-radius:100px;padding:7px 13px;font-size:13px;color:#1A2E22;outline:none;font-family:inherit;min-width:120px;transition:all .15s}
 .fo-chip-other:focus{border-color:var(--purple);border-style:solid;background:#fff}
-.fo-ui-card{border:1.5px solid #ddd6fe;border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s;background:#faf5ff;text-align:center}
+.fo-ui-card{border:1.5px solid #a8dfc0;border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s;background:#f5fbf7;text-align:center}
 .fo-ui-card:hover{border-color:var(--purple);transform:translateY(-1px)}
 .fo-ui-card.on{border-color:var(--purple);box-shadow:0 0 0 3px var(--purple-glow)}
-.fo-ui-preview{padding:14px;font-size:26px;background:#ede9fe;border-bottom:1px solid #ddd6fe}
-.fo-ui-label{padding:6px 8px;font-size:11px;font-weight:600;color:#0a1929}
+.fo-ui-preview{padding:14px;font-size:26px;background:#e8f8ef;border-bottom:1px solid #a8dfc0}
+.fo-ui-label{padding:6px 8px;font-size:11px;font-weight:600;color:#1a2e22}
+
+/* ── Step header card (Chi tiết yêu cầu) ── */
+.step-header-card{
+  background:#fff;border:1.5px solid var(--gray-border-soft);border-radius:18px;
+  padding:22px 24px;margin-bottom:20px;
+  box-shadow:var(--shadow-md);
+  display:flex;align-items:center;gap:16px;
+}
+.step-header-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:var(--purple-light);
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;flex-shrink:0;
+}
+.step-header-title{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.3px;margin-bottom:4px}
+.step-header-sub{font-size:14px;color:var(--text-muted);line-height:1.5}
+
+/* ── Sub-section: white bg, larger title ── */
+.sub-section{
+  background:#fff !important;
+}
+.sub-section-header{
+  background:#fff !important;
+  border-bottom:1.5px solid var(--gray-border-soft);
+  padding:16px 20px !important;
+}
+.sub-section-icon{width:40px !important;height:40px !important;border-radius:11px !important;font-size:20px !important}
+.sub-section-title{font-size:17px !important;font-weight:800 !important;color:var(--text);letter-spacing:-.2px}
+.sub-section-sub{font-size:13px !important;color:var(--text-muted);margin-top:2px}
+
+/* ── Field card: white bg, stronger title ── */
+.field-card{background:#fff !important}
+.field-card-head{background:#fff !important;border-bottom:1.5px solid var(--gray-border-soft)}
+.field-card-title{font-size:16px !important;font-weight:800 !important;color:var(--text)}
+
+/* ── File upload hint text ── */
+.file-upload-hint{
+  font-size:13px;color:var(--text-muted);
+  background:var(--purple-light);
+  border-radius:8px;padding:10px 14px;
+  margin-bottom:12px;
+  line-height:1.55;
+}
+
+/* ── Step 0 block labels ── */
+.step0-block{margin-bottom:28px}
+.step0-block-label{
+  font-size:15px;font-weight:700;color:var(--text);
+  margin-bottom:12px;letter-spacing:-.1px;
+}
+
+/* ── Inline checklist in step 1 ── */
+.cl-inline-list{display:flex;flex-direction:column;gap:0}
+.cl-inline-item{
+  display:flex;align-items:center;gap:12px;
+  padding:13px 0;
+  border-bottom:1px solid var(--gray-border-soft);
+  cursor:pointer;
+  transition:background .15s;
+}
+.cl-inline-item:last-child{border-bottom:none}
+.cl-inline-item:hover{background:var(--bg-surface);margin:0 -18px;padding-left:18px;padding-right:18px;border-radius:8px}
+.cl-inline-item input[type=checkbox]{
+  width:20px;height:20px;flex-shrink:0;
+  accent-color:var(--purple);cursor:pointer;
+}
+.cl-inline-item>span{
+  font-size:14px;color:var(--text-mid);font-weight:500;line-height:1.4;
+}
+.cl-inline-other{align-items:center;flex-wrap:wrap;gap:8px}
+.cl-inline-other .cl-other-input{
+  flex:1;min-width:140px;
+  border:1.5px solid var(--gray-border-soft);border-radius:8px;
+  padding:8px 12px;font-size:13px;font-family:inherit;
+  background:var(--bg-surface);color:var(--text);outline:none;
+}
+.cl-inline-other .cl-other-input:focus{border-color:var(--purple);background:#fff}
+
+/* ── Field group spacing — more breathing room ── */
+.field-group{margin-bottom:28px}
+.field-card-body .field-group:last-child{margin-bottom:0}
+.sub-section-body .field-group{margin-bottom:28px}
+.sub-section-body .field-group:last-child{margin-bottom:0}
+
+/* ── Field label vs placeholder sizing ── */
+.field-label{
+  font-size:13px !important;font-weight:700;color:var(--text-mid);
+  margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em;
+}
+.field-hint{
+  font-size:13px;color:var(--text-muted);
+  margin-bottom:10px;line-height:1.6;
+}
+/* Placeholder smaller than surrounding text */
+input::placeholder,textarea::placeholder{
+  font-size:13px !important;color:var(--text-faint) !important;font-weight:400 !important;
+}
+input[type=text],input[type=date],input[type=email],textarea,select{
+  font-size:15px;
+}
+/* Chips stay normal size */
+.chip{font-size:13px}
+
+/* ── Section gaps ── */
+.field-card{margin-bottom:24px}
+.sub-section{margin-bottom:24px}
 
 /* Conditional */
 .cond{display:none}
@@ -338,7 +506,7 @@ select{cursor:pointer}
 .rv-inv-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);font-weight:700;margin-bottom:4px}
 .rv-inv-val{font-size:13px;color:var(--text);line-height:1.55;font-weight:500}
 .rv-inv-chips{display:flex;flex-wrap:wrap;gap:6px}
-.rv-inv-chip{background:var(--purple-light);border:1px solid #C4B5FD;color:var(--purple-dark);border-radius:100px;padding:3px 10px;font-size:12px;font-weight:600}
+.rv-inv-chip{background:var(--purple-light);border:1px solid #7DC9A0;color:var(--purple-dark);border-radius:100px;padding:3px 10px;font-size:12px;font-weight:600}
 .rv-inv-quote{padding:10px 14px;background:#fff;border-left:3px solid var(--purple);border-radius:0 8px 8px 0;font-size:13px;color:var(--text);font-weight:500;line-height:1.6;margin-top:2px}
 </style>
 </head>
@@ -358,141 +526,89 @@ select{cursor:pointer}
 
 <div class="container">
 
-<!-- Step nav -->
-<div class="step-nav" id="stepNav">
-  <div class="step-item active" id="dot0"><div class="step-circle">1</div><div class="step-label">Team</div></div>
-  <div class="step-line" id="line01"></div>
-  <div class="step-item" id="dot1"><div class="step-circle">2</div><div class="step-label">Loại</div></div>
-  <div class="step-line" id="line12"></div>
-  <div class="step-item" id="dot2"><div class="step-circle">3</div><div class="step-label">Chi tiết</div></div>
-  <div class="step-line" id="line23"></div>
-  <div class="step-item" id="dot3"><div class="step-circle">4</div><div class="step-label">Phỏng vấn</div></div>
-  <div class="step-line" id="line34"></div>
-  <div class="step-item" id="dot4"><div class="step-circle">5</div><div class="step-label">Gửi</div></div>
+<!-- Step nav card -->
+<div class="step-nav-card" id="stepNavCard">
+  <div class="step-nav-title">Tiến trình yêu cầu</div>
+  <div class="step-nav-sub" id="stepNavSubtitle">Chọn team để bắt đầu</div>
+  <div class="step-track-outer">
+    <div class="step-track-bg"></div>
+    <div class="step-track-fill" id="stepTrackFill" style="width:0%"></div>
+    <div class="step-nav" id="stepNav">
+      <div class="step-item active" id="dot0"><div class="step-circle">1</div><div class="step-label">Bắt đầu</div></div>
+      <div class="step-line" id="line01"></div>
+      <div class="step-item" id="dot1"><div class="step-circle">2</div><div class="step-label">Chi tiết</div></div>
+      <div class="step-line" id="line12"></div>
+      <div class="step-item" id="dot2"><div class="step-circle">3</div><div class="step-label">Phỏng vấn</div></div>
+      <div class="step-line" id="line23"></div>
+      <div class="step-item" id="dot3"><div class="step-circle">4</div><div class="step-label">Gửi</div></div>
+    </div>
+  </div>
+  <div class="step-nav-footer">
+    <span id="progStep">Bước 1 / 4</span>
+    <span id="progPct">20%</span>
+  </div>
 </div>
 
-<!-- Progress -->
+<!-- Progress (hidden fallback) -->
 <div class="progress-wrap">
   <div class="progress-bar-outer"><div class="progress-bar-inner" id="progBar" style="width:20%"></div></div>
-  <div class="progress-label"><span id="progStep">Bước 1 / 5</span><span id="progPct">20%</span></div>
+  <div class="progress-label"><span id="progStep2">Bước 1 / 5</span><span id="progPct2">20%</span></div>
 </div>
 
-<!-- ═══════════════ STEP 0: TEAM ═══════════════ -->
+<!-- ═══════════════ STEP 0: TEAM + LOẠI ═══════════════ -->
 <div class="panel active" id="panel0">
-  <div class="section-icon" style="background:#EDE9FE">🏢</div>
-  <div class="section-title">Team bạn đang gặp chuyện gì rồi? 👀</div>
-  <div class="section-sub">Chọn team bạn đang làm việc hoặc team liên quan đến vấn đề.</div>
-  <div class="card-grid" id="teamGrid">
-    <div class="sel-card" onclick="pick('team','N-EDU',this,'teamGrid')"><div class="card-icon">🎓</div><div class="card-name">N-EDU</div><div class="card-desc">Nền tảng giáo dục</div></div>
-    <div class="sel-card" onclick="pick('team','Bloom',this,'teamGrid')"><div class="card-icon">🌸</div><div class="card-name">Bloom</div><div class="card-desc">Sản phẩm Bloom</div></div>
-    <div class="sel-card" onclick="pick('team','This is Home',this,'teamGrid')"><div class="card-icon">🏠</div><div class="card-name">This is Home</div><div class="card-desc">Cộng đồng nội bộ</div></div>
-    <div class="sel-card" onclick="pick('team','Family Cloud',this,'teamGrid')"><div class="card-icon">☁️</div><div class="card-name">Family Cloud</div><div class="card-desc">Lưu trữ gia đình</div></div>
-    <div class="sel-card" onclick="pick('team','NhiLe System',this,'teamGrid')"><div class="card-icon">⚙️</div><div class="card-name">NhiLe System</div><div class="card-desc">Hệ thống nội bộ</div></div>
-    <div class="sel-card" onclick="pick('team','NQuoc',this,'teamGrid')"><div class="card-icon">🚀</div><div class="card-name">NQuoc</div><div class="card-desc">Platform NQuoc</div></div>
+  <div class="section-icon" style="background:#E8F8EF">👋</div>
+  <div class="section-title">Bắt đầu từ đây nhé!</div>
+  <div class="section-sub">Chọn loại vấn đề — chỉ 1 click là xong bước này.</div>
+
+  <!-- Loại vấn đề -->
+  <div class="step0-block">
+    <div class="step0-block-label">Bạn đang gặp vấn đề gì?</div>
+    <div class="type-list" id="typeList">
+      <div class="type-card-wrap">
+        <div class="type-card" onclick="pickType('bug',this,null)">
+          <div class="tc-icon" style="background:#FFF3DC">🐛</div>
+          <div style="flex:1"><div class="tc-name">Báo lỗi hệ thống</div><div class="tc-desc">Hệ thống bị lỗi, không hoạt động đúng</div></div>
+        </div>
+      </div>
+      <div class="type-card-wrap">
+        <div class="type-card" onclick="pickType('feature',this,null)">
+          <div class="tc-icon" style="background:#e8f8ef">✨</div>
+          <div style="flex:1"><div class="tc-name">Yêu cầu tính năng mới</div><div class="tc-desc">Muốn thêm tính năng cho hệ thống</div></div>
+        </div>
+      </div>
+      <div class="type-card-wrap">
+        <div class="type-card" onclick="pickType('access',this,null)">
+          <div class="tc-icon" style="background:#fef9c3">🔐</div>
+          <div style="flex:1"><div class="tc-name">Đăng nhập / Quyền truy cập</div><div class="tc-desc">Không đăng nhập được hoặc thiếu quyền</div></div>
+        </div>
+      </div>
+      <div class="type-card-wrap">
+        <div class="type-card" onclick="pickType('perf',this,null)">
+          <div class="tc-icon" style="background:#fff7ed">🐢</div>
+          <div style="flex:1"><div class="tc-name">Hiệu suất chậm</div><div class="tc-desc">Hệ thống chậm, load lâu</div></div>
+        </div>
+      </div>
+      <div class="type-card-wrap">
+        <div class="type-card" onclick="pickType('data',this,null)">
+          <div class="tc-icon" style="background:#f0fdf4">📊</div>
+          <div style="flex:1"><div class="tc-name">Vấn đề dữ liệu</div><div class="tc-desc">Dữ liệu sai, mất hoặc không đồng bộ</div></div>
+        </div>
+      </div>
+    </div>
   </div>
+
   <div class="nav-row"><div></div><button class="btn-next" id="btn0" onclick="go(1)" disabled>Tiếp theo →</button></div>
 </div>
 
-<!-- ═══════════════ STEP 1: LOẠI ═══════════════ -->
-<div class="panel" id="panel1">
-  <div class="section-icon" style="background:#FFF7ED">🔍</div>
-  <div class="section-title">Bạn đang gặp vấn đề gì?</div>
-  <div class="section-sub">Chọn loại gần nhất — bước tiếp theo sẽ thay đổi theo lựa chọn này.</div>
-  <div class="type-list" id="typeList">
-
-    <!-- Bug -->
-    <div class="type-card-wrap">
-      <div class="type-card" onclick="pickType('bug',this,'subBug')">
-        <div class="tc-icon" style="background:#fee2e2">🐛</div>
-        <div style="flex:1"><div class="tc-name">Báo lỗi hệ thống</div><div class="tc-desc">Hệ thống bị lỗi, không hoạt động đúng</div></div>
-        <div class="tc-arrow" id="arrowBug">›</div>
-      </div>
-      <div class="sub-checklist" id="subBug">
-        <div class="sub-cl-label">Lỗi bạn đang gặp là gì? <span style="color:var(--text-muted);font-weight:400">(chọn một hoặc nhiều)</span></div>
-        <label class="cl-item"><input type="checkbox" name="bug" value="Bấm nút không có phản hồi"> Bấm nút không có phản hồi</label>
-        <label class="cl-item"><input type="checkbox" name="bug" value="Trang trắng / không load được"> Trang trắng / không load được</label>
-        <label class="cl-item"><input type="checkbox" name="bug" value="Lỗi hiện thông báo đỏ không rõ nguyên nhân"> Lỗi hiện thông báo đỏ không rõ nguyên nhân</label>
-        <label class="cl-item"><input type="checkbox" name="bug" value="Dữ liệu hiển thị sai sau khi lưu"> Dữ liệu hiển thị sai sau khi lưu</label>
-        <label class="cl-item"><input type="checkbox" name="bug" value="Form submit xong nhưng không thấy kết quả"> Form submit xong nhưng không thấy kết quả</label>
-        <label class="cl-item"><input type="checkbox" name="bug" value="Tính năng hoạt động được hôm qua, hôm nay không được"> Tính năng hoạt động được hôm qua, hôm nay không được</label>
-        <label class="cl-item cl-other"><input type="checkbox" name="bug" value="Khác"> Khác — <input type="text" class="cl-other-input" placeholder="Mô tả thêm..." onclick="event.stopPropagation()"></label>
-      </div>
-    </div>
-
-    <!-- Feature -->
-    <div class="type-card-wrap">
-      <div class="type-card" onclick="pickType('feature',this,null)">
-        <div class="tc-icon" style="background:#ede9fe">✨</div>
-        <div style="flex:1"><div class="tc-name">Yêu cầu tính năng mới</div><div class="tc-desc">Muốn thêm tính năng cho hệ thống</div></div>
-      </div>
-    </div>
-
-
-    <!-- Access -->
-    <div class="type-card-wrap">
-      <div class="type-card" onclick="pickType('access',this,'subAccess')">
-        <div class="tc-icon" style="background:#fef9c3">🔐</div>
-        <div style="flex:1"><div class="tc-name">Đăng nhập / Quyền truy cập</div><div class="tc-desc">Không đăng nhập được hoặc thiếu quyền</div></div>
-        <div class="tc-arrow" id="arrowAccess">›</div>
-      </div>
-      <div class="sub-checklist" id="subAccess">
-        <div class="sub-cl-label">Vấn đề bạn đang gặp là gì?</div>
-        <label class="cl-item"><input type="checkbox" name="access" value="Không nhập được Gmail / tài khoản"> Không nhập được Gmail / tài khoản</label>
-        <label class="cl-item"><input type="checkbox" name="access" value="Nhập đúng mật khẩu nhưng vẫn báo sai"> Nhập đúng mật khẩu nhưng vẫn báo sai</label>
-        <label class="cl-item"><input type="checkbox" name="access" value="Đăng nhập được nhưng không thấy tính năng cần dùng"> Đăng nhập được nhưng không thấy tính năng cần dùng</label>
-        <label class="cl-item"><input type="checkbox" name="access" value="Bị đăng xuất tự động"> Bị đăng xuất tự động</label>
-        <label class="cl-item"><input type="checkbox" name="access" value="Không được phân quyền đúng role"> Không được phân quyền đúng role</label>
-        <label class="cl-item"><input type="checkbox" name="access" value="Tài khoản bị khoá"> Tài khoản bị khoá</label>
-        <label class="cl-item cl-other"><input type="checkbox" name="access" value="Khác"> Khác — <input type="text" class="cl-other-input" placeholder="Mô tả thêm..." onclick="event.stopPropagation()"></label>
-      </div>
-    </div>
-
-    <!-- Perf -->
-    <div class="type-card-wrap">
-      <div class="type-card" onclick="pickType('perf',this,'subPerf')">
-        <div class="tc-icon" style="background:#fff7ed">🐢</div>
-        <div style="flex:1"><div class="tc-name">Hiệu suất chậm</div><div class="tc-desc">Hệ thống chậm, load lâu</div></div>
-        <div class="tc-arrow" id="arrowPerf">›</div>
-      </div>
-      <div class="sub-checklist" id="subPerf">
-        <div class="sub-cl-label">Biểu hiện chậm như thế nào?</div>
-        <label class="cl-item"><input type="checkbox" name="perf" value="Trang load hơn 5 giây"> Trang load hơn 5 giây</label>
-        <label class="cl-item"><input type="checkbox" name="perf" value="Bấm nút xong chờ rất lâu mới có kết quả"> Bấm nút xong chờ rất lâu mới có kết quả</label>
-        <label class="cl-item"><input type="checkbox" name="perf" value="Upload file bị treo / không xong"> Upload file bị treo / không xong</label>
-        <label class="cl-item"><input type="checkbox" name="perf" value="Chỉ chậm vào giờ cao điểm"> Chỉ chậm vào giờ cao điểm</label>
-        <label class="cl-item"><input type="checkbox" name="perf" value="Chậm trên điện thoại, máy tính thì ổn"> Chậm trên điện thoại, máy tính thì ổn</label>
-        <label class="cl-item cl-other"><input type="checkbox" name="perf" value="Khác"> Khác — <input type="text" class="cl-other-input" placeholder="Mô tả thêm..." onclick="event.stopPropagation()"></label>
-      </div>
-    </div>
-
-    <!-- Data -->
-    <div class="type-card-wrap">
-      <div class="type-card" onclick="pickType('data',this,'subData')">
-        <div class="tc-icon" style="background:#f0fdf4">📊</div>
-        <div style="flex:1"><div class="tc-name">Vấn đề dữ liệu</div><div class="tc-desc">Dữ liệu sai, mất hoặc không đồng bộ</div></div>
-        <div class="tc-arrow" id="arrowData">›</div>
-      </div>
-      <div class="sub-checklist" id="subData">
-        <div class="sub-cl-label">Dữ liệu bị vấn đề gì?</div>
-        <label class="cl-item"><input type="checkbox" name="data" value="Số liệu hiển thị sai so với thực tế"> Số liệu hiển thị sai so với thực tế</label>
-        <label class="cl-item"><input type="checkbox" name="data" value="Dữ liệu bị mất sau khi lưu"> Dữ liệu bị mất sau khi lưu</label>
-        <label class="cl-item"><input type="checkbox" name="data" value="Dữ liệu không đồng bộ giữa các trang"> Dữ liệu không đồng bộ giữa các trang</label>
-        <label class="cl-item"><input type="checkbox" name="data" value="Dữ liệu của người khác hiển thị nhầm vào tài khoản mình"> Dữ liệu của người khác hiển thị nhầm vào tài khoản mình</label>
-        <label class="cl-item"><input type="checkbox" name="data" value="Báo cáo / export ra số sai"> Báo cáo / export ra số sai</label>
-        <label class="cl-item cl-other"><input type="checkbox" name="data" value="Khác"> Khác — <input type="text" class="cl-other-input" placeholder="Mô tả thêm..." onclick="event.stopPropagation()"></label>
-      </div>
-    </div>
-
-  </div>
-  <div class="nav-row"><button class="btn-back" onclick="go(0)">← Quay lại</button><button class="btn-next" id="btn1" onclick="go(2)" disabled>Tiếp theo →</button></div>
-</div>
+<!-- old panel1 removed -->
 
 <!-- ═══════════════ STEP 2: CHI TIẾT ═══════════════ -->
-<div class="panel" id="panel2">
+<div class="panel" id="panel1">
 
   <!-- FEATURE ORDER FORM — shown when type=feature -->
-  <div id="fo-panel" style="display:none;background:#faf5ff;border-radius:var(--radius);padding:20px 16px;font-family:'Inter Tight',-apple-system,system-ui,sans-serif">
-    <div class="section-icon" style="background:#ede9fe">✨</div>
+  <div id="fo-panel" style="display:none;background:#f5fbf7;border-radius:var(--radius);padding:20px 16px;font-family:'Inter Tight',-apple-system,system-ui,sans-serif">
+    <div class="section-icon" style="background:#e8f8ef">✨</div>
     <div class="section-title">Chi tiết tính năng mới</div>
     <div class="section-sub" style="margin-bottom:20px">Điền càng đầy đủ, IT càng hiểu đúng yêu cầu của bạn.</div>
 
@@ -619,7 +735,7 @@ select{cursor:pointer}
         <div class="fo-ui-card" onclick="foUI(this)"><div class="fo-ui-preview">📊</div><div class="fo-ui-label">Dashboard</div></div>
         <div class="fo-ui-card" onclick="foUI(this)"><div class="fo-ui-preview">📝</div><div class="fo-ui-label">Form từng bước</div></div>
         <div class="fo-ui-card" onclick="foUI(this)"><div class="fo-ui-preview">📱</div><div class="fo-ui-label">App điện thoại</div></div>
-        <div class="fo-ui-card" style="background:#faf6f0;border-style:dashed"><div class="fo-ui-preview">✨</div><div><input type="text" id="fo-ui-other" class="fo-input" placeholder="Tên app hoặc link..." style="font-size:11px;padding:4px 8px" onclick="event.stopPropagation()"></div></div>
+        <div class="fo-ui-card" style="background:#F5FBF7;border-style:dashed"><div class="fo-ui-preview">✨</div><div><input type="text" id="fo-ui-other" class="fo-input" placeholder="Tên app hoặc link..." style="font-size:11px;padding:4px 8px" onclick="event.stopPropagation()"></div></div>
       </div>
     </div>
 
@@ -635,14 +751,28 @@ select{cursor:pointer}
       <div class="fo-field"><textarea id="fo-notes" class="fo-input" rows="3" placeholder="Bất kỳ điều gì bạn muốn IT biết thêm..."></textarea></div>
     </div>
 
-    <div class="nav-row"><button class="btn-back" onclick="go(1)">← Quay lại</button><button class="btn-next" id="btn2fo" onclick="go(3)" disabled>Tiếp theo →</button></div>
+    <div class="nav-row"><button class="btn-back" onclick="go(0)">← Quay lại</button><button class="btn-next" id="btn1fo" onclick="go(2)" disabled>Tiếp theo →</button></div>
   </div>
 
   <!-- NORMAL DETAIL FORM — hidden when type=feature -->
   <div id="normal-panel">
-  <div class="section-icon" style="background:#f0fdf4">📋</div>
-  <div class="section-title">Chi tiết yêu cầu</div>
-  <div class="section-sub">Điền đầy đủ để IT hiểu đúng và xử lý nhanh hơn.</div>
+  <div class="step-header-card">
+    <div class="step-header-icon">📋</div>
+    <div>
+      <div class="step-header-title">Chi tiết yêu cầu</div>
+      <div class="step-header-sub">Điền đầy đủ để IT hiểu đúng và xử lý nhanh hơn.</div>
+    </div>
+  </div>
+
+  <!-- Card: Hệ thống + Link + Môi trường -->
+  <div class="field-card">
+    <div class="field-card-head">
+      <div class="field-card-icon">💻</div>
+      <div>
+        <div class="field-card-title">Hệ thống liên quan</div>
+      </div>
+    </div>
+    <div class="field-card-body">
 
   <!-- Hệ thống -->
   <div class="field-group">
@@ -665,73 +795,184 @@ select{cursor:pointer}
     <input type="text" id="bugLink" placeholder="Link trang lỗi hoặc Google Drive, Loom...">
   </div>
 
-  <!-- Môi trường -->
-  <div class="field-group">
-    <div class="field-label">Môi trường <span class="opt">Tự động phát hiện</span></div>
-    <div class="field-env" id="envInfo">
-      <span id="envBrowser">Chrome</span>
-      <span id="envOS">Windows</span>
-      <span id="envRes">1920×1080</span>
+  <!-- Môi trường (ẩn, thu thập ngầm) -->
+  <div style="display:none" id="envInfo">
+    <span id="envBrowser">Chrome</span>
+    <span id="envOS">Windows</span>
+    <span id="envRes">1920×1080</span>
+  </div>
+
+    </div><!-- /field-card-body -->
+  </div><!-- /field-card -->
+
+  <!-- Checklist theo loại vấn đề -->
+  <!-- BUG checklist -->
+  <div class="field-card cond" id="cl-bug">
+    <div class="field-card-head">
+      <div class="field-card-icon" style="background:#FFF3DC">🐛</div>
+      <div>
+        <div class="field-card-title">Lỗi cụ thể bạn đang gặp là gì?</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Chọn một hoặc nhiều — giúp IT khoanh vùng ngay</div>
+      </div>
+    </div>
+    <div class="field-card-body">
+      <div class="cl-inline-list">
+        <label class="cl-inline-item"><input type="checkbox" name="bug" value="Bấm nút không có phản hồi"><span>Bấm nút nhưng không có gì xảy ra</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="bug" value="Trang trắng / không load được"><span>Trang trắng hoặc không mở được</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="bug" value="Lỗi hiện thông báo đỏ không rõ nguyên nhân"><span>Hiện thông báo lỗi đỏ, không biết vì sao</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="bug" value="Dữ liệu hiển thị sai sau khi lưu"><span>Lưu rồi nhưng dữ liệu hiển thị sai</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="bug" value="Form submit xong nhưng không thấy kết quả"><span>Bấm gửi / submit xong nhưng không thấy gì</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="bug" value="Tính năng hoạt động được hôm qua, hôm nay không được"><span>Hôm qua còn dùng được, hôm nay không</span></label>
+        <label class="cl-inline-item cl-inline-other">
+          <input type="checkbox" name="bug" value="Khác">
+          <span>Khác —</span>
+          <input type="text" class="cl-other-input" placeholder="Mô tả thêm..." onclick="event.stopPropagation()">
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCESS checklist -->
+  <div class="field-card cond" id="cl-access">
+    <div class="field-card-head">
+      <div class="field-card-icon" style="background:#fef9c3">🔐</div>
+      <div>
+        <div class="field-card-title">Vấn đề đăng nhập / quyền truy cập của bạn là gì?</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Chọn tất cả những gì đúng với bạn</div>
+      </div>
+    </div>
+    <div class="field-card-body">
+      <div class="cl-inline-list">
+        <label class="cl-inline-item"><input type="checkbox" name="access" value="Không nhập được Gmail / tài khoản"><span>Không nhập được email / tài khoản</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="access" value="Nhập đúng mật khẩu nhưng vẫn báo sai"><span>Mật khẩu đúng nhưng vẫn báo sai</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="access" value="Đăng nhập được nhưng không thấy tính năng cần dùng"><span>Đăng nhập được nhưng không thấy chức năng cần dùng</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="access" value="Bị đăng xuất tự động"><span>Tự nhiên bị đăng xuất</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="access" value="Không được phân quyền đúng role"><span>Không có quyền xem / chỉnh sửa như đáng ra phải có</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="access" value="Tài khoản bị khoá"><span>Tài khoản bị khoá, không vào được</span></label>
+        <label class="cl-inline-item cl-inline-other">
+          <input type="checkbox" name="access" value="Khác">
+          <span>Khác —</span>
+          <input type="text" class="cl-other-input" placeholder="Mô tả thêm..." onclick="event.stopPropagation()">
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERF checklist -->
+  <div class="field-card cond" id="cl-perf">
+    <div class="field-card-head">
+      <div class="field-card-icon" style="background:#fff7ed">🐢</div>
+      <div>
+        <div class="field-card-title">Hệ thống đang chậm kiểu nào?</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Chọn biểu hiện bạn đang thấy</div>
+      </div>
+    </div>
+    <div class="field-card-body">
+      <div class="cl-inline-list">
+        <label class="cl-inline-item"><input type="checkbox" name="perf" value="Trang load hơn 5 giây"><span>Mở trang mất hơn 5 giây</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="perf" value="Bấm nút xong chờ rất lâu mới có kết quả"><span>Bấm nút xong phải chờ rất lâu</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="perf" value="Upload file bị treo / không xong"><span>Upload file bị treo, không xong</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="perf" value="Chỉ chậm vào giờ cao điểm"><span>Chỉ bị chậm vào giờ cao điểm</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="perf" value="Chậm trên điện thoại, máy tính thì ổn"><span>Điện thoại chậm, máy tính thì ổn</span></label>
+        <label class="cl-inline-item cl-inline-other">
+          <input type="checkbox" name="perf" value="Khác">
+          <span>Khác —</span>
+          <input type="text" class="cl-other-input" placeholder="Mô tả thêm..." onclick="event.stopPropagation()">
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA checklist -->
+  <div class="field-card cond" id="cl-data">
+    <div class="field-card-head">
+      <div class="field-card-icon" style="background:#f0fdf4">📊</div>
+      <div>
+        <div class="field-card-title">Dữ liệu đang bị vấn đề gì?</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:2px">Chọn tất cả những gì đúng với bạn</div>
+      </div>
+    </div>
+    <div class="field-card-body">
+      <div class="cl-inline-list">
+        <label class="cl-inline-item"><input type="checkbox" name="data" value="Số liệu hiển thị sai so với thực tế"><span>Số liệu hiển thị khác với thực tế</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="data" value="Dữ liệu bị mất sau khi lưu"><span>Lưu rồi nhưng dữ liệu bị mất</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="data" value="Dữ liệu không đồng bộ giữa các trang"><span>Dữ liệu không khớp giữa các trang</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="data" value="Dữ liệu của người khác hiển thị nhầm vào tài khoản mình"><span>Thấy dữ liệu của người khác trong tài khoản mình</span></label>
+        <label class="cl-inline-item"><input type="checkbox" name="data" value="Báo cáo / export ra số sai"><span>Export / báo cáo ra số sai</span></label>
+        <label class="cl-inline-item cl-inline-other">
+          <input type="checkbox" name="data" value="Khác">
+          <span>Khác —</span>
+          <input type="text" class="cl-other-input" placeholder="Mô tả thêm..." onclick="event.stopPropagation()">
+        </label>
+      </div>
     </div>
   </div>
 
   <!-- File đính kèm tài liệu -->
-  <div style="margin-top:24px">
-    <div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;padding-top:16px;border-top:1px solid var(--gray-border)">Đính kèm tài liệu</div>
-    <div style="font-size:13px;font-weight:600;color:var(--text-mid);margin-bottom:8px" id="fileUploadLabel">ẢNH / VIDEO / FILE MÔ TẢ LỖI</div>
+  <div class="field-card" style="margin-top:8px">
+    <div class="field-card-head">
+      <div class="field-card-icon">📎</div>
+      <div>
+        <div class="field-card-title" id="fileUploadLabel">Đính kèm tài liệu</div>
+      </div>
+    </div>
+    <div class="field-card-body">
+    <div class="file-upload-hint">📸 Hãy up video / ảnh mô tả lỗi để bọn mình hiểu rõ hơn nhé — không bắt buộc nhưng sẽ giúp IT xử lý nhanh hơn nhiều!</div>
     <div id="dropZone3"
-      style="border:1.5px dashed var(--gray-border);border-radius:var(--radius);padding:28px 20px;text-align:center;cursor:pointer;background:#fafafa;transition:border-color .2s"
+      style="border:1.5px dashed var(--gray-border-soft);border-radius:var(--radius);padding:24px 16px;text-align:center;cursor:pointer;background:var(--bg-surface);transition:border-color .2s"
       onclick="document.getElementById('allFiles').click()"
       ondragover="event.preventDefault();this.style.borderColor='var(--purple)'"
-      ondragleave="this.style.borderColor='var(--gray-border)'"
+      ondragleave="this.style.borderColor='var(--gray-border-soft)'"
       ondrop="handleDrop3(event)">
-      <div style="font-size:28px;margin-bottom:8px">📎</div>
+      <div style="font-size:26px;margin-bottom:8px">📎</div>
       <div style="font-size:14px;color:var(--text-mid)"><strong style="color:var(--purple)">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
       <div style="display:flex;justify-content:center;gap:6px;margin-top:10px">
-        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PNG</span>
-        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">JPG</span>
-        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">MP4</span>
-        <span style="background:var(--gray-light);border:1px solid var(--gray-border);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PDF</span>
+        <span style="background:#fff;border:1px solid var(--gray-border-soft);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PNG</span>
+        <span style="background:#fff;border:1px solid var(--gray-border-soft);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">JPG</span>
+        <span style="background:#fff;border:1px solid var(--gray-border-soft);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">MP4</span>
+        <span style="background:#fff;border:1px solid var(--gray-border-soft);border-radius:4px;padding:2px 10px;font-size:11px;color:var(--text-muted)">PDF</span>
       </div>
       <input type="file" id="allFiles" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="handleFiles3(this.files)">
     </div>
     <div id="fileList3" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
     <div id="linkList3" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
+    </div>
   </div>
 
   <!-- === BUG filter === -->
   <div id="flt-bug" class="cond">
-    <hr class="divider">
-    <div class="sub-section">
+        <div class="sub-section">
       <div class="sub-section-header">
-        <div class="sub-section-icon" style="background:#fee2e2">🐛</div>
-        <div><div class="sub-section-title">Mô tả lỗi cụ thể</div><div class="sub-section-sub">Càng cụ thể, IT xử lý càng nhanh</div></div>
+        <div class="sub-section-icon" style="background:#FFF3DC">🐛</div>
+        <div><div class="sub-section-title">Mô tả lỗi cụ thể</div><div class="sub-section-sub">Điền vào đây để IT biết chính xác chuyện gì đang xảy ra 👇</div></div>
       </div>
       <div class="field-group">
-        <div class="field-label">Kỳ vọng vs Thực tế <span class="req">*</span></div>
+        <div class="field-label">🤔 Bạn cần gì? Và hệ thống đang làm gì? <span class="req">*</span></div>
+        <div class="field-hint">Điền 2 ô bên dưới — ô trái là bạn mong đợi gì, ô phải là chuyện gì đang thực sự xảy ra.</div>
         <div class="expect-split">
           <div class="expect-box">
-            <div class="expect-header good">✅ Kỳ vọng</div>
-            <textarea id="bugExpect" placeholder="Tôi muốn hệ thống làm [X]..." oninput="checkStep2()"></textarea>
+            <div class="expect-header good">✅ Tôi cần / Tôi nghĩ phải thế này</div>
+            <textarea id="bugExpect" placeholder="VD: Bấm nút Lưu xong thì dữ liệu phải được lưu và hiển thị ngay..." oninput="checkStep2()"></textarea>
           </div>
           <div class="expect-box">
-            <div class="expect-header bad">✗ Thực tế</div>
-            <textarea id="bugActual" placeholder="Thực tế đang xảy ra điều gì..." oninput="checkStep2()"></textarea>
+            <div class="expect-header bad">❌ Nhưng thực tế đang xảy ra thế này</div>
+            <textarea id="bugActual" placeholder="VD: Bấm Lưu rồi nhưng trang trắng, không thấy dữ liệu đâu cả..." oninput="checkStep2()"></textarea>
           </div>
         </div>
       </div>
       <div class="field-group">
-        <div class="field-label">Lỗi xảy ra khi làm gì? <span class="req">*</span></div>
-        <div class="field-hint">VD: "Tôi đang click Lưu trong form tạo task thì..."</div>
-        <textarea id="bugAction" placeholder="Tôi đang làm [X] thì..." oninput="checkStep2()"></textarea>
+        <div class="field-label">📍 Lỗi xảy ra lúc bạn đang làm gì? <span class="req">*</span></div>
+        <div class="field-hint">Kể lại từng bước bạn đang làm trước khi lỗi xuất hiện. Ví dụ: "Tôi vào trang quản lý đơn hàng → bấm nút Tạo mới → điền form → bấm Lưu thì..."</div>
+        <textarea id="bugAction" placeholder="Tôi đang làm... rồi thì lỗi xuất hiện..." oninput="checkStep2()"></textarea>
       </div>
       <div class="field-group">
-        <div class="field-label">Tần suất xảy ra</div>
+        <div class="field-label">🔁 Lỗi này xảy ra thường xuyên không?</div>
+        <div class="field-hint">Giúp IT biết lỗi nhất quán hay chỉ thỉnh thoảng để ưu tiên xử lý.</div>
         <div class="chip-group" id="freqChips">
-          <div class="chip" onclick="toggleChip(this,'freq')">Luôn luôn</div>
-          <div class="chip" onclick="toggleChip(this,'freq')">Thỉnh thoảng</div>
-          <div class="chip" onclick="toggleChip(this,'freq')">Chỉ 1 lần</div>
-          <div class="chip" onclick="toggleChip(this,'freq')">Chưa thử lại</div>
+          <div class="chip" onclick="toggleChip(this,'freq')">Luôn luôn — cứ làm là lỗi</div>
+          <div class="chip" onclick="toggleChip(this,'freq')">Thỉnh thoảng — không biết khi nào</div>
+          <div class="chip" onclick="toggleChip(this,'freq')">Chỉ xảy ra 1 lần</div>
+          <div class="chip" onclick="toggleChip(this,'freq')">Chưa thử lại lần nào</div>
         </div>
       </div>
     </div>
@@ -740,41 +981,28 @@ select{cursor:pointer}
     <div class="sub-section">
       <div class="sub-section-header">
         <div class="sub-section-icon" style="background:#eff6ff">🔎</div>
-        <div><div class="sub-section-title">Vấn đề gốc</div><div class="sub-section-sub">Hiểu đúng bệnh — không chữa triệu chứng</div></div>
+        <div><div class="sub-section-title">Vấn đề gốc</div><div class="sub-section-sub">Giúp IT hiểu bối cảnh — để fix đúng chỗ, không bị tái phát</div></div>
       </div>
       <div class="field-group">
-        <div class="field-label">Quy trình hiện tại</div>
-        <div class="field-hint">Hiện đang làm việc này như thế nào? Ai làm? Dùng công cụ gì?</div>
-        <textarea id="bugProcess" placeholder="Hiện tại quy trình là..."></textarea>
+        <div class="field-label">⚙️ Bạn đang làm việc này như thế nào trước khi bị lỗi?</div>
+        <div class="field-hint">Ví dụ: Tôi vào trang X → làm bước Y → rồi lỗi xuất hiện ở bước Z.</div>
+        <textarea id="bugProcess" placeholder="VD: Tôi mở trang quản lý đơn hàng, bấm nút Tạo mới, điền form rồi bấm Lưu..."></textarea>
       </div>
       <div class="field-group">
-        <div class="field-label">Điểm đau cụ thể</div>
-        <textarea id="bugPain" placeholder="Điều gì đang không ổn? Gây mất thời gian / lỗi / bực bội nhất?"></textarea>
+        <div class="field-label">🚨 Nếu chưa fix, điều gì sẽ xảy ra?</div>
+        <div class="field-hint">Điều này giúp IT ưu tiên task cho bạn.</div>
+        <textarea id="bugImpact" placeholder="VD: Không gửi được báo cáo cho khách, mất khoảng 2 tiếng xử lý thủ công mỗi ngày..."></textarea>
       </div>
-      <div class="field-group">
-        <div class="field-label">Hậu quả nếu không giải quyết</div>
-        <textarea id="bugImpact" placeholder="Ảnh hưởng gì? Mất bao nhiêu tiền / giờ / cơ hội?"></textarea>
-      </div>
-      <div class="field-group">
-        <div class="field-label">Loại lỗi liên quan đến</div>
-        <div class="chip-group" id="bugTypeChips">
-          <div class="chip" onclick="toggleChip(this,'bugtype')">Web UI</div>
-          <div class="chip" onclick="toggleChip(this,'bugtype')">Auto / quy trình tự động</div>
-          <div class="chip" onclick="toggleChip(this,'bugtype')">Data hiển thị trên UI</div>
-          <div class="chip" onclick="toggleChip(this,'bugtype')">API / Backend</div>
-          <div class="chip" onclick="toggleChip(this,'bugtype')">Không rõ</div>
-        </div>
-      </div>
+
     </div>
   </div>
 
   <!-- === FEATURE filter === -->
   <div id="flt-feature" class="cond">
-    <hr class="divider">
-    <div class="sub-section">
+        <div class="sub-section">
       <div class="sub-section-header">
-        <div class="sub-section-icon" style="background:#ede9fe">✨</div>
-        <div><div class="sub-section-title">Vấn đề gốc</div><div class="sub-section-sub">Hiểu đúng bệnh — không chữa triệu chứng</div></div>
+        <div class="sub-section-icon" style="background:#e8f8ef">✨</div>
+        <div><div class="sub-section-title">Vấn đề gốc</div><div class="sub-section-sub">Giúp IT hiểu bối cảnh — để fix đúng chỗ, không bị tái phát</div></div>
       </div>
       <div class="field-group">
         <div class="field-label">Quy trình hiện tại <span class="req">*</span></div>
@@ -859,8 +1087,7 @@ select{cursor:pointer}
 
   <!-- === ACCESS filter === -->
   <div id="flt-access" class="cond">
-    <hr class="divider">
-    <div class="sub-section">
+        <div class="sub-section">
       <div class="sub-section-header">
         <div class="sub-section-icon" style="background:#fef9c3">🔐</div>
         <div><div class="sub-section-title">Mô tả vấn đề truy cập</div></div>
@@ -888,8 +1115,7 @@ select{cursor:pointer}
 
   <!-- === PERF filter === -->
   <div id="flt-perf" class="cond">
-    <hr class="divider">
-    <div class="sub-section">
+        <div class="sub-section">
       <div class="sub-section-header">
         <div class="sub-section-icon" style="background:#fff7ed">🐢</div>
         <div><div class="sub-section-title">Mô tả vấn đề hiệu suất</div></div>
@@ -920,8 +1146,7 @@ select{cursor:pointer}
 
   <!-- === DATA filter === -->
   <div id="flt-data" class="cond">
-    <hr class="divider">
-    <div class="sub-section">
+        <div class="sub-section">
       <div class="sub-section-header">
         <div class="sub-section-icon" style="background:#f0fdf4">📊</div>
         <div><div class="sub-section-title">Mô tả vấn đề dữ liệu</div></div>
@@ -944,12 +1169,12 @@ select{cursor:pointer}
 
   </div><!-- /normal-panel -->
 
-  <div class="nav-row" id="normal-nav"><button class="btn-back" onclick="go(1)">← Quay lại</button><button class="btn-next" id="btn2" onclick="go(3)" disabled>Tiếp theo →</button></div>
+  <div class="nav-row" id="normal-nav"><button class="btn-back" onclick="go(0)">← Quay lại</button><button class="btn-next" id="btn1" onclick="go(2)" disabled>Tiếp theo →</button></div>
 </div>
 
-<!-- ═══════════════ STEP 3: AI RÀ SOÁT ═══════════════ -->
-<div class="panel" id="panel3">
-  <div class="ai-step-badge">✦ Bước 4 / 5 — Bánh Chưng đang rà soát</div>
+<!-- ═══════════════ STEP 2: AI RÀ SOÁT ═══════════════ -->
+<div class="panel" id="panel2">
+  <div class="ai-step-badge">✦ Bước 3 / 4 — Bánh Chưng đang rà soát</div>
   <div style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-.3px">Bánh Chưng rà soát yêu cầu 🍀</div>
   <div style="font-size:14px;color:var(--text-muted);margin-bottom:20px;line-height:1.6">Để team IT hiểu đúng 100%, Bánh Chưng sẽ kiểm tra và hỏi lại nếu cần làm rõ thêm.</div>
 
@@ -967,17 +1192,17 @@ select{cursor:pointer}
   </div>
 
   <div id="aiDoneWrap" style="display:none">
-    <button onclick="go(4)" style="width:100%;padding:14px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer;min-height:48px">✅ Xem lại & gửi yêu cầu →</button>
+    <button onclick="go(3)" style="width:100%;padding:14px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer;min-height:48px">✅ Xem lại & gửi yêu cầu →</button>
   </div>
 
-  <div class="nav-row" style="margin-top:12px"><button class="btn-back" onclick="go(2)">← Quay lại</button><div></div></div>
+  <div class="nav-row" style="margin-top:12px"><button class="btn-back" onclick="go(1)">← Quay lại</button><div></div></div>
 </div>
 
-<!-- ═══════════════ STEP 4: ĐỌC LẠI TRƯỚC KHI GỬI ═══════════════ -->
-<div class="panel" id="panel4">
+<!-- ═══════════════ STEP 3: ĐỌC LẠI TRƯỚC KHI GỬI ═══════════════ -->
+<div class="panel" id="panel3">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-    <div style="display:inline-flex;align-items:center;gap:6px;background:#f3e8ff;border:1px solid #d8b4fe;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;color:#7c3aed">Bước 5 / 5</div>
-    <button onclick="go(3)" style="background:none;border:none;font-size:13px;color:var(--text-muted);cursor:pointer">← Quay lại</button>
+    <div style="display:inline-flex;align-items:center;gap:6px;background:#e8f8ef;border:1px solid #91d4aa;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;color:#f6a621">Bước 4 / 4</div>
+    <button onclick="go(2)" style="background:none;border:none;font-size:13px;color:var(--text-muted);cursor:pointer">← Quay lại</button>
   </div>
   <div style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:4px">Đọc lại trước khi gửi 📋</div>
   <div style="font-size:13px;color:var(--text-muted);margin-bottom:16px">Kiểm tra một lần nữa — sau khi gửi sẽ không chỉnh sửa được nhé.</div>
@@ -1059,7 +1284,7 @@ select{cursor:pointer}
 <!-- ═══════════════ DONE ═══════════════ -->
 <div class="panel" id="panelDone">
   <div class="success-wrap">
-    <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--purple-light),#C4B5FD);display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto 20px;box-shadow:0 0 0 12px rgba(91,79,232,.08),var(--shadow-lg);animation:stepPop .5s cubic-bezier(.34,1.56,.64,1) both .1s">✅</div>
+    <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--purple-light),#7DC9A0);display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto 20px;box-shadow:0 0 0 12px rgba(46,177,101,.08),var(--shadow-lg);animation:stepPop .5s cubic-bezier(.34,1.56,.64,1) both .1s">✅</div>
     <div style="font-size:24px;font-weight:700;color:var(--text);margin-bottom:8px;letter-spacing:-.3px">Đã gửi thành công!</div>
     <div class="ticket-id" id="ticketId">IT-2026-001</div>
     <div style="font-size:14px;color:var(--text-muted);margin:12px 0 20px;line-height:1.6" id="successSub">IT sẽ phản hồi theo SLA đã cam kết.</div>
@@ -1069,28 +1294,20 @@ select{cursor:pointer}
 </div>
 
 <!-- ═══ FEATURE FULLPAGE ═══ -->
-<div id="panelFeature" style="display:none;font-family:'Inter Tight',-apple-system,system-ui,sans-serif;color:#1b1b1b">
+<div id="panelFeature" style="display:none;font-family:'Inter Tight',-apple-system,system-ui,sans-serif;color:#1A2E22">
 
   <!-- Feature form -->
-  <div id="panelFeatureForm" style="background:#faf5ff;padding:20px 0">
+  <div id="panelFeatureForm" style="background:#f5fbf7;padding:20px 0">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
       <div>
         <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--purple);margin-bottom:6px">── YÊU CẦU TÍNH NĂNG MỚI</div>
-        <div style="font-size:22px;font-weight:800;color:#0a1929;letter-spacing:-.02em">Bạn muốn làm tính năng gì?</div>
+        <div style="font-size:22px;font-weight:800;color:#1a2e22;letter-spacing:-.02em">Bạn muốn làm tính năng gì?</div>
         <div style="font-size:13px;color:#5d6d7e;margin-top:4px">Cứ mô tả theo cách bạn cảm nhận — đừng lo sai 💜</div>
       </div>
-      <button onclick="backFromFeature()" style="background:none;border:1px solid #ddd6fe;border-radius:8px;padding:6px 12px;font-size:13px;color:#5d6d7e;cursor:pointer">← Quay lại</button>
+      <button onclick="backFromFeature()" style="background:none;border:1px solid #a8dfc0;border-radius:8px;padding:6px 12px;font-size:13px;color:#5d6d7e;cursor:pointer">← Quay lại</button>
     </div>
 
-    <!-- 1. Thông tin của bạn -->
-    <div class="fo-card">
-      <div class="fo-card-head"><div class="fo-card-icon">👤</div><div><div class="fo-card-title">Thông tin của bạn</div><div class="fo-card-hint">Để IT biết ai đang yêu cầu và liên hệ lại khi cần.</div></div></div>
-      <div class="fo-field"><label class="fo-label">HỌ VÀ TÊN *</label><input type="text" id="pf-name" class="fo-input" placeholder="Ví dụ: Nguyễn Thị Lan"></div>
-      <div class="fo-field"><label class="fo-label">TỔ CHỨC / PHÒNG BAN *</label><input type="text" id="pf-org" class="fo-input" placeholder="Ví dụ: Phòng Kinh doanh..."></div>
-      <div class="fo-field"><label class="fo-label">EMAIL LIÊN HỆ</label><input type="email" id="pf-email" class="fo-input" placeholder="email@company.com"></div>
-    </div>
-
-    <!-- 2. Tên tính năng -->
+    <!-- 1. Tên tính năng -->
     <div class="fo-card">
       <div class="fo-card-head"><div class="fo-card-icon">🎯</div><div><div class="fo-card-title">Tên tính năng</div><div class="fo-card-hint">Gọi nó bằng cái tên bạn hay dùng khi kể cho đồng nghiệp nghe.</div></div></div>
       <div class="fo-field"><label class="fo-label">TÊN TÍNH NĂNG *</label><input type="text" id="pf-feat-name" class="fo-input" placeholder="Ví dụ: Hệ thống quản lý đơn hàng nội bộ" oninput="foCheck()"></div>
@@ -1121,21 +1338,21 @@ select{cursor:pointer}
         </div>
       </div>
       <div class="fo-field"><label class="fo-label">KỂ THÊM CHO IT NGHE</label><textarea id="pf-desc" class="fo-input" rows="3" placeholder="Ví dụ: Mỗi tuần tôi mất 3 tiếng tổng hợp 5 file Excel..."></textarea></div>
-      <div class="fo-field" style="border-top:1px solid #ede9fe;padding-top:14px;margin-top:4px">
+      <div class="fo-field" style="border-top:1px solid #e8f8ef;padding-top:14px;margin-top:4px">
         <label class="fo-label">📎 ẢNH / VIDEO / LINK THAM KHẢO <span style="font-weight:400;text-transform:none;font-size:10px;color:#95a5a6">(tuỳ chọn)</span></label>
         <div id="pf-dropzone"
-          style="border:1.5px dashed #ddd6fe;border-radius:10px;padding:20px 16px;text-align:center;cursor:pointer;background:#faf5ff;transition:border-color .2s"
+          style="border:1.5px dashed #a8dfc0;border-radius:10px;padding:20px 16px;text-align:center;cursor:pointer;background:#f5fbf7;transition:border-color .2s"
           onclick="document.getElementById('pf-files').click()"
           ondragover="event.preventDefault();this.style.borderColor='var(--purple)'"
-          ondragleave="this.style.borderColor='#ddd6fe'"
+          ondragleave="this.style.borderColor='#a8dfc0'"
           ondrop="pfHandleDrop(event)">
           <div style="font-size:22px;margin-bottom:6px">📎</div>
           <div style="font-size:13px;color:#5d6d7e"><strong style="color:var(--purple)">Bấm để chọn file</strong> hoặc kéo thả vào đây</div>
           <div style="display:flex;justify-content:center;gap:6px;margin-top:8px">
-            <span style="background:#fff;border:1px solid #ddd6fe;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PNG</span>
-            <span style="background:#fff;border:1px solid #ddd6fe;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">JPG</span>
-            <span style="background:#fff;border:1px solid #ddd6fe;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">MP4</span>
-            <span style="background:#fff;border:1px solid #ddd6fe;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PDF</span>
+            <span style="background:#fff;border:1px solid #a8dfc0;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PNG</span>
+            <span style="background:#fff;border:1px solid #a8dfc0;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">JPG</span>
+            <span style="background:#fff;border:1px solid #a8dfc0;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">MP4</span>
+            <span style="background:#fff;border:1px solid #a8dfc0;border-radius:4px;padding:2px 8px;font-size:11px;color:#5d6d7e">PDF</span>
           </div>
           <input type="file" id="pf-files" multiple accept=".png,.jpg,.jpeg,.mp4,.pdf" style="display:none" onchange="pfHandleFiles(this.files)">
         </div>
@@ -1232,15 +1449,15 @@ select{cursor:pointer}
     <div style="background:#fff;border-radius:24px;padding:36px 32px;max-width:360px;width:90%;text-align:center;box-shadow:0 24px 48px rgba(10,25,41,.2)">
       <div id="foCelRobot" style="font-size:64px;margin-bottom:4px;display:block">🤖</div>
       <div id="foCelStars" style="font-size:20px;letter-spacing:4px;margin-bottom:14px">✨ 🎉 ✨</div>
-      <div id="foCelTitle" style="font-family:serif;font-size:22px;font-weight:800;color:#0a1929;margin-bottom:8px">Hoàn thành rồi!</div>
+      <div id="foCelTitle" style="font-family:serif;font-size:22px;font-weight:800;color:#1a2e22;margin-bottom:8px">Hoàn thành rồi!</div>
       <div id="foCelMsg" style="font-size:13px;color:#5d6d7e;line-height:1.65;margin-bottom:22px"></div>
-      <button id="foCelBtn" onclick="foCelebrateDone()" style="width:100%;padding:12px;background:#0a1929;color:#faf6f0;border:none;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer">Tiếp tục →</button>
+      <button id="foCelBtn" onclick="foCelebrateDone()" style="width:100%;padding:12px;background:#1a2e22;color:#F5FBF7;border:none;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer">Tiếp tục →</button>
     </div>
   </div>
 
   <!-- Chat AI rà soát — đồng bộ với panel3 -->
   <div id="panelFeatureChat" style="display:none;padding:20px 0">
-    <div style="display:inline-flex;align-items:center;gap:6px;background:#f3e8ff;border:1px solid #d8b4fe;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;color:#7c3aed;margin-bottom:12px">Bước 2 / 3</div>
+    <div style="display:inline-flex;align-items:center;gap:6px;background:#e8f8ef;border:1px solid #91d4aa;border-radius:20px;padding:3px 12px;font-size:12px;font-weight:600;color:#f6a621;margin-bottom:12px">Bước 2 / 3</div>
     <div style="font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px">Bánh Chưng rà soát yêu cầu 🍀</div>
     <div style="font-size:14px;color:var(--text-muted);margin-bottom:20px">Để team IT hiểu đúng 100%, Bánh Chưng sẽ kiểm tra và hỏi lại nếu cần làm rõ thêm.</div>
 
@@ -1263,53 +1480,53 @@ select{cursor:pointer}
   </div>
 
   <!-- Feature summary -->
-  <div id="panelFeatureSummary" style="display:none;background:#faf5ff;padding:20px 0">
+  <div id="panelFeatureSummary" style="display:none;background:#f5fbf7;padding:20px 0">
     <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--purple);margin-bottom:6px">── TÓM TẮT YÊU CẦU</div>
-    <div style="font-size:22px;font-weight:800;color:#0a1929;letter-spacing:-.02em;margin-bottom:4px">Bản Order hoàn chỉnh</div>
+    <div style="font-size:22px;font-weight:800;color:#1a2e22;letter-spacing:-.02em;margin-bottom:4px">Bản Order hoàn chỉnh</div>
     <div style="font-size:13px;color:#5d6d7e;margin-bottom:20px">Cột trái là ngôn ngữ của bạn — cột phải là những gì IT cần hiểu.</div>
 
     <!-- Meta card -->
-    <div style="background:#0a1929;border-radius:16px;padding:20px 22px;margin-bottom:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
+    <div style="background:#1a2e22;border-radius:16px;padding:20px 22px;margin-bottom:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px">
       <div>
-        <div style="font-size:20px;font-weight:800;color:#faf6f0;letter-spacing:-.02em" id="fo-s-title">—</div>
-        <div style="font-family:monospace;font-size:11px;color:#a78bfa;text-transform:uppercase;letter-spacing:.08em;margin-top:4px" id="fo-s-sub">—</div>
+        <div style="font-size:20px;font-weight:800;color:#F5FBF7;letter-spacing:-.02em" id="fo-s-title">—</div>
+        <div style="font-family:monospace;font-size:11px;color:#f6a621;text-transform:uppercase;letter-spacing:.08em;margin-top:4px" id="fo-s-sub">—</div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start" id="fo-s-badges"></div>
     </div>
 
     <!-- Dual table -->
-    <div style="background:#fff;border:1px solid #ddd6fe;border-radius:16px;overflow:hidden;margin-bottom:14px">
-      <div style="background:#ede9fe;border-bottom:1px solid #ddd6fe">
+    <div style="background:#fff;border:1px solid #a8dfc0;border-radius:16px;overflow:hidden;margin-bottom:14px">
+      <div style="background:#e8f8ef;border-bottom:1px solid #a8dfc0">
         <div style="padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#5d6d7e;display:flex;align-items:center;gap:8px"><div style="width:8px;height:8px;border-radius:2px;background:var(--purple)"></div>🧑 Thông tin yêu cầu</div>
       </div>
       <div id="fo-s-rows"></div>
     </div>
 
     <!-- Complexity -->
-    <div style="background:#fff;border:1px solid #ddd6fe;border-radius:16px;padding:20px 22px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
-      <div style="font-size:14px;font-weight:700;color:#0a1929;flex-shrink:0">Ước tính độ phức tạp</div>
+    <div style="background:#fff;border:1px solid #a8dfc0;border-radius:16px;padding:20px 22px;margin-bottom:16px;display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <div style="font-size:14px;font-weight:700;color:#1a2e22;flex-shrink:0">Ước tính độ phức tạp</div>
       <div style="display:flex;gap:14px;flex:1;flex-wrap:wrap" id="fo-cx"></div>
     </div>
 
     <!-- Confirm checkbox -->
-    <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #ddd6fe;border-radius:10px;cursor:pointer;font-size:13px;color:#374151;margin-bottom:14px" id="foConfirmLabel">
+    <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #a8dfc0;border-radius:10px;cursor:pointer;font-size:13px;color:#374151;margin-bottom:14px" id="foConfirmLabel">
       <input type="checkbox" id="foConfirmCheck" onchange="foToggleSubmit()" style="width:18px;height:18px;accent-color:var(--purple);cursor:pointer">
       Tôi đã đọc kỹ và xác nhận thông tin trên là chính xác
     </label>
 
     <div style="display:flex;gap:10px">
-      <button onclick="backToFeatureForm()" style="padding:12px 20px;background:#fff;border:1.5px solid #ddd6fe;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;color:#5d6d7e">✏️ Chỉnh sửa</button>
+      <button onclick="backToFeatureForm()" style="padding:12px 20px;background:#fff;border:1.5px solid #a8dfc0;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;color:#5d6d7e">✏️ Chỉnh sửa</button>
       <button id="foSubmitBtn" onclick="foSubmit()" disabled style="flex:1;padding:12px;background:#d1d5db;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:not-allowed;transition:all .3s;font-family:inherit">✅ Xác nhận & Gửi IT</button>
     </div>
 
     <!-- Success -->
-    <div id="foSuccess" style="display:none;background:#0a1929;border-radius:16px;padding:28px;text-align:center;margin-top:16px">
+    <div id="foSuccess" style="display:none;background:#1a2e22;border-radius:16px;padding:28px;text-align:center;margin-top:16px">
       <div style="font-size:48px;margin-bottom:12px">✓</div>
-      <div style="font-size:20px;font-weight:800;color:#faf6f0;margin-bottom:8px">Đã gửi thành công!</div>
+      <div style="font-size:20px;font-weight:800;color:#F5FBF7;margin-bottom:8px">Đã gửi thành công!</div>
       <div style="font-size:13px;color:#8aaec8;margin-bottom:12px">Team IT đã nhận được yêu cầu. Chúng tôi sẽ liên hệ trong 1–2 ngày làm việc.</div>
-      <div id="foTicket" style="background:#2d1b69;border:1px solid #7c3aed;border-radius:8px;padding:6px 18px;display:inline-block;font-family:monospace;font-size:13px;font-weight:700;color:#a78bfa;margin-bottom:20px"></div>
+      <div id="foTicket" style="background:#145c32;border:1px solid #f6a621;border-radius:8px;padding:6px 18px;display:inline-block;font-family:monospace;font-size:13px;font-weight:700;color:#f6a621;margin-bottom:20px"></div>
       <br>
-      <button onclick="resetAll()" style="background:linear-gradient(135deg,var(--purple),var(--purple-mid));color:#fff;border:none;padding:12px 28px;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer">+ Tạo yêu cầu mới</button>
+      <button onclick="resetAll()" style="background:linear-gradient(135deg,var(--purple),var(--purple-dark));color:#fff;border:none;padding:12px 28px;border-radius:100px;font-size:14px;font-weight:700;cursor:pointer">+ Tạo yêu cầu mới</button>
     </div>
   </div>
 </div>
@@ -1324,7 +1541,7 @@ select{cursor:pointer}
 
 <script>
 const CHIP_DIALOGUES = {
-  0: "Team bạn đang gặp chuyện gì rồi? Chip nghe đây! 👂",
+  0: "Bạn đang gặp vấn đề gì? Chip nghe đây! 👂",
   1: "Chọn loại gần nhất nhé — bước sau Chip giúp làm rõ hơn 💡",
   2: "Điền càng chi tiết, IT fix càng nhanh! Chip tin bạn làm được 💪",
   3: "Chip đang đọc kỹ yêu cầu... 1 giây thôi! ✨",
@@ -1365,12 +1582,12 @@ const SLA = {P0:'2 giờ',P1:'8 giờ',P2:'3 ngày',P3:'7 ngày'};
 // ─── Nav ───
 function go(n) {
   // Feature type → fullpage redirect
-  if(n===2 && S.type==='feature') { showFeaturePage(); return; }
-  if(n===2) { showFilters(); }
-  if(n===3) { showFilters(); initAI(); }
-  if(n===4) buildConfirm();
+  if(n===1 && S.type==='feature') { showFeaturePage(); return; }
+  if(n===1) { showFilters(); }
+  if(n===2) { showFilters(); initAI(); }
+  if(n===3) buildConfirm();
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  const el = n<=4 ? document.getElementById('panel'+n) : document.getElementById('panelDone');
+  const el = (n>=0 && n<=3) ? document.getElementById('panel'+n) : document.getElementById('panelDone');
   if(el) el.classList.add('active');
   cur = n;
   updateNav();
@@ -1378,9 +1595,57 @@ function go(n) {
   window.scrollTo(0,0);
 }
 
+// ─── Recap checklist từ bước 1 ───
+function renderTypeRecap() {
+  const card = document.getElementById('typeRecapCard');
+  const body = document.getElementById('typeRecapBody');
+  const iconEl = document.getElementById('typeRecapIcon');
+  const titleEl = document.getElementById('typeRecapTitle');
+  if(!card || !body) return;
+
+  const TYPE_META = {
+    bug:    {icon:'🐛', title:'Lỗi bạn đã chọn ở bước trước',    name:'bug'},
+    access: {icon:'🔐', title:'Vấn đề truy cập bạn đã chọn',     name:'access'},
+    perf:   {icon:'🐢', title:'Biểu hiện chậm bạn đã chọn',      name:'perf'},
+    data:   {icon:'📊', title:'Vấn đề dữ liệu bạn đã chọn',      name:'data'},
+  };
+  const meta = TYPE_META[S.type];
+  if(!meta) { card.style.display='none'; return; }
+
+  const checks = [...document.querySelectorAll('input[name="'+meta.name+'"]:checked')];
+  const otherInput = document.querySelector('#sub'+meta.name.charAt(0).toUpperCase()+meta.name.slice(1)+' .cl-other-input');
+  const items = checks.map(c => {
+    if(c.value === 'Khác' && otherInput && otherInput.value.trim()) return '✏️ '+otherInput.value.trim();
+    if(c.value !== 'Khác') return c.value;
+    return null;
+  }).filter(Boolean);
+
+  if(!items.length) { card.style.display='none'; return; }
+
+  iconEl.textContent = meta.icon;
+  titleEl.textContent = meta.title;
+  body.innerHTML = items.map(i =>
+    `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--gray-border-soft)">
+      <span style="width:22px;height:22px;border-radius:6px;background:var(--purple-light);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0">✓</span>
+      <span style="font-size:14px;color:var(--text-mid);font-weight:500">${i}</span>
+    </div>`
+  ).join('') +
+  `<div style="padding-top:10px;font-size:12px;color:var(--text-muted)">
+    Nếu chưa đúng, <button onclick="go(1)" style="background:none;border:none;color:var(--purple);font-size:12px;font-weight:600;cursor:pointer;padding:0;text-decoration:underline">← quay lại bước 2</button> để chỉnh nhé.
+  </div>`;
+  card.style.display='block';
+}
+
 function updateNav() {
-  for(let i=0;i<5;i++){
+  const STEP_SUBTITLES = [
+    'Chọn loại vấn đề',
+    'Điền chi tiết yêu cầu',
+    'Bánh Chưng rà soát',
+    'Xem lại và gửi cho IT',
+  ];
+  for(let i=0;i<4;i++){
     const dot = document.getElementById('dot'+i);
+    if(!dot) continue;
     dot.classList.remove('active','done');
     if(i<cur) {
       dot.classList.add('done');
@@ -1391,15 +1656,19 @@ function updateNav() {
     } else {
       dot.querySelector('.step-circle').innerHTML = (i+1)+'';
     }
-    if(i<4){
-      const line = document.getElementById('line'+i+(i+1));
-      if(line) line.classList.toggle('done', i<cur);
-    }
   }
-  const pct = Math.round((cur+1)/5*100);
-  document.getElementById('progBar').style.width = pct+'%';
-  document.getElementById('progStep').textContent = 'Bước '+(cur+1)+' / 5';
-  document.getElementById('progPct').textContent = pct+'%';
+  const trackFill = document.getElementById('stepTrackFill');
+  if(trackFill) {
+    // scaleX(0) = bước 0, scaleX(1) = bước cuối — chính xác tuyến left:36px→right:36px
+    const scale = cur === 0 ? 0 : cur / 3;
+    trackFill.style.transform = 'scaleX('+scale+')';
+  }
+  const stepPct = Math.round((cur+1)/4*100);
+  document.getElementById('progBar').style.width = stepPct+'%';
+  document.getElementById('progStep').textContent = 'Bước '+(cur+1)+' / 4';
+  document.getElementById('progPct').textContent = stepPct+'%';
+  const sub = document.getElementById('stepNavSubtitle');
+  if(sub) sub.textContent = STEP_SUBTITLES[cur]||'';
 }
 
 // ─── Step 0: Team ───
@@ -1407,59 +1676,35 @@ function pick(key, val, el, gridId) {
   document.getElementById(gridId).querySelectorAll('.sel-card').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');
   S[key] = val;
-  document.getElementById('btn0').disabled = false;
+  checkStep0();
 }
 
 // ─── Step 1: Type ───
 function pickType(val, el, subId) {
   document.querySelectorAll('#typeList .type-card').forEach(c=>c.classList.remove('selected'));
-  document.querySelectorAll('.sub-checklist').forEach(s=>s.classList.remove('open'));
-  document.querySelectorAll('.tc-arrow').forEach(a=>a.classList.remove('open'));
   el.classList.add('selected');
   S.type = val;
+  S.typeChecklist = val==='feature' ? ['Yêu cầu tính năng mới'] : [];
+  checkStep0();
+}
 
-  if(val === 'feature') {
-    // Enable btn1 immediately for feature
-    document.getElementById('btn1').disabled = false;
-    return;
-  }
-
-  if(subId) {
-    const sub = document.getElementById(subId);
-    const arrowId = subId.replace('sub','arrow');
-    const arrow = document.getElementById(arrowId);
-    if(sub) sub.classList.add('open');
-    if(arrow) arrow.classList.add('open');
-    if(subId==='subFeature') {
-      clBuild();
-    } else {
-      sub.querySelectorAll('input[type=checkbox]').forEach(cb=>{
-        cb.addEventListener('change', checkTypeChecklist);
-      });
-    }
-    checkTypeChecklist();
-  } else {
-    document.getElementById('btn1').disabled = false;
-  }
+function checkStep0() {
+  const hasType = !!S.type;
+  document.getElementById('btn0').disabled = !hasType;
 }
 
 function checkTypeChecklist() {
-  let hasChecked = false;
-  if(S.type === 'feature') {
-    hasChecked = true; // feature has no checklist at step 2
-    S.typeChecklist = ['Yêu cầu tính năng mới'];
-  } else {
-    const checked = document.querySelectorAll('#typeList input[type=checkbox]:checked');
-    hasChecked = checked.length > 0;
-    S.typeChecklist = [...checked].map(cb=>{
-      if(cb.value==='Khác'){
-        const other = cb.closest('.cl-other')?.querySelector('.cl-other-input')?.value;
-        return other ? 'Khác: '+other : 'Khác';
-      }
-      return cb.value;
-    });
-  }
-  document.getElementById('btn1').disabled = !hasChecked;
+  // Collect from inline checklists in step 1 (panel1)
+  const t = S.type;
+  if(!t || t==='feature') return;
+  const checked = document.querySelectorAll('input[name="'+t+'"]:checked');
+  S.typeChecklist = [...checked].map(cb=>{
+    if(cb.value==='Khác'){
+      const other = cb.closest('.cl-inline-other')?.querySelector('.cl-other-input')?.value;
+      return other ? 'Khác: '+other : 'Khác';
+    }
+    return cb.value;
+  });
 }
 
 // ─── Step 2: Prio ───
@@ -1498,6 +1743,9 @@ function showFilters() {
     ['bug','access','perf','data'].forEach(t=>{
       const el = document.getElementById('flt-'+t);
       if(el) el.classList.toggle('show', S.type===t);
+      // Also show inline checklist cards
+      const cl = document.getElementById('cl-'+t);
+      if(cl) cl.classList.toggle('show', S.type===t);
     });
     const LINK_CONFIG = {
       bug:    { label:'Link trang đang bị lỗi',         ph:'https://nquoc.vn/trang-bi-loi...' },
@@ -1523,7 +1771,7 @@ function showFilters() {
 
 function checkStep2() {
   showFilters();
-  if(S.sys.length===0) { document.getElementById('btn2').disabled=true; return; }
+  if(S.sys.length===0) { document.getElementById('btn1')&&(document.getElementById('btn1').disabled=true); return; }
   let ok = false;
   const t = S.type;
   if(t==='bug') ok = val('bugExpect')&&val('bugActual')&&val('bugAction');
@@ -1531,7 +1779,7 @@ function checkStep2() {
   else if(t==='access') ok = val('accessWhat');
   else if(t==='perf') ok = val('perfWhere');
   else if(t==='data') ok = val('dataWhat')&&val('dataExpected');
-  document.getElementById('btn2').disabled = !ok;
+  const btn1El = document.getElementById('btn1'); if(btn1El) btn1El.disabled = !ok;
 }
 
 function val(id) {
@@ -1592,12 +1840,12 @@ function initAI() {
       const body = noMoreQs
         ? `📎 Bạn đã đính kèm ${fileCount} file — IT sẽ xem qua. Thông tin trông đầy đủ rồi, bấm tiếp tục để xem lại và gửi nhé!`
         : `📎 Bạn đã đính kèm ${fileCount} file — IT sẽ xem qua. Tôi chỉ cần hỏi thêm ${qs.length} câu ngắn để hoàn chỉnh yêu cầu.`;
-      msg.innerHTML = `<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:14px;color:var(--text-mid);max-width:85%;line-height:1.5">${body}</div>`;
+      msg.innerHTML = `<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f6a621,#1e8a4a);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:14px;color:var(--text-mid);max-width:85%;line-height:1.5">${body}</div>`;
       wrap.appendChild(msg);
       wrap.scrollTop = wrap.scrollHeight;
       if (noMoreQs) {
         document.getElementById('aiInputWrap').style.display = 'none';
-        document.getElementById('aiDoneWrap').innerHTML = '<button onclick="go(4)" style="width:100%;padding:14px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer">✅ Xem lại & gửi yêu cầu →</button>';
+        document.getElementById('aiDoneWrap').innerHTML = '<button onclick="go(3)" style="width:100%;padding:14px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer">✅ Xem lại & gửi yêu cầu →</button>';
         document.getElementById('aiDoneWrap').style.display = 'block';
       } else {
         setTimeout(() => aiAsk(qs[0]), 700);
@@ -1613,14 +1861,14 @@ function aiAsk(q) {
   // typing indicator
   const typing = document.createElement('div');
   typing.style.cssText='display:flex;align-items:center;gap:10px';
-  typing.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:13px;color:var(--text-muted)">...</div>`;
+  typing.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f6a621,#1e8a4a);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:13px;color:var(--text-muted)">...</div>`;
   wrap.appendChild(typing);
   wrap.scrollTop=wrap.scrollHeight;
   setTimeout(()=>{
     typing.remove();
     const msg = document.createElement('div');
     msg.style.cssText='display:flex;align-items:flex-start;gap:10px';
-    msg.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:14px;color:var(--text-mid);max-width:85%;line-height:1.5">${q}</div>`;
+    msg.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f6a621,#1e8a4a);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:14px;color:var(--text-mid);max-width:85%;line-height:1.5">${q}</div>`;
     wrap.appendChild(msg);
     wrap.scrollTop=wrap.scrollHeight;
   }, 800);
@@ -1635,7 +1883,7 @@ function sendAI() {
   const wrap = document.getElementById('aiChatWrap');
   const reply = document.createElement('div');
   reply.style.cssText='display:flex;justify-content:flex-end';
-  reply.innerHTML=`<div style="background:var(--purple-light);border:1px solid #c4b5fd;border-radius:12px 0 12px 12px;padding:10px 14px;font-size:14px;color:var(--purple);max-width:80%">${text}</div>`;
+  reply.innerHTML=`<div style="background:var(--purple-light);border:1px solid #7dc9a0;border-radius:12px 0 12px 12px;padding:10px 14px;font-size:14px;color:var(--purple);max-width:80%">${text}</div>`;
   wrap.appendChild(reply);
   input.value='';
   S.chatIdx++;
@@ -1648,11 +1896,11 @@ function sendAI() {
       const msg = document.createElement('div');
       msg.style.cssText='display:flex;align-items:flex-start;gap:10px';
       if(allSufficient) {
-        msg.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:#dcfce7;border:1px solid #86efac;border-radius:0 12px 12px 12px;padding:10px 14px;font-size:13px;color:#15803d;max-width:85%;line-height:1.5">✅ Cảm ơn bạn! Thông tin đã đủ để team IT xử lý. Bấm tiếp tục để xem lại và gửi.</div>`;
-        document.getElementById('aiDoneWrap').innerHTML='<button onclick="go(4)" style="width:100%;padding:14px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer">✅ Xem lại & gửi yêu cầu →</button>';
+        msg.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f6a621,#1e8a4a);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:#dcfce7;border:1px solid #86efac;border-radius:0 12px 12px 12px;padding:10px 14px;font-size:13px;color:#15803d;max-width:85%;line-height:1.5">✅ Cảm ơn bạn! Thông tin đã đủ để team IT xử lý. Bấm tiếp tục để xem lại và gửi.</div>`;
+        document.getElementById('aiDoneWrap').innerHTML='<button onclick="go(3)" style="width:100%;padding:14px;background:var(--purple);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer">✅ Xem lại & gửi yêu cầu →</button>';
       } else {
-        msg.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:#fef9c3;border:1px solid #fde047;border-radius:0 12px 12px 12px;padding:10px 14px;font-size:13px;color:#854d0e;max-width:85%;line-height:1.5">⚠️ Một số câu trả lời còn ngắn — IT có thể chưa đủ thông tin để xử lý. Bạn có thể quay lại bổ sung hoặc gửi ngay và IT sẽ hỏi thêm.</div>`;
-        document.getElementById('aiDoneWrap').innerHTML='<button onclick="go(4)" style="width:100%;padding:14px;background:var(--orange);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer">⚠️ Gửi dù chưa đủ thông tin →</button>';
+        msg.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f6a621,#1e8a4a);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:#fef9c3;border:1px solid #fde047;border-radius:0 12px 12px 12px;padding:10px 14px;font-size:13px;color:#854d0e;max-width:85%;line-height:1.5">⚠️ Một số câu trả lời còn ngắn — IT có thể chưa đủ thông tin để xử lý. Bạn có thể quay lại bổ sung hoặc gửi ngay và IT sẽ hỏi thêm.</div>`;
+        document.getElementById('aiDoneWrap').innerHTML='<button onclick="go(3)" style="width:100%;padding:14px;background:var(--orange);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer">⚠️ Gửi dù chưa đủ thông tin →</button>';
       }
       wrap.appendChild(msg);
       document.getElementById('aiInputWrap').style.display='none';
@@ -1663,7 +1911,7 @@ function sendAI() {
   wrap.scrollTop=wrap.scrollHeight;
 }
 
-function skipAI() { go(4); }
+function skipAI() { go(3); }
 
 // ─── Step 4: Confirm ───
 function buildConfirm() {
@@ -1675,7 +1923,7 @@ function buildConfirm() {
 
   // Header card
   document.getElementById('rv-date').textContent = now.getDate()+'/'+(now.getMonth()+1)+'/'+now.getFullYear();
-  document.getElementById('rv-sender').textContent = S.team ? S.team+' Team' : 'Chưa điền';
+  document.getElementById('rv-sender').textContent = 'NhiLe Team';
   document.getElementById('rv-team-badge').textContent = 'NhiLe Team';
   document.getElementById('rv-type-card').textContent = (typeIcon[t]||'')+' '+(TYPE_LABELS[t]||'—');
   document.getElementById('rv-prio-card').textContent = prioText;
@@ -1730,7 +1978,7 @@ function buildConfirm() {
 
   // 6. Người gửi
   document.getElementById('rv-inv-6').innerHTML = [
-    mkRow('Team', mkVal(S.team ? S.team+' Team' : '')),
+
     mkRow('Tổ chức', mkVal('NhiLe Team')),
   ].join('') || empty;
 
@@ -1762,8 +2010,7 @@ function submit() {
   document.getElementById('slaBadge').textContent = '⏱ IT phản hồi trong '+(SLA[S.prio]||'thời gian sớm nhất');
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panelDone').classList.add('active');
-  document.getElementById('stepNav').style.display='none';
-  document.querySelector('.progress-wrap').style.display='none';
+  document.getElementById('stepNavCard').style.display='none';
 
   /* ── Save to localStorage for cross-dashboard sync ── */
   const TYPE_ICONS = {bug:'🐛',feature:'✨',access:'🔑',perf:'⚡',data:'📊'};
@@ -1800,8 +2047,7 @@ function resetAll() {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel0').classList.add('active');
   document.getElementById('panelFeature').style.display='none';
-  document.getElementById('stepNav').style.display='flex';
-  document.querySelector('.progress-wrap').style.display='block';
+  document.getElementById('stepNavCard').style.display='block';
   document.querySelectorAll('.sub-checklist').forEach(s=>s.classList.remove('open'));
   document.querySelectorAll('.tc-arrow').forEach(a=>a.classList.remove('open'));
   document.querySelectorAll('.sel-card,.type-card,.prio-card,.sys-card').forEach(c=>c.classList.remove('selected'));
@@ -1813,8 +2059,7 @@ function resetAll() {
   document.querySelectorAll('.cond').forEach(c=>c.classList.remove('show'));
   document.getElementById('foSuccess').style.display='none';
   document.getElementById('btn0').disabled=true;
-  document.getElementById('btn1').disabled=true;
-  document.getElementById('btn2').disabled=true;
+  const b1e=document.getElementById('btn1');if(b1e)b1e.disabled=true;
   updateNav();
 }
 
@@ -2066,7 +2311,7 @@ function foShowTyping(cb, delay=1000) {
   const el = document.createElement('div');
   el.id='foTyping';
   el.style.cssText='display:flex;align-items:center;gap:10px';
-  el.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:13px;color:var(--text-muted)">...</div>`;
+  el.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f6a621,#1e8a4a);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:13px;color:var(--text-muted)">...</div>`;
   msgs.appendChild(el); msgs.scrollTop=msgs.scrollHeight;
   setTimeout(()=>{ const t=document.getElementById('foTyping'); if(t)t.remove(); cb(); }, delay);
 }
@@ -2075,8 +2320,8 @@ function foAddBotMsg(text, qr=[]) {
   const msgs = document.getElementById('foChatMsgs');
   const el = document.createElement('div');
   el.style.cssText='display:flex;align-items:flex-start;gap:10px';
-  const qrHtml = qr.length ? `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">${qr.map(r=>`<button onclick="foQuickReply('${r}')" style="background:var(--purple-light);border:1px solid #c4b5fd;color:var(--purple);border-radius:100px;padding:4px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">${r}</button>`).join('')}</div>` : '';
-  el.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#6d28d9);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:14px;color:var(--text-mid);max-width:85%;line-height:1.5">${text.replace(/\n/g,'<br>').replace(/<strong>/g,'<strong>').replace(/<em>/g,'<em>')}</div>${qrHtml}</div>`;
+  const qrHtml = qr.length ? `<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">${qr.map(r=>`<button onclick="foQuickReply('${r}')" style="background:var(--purple-light);border:1px solid #7dc9a0;color:var(--purple);border-radius:100px;padding:4px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">${r}</button>`).join('')}</div>` : '';
+  el.innerHTML=`<div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f6a621,#1e8a4a);display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0">✨</div><div><div style="background:var(--gray-light);border-radius:0 12px 12px 12px;padding:10px 14px;font-size:14px;color:var(--text-mid);max-width:85%;line-height:1.5">${text.replace(/\n/g,'<br>').replace(/<strong>/g,'<strong>').replace(/<em>/g,'<em>')}</div>${qrHtml}</div>`;
   msgs.appendChild(el); msgs.scrollTop=msgs.scrollHeight;
 }
 
@@ -2084,7 +2329,7 @@ function foAddUserMsg(text) {
   const msgs = document.getElementById('foChatMsgs');
   const el = document.createElement('div');
   el.style.cssText='display:flex;justify-content:flex-end';
-  el.innerHTML=`<div style="background:var(--purple-light);border:1px solid #c4b5fd;border-radius:12px 0 12px 12px;padding:10px 14px;font-size:14px;color:var(--purple);max-width:80%">${text}</div>`;
+  el.innerHTML=`<div style="background:var(--purple-light);border:1px solid #7dc9a0;border-radius:12px 0 12px 12px;padding:10px 14px;font-size:14px;color:var(--purple);max-width:80%">${text}</div>`;
   msgs.appendChild(el); msgs.scrollTop=msgs.scrollHeight;
 }
 
@@ -2141,8 +2386,8 @@ function pfHandleFiles(files) {
   [...files].forEach(f=>{
     const ext = f.name.split('.').pop().toUpperCase();
     const item = document.createElement('div');
-    item.style.cssText='display:flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid #ddd6fe;border-radius:8px;background:#fff;font-size:13px';
-    item.innerHTML=`<span style="background:#ede9fe;border:1px solid #c4b5fd;color:var(--purple-dark);border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700">${ext}</span><span style="flex:1;color:#1b1b1b">${f.name.substring(0,40)}</span><span style="color:#95a5a6">${(f.size/1024).toFixed(0)} KB</span><span onclick="this.parentElement.remove()" style="cursor:pointer;color:#95a5a6;font-size:16px;padding:0 2px">×</span>`;
+    item.style.cssText='display:flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid #a8dfc0;border-radius:8px;background:#fff;font-size:13px';
+    item.innerHTML=`<span style="background:#e8f8ef;border:1px solid #7dc9a0;color:var(--purple-dark);border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700">${ext}</span><span style="flex:1;color:#1A2E22">${f.name.substring(0,40)}</span><span style="color:#95a5a6">${(f.size/1024).toFixed(0)} KB</span><span onclick="this.parentElement.remove()" style="cursor:pointer;color:#95a5a6;font-size:16px;padding:0 2px">×</span>`;
     list.appendChild(item);
   });
 }
@@ -2160,8 +2405,7 @@ function foCheck() {
 }
 
 function showFeaturePage() {
-  document.getElementById('stepNav').style.display='none';
-  document.querySelector('.progress-wrap').style.display='none';
+  document.getElementById('stepNavCard').style.display='none';
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panelFeature').style.display='block';
   document.getElementById('panelFeatureForm').style.display='block';
@@ -2172,10 +2416,11 @@ function showFeaturePage() {
 
 function backFromFeature() {
   document.getElementById('panelFeature').style.display='none';
-  document.getElementById('stepNav').style.display='flex';
-  document.querySelector('.progress-wrap').style.display='block';
-  document.getElementById('panel1').classList.add('active');
-  cur=1; updateNav();
+  document.getElementById('stepNavCard').style.display='block';
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel0').classList.add('active');
+  cur=0; updateNav(); updateChipDialogue(0);
+  window.scrollTo(0,0);
 }
 
 function backToFeatureForm() {
@@ -2206,8 +2451,8 @@ const FO_TR = {
 function goFeatureSummary() {
   const d = {
     name: document.getElementById('pf-feat-name')?.value.trim()||'',
-    org: document.getElementById('pf-org')?.value.trim()||'',
-    email: document.getElementById('pf-email')?.value.trim()||'',
+    org: S.team||'',
+    email: '',
     deadline: document.getElementById('pf-deadline')?.value||'',
     desc: document.getElementById('pf-desc')?.value.trim()||'',
     links: document.getElementById('pf-links')?.value.trim()||'',
@@ -2228,12 +2473,12 @@ function goFeatureSummary() {
   const badges = document.getElementById('fo-s-badges');
   badges.innerHTML = '';
   if(d.org) badges.innerHTML+=`<span style="background:var(--purple);color:#fff;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600">🏢 ${d.org}</span>`;
-  if(d.deadline) badges.innerHTML+=`<span style="background:#1a3a5c;color:#faf6f0;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600">📅 ${dl}</span>`;
+  if(d.deadline) badges.innerHTML+=`<span style="background:#1a3a5c;color:#F5FBF7;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600">📅 ${dl}</span>`;
 
   const cont = document.getElementById('fo-s-rows');
   cont.innerHTML = '';
-  const addCat = l => cont.innerHTML+=`<div style="padding:8px 16px;background:#ede9fe;border-bottom:1px solid #ddd6fe;font-family:monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--purple-dark)">${l}</div>`;
-  const addRow = (l,r) => cont.innerHTML+=`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:11px 16px;border-bottom:1px solid #f3f0ff;gap:12px"><span style="font-size:13px;color:#1b1b1b">${l}</span></div>`;
+  const addCat = l => cont.innerHTML+=`<div style="padding:8px 16px;background:#e8f8ef;border-bottom:1px solid #a8dfc0;font-family:monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--purple-dark)">${l}</div>`;
+  const addRow = (l,r) => cont.innerHTML+=`<div style="display:flex;justify-content:space-between;align-items:flex-start;padding:11px 16px;border-bottom:1px solid #f3f0ff;gap:12px"><span style="font-size:13px;color:#1A2E22">${l}</span></div>`;
 
   addCat('📋 Yêu cầu');
   if(d.name) addRow(d.name,'Feature Request');
@@ -2453,10 +2698,10 @@ function clUpdateProg(si){
   if(fill) fill.style.width=pct+'%';
   if(lbl) lbl.textContent=done+'/'+total+' mục';
   if(pill){
-    if(hardFail>0){pill.style.background='#fee2e2';pill.style.color='#dc2626';pill.textContent=hardFail+' hard block chưa pass';}
+    if(hardFail>0){pill.style.background='#FFF3DC';pill.style.color='#F6A621';pill.textContent=hardFail+' hard block chưa pass';}
     else if(done===total){pill.style.background='#dcfce7';pill.style.color='#16a34a';pill.textContent='Đạt — sẵn sàng';}
     else if(pct>=70){pill.style.background='#fef9c3';pill.style.color='#ca8a04';pill.textContent='Gần xong';}
-    else{pill.style.background='#fee2e2';pill.style.color='#dc2626';pill.textContent='Chưa đạt';}
+    else{pill.style.background='#FFF3DC';pill.style.color='#F6A621';pill.textContent='Chưa đạt';}
   }
 }
 
