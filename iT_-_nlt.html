@@ -935,6 +935,9 @@ body::before{
 .proj-card-desc,.proj-card-meta,.proj-locked-msg{display:none!important}
 .pj-card{min-height:320px;display:flex;flex-direction:column}
 /* Spacer: đẩy tất cả xuống đáy đều nhau */
+.pf-opt{padding:8px 12px;border-radius:9px;font-size:13px;font-weight:500;color:#374151;cursor:pointer;transition:background .12s}
+.pf-opt:hover{background:#F3F4F6}
+.pf-opt.act{background:#F0FDF4;color:#16A34A;font-weight:700}
 .pj-card .pj-prog-bar{margin-bottom:auto}
 .pj-card .pj-checklist-alert{margin-top:0}
 .pj-card .pj-btn{margin-top:8px}
@@ -1096,7 +1099,19 @@ body::before{
       <div class="section-title">Dự án của tôi</div>
       <div style="font-size:13px;color:var(--text-muted);margin-top:3px">Theo dõi trạng thái duyệt và tiến độ thực hiện</div>
     </div>
-    <button onclick="openPick()" style="display:flex;align-items:center;gap:7px;padding:10px 20px;background:#3B82F6;color:#fff;border:none;border-radius:100px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);white-space:nowrap;box-shadow:0 2px 8px rgba(59,130,246,.28);transition:all .2s">+ Gửi dự án mới</button>
+    <div style="position:relative">
+      <button onclick="toggleProjFilter()" style="display:flex;align-items:center;gap:7px;padding:9px 18px;background:#fff;color:#374151;border:1.5px solid #E5E7EB;border-radius:100px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,.06);transition:all .2s">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        Bộ lọc
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div id="projFilterMenu" style="display:none;position:absolute;right:0;top:calc(100% + 6px);background:#fff;border:1.5px solid #E5E7EB;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.1);padding:8px;min-width:180px;z-index:100">
+        <div class="pf-opt act" onclick="filterProj('all',this)">📋 Tất cả dự án</div>
+        <div class="pf-opt" onclick="filterProj('approved',this)">✅ Đã duyệt</div>
+        <div class="pf-opt" onclick="filterProj('waiting',this)">⏳ Chờ duyệt</div>
+        <div class="pf-opt" onclick="filterProj('done',this)">🎉 Hoàn thành</div>
+      </div>
+    </div>
   </div>
 
   <div class="proj-grid-new">
@@ -4945,6 +4960,36 @@ function sendStaticMsg(idx) {
       +'</div>';
   }).join('');
   setTimeout(function(){ el.scrollTop = el.scrollHeight; }, 30);
+}
+
+/* ── Bộ lọc dự án ── */
+function toggleProjFilter() {
+  var m = document.getElementById('projFilterMenu');
+  if (m) m.style.display = m.style.display === 'none' ? 'block' : 'none';
+}
+document.addEventListener('click', function(e) {
+  var m = document.getElementById('projFilterMenu');
+  if (m && !m.parentElement.contains(e.target)) m.style.display = 'none';
+});
+function filterProj(status, el) {
+  document.querySelectorAll('.pf-opt').forEach(function(o){ o.classList.remove('act'); });
+  el.classList.add('act');
+  document.getElementById('projFilterMenu').style.display = 'none';
+  // Lọc static pj-cards
+  document.querySelectorAll('.pj-card').forEach(function(c) {
+    if (status === 'all') { c.style.display = ''; return; }
+    var st = c.querySelector('.pj-status');
+    var txt = st ? st.textContent.toLowerCase() : '';
+    var match = (status === 'approved' && txt.includes('duyệt') && !txt.includes('chờ')) ||
+                (status === 'waiting' && txt.includes('chờ')) ||
+                (status === 'done' && txt.includes('hoàn'));
+    c.style.display = match ? '' : 'none';
+  });
+  // Lọc dynamic proj-cards
+  document.querySelectorAll('#projGrid .proj-card').forEach(function(c) {
+    if (status === 'all') { c.style.display = ''; return; }
+    c.style.display = c.classList.contains(status) ? '' : 'none';
+  });
 }
 
 /* ── Mở static pj-card với tab Checklist ── */
