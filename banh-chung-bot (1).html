@@ -575,12 +575,8 @@ function doStart(){
   ui = {name: name, team: team, tele: tele};
   document.getElementById('uchip').textContent = '🌾 ' + name + (team ? ' · ' + team : '');
   document.getElementById('welcome').classList.add('hidden');
-  // Pre-select team in SOP step 1 if chosen in welcome
-  if (team) {
-    var btn = document.querySelector('#s1teams [data-t="'+team+'"]');
-    if (btn) { btn.classList.add('sel'); sopState.team = team; }
-  }
-  goSop(1);
+  document.getElementById('app').classList.remove('hidden');
+  initChat();
 }
 
 // ── CHAT HELPERS ──
@@ -740,7 +736,7 @@ function initChat(){
   document.getElementById('pfill').style.width='0%';
   document.getElementById('sendbtn').disabled=false;
   typing(function(){
-    addBubble('gao','Chào '+ui.name+'! 🍀 Mình là Bánh Chưng.\nMình hỏi bạn '+FLOW.length+' câu thôi rồi tự tạo phiếu kỹ thuật cho IT nhé!\n\nBắt đầu nào:');
+    addBubble('gao','Chào '+ui.name+'! 🍀 Mình là Bánh Chưng.\nMình sẽ giúp bạn đặt yêu cầu IT đúng cách — theo 4 bước đơn giản thôi!\n\nBắt đầu nhé 👇');
     setTimeout(nextStep, 600);
   });
 }
