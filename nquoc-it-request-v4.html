@@ -764,40 +764,12 @@ input[type=text],input[type=date],input[type=email],textarea,select{
     </div>
   </div>
 
-  <!-- Card: Hệ thống + Link + Môi trường -->
-  <div class="field-card">
-    <div class="field-card-head">
-      <div class="field-card-icon">💻</div>
-      <div>
-        <div class="field-card-title">Hệ thống liên quan</div>
-      </div>
-    </div>
-    <div class="field-card-body">
-
-  <!-- Hệ thống -->
-  <div class="field-group">
-    <div class="field-label">Hệ thống nào đang bị ảnh hưởng? <span class="req">* Cần điền</span></div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px" id="sysCards">
-      <div class="sys-card" onclick="toggleSys('nquoc.vn',this)"><span class="sys-icon">🌐</span><span class="sys-name">nquoc.vn</span></div>
-      <div class="sys-card" onclick="toggleSys('team.nquoc.vn',this)"><span class="sys-icon">👥</span><span class="sys-name">team.nquoc.vn</span></div>
-      <div class="sys-card" onclick="toggleSys('data.nquoc.vn',this)"><span class="sys-icon">📊</span><span class="sys-name">data.nquoc.vn</span></div>
-      <div class="sys-card" onclick="toggleSys('api.nquoc.vn',this)"><span class="sys-icon">⚙️</span><span class="sys-name">api.nquoc.vn</span></div>
-      <div class="sys-card" onclick="toggleSys('Supabase',this)"><span class="sys-icon">🗄️</span><span class="sys-name">Supabase</span></div>
-      <div class="sys-card" onclick="toggleSys('tbot.nquoc.vn',this)"><span class="sys-icon">🤖</span><span class="sys-name">tbot.nquoc.vn</span></div>
-      <div class="sys-card" onclick="toggleSys('Website của team',this)"><span class="sys-icon">🔗</span><span class="sys-name">Website của tea...</span></div>
-      <div class="sys-card" onclick="toggleSys('Không rõ',this)"><span class="sys-icon">❓</span><span class="sys-name">Không rõ</span></div>
-    </div>
-  </div>
-
   <!-- Môi trường (ẩn, thu thập ngầm) -->
   <div style="display:none" id="envInfo">
     <span id="envBrowser">Chrome</span>
     <span id="envOS">Windows</span>
     <span id="envRes">1920×1080</span>
   </div>
-
-    </div><!-- /field-card-body -->
-  </div><!-- /field-card -->
 
   <!-- Checklist theo loại vấn đề -->
   <!-- BUG checklist -->
@@ -946,17 +918,14 @@ input[type=text],input[type=date],input[type=email],textarea,select{
       </div>
       <div class="field-group">
         <div class="field-label">🤔 Bạn cần gì? Và hệ thống đang làm gì? <span class="req">*</span></div>
-        <div class="field-hint">Điền 2 ô bên dưới — ô trái là bạn mong đợi gì, ô phải là chuyện gì đang thực sự xảy ra.</div>
+        <div class="field-hint">Mô tả điều bạn mong đợi — IT sẽ dùng đây để kiểm tra kết quả.</div>
         <div class="expect-split">
           <div class="expect-box">
             <div class="expect-header good">✅ Tôi cần / Tôi nghĩ phải thế này</div>
             <textarea id="bugExpect" placeholder="VD: Bấm nút Lưu xong thì dữ liệu phải được lưu và hiển thị ngay..." oninput="checkStep2()"></textarea>
           </div>
-          <div class="expect-box">
-            <div class="expect-header bad">❌ Nhưng thực tế đang xảy ra thế này</div>
-            <textarea id="bugActual" placeholder="VD: Bấm Lưu rồi nhưng trang trắng, không thấy dữ liệu đâu cả..." oninput="checkStep2()"></textarea>
-          </div>
         </div>
+        <input type="hidden" id="bugActual" value="">
       </div>
       <div class="field-group">
         <div class="field-label">📍 Lỗi xảy ra lúc bạn đang làm gì? <span class="req">*</span></div>
