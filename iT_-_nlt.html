@@ -3587,6 +3587,11 @@ function projClickGuard(el, state) {
       <div class="proj-modal-sub" id="pmSub">—</div>
       <button class="proj-modal-close" onclick="closeProjDetailBtn()">✕</button>
     </div>
+    <!-- Desc + meta -->
+    <div id="pmMeta" style="padding:12px 22px 14px;border-bottom:1px solid #F3F4F6;display:none">
+      <div id="pmDesc" style="font-size:13px;color:#374151;line-height:1.6;margin-bottom:10px"></div>
+      <div id="pmMetaTags" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+    </div>
     <!-- Tab bar (ẩn khi không có checklist) -->
     <div class="pm-tab-bar" id="pmTabBar" style="display:none">
       <button class="pm-tab act" id="pmTab-progress" onclick="switchPmTab('progress')">📊 Tiến độ</button>
@@ -3887,6 +3892,21 @@ function openProjDetail(orderId) {
   document.getElementById('pmSub').textContent=o.projName+' · '+(o.taskId||'');
   document.getElementById('pmProgress').textContent=(o.progress||0)+'%';
   document.getElementById('pmProgFill').style.width=(o.progress||0)+'%';
+  /* Desc + meta */
+  var metaEl=document.getElementById('pmMeta');
+  var descEl=document.getElementById('pmDesc');
+  var tagsEl=document.getElementById('pmMetaTags');
+  if(metaEl && descEl && tagsEl){
+    descEl.textContent=o.desc||'';
+    var priColor={hot:'#EF4444',warm:'#F59E0B',cool:'#22C55E'}[o.priority]||'#F59E0B';
+    var priLabel={hot:'Cao',warm:'Trung bình',cool:'Thấp'}[o.priority]||'';
+    var tagsHtml='';
+    if(o.deadline) tagsHtml+='<span style="font-size:11px;background:#F3F4F6;border-radius:6px;padding:3px 9px;color:#374151">📅 '+o.deadline+'</span>';
+    if(priLabel) tagsHtml+='<span style="font-size:11px;border-radius:6px;padding:3px 9px;background:'+priColor+'18;color:'+priColor+';font-weight:700">⚡ '+priLabel+'</span>';
+    (o.tags||[]).forEach(function(t){tagsHtml+='<span style="font-size:11px;background:#F3F4F6;border-radius:6px;padding:3px 9px;color:#374151">'+t+'</span>';});
+    tagsEl.innerHTML=tagsHtml;
+    metaEl.style.display=(o.desc||tagsHtml)?'':'none';
+  }
   document.getElementById('pmDeadline').textContent=o.deadline||'—';
   document.getElementById('pmApprovedAt').textContent=o.approvedAt||'—';
   var tlHtml='';
@@ -4706,6 +4726,9 @@ var STATIC_PROJS = [
   {
     title: 'Export báo cáo PDF',
     sub: 'NhiLe Platform v2',
+    desc: 'Export dashboard sang PDF: biểu đồ doanh thu, danh sách đơn hàng, filter theo tháng.',
+    deadline: '30/05/2026', priority: 'Cao', priorityCls: 'high',
+    tags: ['PDF','Export'],
     pct: 25,
     stage: 2, // 0=Chưa nhận,1=Đã nhận,2=Đang làm,3=Hoàn thành
     sysMsgs: [
@@ -4719,8 +4742,11 @@ var STATIC_PROJS = [
     ]
   },
   {
-    title: 'Push notification real-time',
+    title: 'Thông báo tự động cho học viên',
     sub: 'Nedu CRM',
+    desc: 'Tự động gửi thông báo khi học viên đăng ký mới, thanh toán thành công hoặc gửi câu hỏi.',
+    deadline: '05/06/2026', priority: 'Trung bình', priorityCls: 'mid',
+    tags: ['Thông báo','Thời gian thực'],
     pct: 5,
     stage: 1,
     sysMsgs: [
@@ -4732,8 +4758,11 @@ var STATIC_PROJS = [
     ]
   },
   {
-    title: 'Dashboard KPI cho leader',
+    title: 'Dashboard theo dõi hiệu suất nhóm',
     sub: 'NhiLe Platform v2',
+    desc: 'Xem tổng quan: số việc hoàn thành mỗi tuần, tốc độ xử lý của nhóm, biểu đồ tiến độ và thành viên nổi bật.',
+    deadline: '10/06/2026', priority: 'Thấp', priorityCls: 'low',
+    tags: ['Dashboard','Chỉ tiêu'],
     pct: 80,
     stage: 2,
     sysMsgs: [
@@ -4764,6 +4793,7 @@ function openStaticProj(idx) {
   var box   = modal ? modal.querySelector('.proj-modal') : null;
   if (!box) return;
 
+  var priColor = {high:'#EF4444',mid:'#F59E0B',low:'#22C55E'}[p.priorityCls||'mid']||'#F59E0B';
   box.innerHTML = ''
     // Header
     + '<div class="proj-modal-hd">'
@@ -4772,6 +4802,16 @@ function openStaticProj(idx) {
     +     '<div class="proj-modal-sub">'+p.sub+'</div>'
     +   '</div>'
     +   '<button class="proj-modal-close" onclick="closeProjDetailBtn()">✕</button>'
+    + '</div>'
+
+    // Meta: desc + tags + deadline + priority
+    + '<div style="padding:14px 22px 0;border-bottom:1px solid #F3F4F6;padding-bottom:14px">'
+    + (p.desc ? '<div style="font-size:13px;color:#374151;line-height:1.6;margin-bottom:10px">'+p.desc+'</div>' : '')
+    + '<div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">'
+    + (p.deadline ? '<span style="font-size:11px;background:#F3F4F6;border-radius:6px;padding:3px 9px;color:#374151">📅 '+p.deadline+'</span>' : '')
+    + (p.priority ? '<span style="font-size:11px;border-radius:6px;padding:3px 9px;background:'+priColor+'18;color:'+priColor+';font-weight:700">⚡ '+p.priority+'</span>' : '')
+    + (p.tags||[]).map(function(t){ return '<span style="font-size:11px;background:#F3F4F6;border-radius:6px;padding:3px 9px;color:#374151">'+t+'</span>'; }).join('')
+    + '</div>'
     + '</div>'
 
     // Progress section
