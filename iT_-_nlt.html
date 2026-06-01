@@ -934,14 +934,13 @@ body::before{
 .pj-desc,.pj-tags,.pj-stages,.pj-platform{display:none!important}
 .proj-card-desc,.proj-card-meta,.proj-locked-msg{display:none!important}
 .pj-card{min-height:320px;display:flex;flex-direction:column}
-.pj-card .pj-checklist-alert{margin-top:auto}
+/* Spacer: đẩy tất cả xuống đáy đều nhau */
+.pj-card .pj-prog-bar{margin-bottom:auto}
+.pj-card .pj-checklist-alert{margin-top:0}
 .pj-card .pj-btn{margin-top:8px}
-/* Card không có checklist: đẩy pj-btn xuống đáy */
-.pj-card>div:last-child{margin-top:auto}
-.pj-card .pj-prog-row{margin-top:12px}
 .proj-card{min-height:320px;display:flex;flex-direction:column}
-.proj-card .proj-view-btn,.proj-card .proj-done-banner{margin-top:auto}
-.proj-card .proj-progress-wrap{margin-top:12px}
+.proj-card .proj-progress-wrap{margin-bottom:auto}
+.proj-card .proj-view-btn,.proj-card .proj-done-banner{margin-top:0}
 
 </style>
 </head>
