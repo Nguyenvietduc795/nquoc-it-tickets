@@ -1645,8 +1645,6 @@ function checkStep2() {
   showFilters();
   let ok = false;
   const t = S.type;
-  const needSys = (t === 'bug' || t === 'feature');
-  if(needSys && S.sys.length===0) { document.getElementById('btn1')&&(document.getElementById('btn1').disabled=true); return; }
   if(t==='bug') ok = val('bugExpect')&&val('bugAction');
   else if(t==='feature') ok = val('featProcess')&&val('featPain')&&val('featUser')&&val('featOutput')&&val('featMust')&&val('featDone');
   else if(t==='access') ok = val('accessWhat');
@@ -1905,13 +1903,19 @@ function submit() {
     deadline: 'TBD',
     submittedAt: new Date().toLocaleDateString('vi-VN'),
     team: S.team || '',
-    tags: [S.type||'request', S.team||'IT Request'].filter(Boolean)
+    tags: [TYPE_NAMES[S.type]||'Yêu cầu IT', S.team||'IT Request'].filter(Boolean)
   };
-  try {
-    const q = JSON.parse(localStorage.getItem('nhile_user_submitted')||'[]');
-    q.unshift(order);
-    localStorage.setItem('nhile_user_submitted', JSON.stringify(q));
-  } catch(e) {}
+  const link = gv('bugLink');
+  if(link) order.link = link;
+
+  filesToAttachments(_bugFiles).then(attachments => {
+    if(attachments.length) order.attachments = attachments;
+    try {
+      const q = JSON.parse(localStorage.getItem('nhile_user_submitted')||'[]');
+      q.unshift(order);
+      localStorage.setItem('nhile_user_submitted', JSON.stringify(q));
+    } catch(e) {}
+  });
 }
 
 function resetAll() {
@@ -1931,20 +1935,53 @@ function resetAll() {
   document.querySelectorAll('select').forEach(s=>s.selectedIndex=0);
   document.querySelectorAll('.cond').forEach(c=>c.classList.remove('show'));
   document.getElementById('foSuccess').style.display='none';
+  _bugFiles = [];
+  _foFiles = [];
+  const fl3=document.getElementById('fileList3'); if(fl3) fl3.innerHTML='';
+  const flFo=document.getElementById('fileListFo'); if(flFo) flFo.innerHTML='';
   document.getElementById('btn0').disabled=true;
   const b1e=document.getElementById('btn1');if(b1e)b1e.disabled=true;
   updateNav();
 }
 
+// ─── Attachment tracking (real File objects → Data URLs for localStorage persistence) ───
+let _bugFiles = [];
+let _foFiles = [];
+const ATTACHMENT_MAX_SIZE = 3 * 1024 * 1024; // skip files over 3MB to protect localStorage quota
+
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function filesToAttachments(files) {
+  const valid = files.filter(f => f.size <= ATTACHMENT_MAX_SIZE);
+  return Promise.all(valid.map(f =>
+    fileToDataURL(f).then(dataUrl => ({name: f.name, type: f.type, size: f.size, dataUrl}))
+  )).catch(() => []);
+}
+
+function addTrackedFile(f, list, store) {
+  store.push(f);
+  const item = document.createElement('div');
+  item.style.cssText='display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--gray-border);border-radius:var(--radius-sm);background:#fff;font-size:13px';
+  const ext = f.name.split('.').pop().toUpperCase();
+  item.innerHTML=`<span style="background:var(--purple-light);color:var(--purple);border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700">${ext}</span><span style="flex:1;color:var(--text-mid)">${f.name}</span><span style="color:var(--text-muted)">${(f.size/1024).toFixed(0)} KB</span><span class="file-remove" style="cursor:pointer;color:var(--text-muted);font-size:16px;padding:0 4px">×</span>`;
+  item.querySelector('.file-remove').onclick = () => {
+    const idx = store.indexOf(f);
+    if(idx>-1) store.splice(idx,1);
+    item.remove();
+  };
+  list.appendChild(item);
+}
+
 function handleFiles3(files) {
   const list = document.getElementById('fileList3');
-  [...files].forEach(f=>{
-    const item = document.createElement('div');
-    item.style.cssText='display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--gray-border);border-radius:var(--radius-sm);background:#fff;font-size:13px';
-    const ext = f.name.split('.').pop().toUpperCase();
-    item.innerHTML=`<span style="background:var(--purple-light);color:var(--purple);border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700">${ext}</span><span style="flex:1;color:var(--text-mid)">${f.name}</span><span style="color:var(--text-muted)">${(f.size/1024).toFixed(0)} KB</span><span onclick="this.parentElement.remove()" style="cursor:pointer;color:var(--text-muted);font-size:16px;padding:0 4px">×</span>`;
-    list.appendChild(item);
-  });
+  [...files].forEach(f=>addTrackedFile(f, list, _bugFiles));
 }
 
 function handleDrop3(e) {
@@ -1955,13 +1992,7 @@ function handleDrop3(e) {
 
 function handleFilesFo(files) {
   const list = document.getElementById('fileListFo');
-  [...files].forEach(f=>{
-    const item = document.createElement('div');
-    item.style.cssText='display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--gray-border);border-radius:var(--radius-sm);background:#fff;font-size:13px';
-    const ext = f.name.split('.').pop().toUpperCase();
-    item.innerHTML=`<span style="background:var(--purple-light);color:var(--purple);border-radius:4px;padding:1px 7px;font-size:11px;font-weight:700">${ext}</span><span style="flex:1;color:var(--text-mid)">${f.name}</span><span style="color:var(--text-muted)">${(f.size/1024).toFixed(0)} KB</span><span onclick="this.parentElement.remove()" style="cursor:pointer;color:var(--text-muted);font-size:16px;padding:0 4px">×</span>`;
-    list.appendChild(item);
-  });
+  [...files].forEach(f=>addTrackedFile(f, list, _foFiles));
 }
 
 function handleDropFo(e) {
@@ -2422,13 +2453,18 @@ function foSubmit() {
     deadline: dlDisplay,
     submittedAt: new Date().toLocaleDateString('vi-VN'),
     team: d.org || '',
-    tags: ['feature', 'IT Request']
+    tags: ['Yêu cầu tính năng mới', 'IT Request']
   };
-  try {
-    const q = JSON.parse(localStorage.getItem('nhile_user_submitted')||'[]');
-    q.unshift(order);
-    localStorage.setItem('nhile_user_submitted', JSON.stringify(q));
-  } catch(e) {}
+  if(d.links) order.link = d.links;
+
+  filesToAttachments(_foFiles).then(attachments => {
+    if(attachments.length) order.attachments = attachments;
+    try {
+      const q = JSON.parse(localStorage.getItem('nhile_user_submitted')||'[]');
+      q.unshift(order);
+      localStorage.setItem('nhile_user_submitted', JSON.stringify(q));
+    } catch(e) {}
+  });
 }
 
 // ─── Checklist widget ───

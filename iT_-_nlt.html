@@ -3640,17 +3640,15 @@ function projClickGuard(el, state) {
     <!-- Pane 1: Tiến độ -->
     <div class="proj-modal-body" id="pmPane-progress">
       <div class="pm-section">
-        <div class="pm-label">Tiến độ chung</div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
-          <div style="flex:1;height:8px;background:#F3F4F6;border-radius:4px;overflow:hidden">
-            <div style="height:100%;background:linear-gradient(90deg,#22C55E,#4ADE80);border-radius:4px;transition:width .6s" id="pmProgFill"></div>
-          </div>
-          <span style="font-size:14px;font-weight:800;color:var(--text)" id="pmProgress">0%</span>
+        <div class="pm-label">Tiến độ</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <span id="pmStagePill" style="border-radius:100px;padding:4px 13px;font-size:13px;font-weight:700">—</span>
+          <span style="font-size:20px;font-weight:800;color:var(--text)" id="pmProgress">0%</span>
         </div>
-      </div>
-      <div class="pm-section">
-        <div class="pm-label">IT đang ở bước nào?</div>
-        <div class="pm-timeline" id="pmTimeline"></div>
+        <div style="height:6px;background:#F3F4F6;border-radius:3px;overflow:hidden;margin-bottom:18px">
+          <div style="height:100%;border-radius:3px;transition:width .5s;background:linear-gradient(90deg,#22C55E,#4ADE80)" id="pmProgFill"></div>
+        </div>
+        <div id="pmStageSteps" style="display:flex;align-items:center;gap:0"></div>
       </div>
       <div class="pm-section">
         <div class="pm-label">Thông tin</div>
@@ -3664,6 +3662,11 @@ function projClickGuard(el, state) {
             <div class="pm-stat-lbl">Ngày IT duyệt</div>
           </div>
         </div>
+      </div>
+      <div class="pm-section" id="pmAttachSection" style="display:none">
+        <div class="pm-label">Đính kèm</div>
+        <div id="pmAttachLink" style="margin-bottom:10px"></div>
+        <div id="pmAttachFiles" style="display:flex;flex-wrap:wrap;gap:10px"></div>
       </div>
     </div>
 
@@ -3959,11 +3962,20 @@ function openProjDetail(orderId) {
   }
   document.getElementById('pmDeadline').textContent=o.deadline||'—';
   document.getElementById('pmApprovedAt').textContent=o.approvedAt||'—';
+  renderPmAttachments(o);
 
-  /* Waiting/reviewing: show receipt instead of progress */
+  /* Tiến độ: pill + progress bar + 4-step stepper (Chưa nhận → Đã nhận → Đang làm → Hoàn thành) */
   var progressPane = document.getElementById('pmPane-progress');
-  var timelineEl = document.getElementById('pmTimeline');
+  var stepsEl = document.getElementById('pmStageSteps');
+  var pillEl = document.getElementById('pmStagePill');
   var tabBar = document.getElementById('pmTabBar');
+  var STAGE_NAMES = ['Chưa nhận','Đã nhận','Đang làm','Hoàn thành'];
+  var STAGE_COLORS = ['#9CA3AF','#3B82F6','#F59E0B','#22C55E'];
+  var stageIdx = orderStageIdx(o);
+  var stageColor = STAGE_COLORS[stageIdx];
+  pillEl.textContent = STAGE_NAMES[stageIdx];
+  pillEl.style.cssText = 'border-radius:100px;padding:4px 13px;font-size:13px;font-weight:700;background:'+stageColor+'1a;color:'+stageColor+';border:1px solid '+stageColor+'55';
+
   if (o.status === 'waiting' || o.status === 'reviewing') {
     tabBar.style.display = 'none';
     switchPmTab('progress');
@@ -3972,20 +3984,25 @@ function openProjDetail(orderId) {
     var stMsg   = o.status === 'waiting'
       ? '🔒 Yêu cầu đã được ghi nhận. IT Team đang tiếp nhận — bạn sẽ được thông báo khi có cập nhật!'
       : '⏳ IT Team đang xem xét và lên phương án. Vui lòng chờ phản hồi sớm!';
-    timelineEl.innerHTML = '<div style="padding:14px;border-radius:10px;background:'+stBg+';border:1.5px solid '+stColor+'33;font-size:13px;color:'+stColor+';font-weight:600;line-height:1.6">'+stMsg+'</div>'
-      + '<div style="margin-top:16px;font-size:11px;color:#9CA3AF;text-align:center">Mã yêu cầu: <strong style="color:#374151">'+(o.id||'—')+'</strong> · Gửi ngày '+(o.submittedAt||'—')+'</div>';
     document.getElementById('pmProgress').textContent='—';
     document.getElementById('pmProgFill').style.width='0%';
+    stepsEl.innerHTML = '<div style="padding:14px;border-radius:10px;background:'+stBg+';border:1.5px solid '+stColor+'33;font-size:13px;color:'+stColor+';font-weight:600;line-height:1.6">'+stMsg+'</div>'
+      + '<div style="margin-top:16px;font-size:11px;color:#9CA3AF;text-align:center">Mã yêu cầu: <strong style="color:#374151">'+(o.id||'—')+'</strong> · Gửi ngày '+(o.submittedAt||'—')+'</div>';
   } else {
-    var tlHtml='';
-    (o.stages||[]).forEach(function(s){
-      var icon={done:'✓',active:'▶',todo:'·'}[s.status]||'·';
-      var meta={done:'✅ Xong rồi!',active:'⏳ IT đang làm...',todo:'⏸ Chưa tới lượt'}[s.status]||'';
-      tlHtml+='<div class="pm-tl-item"><div class="pm-tl-dot '+s.status+'">'+icon+'</div>';
-      tlHtml+='<div class="pm-tl-content"><div class="pm-tl-name">'+s.name+'</div>';
-      tlHtml+='<div class="pm-tl-meta">'+meta+'</div></div></div>';
+    var stepsHtml='';
+    STAGE_NAMES.forEach(function(name,i){
+      var done = i < stageIdx;
+      var active = i === stageIdx;
+      var align = i===0 ? 'flex-start' : (i===STAGE_NAMES.length-1 ? 'flex-end' : 'center');
+      stepsHtml += '<div style="flex:1;display:flex;flex-direction:column;align-items:'+align+';gap:5px">'
+        + '<div style="width:20px;height:20px;border-radius:50%;background:'+(done||active ? stageColor : '#E5E7EB')+';display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;font-weight:700'+(active?';box-shadow:0 0 0 4px '+stageColor+'33':'')+'">'+(done?'✓':(i+1))+'</div>'
+        + '<div style="font-size:10px;font-weight:'+(active?'700':'500')+';color:'+(active?stageColor:'#9CA3AF')+'">'+name+'</div>'
+        + '</div>';
+      if (i < STAGE_NAMES.length-1) {
+        stepsHtml += '<div style="flex:1;height:2px;background:'+(i < stageIdx ? stageColor : '#E5E7EB')+';margin-bottom:18px"></div>';
+      }
     });
-    timelineEl.innerHTML=tlHtml;
+    stepsEl.innerHTML = stepsHtml;
     if (hasChecklist(o)) {
       tabBar.style.display = '';
       renderStageChecklist(orderId, o);
@@ -4200,6 +4217,48 @@ var _qaGroupOpen = {};
 
 function isQAStage(o) {
   return o && (o.progress||0) >= 90 && o.status !== 'done';
+}
+
+/* Map an order to one of the 4 customer-facing stages: 0=Chưa nhận,1=Đã nhận,2=Đang làm,3=Hoàn thành */
+function orderStageIdx(o) {
+  if (!o) return 0;
+  if (o.status === 'waiting') return 0;
+  if (o.status === 'reviewing') return 1;
+  if (o.status === 'done') return 3;
+  var stages = o.stages || [];
+  if (stages.length && stages.every(function(s){ return s.status === 'done'; })) return 3;
+  var active = stages.find(function(s){ return s.status === 'active'; });
+  /* Vừa được duyệt, IT còn đang xem xét yêu cầu → coi như "đã nhận", chưa thực sự bắt tay vào làm */
+  if (active && active.name === 'Xem xét yêu cầu') return 1;
+  return 2;
+}
+
+function renderPmAttachments(o) {
+  var section = document.getElementById('pmAttachSection');
+  var linkEl = document.getElementById('pmAttachLink');
+  var filesEl = document.getElementById('pmAttachFiles');
+  if (!section || !linkEl || !filesEl) return;
+  linkEl.innerHTML = '';
+  filesEl.innerHTML = '';
+  var hasLink = o && o.link;
+  var attachments = (o && o.attachments) || [];
+  if (!hasLink && !attachments.length) { section.style.display = 'none'; return; }
+  section.style.display = '';
+  if (hasLink) {
+    linkEl.innerHTML = '<a href="'+o.link+'" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#7C3AED;text-decoration:underline;word-break:break-all">🔗 '+o.link+'</a>';
+  }
+  attachments.forEach(function(a) {
+    var box = document.createElement('div');
+    if (a.type && a.type.indexOf('image/') === 0) {
+      box.innerHTML = '<a href="'+a.dataUrl+'" target="_blank" rel="noopener"><img src="'+a.dataUrl+'" alt="'+a.name+'" style="width:96px;height:96px;object-fit:cover;border-radius:8px;border:1px solid var(--gray-border,#E5E7EB);display:block"></a><div style="font-size:11px;color:#6B7280;margin-top:4px;max-width:96px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+a.name+'</div>';
+    } else if (a.type && a.type.indexOf('video/') === 0) {
+      box.innerHTML = '<video src="'+a.dataUrl+'" controls style="width:160px;border-radius:8px;border:1px solid var(--gray-border,#E5E7EB);display:block"></video><div style="font-size:11px;color:#6B7280;margin-top:4px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+a.name+'</div>';
+    } else {
+      var ext = (a.name||'').split('.').pop().toUpperCase();
+      box.innerHTML = '<a href="'+a.dataUrl+'" download="'+a.name+'" style="display:flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--gray-border,#E5E7EB);border-radius:8px;background:#fff;text-decoration:none;min-width:160px"><span style="background:#EDE9FE;color:#7C3AED;border-radius:4px;padding:2px 7px;font-size:11px;font-weight:700">'+ext+'</span><span style="flex:1;font-size:13px;color:#374151;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+a.name+'</span></a>';
+    }
+    filesEl.appendChild(box);
+  });
 }
 
 function getActiveStage(o) {
