@@ -84,9 +84,9 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .notif-btn svg{width:16px;height:16px;stroke:var(--text-mid);fill:none;stroke-width:2;stroke-linecap:round}
 .notif-badge{position:absolute;top:-3px;right:-3px;width:16px;height:16px;background:var(--red);border-radius:50%;border:2px solid #fff;font-size:9px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center}
 .btn-create{display:flex;align-items:center;gap:7px;padding:0 18px;height:38px;
-  background:var(--accent);color:var(--text);border:none;border-radius:100px;
+  background:#3B82F6;color:#fff;border:none;border-radius:100px;
   font-family:var(--font);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap}
-.btn-create:hover{background:var(--accent-dark);transform:translateY(-1px);box-shadow:0 4px 14px rgba(200,217,50,.4)}
+.btn-create:hover{background:#1D4ED8;transform:translateY(-1px);box-shadow:0 4px 14px rgba(59,130,246,.4)}
 .btn-create:active{transform:translateY(0)}
 .btn-create svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round}
 
@@ -113,9 +113,11 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .stat-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow-sm);animation:fadeUp .35s ease both;position:relative;overflow:hidden;transition:all .2s}
 .stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);border-radius:var(--radius) var(--radius) 0 0}
 .stat-card:nth-child(2){animation-delay:.06s}
-.stat-card:nth-child(2)::after{background:var(--amber)}
+.stat-card:nth-child(2)::after{background:#3B82F6}
 .stat-card:nth-child(3){animation-delay:.12s}
-.stat-card:nth-child(3)::after{background:var(--green)}
+.stat-card:nth-child(3)::after{background:#7C3AED}
+.stat-card:nth-child(4){animation-delay:.18s}
+.stat-card:nth-child(4)::after{background:var(--green)}
 .stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
 .stat-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:10px}
 .stat-num{font-size:34px;font-weight:900;line-height:1;margin-bottom:6px}
@@ -335,10 +337,18 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .greet-sub{font-size:13px;color:var(--text-muted)}
 
 /* ── STATS ROW ── */
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
-.stat-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-sm);animation:fadeUp .3s ease both;position:relative;overflow:hidden}
+.sticky-top{position:sticky;top:60px;z-index:97;background:var(--bg);padding:20px 28px 0;margin:-24px -28px 0;border-bottom:1px solid var(--border)}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-sm);animation:fadeUp .3s ease both;position:relative;overflow:hidden;cursor:pointer;transition:all .2s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.stat-card.act{box-shadow:0 0 0 2px currentColor,var(--shadow-md)}
+.stat-card.act:nth-child(1){border-color:var(--accent);background:#F5F3FF}
+.stat-card.act:nth-child(2){border-color:#3B82F6;background:#EFF6FF}
+.stat-card.act:nth-child(3){border-color:#7C3AED;background:#F5F3FF}
+.stat-card.act:nth-child(4){border-color:var(--green);background:#F0FDF4}
 .stat-card:nth-child(2){animation-delay:.05s}
 .stat-card:nth-child(3){animation-delay:.1s}
+.stat-card:nth-child(4){animation-delay:.15s}
 .stat-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:8px}
 .stat-num{font-size:32px;font-weight:800;line-height:1;margin-bottom:6px}
 .stat-num.blue{color:#3B82F6}
@@ -618,28 +628,28 @@ body::before{
 
 .proj-card{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:18px 20px;transition:all .22s;position:relative;overflow:hidden}
 .proj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
-.proj-card.waiting{background:linear-gradient(160deg,#F9FAFB 0%,#fff 60%);border-color:#E5E7EB;cursor:not-allowed;opacity:.85}
-.proj-card.waiting::before{background:linear-gradient(90deg,#9CA3AF,#D1D5DB)}
-.proj-card.reviewing{background:linear-gradient(160deg,#FFFBEB 0%,#fff 60%);border-color:#FDE68A;cursor:not-allowed}
-.proj-card.reviewing::before{background:linear-gradient(90deg,#F59E0B,#FCD34D);animation:shimmer-bar 1.8s ease-in-out infinite}
-.proj-card.approved{background:linear-gradient(160deg,#F0FDF4 0%,#fff 60%);border-color:#86EFAC;cursor:pointer}
-.proj-card.approved::before{background:linear-gradient(90deg,#22C55E,#4ADE80)}
+.proj-card.waiting{background:linear-gradient(160deg,#EFF6FF 0%,#fff 60%);border-color:#BFDBFE;cursor:not-allowed;opacity:.9}
+.proj-card.waiting::before{background:linear-gradient(90deg,#3B82F6,#60A5FA)}
+.proj-card.reviewing{background:linear-gradient(160deg,#F5F3FF 0%,#fff 60%);border-color:#DDD6FE;cursor:not-allowed}
+.proj-card.reviewing::before{background:linear-gradient(90deg,#7C3AED,#A78BFA);animation:shimmer-bar 1.8s ease-in-out infinite}
+.proj-card.approved{background:linear-gradient(160deg,#FDF6EC 0%,#fff 60%);border-color:#D4A574;cursor:pointer}
+.proj-card.approved::before{background:linear-gradient(90deg,#78350F,#A16207)}
 .proj-card.done{background:linear-gradient(160deg,#F0FDF4 0%,#fff 60%);border-color:#86EFAC}
 .proj-card.done::before{background:linear-gradient(90deg,#16A34A,#22C55E)}
 @keyframes shimmer-bar{0%,100%{opacity:1}50%{opacity:.55}}
 
-.proj-card.approved:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:#4ADE80}
+.proj-card.approved:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:#B45309}
 
 .proj-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .proj-status-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.proj-status-badge.waiting{background:#F3F4F6;color:#6B7280}
-.proj-status-badge.reviewing{background:#FEF3C7;color:#D97706}
-.proj-status-badge.approved{background:#DCFCE7;color:#16A34A}
-.proj-status-badge.done{background:#F0FDF4;color:#15803D;border:1px solid #86EFAC}
+.proj-status-badge.waiting{background:#DBEAFE;color:#1D4ED8;border:1px solid #93C5FD}
+.proj-status-badge.reviewing{background:#EDE9FE;color:#6D28D9;border:1px solid #C4B5FD}
+.proj-status-badge.approved{background:#FEF3E2;color:#78350F;border:1px solid #D4A574}
+.proj-status-badge.done{background:#DCFCE7;color:#15803D;border:1px solid #86EFAC}
 .proj-status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.proj-status-dot.waiting{background:#9CA3AF}
-.proj-status-dot.reviewing{background:#F59E0B;animation:pulse-dot .9s ease-in-out infinite}
-.proj-status-dot.approved{background:#22C55E}
+.proj-status-dot.waiting{background:#3B82F6}
+.proj-status-dot.reviewing{background:#8B5CF6;animation:pulse-dot .9s ease-in-out infinite}
+.proj-status-dot.approved{background:#92400E}
 .proj-status-dot.done{background:#16A34A}
 @keyframes pulse-dot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.5);opacity:.6}}
 
@@ -650,8 +660,8 @@ body::before{
 .proj-meta-tag{font-size:11px;padding:2px 8px;border-radius:6px;background:var(--bg);color:var(--text-muted);border:1px solid var(--border)}
 
 .proj-locked-msg{display:flex;align-items:center;gap:6px;margin-top:12px;padding:8px 11px;border-radius:8px;font-size:11.5px;font-weight:500}
-.proj-card.waiting .proj-locked-msg{background:#F9FAFB;color:#9CA3AF;border:1px solid #F3F4F6}
-.proj-card.reviewing .proj-locked-msg{background:#FFFBEB;color:#D97706;border:1px solid #FDE68A}
+.proj-card.waiting .proj-locked-msg{background:#EFF6FF;color:#3B82F6;border:1px solid #BFDBFE}
+.proj-card.reviewing .proj-locked-msg{background:#F5F3FF;color:#7C3AED;border:1px solid #DDD6FE}
 
 .proj-progress-wrap{margin-top:12px}
 .proj-prog-header{display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:5px}
@@ -663,9 +673,9 @@ body::before{
 .proj-prog-stage.active{background:#DBEAFE;color:#2563EB}
 .proj-prog-stage.todo{background:#F3F4F6;color:#9CA3AF}
 
-.proj-view-btn{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;padding:8px;border-radius:8px;background:#F0FDF4;color:#16A34A;font-size:12px;font-weight:600;border:1px solid #BBF7D0;transition:all .15s}
-.proj-card.approved:hover .proj-view-btn{background:#DCFCE7;border-color:#86EFAC}
-.proj-qa-cta{display:flex;align-items:center;gap:8px;margin-top:10px;padding:9px 12px;border-radius:10px;background:linear-gradient(135deg,#F0FDF4,#DCFCE7);border:1.5px solid #86EFAC;font-size:12px;font-weight:700;color:#15803D}
+.proj-view-btn{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;padding:8px;border-radius:8px;background:#FEF3E2;color:#78350F;font-size:12px;font-weight:600;border:1px solid #D4A574;transition:all .15s}
+.proj-card.approved:hover .proj-view-btn{background:#FDE8C8;border-color:#B45309}
+.proj-qa-cta{display:flex;align-items:center;gap:8px;margin-top:10px;padding:9px 12px;border-radius:10px;background:linear-gradient(135deg,#FEF6EE,#FEF3E2);border:1.5px solid #D4A574;font-size:12px;font-weight:700;color:#78350F}
 .proj-done-banner{display:flex;align-items:center;gap:8px;margin-top:10px;padding:9px 12px;border-radius:10px;background:#F0FDF4;border:1.5px solid #86EFAC;font-size:12px;font-weight:700;color:#15803D}
 
 /* Project detail modal */
@@ -888,8 +898,8 @@ body::before{
 /* ── STATUS TOP BAR ── */
 .pj-topbar{height:6px;width:calc(100% + 36px);flex-shrink:0;margin:-18px -18px 14px -18px;display:block}
 .pj-topbar.done   {background:#22C55E}
-.pj-topbar.active {background:var(--amber)}
-.pj-topbar.new    {background:#D1D5DB}
+.pj-topbar.active {background:linear-gradient(90deg,#78350F,#A16207)}
+.pj-topbar.new    {background:linear-gradient(90deg,#7C3AED,#A78BFA)}
 .pj-topbar.overdue{background:var(--red)}
 
 /* ── DANGER BADGE góc trên phải ── */
@@ -924,8 +934,8 @@ body::before{
 .pj-stage.done{background:#DCFCE7;color:#16A34A;border-color:#86EFAC}
 .pj-stage.active{background:#DBEAFE;color:#2563EB;border-color:#93C5FD}
 
-.pj-checklist-alert{background:#DCFCE7;border:1.5px solid #86EFAC;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:700;color:#15803D;margin-bottom:12px;line-height:1.4;cursor:pointer}
-.pj-checklist-alert:hover{background:#bbf7d0}
+.pj-checklist-alert{background:#FEF3E2;border:1.5px solid #D4A574;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:700;color:#78350F;margin-bottom:12px;line-height:1.4;cursor:pointer}
+.pj-checklist-alert:hover{background:#FDE8C8}
 
 .pj-btn{width:100%;padding:10px;background:#fff;border:1.5px solid #86EFAC;border-radius:10px;font-size:12px;font-weight:700;color:#16A34A;cursor:pointer;font-family:var(--font);transition:all .2s;margin-top:auto}
 .pj-btn:hover{background:#DCFCE7}
@@ -1014,6 +1024,8 @@ body::before{
 <!-- ═══ MAIN ═══ -->
 <div class="main">
 
+  <!-- ── STICKY: GREETING + STATS ── -->
+  <div class="sticky-top">
   <!-- ── GREETING ── -->
   <div class="greeting-banner">
     <div class="greet-avatar">👋</div>
@@ -1024,23 +1036,29 @@ body::before{
   </div>
 
   <!-- ── STATS ROW ── -->
-  <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
-    <div class="stat-card">
-      <div class="stat-label">Tổng dự án</div>
+  <div class="stats-row">
+    <div class="stat-card act" onclick="filterProj('all')">
+      <div class="stat-label">Tất cả</div>
       <div class="stat-num blue" id="statTotal">0</div>
       <div class="stat-sub">Tất cả dự án của bạn</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-label">Đang thực hiện</div>
-      <div class="stat-num amber" id="statActive">0</div>
-      <div class="stat-sub">Đang được IT xử lý</div>
+    <div class="stat-card" onclick="filterProj('waiting')">
+      <div class="stat-label">Chờ duyệt</div>
+      <div class="stat-num" id="statWaiting" style="color:#3B82F6">0</div>
+      <div class="stat-sub">Đang chờ IT tiếp nhận</div>
     </div>
-    <div class="stat-card">
+    <div class="stat-card" onclick="filterProj('approved')">
+      <div class="stat-label">Xử lý</div>
+      <div class="stat-num" id="statActive" style="color:#7C3AED">0</div>
+      <div class="stat-sub">Đang được IT thực hiện</div>
+    </div>
+    <div class="stat-card" onclick="filterProj('done')">
       <div class="stat-label">Hoàn thành</div>
       <div class="stat-num green" id="statDone">0</div>
       <div class="stat-sub">Bàn giao thành công</div>
     </div>
   </div>
+  </div><!-- /sticky-top -->
 
   <!-- ── TẠO ORDER MỚI ── -->
   <div class="create-section" style="display:none">
@@ -1094,25 +1112,18 @@ body::before{
 
 
     <!-- ── DỰ ÁN CỦA TÔI ── -->
-  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px">
-    <div>
-      <div class="section-title">Dự án của tôi</div>
-      <div style="font-size:13px;color:var(--text-muted);margin-top:3px">Theo dõi trạng thái duyệt và tiến độ thực hiện</div>
-    </div>
-    <div style="display:flex;gap:4px;background:#F3F4F6;border-radius:100px;padding:4px">
-      <button class="pf-tab act" onclick="filterProj('all',this)">Tất cả</button>
-      <button class="pf-tab" onclick="filterProj('approved',this)">Đang xử lý</button>
-      <button class="pf-tab" onclick="filterProj('done',this)">Hoàn thành</button>
-    </div>
+  <div style="margin-bottom:18px">
+    <div class="section-title">Dự án của tôi</div>
+    <div style="font-size:13px;color:var(--text-muted);margin-top:3px">Theo dõi trạng thái duyệt và tiến độ thực hiện</div>
   </div>
 
   <div class="proj-grid-new">
 
     <!-- Dự án 1: đang làm, quá deadline -->
-    <div class="pj-card">
+    <div class="pj-card" data-filter="approved">
       <div class="pj-topbar overdue"></div>
       <div class="pj-danger">⚠ Quá hạn</div>
-      <div class="pj-top"><div class="pj-status">● Đã duyệt</div><div class="pj-date">22/05/2026</div></div>
+      <div class="pj-top"><div class="pj-status" style="color:#7C3AED">● Đang thực hiện</div><div class="pj-date">22/05/2026</div></div>
       <div class="pj-header">
         <div class="pj-icon" style="background:#EFF6FF">🖨️</div>
         <div><div class="pj-title">Export báo cáo PDF</div><div class="pj-platform">NhiLe Platform v2</div></div>
@@ -1136,10 +1147,10 @@ body::before{
       <button class="pj-btn" onclick="openStaticProj(0)">🔎 Xem tiến độ chi tiết →</button>
     </div>
 
-    <!-- Dự án 2: mới nhận, chưa làm → xám -->
-    <div class="pj-card">
+    <!-- Dự án 2: mới nhận, chưa làm → tím nhạt -->
+    <div class="pj-card" data-filter="approved">
       <div class="pj-topbar new"></div>
-      <div class="pj-top"><div class="pj-status">● Đã duyệt</div><div class="pj-date">23/05/2026</div></div>
+      <div class="pj-top"><div class="pj-status" style="color:#7C3AED">● Đã duyệt</div><div class="pj-date">23/05/2026</div></div>
       <div class="pj-header">
         <div class="pj-icon" style="background:#FFFBEB">🔔</div>
         <div><div class="pj-title">Thông báo tự động cho học viên</div><div class="pj-platform">Nedu CRM</div></div>
@@ -1163,10 +1174,10 @@ body::before{
       <button class="pj-btn" onclick="openStaticProj(1)">🔎 Xem tiến độ chi tiết →</button>
     </div>
 
-    <!-- Dự án 3: 80%, đang làm tốt → vàng/amber -->
-    <div class="pj-card" style="border-color:var(--custom-border)">
+    <!-- Dự án 3: 90%, nghiệm thu → nâu -->
+    <div class="pj-card" data-filter="approved" style="border-color:#D4A574">
       <div class="pj-topbar active"></div>
-      <div class="pj-top"><div class="pj-status">● Đã duyệt</div><div class="pj-date">20/05/2026</div></div>
+      <div class="pj-top"><div class="pj-status" style="color:#92400E">● Nghiệm thu</div><div class="pj-date">20/05/2026</div></div>
       <div class="pj-header">
         <div class="pj-icon" style="background:#F0FDF4">📊</div>
         <div><div class="pj-title">Dashboard theo dõi hiệu suất nhóm</div><div class="pj-platform">NhiLe Platform v2</div></div>
@@ -1178,8 +1189,8 @@ body::before{
         <span class="pj-tag">Dashboard</span>
         <span class="pj-tag">Chỉ tiêu</span>
       </div>
-      <div class="pj-prog-row"><span class="pj-prog-lbl">Tiến độ</span><span class="pj-prog-pct">80%</span></div>
-      <div class="pj-prog-bar"><div class="pj-prog-fill" style="width:80%"></div></div>
+      <div class="pj-prog-row"><span class="pj-prog-lbl">Tiến độ</span><span class="pj-prog-pct">90%</span></div>
+      <div class="pj-prog-bar"><div class="pj-prog-fill" style="width:90%"></div></div>
       <div class="pj-stages">
         <span class="pj-stage done">Xem xét yêu cầu</span>
         <span class="pj-stage done">Lên phương án</span>
@@ -1191,12 +1202,8 @@ body::before{
       <button class="pj-btn" onclick="openStaticProj(2)">🔎 Xem tiến độ chi tiết →</button>
     </div>
 
-  </div>
-
-  <!-- Dynamically submitted orders (via order form) appear here -->
-  <div id="projGridSection" style="display:none;margin-top:24px">
-    <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:14px">📬 Yêu cầu mới đã gửi</div>
-    <div id="projGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px"></div>
+    <!-- Dynamic orders slot: display:contents = children join the parent CSS grid -->
+    <div id="projGrid" style="display:contents"></div>
   </div>
 
 </div><!-- /main -->
@@ -1812,6 +1819,24 @@ function submit() {
   document.getElementById('panelDone').classList.add('active');
   document.getElementById('stepNav').style.display='none';
   document.querySelector('.progress-wrap').style.display='none';
+  /* Lưu order vào localStorage */
+  try {
+    var typeIcon={bug:'🐛',feature:'✨',access:'🔐',perf:'🐢',data:'📊'}[S.type]||'📋';
+    var desc=gv('bugExpect')||gv('bugActual')||gv('featProcess')||gv('featPain')||gv('accessWhat')||gv('perfWhere')||gv('dataWhat')||'Yêu cầu IT mới';
+    var newOrder={
+      id:id, name:(TYPE_LABELS[S.type]||'Yêu cầu IT')+(S.typeChecklist&&S.typeChecklist.length?' — '+S.typeChecklist[0]:''),
+      icon:typeIcon, desc:desc, status:'waiting',
+      priority:{P0:'hot',P1:'hot',P2:'warm',P3:'cool'}[S.prio]||'warm',
+      source:'manual', proj:'nhile', projName:'NhiLe Platform v2',
+      deadline:'TBD', submittedAt:new Date().toLocaleDateString('vi-VN'),
+      tags:S.sys.slice(0,2)
+    };
+    var orders=typeof getOrders==='function'?getOrders():[];
+    orders.unshift(newOrder);
+    if(typeof saveOrders==='function') saveOrders(orders);
+    if(typeof renderProjGrid==='function') renderProjGrid(orders);
+    if(typeof updateStats==='function') updateStats();
+  } catch(e){}
 }
 
 function resetAll() {
@@ -3841,23 +3866,36 @@ function renderProjGrid(orders) {
   /* Filter out mock/pre-existing orders (ORDER-001, 002, 003) — those are shown as static pj-cards above */
   var MOCK_IDS = (typeof MOCK_PROJ_ORDERS !== 'undefined') ? MOCK_PROJ_ORDERS.map(function(o){return o.id;}) : ['ORDER-001','ORDER-002','ORDER-003'];
   var userOrders = (orders||[]).filter(function(o){ return MOCK_IDS.indexOf(o.id) === -1; });
-  var section = document.getElementById('projGridSection');
   if (userOrders.length===0) {
     grid.innerHTML='';
-    if (section) section.style.display='none';
     return;
   }
-  if (section) section.style.display='';
   orders = userOrders; // only render user-submitted orders
   var priColor = {hot:'#EF4444',warm:'#F59E0B',cool:'#22C55E'};
   var priLabel = {hot:'Cao',warm:'Trung bình',cool:'Thấp'};
   var html='';
   orders.forEach(function(o){
-    var stLabel={waiting:'Chờ duyệt',reviewing:'Đang xem xét',approved:'Đã duyệt',done:'✅ Hoàn thành'}[o.status]||o.status;
-    var canOpen = o.status==='approved' || o.status==='done';
-    var oc = canOpen ? 'openProjDetail(\''+o.id+'\')' : 'projClickGuard(\''+o.status+'\')';
-    html+='<div class="proj-card '+o.status+'" data-order-id="'+o.id+'" onclick="'+oc+'">';
-    html+='<div class="proj-card-top"><span class="proj-status-badge '+o.status+'"><span class="proj-status-dot '+o.status+'"></span>'+stLabel+'</span>';
+    var pct = o.progress || 0;
+    var cardClass, badgeClass, stLabel, filterBucket;
+    if (o.status === 'waiting') {
+      cardClass='waiting'; badgeClass='waiting'; stLabel='Chờ duyệt'; filterBucket='waiting';
+    } else if (o.status === 'reviewing') {
+      cardClass='reviewing'; badgeClass='reviewing'; stLabel='Đang làm'; filterBucket='approved';
+    } else if (o.status === 'done' || pct >= 100) {
+      cardClass='done'; badgeClass='done'; stLabel='✅ Hoàn thành'; filterBucket='done';
+    } else {
+      filterBucket = 'approved';
+      if (pct > 80) {
+        cardClass='approved'; badgeClass='approved'; stLabel='Nghiệm thu';
+      } else if (pct >= 20) {
+        cardClass='reviewing'; badgeClass='reviewing'; stLabel='Đang thực hiện';
+      } else {
+        cardClass='reviewing'; badgeClass='reviewing'; stLabel='Đã duyệt';
+      }
+    }
+    var oc = 'openProjDetail(\''+o.id+'\')';
+    html+='<div class="proj-card '+cardClass+'" data-order-id="'+o.id+'" data-filter="'+filterBucket+'" onclick="'+oc+'">';
+    html+='<div class="proj-card-top"><span class="proj-status-badge '+badgeClass+'"><span class="proj-status-dot '+badgeClass+'"></span>'+stLabel+'</span>';
     html+='<span class="proj-card-date">'+(o.submittedAt||'')+'</span></div>';
     html+='<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:26px;line-height:1">'+(o.icon||'📋')+'</span>';
     html+='<div><div class="proj-card-name">'+o.name+'</div><div style="font-size:11px;color:var(--text-faint)">'+o.projName+'</div></div></div>';
@@ -3866,21 +3904,19 @@ function renderProjGrid(orders) {
     html+='<span class="proj-meta-tag" style="color:'+(priColor[o.priority]||'#6B7280')+';border-color:'+(priColor[o.priority]||'#e5e7eb')+'">⚡ '+(priLabel[o.priority]||'')+'</span>';
     (o.tags||[]).slice(0,2).forEach(function(t){html+='<span class="proj-meta-tag">'+t+'</span>';});
     html+='</div>';
-    if (o.status==='waiting') {
-      html+='<div class="proj-locked-msg"><span>🔒</span><span>IT Team đang tiếp nhận — chưa có cập nhật</span></div>';
-    } else if (o.status==='reviewing') {
-      html+='<div class="proj-locked-msg"><span>⏳</span><span>IT đang xem xét yêu cầu — sẽ phản hồi sớm!</span></div>';
-    } else if (o.status==='approved' || o.status==='done') {
+    if (filterBucket === 'waiting') {
+      html+='<div class="proj-view-btn" style="margin-top:auto;background:#EFF6FF;color:#1D4ED8;border-color:#BFDBFE">👁 Xem phiếu đã gửi →</div>';
+    } else if (filterBucket === 'done') {
+      html+='<div class="proj-done-banner">✅ Đã nghiệm thu hoàn tất!</div>';
+    } else {
       html+='<div class="proj-progress-wrap">';
-      html+='<div class="proj-prog-header"><span>Tiến độ</span><span>'+(o.progress||0)+'%</span></div>';
-      html+='<div class="proj-prog-bar"><div class="proj-prog-fill" style="width:'+(o.progress||0)+'%"></div></div>';
-      html+='<div class="proj-prog-stages">';
-      (o.stages||[]).forEach(function(s){html+='<span class="proj-prog-stage '+s.status+'">'+s.name+'</span>';});
-      html+='</div></div>';
-      if (o.status==='done') {
-        html+='<div class="proj-done-banner">✅ Đã nghiệm thu hoàn tất!</div>';
-      } else if (isQAStage(o)) {
-        html+='<div class="proj-qa-cta" onclick="event.stopPropagation();openProjDetail(\''+o.id+'\');setTimeout(function(){switchPmTab(\'checklist\');},80)">📋 Checklist nghiệm thu đang chờ — bấm để kiểm tra!</div>';
+      html+='<div class="proj-prog-header"><span>Tiến độ</span><span>'+pct+'%</span></div>';
+      html+='<div class="proj-prog-bar"><div class="proj-prog-fill" style="width:'+pct+'%"></div></div>';
+      html+='</div>';
+      if (isQAStage(o)) {
+        html+='<div class="proj-qa-cta" onclick="event.stopPropagation();openProjDetail(\''+o.id+'\');setTimeout(function(){switchPmTab(\'checklist\');},80)">📋 Checklist nghiệm thu — bấm để kiểm tra!</div>';
+      } else if (cardClass === 'reviewing') {
+        html+='<div class="proj-view-btn" style="background:#EDE9FE;color:#6D28D9;border-color:#C4B5FD">👁 Xem tiến độ →</div>';
       } else {
         html+='<div class="proj-view-btn">👁 Xem tiến độ chi tiết →</div>';
       }
@@ -3923,29 +3959,45 @@ function openProjDetail(orderId) {
   }
   document.getElementById('pmDeadline').textContent=o.deadline||'—';
   document.getElementById('pmApprovedAt').textContent=o.approvedAt||'—';
-  var tlHtml='';
-  (o.stages||[]).forEach(function(s){
-    var icon={done:'✓',active:'▶',todo:'·'}[s.status]||'·';
-    var meta={done:'✅ Xong rồi!',active:'⏳ IT đang làm...',todo:'⏸ Chưa tới lượt'}[s.status]||'';
-    tlHtml+='<div class="pm-tl-item"><div class="pm-tl-dot '+s.status+'">'+icon+'</div>';
-    tlHtml+='<div class="pm-tl-content"><div class="pm-tl-name">'+s.name+'</div>';
-    tlHtml+='<div class="pm-tl-meta">'+meta+'</div></div></div>';
-  });
-  document.getElementById('pmTimeline').innerHTML=tlHtml;
-  /* Tab bar + checklist */
+
+  /* Waiting/reviewing: show receipt instead of progress */
+  var progressPane = document.getElementById('pmPane-progress');
+  var timelineEl = document.getElementById('pmTimeline');
   var tabBar = document.getElementById('pmTabBar');
-  if (hasChecklist(o)) {
-    tabBar.style.display = '';
-    renderStageChecklist(orderId, o);
-    /* Default to checklist tab when QA stage is active, else progress */
-    if (isQAStage(o) || o.status === 'done') {
-      switchPmTab('checklist');
-    } else {
-      switchPmTab('progress');
-    }
-  } else {
+  if (o.status === 'waiting' || o.status === 'reviewing') {
     tabBar.style.display = 'none';
     switchPmTab('progress');
+    var stColor = o.status === 'waiting' ? '#3B82F6' : '#7C3AED';
+    var stBg    = o.status === 'waiting' ? '#EFF6FF' : '#F5F3FF';
+    var stMsg   = o.status === 'waiting'
+      ? '🔒 Yêu cầu đã được ghi nhận. IT Team đang tiếp nhận — bạn sẽ được thông báo khi có cập nhật!'
+      : '⏳ IT Team đang xem xét và lên phương án. Vui lòng chờ phản hồi sớm!';
+    timelineEl.innerHTML = '<div style="padding:14px;border-radius:10px;background:'+stBg+';border:1.5px solid '+stColor+'33;font-size:13px;color:'+stColor+';font-weight:600;line-height:1.6">'+stMsg+'</div>'
+      + '<div style="margin-top:16px;font-size:11px;color:#9CA3AF;text-align:center">Mã yêu cầu: <strong style="color:#374151">'+(o.id||'—')+'</strong> · Gửi ngày '+(o.submittedAt||'—')+'</div>';
+    document.getElementById('pmProgress').textContent='—';
+    document.getElementById('pmProgFill').style.width='0%';
+  } else {
+    var tlHtml='';
+    (o.stages||[]).forEach(function(s){
+      var icon={done:'✓',active:'▶',todo:'·'}[s.status]||'·';
+      var meta={done:'✅ Xong rồi!',active:'⏳ IT đang làm...',todo:'⏸ Chưa tới lượt'}[s.status]||'';
+      tlHtml+='<div class="pm-tl-item"><div class="pm-tl-dot '+s.status+'">'+icon+'</div>';
+      tlHtml+='<div class="pm-tl-content"><div class="pm-tl-name">'+s.name+'</div>';
+      tlHtml+='<div class="pm-tl-meta">'+meta+'</div></div></div>';
+    });
+    timelineEl.innerHTML=tlHtml;
+    if (hasChecklist(o)) {
+      tabBar.style.display = '';
+      renderStageChecklist(orderId, o);
+      if (isQAStage(o) || o.status === 'done') {
+        switchPmTab('checklist');
+      } else {
+        switchPmTab('progress');
+      }
+    } else {
+      tabBar.style.display = 'none';
+      switchPmTab('progress');
+    }
   }
   _activeProjId = orderId;
   renderProjMsgs(orderId);
@@ -4147,7 +4199,7 @@ var _qaChecked = {};
 var _qaGroupOpen = {};
 
 function isQAStage(o) {
-  return o && (o.stages||[]).some(function(s){ return s.name==='Kiểm tra & hoàn thiện' && s.status==='active'; });
+  return o && (o.progress||0) >= 90 && o.status !== 'done';
 }
 
 function getActiveStage(o) {
@@ -4644,7 +4696,7 @@ window.addEventListener('pageshow', function(e) {
 <script>
 var _tourStep=0;
 var _tourSteps=[
-  {sel:'.btn-create',   title:'Gửi yêu cầu',      text:'Gửi yêu cầu của bạn tại đây — tạo ticket bug, tính năng mới, hoặc tư vấn trực tiếp với IT.'},
+  {sel:'.btn-create',   title:'Gửi yêu cầu',      text:'Gửi yêu cầu của bạn tại đây — báo lỗi hệ thống, đề xuất tính năng mới, hoặc trao đổi trực tiếp với IT.'},
   {sel:'.topbar-title',  title:'Danh sách order',   text:'Xem danh sách order của bạn tại đây — trạng thái xử lý, deadline và người phụ trách.'},
   {sel:'.search-wrap',  title:'Tìm kiếm',          text:'Tìm kiếm order theo mã hoặc tên tính năng để lọc nhanh.'},
   {sel:'.proj-section-head > div', title:'Dự án của tôi', text:'Theo dõi tiến độ dự án — trạng thái duyệt và phần trăm hoàn thành.'}
@@ -4702,16 +4754,26 @@ try{
 }catch(e){}
 
 function updateStats(){
-  const cards = document.querySelectorAll('.pj-card');
-  const total = cards.length;
-  let done = 0, active = 0;
-  cards.forEach(pc => {
-    const fill = pc.querySelector('.pj-prog-fill');
-    const w = fill ? parseInt(fill.style.width)||0 : 0;
+  var total = 0, waiting = 0, active = 0, done = 0;
+  // Static pj-cards (all are approved/active)
+  document.querySelectorAll('.pj-card').forEach(function(pc) {
+    total++;
+    var fill = pc.querySelector('.pj-prog-fill');
+    var w = fill ? parseInt(fill.style.width)||0 : 0;
     if(w >= 100) done++; else active++;
   });
-  const el = id => document.getElementById(id);
+  // Dynamic user-submitted orders
+  var MOCK_IDS = ['ORDER-001','ORDER-002','ORDER-003'];
+  var orders = (typeof getOrders === 'function') ? getOrders() : [];
+  (orders||[]).filter(function(o){ return MOCK_IDS.indexOf(o.id) === -1; }).forEach(function(o) {
+    total++;
+    if(o.status === 'waiting') waiting++;
+    else if(o.status === 'done') done++;
+    else active++;
+  });
+  var el = function(id){ return document.getElementById(id); };
   if(el('statTotal')) el('statTotal').textContent = total;
+  if(el('statWaiting')) el('statWaiting').textContent = waiting;
   if(el('statActive')) el('statActive').textContent = active;
   if(el('statDone')) el('statDone').textContent = done;
   if(el('greetActive')) el('greetActive').textContent = active;
@@ -4963,23 +5025,12 @@ document.addEventListener('click', function(e) {
   var m = document.getElementById('projFilterMenu');
   if (m && !m.parentElement.contains(e.target)) m.style.display = 'none';
 });
-function filterProj(status, el) {
-  document.querySelectorAll('.pf-tab').forEach(function(o){ o.classList.remove('act'); });
-  el.classList.add('act');
-  // Lọc static pj-cards
-  document.querySelectorAll('.pj-card').forEach(function(c) {
+function filterProj(status) {
+  var statIdx = {all:0, waiting:1, approved:2, done:3}[status];
+  document.querySelectorAll('.stat-card').forEach(function(c, i){ c.classList.toggle('act', i === statIdx); });
+  document.querySelectorAll('.pj-card, #projGrid .proj-card').forEach(function(c) {
     if (status === 'all') { c.style.display = ''; return; }
-    var st = c.querySelector('.pj-status');
-    var txt = st ? st.textContent.toLowerCase() : '';
-    var match = (status === 'approved' && txt.includes('duyệt') && !txt.includes('chờ')) ||
-                (status === 'waiting' && txt.includes('chờ')) ||
-                (status === 'done' && txt.includes('hoàn'));
-    c.style.display = match ? '' : 'none';
-  });
-  // Lọc dynamic proj-cards
-  document.querySelectorAll('#projGrid .proj-card').forEach(function(c) {
-    if (status === 'all') { c.style.display = ''; return; }
-    c.style.display = c.classList.contains(status) ? '' : 'none';
+    c.style.display = (c.dataset.filter === status) ? '' : 'none';
   });
 }
 

@@ -497,6 +497,14 @@ function showLockedCard() {
       }catch(e){}
       waiting=true;
       document.getElementById('sendbtn').disabled=false;
+      /* Nút về trang chủ */
+      setTimeout(function(){
+        var homeWrap=document.createElement('div');
+        homeWrap.style.cssText='display:flex;justify-content:center;margin:16px 0 4px';
+        homeWrap.innerHTML='<a href="iT_-_nlt.html" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:linear-gradient(135deg,#1D4D2A,#3A7D52);color:#fff;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;font-family:\'Nunito\',sans-serif;box-shadow:0 4px 14px rgba(29,77,42,.3)">🏠 Về trang theo dõi dự án</a>';
+        document.getElementById('msgs').appendChild(homeWrap);
+        scrollBot();
+      }, 600);
     });
   }, 400);
   scrollBot();

@@ -1643,10 +1643,11 @@ function showFilters() {
 
 function checkStep2() {
   showFilters();
-  if(S.sys.length===0) { document.getElementById('btn1')&&(document.getElementById('btn1').disabled=true); return; }
   let ok = false;
   const t = S.type;
-  if(t==='bug') ok = val('bugExpect')&&val('bugActual')&&val('bugAction');
+  const needSys = (t === 'bug' || t === 'feature');
+  if(needSys && S.sys.length===0) { document.getElementById('btn1')&&(document.getElementById('btn1').disabled=true); return; }
+  if(t==='bug') ok = val('bugExpect')&&val('bugAction');
   else if(t==='feature') ok = val('featProcess')&&val('featPain')&&val('featUser')&&val('featOutput')&&val('featMust')&&val('featDone');
   else if(t==='access') ok = val('accessWhat');
   else if(t==='perf') ok = val('perfWhere');
