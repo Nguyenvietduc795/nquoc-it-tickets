@@ -4292,13 +4292,27 @@ function renderStageChecklist(orderId, o) {
     return isOrderDone || !!checked[itemId];
   }
 
+  /* Nếu order có tiêu chí do người dùng tự viết (vd. từ Bánh Chưng Bot) — dùng chính các tiêu chí đó
+     làm checklist "Bắt buộc", thay cho danh sách mẫu chung chung */
+  var userCriteria = (o.criteria || []).filter(function(c){ return c && c.trim(); });
+  var groups = stageData.groups;
+  if (userCriteria.length) {
+    groups = groups.map(function(g, gi){
+      if (gi !== 0) return g;
+      return {
+        id: g.id, name: g.name, badge: g.badge, type: g.type,
+        items: userCriteria.map(function(c, ci){ return { id: g.id + '_uc' + ci, text: c }; })
+      };
+    });
+  }
+
   /* Count totals */
   var allItems = [];
-  stageData.groups.forEach(function(g){ allItems = allItems.concat(g.items); });
+  groups.forEach(function(g){ allItems = allItems.concat(g.items); });
   var total = allItems.length;
   var done  = allItems.filter(function(i){ return isChecked(i.id); }).length;
   var pct   = total > 0 ? Math.round(done / total * 100) : 0;
-  var hardGroup = stageData.groups[0];
+  var hardGroup = groups[0];
   var hardAll = hardGroup.items.every(function(i){ return isChecked(i.id); });
 
   var html = '';
@@ -4311,7 +4325,7 @@ function renderStageChecklist(orderId, o) {
   html += '</div>';
 
   /* Groups */
-  stageData.groups.forEach(function(group) {
+  groups.forEach(function(group) {
     var gOpen = isOrderDone || !!_qaGroupOpen[orderId + '_' + group.id];
     var gDone = group.items.filter(function(i){ return isChecked(i.id); }).length;
     html += '<div class="pm-qa-group">';
