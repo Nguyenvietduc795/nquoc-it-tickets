@@ -122,6 +122,15 @@ header{background:linear-gradient(135deg,#1D4D2A,#0F3018);height:56px;padding:0 
 .scc-two-btns{display:flex;flex-direction:column;gap:7px;margin-top:11px}
 .scc-btn-ok{padding:12px;background:linear-gradient(135deg,#1A5C2E,#28A745);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:800;font-family:'Nunito',sans-serif;cursor:pointer;touch-action:manipulation}
 .scc-btn-rev{padding:12px;background:var(--grain);border:2px solid var(--border);color:var(--muted);border-radius:9px;font-size:13px;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;touch-action:manipulation}
+.scc-file-zone{display:flex;align-items:center;justify-content:center;gap:7px;border:1.5px dashed var(--border);border-radius:9px;padding:11px;text-align:center;cursor:pointer;font-size:12px;font-weight:800;color:var(--pl);background:var(--grain)}
+.scc-file-zone:hover{border-color:var(--pl);background:var(--steam)}
+.scc-file-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
+.scc-file-chip{position:relative;display:flex;align-items:center;gap:7px;background:var(--grain);border:1.5px solid var(--border);border-radius:8px;padding:6px 24px 6px 7px;font-size:11px;font-weight:700;color:var(--text);max-width:170px}
+.scc-file-chip img,.scc-file-chip video{width:30px;height:30px;object-fit:cover;border-radius:6px;flex-shrink:0}
+.scc-file-ico{width:30px;height:30px;border-radius:6px;background:var(--steam);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.scc-file-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.scc-file-rm{position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.12);border:none;color:var(--muted);font-size:11px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:800}
+.scc-file-rm:hover{background:#c33;color:#fff}
 .scc-locked-top{text-align:center;padding:14px 12px;background:linear-gradient(135deg,#9B6F1A,#C8962A)}
 .scc-lico{font-size:28px;margin-bottom:5px}
 .scc-ltitle{font-size:14px;font-weight:800;color:#fff}
@@ -360,7 +369,39 @@ var FLOW = [
   {key:'problem',  ask:'Vấn đề của bạn là gì?\nKể chuyện bằng lời thường ngày — không cần biết gì về IT. Càng cụ thể IT càng làm nhanh 😊\n\nGợi ý: bạn đang làm gì, mất bao lâu, điều bất tiện là gì.', opts:['🐛 Báo lỗi hệ thống','🔑 Đăng nhập / Quyền truy cập','⚡ Hiệu suất chậm','📊 Vấn đề dữ liệu']},
 ];
 // SOP chat state
-var sopChat = {team:'', problem:'', story:'', c1:'', c2:'', c3:''};
+var sopChat = {team:'', problem:'', story:'', c1:'', c2:'', c3:'', link:'', attachments:[]};
+
+// ── ATTACHMENT HELPERS (link + ảnh/video/file đính kèm khi dịch tiêu chí) ──
+var sopFiles = [];
+var ATTACH_MAX_SIZE = 3 * 1024 * 1024;
+function fileToDataURL(file){
+  return new Promise(function(resolve){
+    var r = new FileReader();
+    r.onload = function(){ resolve(r.result); };
+    r.readAsDataURL(file);
+  });
+}
+function sopAddFiles(fileList){
+  [].forEach.call(fileList, function(f){
+    if(f.size > ATTACH_MAX_SIZE){ alert('"'+f.name+'" quá lớn (tối đa 3MB)'); return; }
+    sopFiles.push(f);
+  });
+  renderSopFiles();
+}
+function sopRemoveFile(idx){ sopFiles.splice(idx,1); renderSopFiles(); }
+function renderSopFiles(){
+  var box = document.getElementById('cc-files');
+  if(!box) return;
+  box.innerHTML = sopFiles.map(function(f, i){
+    var url = URL.createObjectURL(f);
+    var preview;
+    if(f.type.indexOf('image/')===0) preview = '<img src="'+url+'" alt="">';
+    else if(f.type.indexOf('video/')===0) preview = '<video src="'+url+'" muted></video>';
+    else preview = '<div class="scc-file-ico">📄</div>';
+    return '<div class="scc-file-chip">'+preview+'<span class="scc-file-name">'+f.name.replace(/</g,'&lt;')+'</span>'+
+           '<button type="button" class="scc-file-rm" onclick="sopRemoveFile('+i+')">✕</button></div>';
+  }).join('');
+}
 
 // ── WELCOME EVENTS ──
 document.querySelectorAll('.topt').forEach(function(btn){
@@ -391,6 +432,7 @@ function showTranslateCard() {
   var wrap = document.createElement('div'); wrap.className = 'outwrap';
   var card = document.createElement('div'); card.className = 'sop-chat-card';
   var tname = sopChat.team || ui.team || 'team bạn';
+  sopFiles = [];
   card.innerHTML =
     '<div class="scc-hdr"><div class="scc-tag">IT TEAM · BƯỚC 2 / 4</div><div class="scc-title">Dịch yêu cầu thành tiêu chí</div></div>' +
     '<div class="scc-body">' +
@@ -401,9 +443,18 @@ function showTranslateCard() {
     '<div class="scc-flbl">Tiêu chí 2</div><input class="scc-inp" id="cc-c2" placeholder="Kết quả có đầy đủ các mục..."/>' +
     '<div class="scc-flbl">Tiêu chí 3</div><input class="scc-inp" id="cc-c3" placeholder="Mở được / hiển thị đúng trên..."/>' +
     '<div class="scc-hint">Viết để người đặt tự mắt kiểm tra được — không dùng ngôn ngữ tech.</div>' +
+    '<div class="scc-flbl">Đường link tham khảo (không bắt buộc)</div>' +
+    '<input class="scc-inp" id="cc-link" placeholder="https://..."/>' +
+    '<div class="scc-flbl">Ảnh / video / file đính kèm (không bắt buộc)</div>' +
+    '<input type="file" id="cc-file-inp" multiple accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.zip" style="display:none"/>' +
+    '<div class="scc-file-zone" id="cc-file-zone">📎 Bấm để tải ảnh, video hoặc file lên</div>' +
+    '<div class="scc-file-list" id="cc-files"></div>' +
     '<button class="scc-submit" onclick="submitTranslate()">Gửi cho người đặt xác nhận →</button>' +
     '</div>';
   wrap.appendChild(card); m.appendChild(wrap); scrollBot();
+  var fInp = document.getElementById('cc-file-inp');
+  document.getElementById('cc-file-zone').addEventListener('click', function(){ fInp.click(); });
+  fInp.addEventListener('change', function(){ sopAddFiles(fInp.files); fInp.value=''; });
 }
 
 function submitTranslate() {
@@ -411,16 +462,23 @@ function submitTranslate() {
   var c1 = (document.getElementById('cc-c1')||{}).value||'';
   var c2 = (document.getElementById('cc-c2')||{}).value||'';
   var c3 = (document.getElementById('cc-c3')||{}).value||'';
+  var link = ((document.getElementById('cc-link')||{}).value||'').trim();
   story=story.trim(); c1=c1.trim(); c2=c2.trim(); c3=c3.trim();
   if(!story){alert('Điền user story nhé 🙏');return;}
   if(!c1||!c2||!c3){alert('Cần điền đủ 3 tiêu chí nhé');return;}
-  sopChat.story=story; sopChat.c1=c1; sopChat.c2=c2; sopChat.c3=c3;
-  ['cc-story','cc-c1','cc-c2','cc-c3'].forEach(function(id){var e=document.getElementById(id);if(e)e.disabled=true;});
+  sopChat.story=story; sopChat.c1=c1; sopChat.c2=c2; sopChat.c3=c3; sopChat.link=link;
+  ['cc-story','cc-c1','cc-c2','cc-c3','cc-link'].forEach(function(id){var e=document.getElementById(id);if(e)e.disabled=true;});
+  var fz=document.getElementById('cc-file-zone');if(fz)fz.style.pointerEvents='none';
   var sb=document.querySelector('.scc-submit');if(sb){sb.disabled=true;sb.textContent='✓ Đã gửi';}
-  setTimeout(function(){
-    addBubble('gao','Okay '+ui.name+'! IT vừa dịch xong. Bạn đọc kỹ và xác nhận nhé 👇');
-    setTimeout(function(){ typing(function(){ showConfirmCard(); }); }, 500);
-  }, 300);
+  Promise.all(sopFiles.map(function(f){
+    return fileToDataURL(f).then(function(dataUrl){ return {name:f.name, type:f.type, size:f.size, dataUrl:dataUrl}; });
+  })).then(function(attachments){
+    sopChat.attachments = attachments;
+    setTimeout(function(){
+      addBubble('gao','Okay '+ui.name+'! IT vừa dịch xong. Bạn đọc kỹ và xác nhận nhé 👇');
+      setTimeout(function(){ typing(function(){ showConfirmCard(); }); }, 500);
+    }, 300);
+  });
 }
 
 function showConfirmCard() {
@@ -492,7 +550,8 @@ function showLockedCard() {
           source:'banh-chung', proj:projTeam,
           projName:projTeam==='nedu'?'Nedu CRM':'NhiLe Platform v2',
           deadline:'TBD', submittedAt:today(), submittedBy:ui.name, team:tname,
-          criteria:[sopChat.c1,sopChat.c2,sopChat.c3], tags:['Bot',tname]
+          criteria:[sopChat.c1,sopChat.c2,sopChat.c3], tags:['Bot',tname],
+          link:sopChat.link, attachments:sopChat.attachments
         };
         var q=JSON.parse(localStorage.getItem('nhile_user_submitted')||'[]');
         q.unshift(order);
