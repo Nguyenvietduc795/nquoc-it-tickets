@@ -371,9 +371,12 @@ document.querySelectorAll('.topt').forEach(function(btn){
   });
 });
 
-document.getElementById('startbtn').addEventListener('click', function(){
-  doStart();
-});
+/* Bỏ qua màn hình chào hỏi — vào thẳng chat khi mở trang */
+ui = {name:'Bạn', team:'', tele:''};
+document.getElementById('uchip').textContent = '🌾 Bạn';
+document.getElementById('welcome').classList.add('hidden');
+document.getElementById('app').classList.remove('hidden');
+initChat();
 
 document.getElementById('reloadbtn').addEventListener('click', function(){
   location.reload();
