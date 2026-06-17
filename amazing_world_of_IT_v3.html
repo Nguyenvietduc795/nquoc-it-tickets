@@ -271,6 +271,25 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 .doc-open{font-size:11px;color:var(--forest);cursor:pointer;margin-left:auto;font-weight:700;white-space:nowrap}
 .ct-av{width:33px;height:33px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
 .ct-scope{font-size:11px;color:var(--ink4);margin-top:2px}
+/* workload */
+.wl-card{background:var(--sf);border:.5px solid var(--bd);border-radius:16px;padding:13px 14px;margin-bottom:11px}
+.wl-card-t{font-size:10px;font-weight:700;color:var(--ink3);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.wl-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:.5px solid var(--bd)}
+.wl-row:last-child{border-bottom:none;padding-bottom:0}
+.wl-av{width:33px;height:33px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;color:#fff}
+.wl-info{flex:1;min-width:0}
+.wl-name{font-size:12.5px;font-weight:700;color:var(--ink)}
+.wl-role{font-size:11px;color:var(--ink3);margin-bottom:6px}
+.wl-tasks{display:flex;flex-direction:column;gap:4px}
+.wl-task{display:flex;align-items:center;gap:6px;background:var(--cream2);border-radius:8px;padding:5px 9px;cursor:pointer;transition:background .15s}
+.wl-task:hover{background:var(--cream3)}
+.wl-task-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.wl-task-id{font-size:10px;font-weight:800;color:var(--ink3);flex-shrink:0}
+.wl-task-name{font-size:11px;font-weight:600;color:var(--ink);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wl-task-status{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;flex-shrink:0}
+.wl-task-status.inprog{background:#DBEAFE;color:#2563EB}
+.wl-task-status.todo{background:#F3F4F6;color:#6B7280}
+.wl-empty{font-size:11px;color:var(--ink4);font-style:italic;padding:4px 0}
 .ct-tags{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
 .ct-tag{font-size:10px;padding:2px 7px;border-radius:8px;background:var(--cream2);border:.5px solid var(--bd2);color:var(--ink3)}
 .set-inp{width:100%;border:1.5px solid var(--cream3);border-radius:9px;padding:7px 11px;font-family:var(--f);font-size:13px;outline:none;color:var(--ink);background:var(--sf2);transition:border-color .17s;margin-bottom:7px}
@@ -632,6 +651,15 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
   cursor:pointer;transition:all .17s
 }
 .order-decline:hover{background:#F9FAFB;border-color:#D1D5DB;color:#374151}
+.decline-form{display:flex;flex-direction:column;gap:7px;width:100%;margin-top:2px}
+.decline-form textarea{width:100%;box-sizing:border-box;border:1.5px solid #E5E7EB;border-radius:10px;padding:8px 10px;font-family:var(--f);font-size:12px;color:#374151;resize:none;outline:none;transition:border-color .15s}
+.decline-form textarea:focus{border-color:#9CA3AF}
+.decline-form .decline-ts{font-size:11px;color:#9CA3AF}
+.decline-form-btns{display:flex;gap:7px}
+.decline-confirm{padding:6px 16px;border:none;border-radius:20px;background:#EF4444;color:#fff;font-family:var(--f);font-size:12px;font-weight:700;cursor:pointer}
+.decline-confirm:hover{background:#DC2626}
+.decline-cancel{padding:6px 14px;border:1.5px solid #E5E7EB;border-radius:20px;background:transparent;color:#6B7280;font-family:var(--f);font-size:12px;font-weight:600;cursor:pointer}
+.decline-cancel:hover{background:#F9FAFB}
 
 /* ── EXPERT BADGE on comments ── */
 .expert-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;padding:2px 7px;border-radius:20px;font-weight:700;margin-left:6px;vertical-align:middle}
@@ -837,6 +865,20 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
 .td-log-icon{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:1px}
 .td-note-saved-toast{position:fixed;bottom:20px;right:24px;background:#1A1D23;border:1px solid rgba(127,119,221,.4);color:#A9A4F5;font-size:11px;font-weight:800;padding:8px 16px;border-radius:10px;z-index:1100;opacity:0;transform:translateY(6px);transition:all .25s;pointer-events:none}
 .td-note-saved-toast.show{opacity:1;transform:translateY(0)}
+/* transfer ticket */
+.td-transfer-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:11px;padding:13px 14px;margin-bottom:20px}
+.td-transfer-current{display:flex;align-items:center;gap:7px;margin-bottom:11px}
+.td-transfer-current-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.td-transfer-current-lbl{font-size:10px;font-weight:800;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.5px}
+.td-transfer-current-val{font-size:12px;font-weight:800;color:rgba(255,255,255,.75);margin-left:2px}
+.td-transfer-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.td-transfer-select{flex:1;min-width:140px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;color:rgba(255,255,255,.8);font-family:var(--f);font-size:12px;font-weight:600;padding:7px 10px;outline:none;cursor:pointer}
+.td-transfer-select option{background:#1A1D23;color:#e0e0e0}
+.td-transfer-note-inp{flex:1;min-width:140px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:rgba(255,255,255,.75);font-family:var(--f);font-size:12px;padding:7px 10px;outline:none}
+.td-transfer-note-inp::placeholder{color:rgba(255,255,255,.2)}
+.td-transfer-btn{padding:7px 16px;background:rgba(127,119,221,.25);border:1px solid rgba(127,119,221,.4);border-radius:8px;color:#A9A4F5;font-family:var(--f);font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0}
+.td-transfer-btn:hover{background:rgba(127,119,221,.4)}
+.td-log-transfer{background:rgba(127,119,221,.1);border-left:2px solid rgba(127,119,221,.5)}
 
 /* action buttons in panel header */
 .td-action-btns{display:flex;align-items:center;gap:7px;margin-left:auto}
@@ -1347,6 +1389,18 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
   </div>
 </div>
 
+<!-- ACCEPT NOTIFY MODAL -->
+<div class="mo" id="acceptNotifyMo" onclick="if(event.target===this)closeAcceptNotify()">
+  <div class="mo-box" style="animation:pop-in .3s ease;text-align:center;max-width:380px">
+    <div style="font-size:42px;margin-bottom:6px">✅</div>
+    <div class="mo-t" style="justify-content:center;font-size:15px;margin-bottom:12px">Đã nhận xử lý!</div>
+    <div id="acceptNotifyBody"></div>
+    <div class="mo-acts" style="margin-top:16px">
+      <button class="mo-submit" onclick="closeAcceptNotify()" style="flex:1;background:#16A34A">Xác nhận</button>
+    </div>
+  </div>
+</div>
+
 <!-- TELEGRAM -->
 <div class="tg-ov" id="tgOv" onclick="closeTg()"></div>
 <div class="tg-panel" id="tgPanel">
@@ -1702,7 +1756,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
                 <div class="order-banner-title">Export báo cáo PDF — NhiLe Platform v2</div>
                 <div class="order-banner-desc">Khách yêu cầu export dashboard sang PDF: biểu đồ doanh thu, danh sách đơn hàng, filter theo tháng.<br><span style="color:#9CA3AF;font-size:11px">📅 Deadline: 30/5/2026 &nbsp;·&nbsp; 🔴 Ưu tiên cao</span></div>
                 <div class="order-banner-acts">
-                  <button class="order-approve" onclick="handleOrder('order-1',true)">✓ Duyệt & tạo task</button>
+                  <button class="order-approve" onclick="handleOrder('order-1',true)">✓ Nhận xử lý</button>
                   <button class="order-decline" onclick="handleOrder('order-1',false)">✗ Từ chối</button>
                 </div>
               </div>
@@ -1714,7 +1768,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
                 <div class="order-banner-title">Push notification real-time — Nedu CRM</div>
                 <div class="order-banner-desc">Khách muốn nhận push notification khi học viên đăng ký mới, thanh toán thành công, hoặc có câu hỏi.<br><span style="color:#9CA3AF;font-size:11px">📅 Deadline: 5/6/2026 &nbsp;·&nbsp; 🟡 Ưu tiên trung bình</span></div>
                 <div class="order-banner-acts">
-                  <button class="order-approve" onclick="handleOrder('order-2',true)">✓ Duyệt & tạo task</button>
+                  <button class="order-approve" onclick="handleOrder('order-2',true)">✓ Nhận xử lý</button>
                   <button class="order-decline" onclick="handleOrder('order-2',false)">✗ Từ chối</button>
                 </div>
               </div>
@@ -1726,7 +1780,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
                 <div class="order-banner-title">Dashboard KPI cho leader — NhiLe Platform v2</div>
                 <div class="order-banner-desc">Leader muốn tổng quan: số task hoàn thành/tuần, velocity team, burn-down chart, top performer.<br><span style="color:#9CA3AF;font-size:11px">📅 Deadline: 10/6/2026 &nbsp;·&nbsp; 🟢 Ưu tiên bình thường</span></div>
                 <div class="order-banner-acts">
-                  <button class="order-approve" onclick="handleOrder('order-3',true)">✓ Duyệt & tạo task</button>
+                  <button class="order-approve" onclick="handleOrder('order-3',true)">✓ Nhận xử lý</button>
                   <button class="order-decline" onclick="handleOrder('order-3',false)">✗ Từ chối</button>
                 </div>
               </div>
@@ -1788,6 +1842,12 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
           </div>
         </div>
 
+        <!-- WORKLOAD SECTION -->
+        <div class="hub-section show" id="hubSecWorkload">
+          <div style="font-size:12px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px">👥 Task đang nhận</div>
+          <div id="hubWorkloadList"></div>
+        </div>
+
       </div>
     </div>
 
@@ -1816,6 +1876,10 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
           <div class="ct-row"><div class="ct-av" style="background:#378ADD;color:#fff">NL</div><div><div class="ct-name">Ngọc Lan</div><div class="ct-role">Dev · Backend</div><div class="ct-scope">Hỏi về: API, DB, Supabase</div><div class="ct-tags"><span class="ct-tag">@ngoclan</span></div></div></div>
           <div class="ct-row"><div class="ct-av" style="background:#7F77DD;color:#fff">MT</div><div><div class="ct-name">Minh Tú</div><div class="ct-role">Dev · Frontend</div><div class="ct-scope">Hỏi về: React, UI, component</div><div class="ct-tags"><span class="ct-tag">@minhtu</span></div></div></div>
           <div class="ct-row"><div class="ct-av" style="background:#C97550;color:#fff">NH</div><div><div class="ct-name">Ngọc Hân</div><div class="ct-role">Dev · Full-stack</div><div class="ct-scope">Hỏi về: auth, API integration</div><div class="ct-tags"><span class="ct-tag">@ngochan</span></div></div></div>
+        </div>
+        <div class="wl-card">
+          <div class="wl-card-t">📋 Task đang nhận</div>
+          <div id="memberWorkloadList"></div>
         </div>
       </div>
     </div>
@@ -2596,7 +2660,8 @@ function goView(v) {
   }
   if (v==='checklist') renderOb();
   if (v==='profile') syncProfileHero();
-  if (v==='hub') renderOrders();
+  if (v==='hub') { renderOrders(); renderMemberWorkload(); }
+  if (v==='contacts') renderMemberWorkload();
   initCalTooltip();
 }
 
@@ -3171,17 +3236,71 @@ function handleOrder(id, approved) {
     }, 1400);
 
     injectTaskToProject(projId, taskName, taskDl, taskIco, priority, taskId);
-    showToast('✅ Đã duyệt! Task ' + taskId + ' vào ' + projName + '!');
-    addNotif('<b>Order đã duyệt</b> — <b>' + taskName + '</b> (' + taskId + ') vào ' + projName);
+    addNotif('<b>Order đã nhận</b> — <b>' + taskName + '</b> (' + taskId + ') vào ' + projName);
+    showAcceptNotify(taskId, taskName, projName, pic, taskDl);
 
   } else {
-    el.style.opacity = '0'; el.style.transform = 'translateY(-8px)';
-    el.style.transition = 'all .28s';
-    setTimeout(function(){ el.style.display='none'; updateOrderCount(); }, 280);
-    showToast('✗ Đã từ chối order.');
-    /* If this was a user-submitted order, remove from queue */
-    var declinedOrderId = el.dataset.orderId;
-    if (declinedOrderId && id.indexOf('uorder-') === 0) {
+    showDeclineForm(id);
+  }
+}
+
+function showAcceptNotify(taskId, taskName, projName, pic, deadline) {
+  var body = document.getElementById('acceptNotifyBody');
+  if (!body) return;
+  var priColors = {hot:'#EF4444', warm:'#F59E0B', cool:'#22C55E'};
+  body.innerHTML =
+    '<div style="background:#F0FDF4;border:1.5px solid #BBF7D0;border-radius:12px;padding:13px 15px;text-align:left;margin-bottom:4px">' +
+      '<div style="font-size:11px;color:#6B7280;font-weight:600;margin-bottom:6px">TASK MỚI ĐÃ TẠO</div>' +
+      '<div style="font-size:14px;font-weight:800;color:#111827;margin-bottom:4px">' + taskId + ' — ' + taskName + '</div>' +
+      '<div style="font-size:12px;color:#6B7280;margin-bottom:10px">📁 ' + projName + ' &nbsp;·&nbsp; 📅 ' + deadline + '</div>' +
+      '<div style="display:flex;align-items:center;gap:8px">' +
+        '<div style="width:30px;height:30px;border-radius:50%;background:' + pic.bg + ';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0">' + pic.init + '</div>' +
+        '<div><div style="font-size:12px;font-weight:700;color:#111827">' + pic.name + '</div><div style="font-size:11px;color:#9CA3AF">' + pic.role + '</div></div>' +
+      '</div>' +
+    '</div>';
+  document.getElementById('acceptNotifyMo').classList.add('open');
+}
+
+function closeAcceptNotify() {
+  document.getElementById('acceptNotifyMo').classList.remove('open');
+}
+
+function showDeclineForm(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var acts = el.querySelector('.order-banner-acts');
+  if (!acts) return;
+  var now = new Date();
+  var ts = now.toLocaleDateString('vi-VN') + ' ' + now.toLocaleTimeString('vi-VN', {hour:'2-digit',minute:'2-digit'});
+  acts.innerHTML =
+    '<div class="decline-form">' +
+      '<textarea class="decline-reason-input" rows="2" placeholder="Lý do từ chối..."></textarea>' +
+      '<div class="decline-ts">🕐 Thời gian: ' + ts + '</div>' +
+      '<div class="decline-form-btns">' +
+        '<button class="decline-confirm" onclick="confirmDecline(\'' + id + '\',\'' + ts + '\')">Xác nhận từ chối</button>' +
+        '<button class="decline-cancel" onclick="cancelDecline(\'' + id + '\')">Hủy</button>' +
+      '</div>' +
+    '</div>';
+  el.querySelector('.decline-reason-input').focus();
+}
+
+function confirmDecline(id, ts) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var reasonEl = el.querySelector('.decline-reason-input');
+  var reason = reasonEl ? reasonEl.value.trim() : '';
+  el.style.opacity = '0'; el.style.transform = 'translateY(-8px)';
+  el.style.transition = 'all .28s';
+  setTimeout(function(){ el.style.display='none'; updateOrderCount(); }, 280);
+  showToast('✗ Đã từ chối' + (reason ? ': ' + reason : '.'));
+  var declinedOrderId = el.dataset.orderId;
+  if (declinedOrderId) {
+    try {
+      var declines = JSON.parse(localStorage.getItem('nhile_it_declines') || '[]');
+      declines.push({ orderId: declinedOrderId, reason: reason, declinedAt: ts });
+      localStorage.setItem('nhile_it_declines', JSON.stringify(declines));
+    } catch(e) {}
+    if (id.indexOf('uorder-') === 0) {
       try {
         var q = JSON.parse(localStorage.getItem('nhile_user_submitted') || '[]');
         q = q.filter(function(o){ return o.id !== declinedOrderId; });
@@ -3189,6 +3308,16 @@ function handleOrder(id, approved) {
       } catch(e) {}
     }
   }
+}
+
+function cancelDecline(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var acts = el.querySelector('.order-banner-acts');
+  if (!acts) return;
+  acts.innerHTML =
+    '<button class="order-approve" onclick="handleOrder(\'' + id + '\',true)">✓ Nhận xử lý</button>' +
+    '<button class="order-decline" onclick="handleOrder(\'' + id + '\',false)">✗ Từ chối</button>';
 }
 
 /* ── LOAD USER SUBMITTED ORDERS FROM ORDER DASHBOARD ── */
@@ -3222,7 +3351,7 @@ function initUserOrders() {
             ' &nbsp;·&nbsp; ' + (priEmojis[o.priority] || '📋') + ' ' + (priTexts[o.priority] || '') + '</span>' +
           '</div>' +
           '<div class="order-banner-acts">' +
-            '<button class="order-approve" onclick="handleOrder(\'' + elId + '\',true)">✓ Duyệt & tạo task</button>' +
+            '<button class="order-approve" onclick="handleOrder(\'' + elId + '\',true)">✓ Nhận xử lý</button>' +
             '<button class="order-decline" onclick="handleOrder(\'' + elId + '\',false)">✗ Từ chối</button>' +
           '</div>' +
         '</div>';
@@ -3772,7 +3901,7 @@ function selectRoleV3(role){
       <span class="td-id" id="tdId">TASK-000</span>
       <span class="td-pri" id="tdPri">High</span>
       <div class="td-action-btns">
-        <button class="td-tg-btn2" onclick="openTgPanel()">🔗 Telegram</button>
+        <button class="td-tg-btn2" onclick="openTgPanel()">💬 Nhắn tin</button>
         <button class="td-done-btn" id="tdDoneBtn" onclick="completeTask()">✓ Hoàn tất</button>
         <button class="td-close" onclick="closeTaskDetailV3()">✕</button>
       </div>
@@ -3816,7 +3945,7 @@ function selectRoleV3(role){
       </div>
       <div class="tg-compose-btns">
         <button class="tg-btn-copy" onclick="copyTdTgMsg()">📋 Copy</button>
-        <button class="tg-btn-send" onclick="sendTdTgMsg()">🔗 Gửi Telegram</button>
+        <button class="tg-btn-send" onclick="sendTdTgMsg()">📨 Gửi tin</button>
       </div>
     </div>
   </div>
@@ -3837,9 +3966,12 @@ var TD_DATA = {
       {done:false, text:'Test với access token expiry giả lập'},
       {done:false, text:'Code review & merge vào develop'}
     ],
+    team:'dev',
     history:[
       {time:'Hôm nay, 09:15', msg:'Ngọc Hân đã reproduce lỗi thành công trên staging'},
       {time:'Hôm nay, 08:42', msg:'Task được assign cho Ngọc Hân'},
+      {time:'Hôm qua, 14:22', msg:'⇄ Chuyển phiếu: BA → Dev · Đức Hiếu · "Race condition nằm ở phía auth middleware FE"'},
+      {time:'Hôm qua, 11:05', msg:'⇄ Chuyển phiếu: Dev → BA · Tuấn Long · "Cần làm rõ yêu cầu token expiry với BA"'},
       {time:'Hôm qua, 17:30', msg:'Bug được report bởi Văn Đức Tân sau deploy'},
       {time:'Hôm qua, 16:00', msg:'TASK-042 được tạo và đưa vào Sprint 12'}
     ],
@@ -3850,7 +3982,7 @@ var TD_DATA = {
     ]
   },
   'TASK-043': {
-    id:'TASK-043', title:'Viết unit test refresh token', priority:'med', priLabel:'Trung bình',
+    id:'TASK-043', title:'Viết unit test refresh token', priority:'med', priLabel:'Trung bình', team:'dev',
     status:'todo', statusLabel:'Chưa làm', deadline:'1 ngày nữa', deadlineCls:'hot',
     desc:'Bổ sung unit test coverage cho toàn bộ luồng refresh token: token hết hạn, token bị revoke, concurrent refresh requests và edge case khi user offline. Target coverage ≥ 85%.',
     project:'NhiLe Platform v2', type:'Test', points:'2 SP', sprint:'Sprint 12',
@@ -3873,8 +4005,38 @@ var TD_DATA = {
       {env:'Production', status:'none', label:'Chưa deploy'}
     ]
   },
+  'TASK-038': {
+    id:'TASK-038', title:'Optimize Dashboard Query', priority:'med', priLabel:'Trung bình', team:'dev',
+    status:'inprog', statusLabel:'Đang làm', deadline:'2 ngày nữa', deadlineCls:'warm',
+    desc:'Dashboard report load 8s — cần optimize query và thêm Redis cache.',
+    project:'NhiLe Platform v2', type:'Performance', points:'5 SP', sprint:'Sprint 12',
+    pic:{init:'TL', bg:'#C2A84E', name:'Tuấn Long', role:'Full-stack Dev'},
+    checklist:[{done:true,text:'Profiling query hiện tại'},{done:true,text:'Viết lại query với index'},{done:false,text:'Thêm Redis cache layer'},{done:false,text:'Benchmark & verify'}],
+    history:[{time:'Hôm nay, 09:00',msg:'Tuấn Long đang implement Redis cache'},{time:'Hôm qua, 16:00',msg:'TASK-038 assign cho Tuấn Long'}],
+    deploy:[{env:'Development',status:'ok',label:'Deployed'},{env:'Staging',status:'none',label:'Chưa deploy'},{env:'Production',status:'none',label:'Chưa deploy'}]
+  },
+  'TASK-039': {
+    id:'TASK-039', title:'API phân trang danh sách đơn hàng', priority:'med', priLabel:'Trung bình', team:'dev',
+    status:'todo', statusLabel:'Chưa làm', deadline:'4 ngày nữa', deadlineCls:'cool',
+    desc:'Thêm cursor-based pagination cho endpoint GET /orders để tránh timeout khi data lớn.',
+    project:'NhiLe Platform v2', type:'Feature', points:'3 SP', sprint:'Sprint 12',
+    pic:{init:'NL', bg:'#378ADD', name:'Ngọc Lan', role:'Backend Dev'},
+    checklist:[{done:false,text:'Thiết kế cursor pagination schema'},{done:false,text:'Implement endpoint'},{done:false,text:'Viết test'}],
+    history:[{time:'Hôm nay, 08:30',msg:'TASK-039 assign cho Ngọc Lan'},{time:'Hôm qua, 14:00',msg:'Task được tạo sau review API'}],
+    deploy:[{env:'Development',status:'none',label:'Chưa có code'},{env:'Staging',status:'none',label:'Chưa deploy'},{env:'Production',status:'none',label:'Chưa deploy'}]
+  },
+  'TASK-044': {
+    id:'TASK-044', title:'Redesign trang thanh toán', priority:'high', priLabel:'Cao', team:'ba',
+    status:'inprog', statusLabel:'Đang làm', deadline:'1 ngày nữa', deadlineCls:'hot',
+    desc:'Cập nhật UI trang checkout theo Figma v3: layout mới, thêm trust badge, tối ưu mobile.',
+    project:'Nedu CRM', type:'UI', points:'4 SP', sprint:'Sprint 5',
+    pic:{init:'MT', bg:'#7F77DD', name:'Minh Tú', role:'Frontend Dev'},
+    checklist:[{done:true,text:'Nhận Figma từ designer'},{done:true,text:'Implement layout desktop'},{done:false,text:'Responsive mobile'},{done:false,text:'QA cross-browser'}],
+    history:[{time:'Hôm nay, 10:00',msg:'Minh Tú hoàn thành layout desktop'},{time:'Hôm qua, 09:00',msg:'TASK-044 assign cho Minh Tú'}],
+    deploy:[{env:'Development',status:'ok',label:'Deployed'},{env:'Staging',status:'none',label:'Chờ QA'},{env:'Production',status:'none',label:'Chưa deploy'}]
+  },
   'TASK-051': {
-    id:'TASK-051', title:'Stripe Payment Integration', priority:'high', priLabel:'Cao',
+    id:'TASK-051', title:'Stripe Payment Integration', priority:'high', priLabel:'Cao', team:'dev',
     status:'inprog', statusLabel:'Đang làm', deadline:'3 ngày nữa', deadlineCls:'warm',
     desc:'Tích hợp Stripe Checkout vào Nedu CRM để xử lý thanh toán subscription. Bao gồm: tạo Checkout Session, xử lý webhook events (payment_succeeded, invoice.paid, customer.subscription.updated), và UI hiển thị trạng thái thanh toán.',
     project:'Nedu CRM', type:'Feature', points:'8 SP', sprint:'Sprint 5',
@@ -3990,6 +4152,10 @@ var DEPLOY_LAYERS = [
   }
 ];
 var TD_NOTES = {};
+var IT_TEAMS = [
+  {id:'dev', label:'Dev',  members:'Ngọc Hân · Tuấn Long · Phúc Khang', color:'#A9A4F5'},
+  {id:'ba',  label:'BA',   members:'Minh Tú · Ngọc Lan',                color:'#5ECC8F'},
+];
 var SHARED_TASK_CHAT_PREFIX = 'nhile_shared_task_chat__';
 function sharedTaskChatKey(taskName) {
   return SHARED_TASK_CHAT_PREFIX + String(taskName || '')
@@ -4067,13 +4233,31 @@ function renderTdTab(tab, t) {
   } else if (tab === 'history') {
     var taskId = t.id;
     var savedNote = TD_NOTES[taskId] || '';
+    var currentTeamId = t.team || 'fe';
+    var currentTeam = IT_TEAMS.find(function(tm){ return tm.id === currentTeamId; }) || IT_TEAMS[0];
     var html = '<div class="td-note-label">Ghi chú nội bộ</div>';
     html += '<textarea class="td-note-ta" id="tdNoteArea" placeholder="Root cause, progress note, blockers..." rows="3">'+savedNote+'</textarea>';
     html += '<div class="td-note-footer"><button class="td-note-btn" onclick="saveTaskNote(\''+taskId+'\')">Lưu ghi chú</button></div>';
+    /* transfer box */
+    html += '<div class="td-note-label">Chuyển phiếu</div>';
+    html += '<div class="td-transfer-box">';
+    html += '<div class="td-transfer-current"><div class="td-transfer-current-dot" style="background:'+currentTeam.color+'"></div><span class="td-transfer-current-lbl">Đang ở:</span><span class="td-transfer-current-val">'+currentTeam.label+'</span><span style="font-size:10px;color:rgba(255,255,255,.3);margin-left:4px">('+currentTeam.members+')</span></div>';
+    html += '<div class="td-transfer-row">';
+    html += '<select class="td-transfer-select" id="tdTransferSelect">';
+    IT_TEAMS.forEach(function(tm){
+      html += '<option value="'+tm.id+'"'+(tm.id===currentTeamId?' disabled':'')+'>'+tm.label+' — '+tm.members+'</option>';
+    });
+    html += '</select>';
+    html += '<input class="td-transfer-note-inp" id="tdTransferNote" type="text" placeholder="Lý do chuyển...">';
+    html += '<button class="td-transfer-btn" onclick="transferTicket(\''+taskId+'\')">⇄ Chuyển</button>';
+    html += '</div></div>';
     html += '<div class="td-note-label">Lịch sử hoạt động</div>';
     t.history.forEach(function(h, i){
-      var ic = LOG_ICONS[i % LOG_ICONS.length];
-      html += '<div class="td-log-item"><div class="td-log-icon" style="background:'+ic.bg+';color:'+ic.color+'">'+ic.icon+'</div>';
+      var isTransfer = h.msg.indexOf('⇄') === 0;
+      var ic = isTransfer
+        ? {bg:'rgba(127,119,221,.2)', color:'#A9A4F5', icon:'⇄'}
+        : LOG_ICONS[i % LOG_ICONS.length];
+      html += '<div class="td-log-item'+(isTransfer?' td-log-transfer':'')+'"><div class="td-log-icon" style="background:'+ic.bg+';color:'+ic.color+'">'+ic.icon+'</div>';
       html += '<div class="td-log-body"><div class="td-log-msg">'+h.msg+'</div><div class="td-log-time">'+h.time+'</div></div></div>';
     });
     body.innerHTML = html;
@@ -4106,6 +4290,79 @@ function renderTdTab(tab, t) {
     });
     body.innerHTML = html;
   }
+}
+
+var MEMBERS_LIST = [
+  {init:'VĐT', bg:'#7F77DD', name:'Văn Đức Tân', role:'Leader · Full-stack Dev'},
+  {init:'NL',  bg:'#378ADD', name:'Ngọc Lan',    role:'Dev · Backend'},
+  {init:'MT',  bg:'#7F77DD', name:'Minh Tú',     role:'Dev · Frontend'},
+  {init:'NH',  bg:'#C97550', name:'Ngọc Hân',    role:'Dev · Full-stack'},
+  {init:'TL',  bg:'#C2A84E', name:'Tuấn Long',   role:'Dev · Full-stack'},
+  {init:'PK',  bg:'#378ADD', name:'Phúc Khang',  role:'Dev · Full-stack'},
+];
+
+function renderMemberWorkload() {
+  ['memberWorkloadList', 'hubWorkloadList'].forEach(function(elId) {
+  var el = document.getElementById(elId);
+  if (!el) return;
+  /* group tasks by pic.name, exclude done */
+  var map = {};
+  Object.values(TD_DATA).forEach(function(t) {
+    if (t.status === 'done') return;
+    var name = t.pic && t.pic.name;
+    if (!name) return;
+    if (!map[name]) map[name] = [];
+    map[name].push(t);
+  });
+  var html = '';
+  MEMBERS_LIST.forEach(function(m) {
+    var tasks = map[m.name] || [];
+    html += '<div class="wl-row">';
+    html += '<div class="wl-av" style="background:' + m.bg + '">' + m.init + '</div>';
+    html += '<div class="wl-info">';
+    html += '<div class="wl-name">' + m.name + '</div>';
+    html += '<div class="wl-role">' + m.role + '</div>';
+    html += '<div class="wl-tasks">';
+    if (tasks.length === 0) {
+      html += '<div class="wl-empty">Không có task đang mở</div>';
+    } else {
+      var dotColors = {hot:'#EF4444', warm:'#F59E0B', cool:'#22C55E'};
+      tasks.forEach(function(t) {
+        var dot = dotColors[t.deadlineCls] || '#9CA3AF';
+        var stCls = t.status === 'inprog' ? 'inprog' : 'todo';
+        var stLbl = t.status === 'inprog' ? 'Đang làm' : 'Chưa làm';
+        html += '<div class="wl-task" onclick="openTaskDetail(\'' + t.id + '\')">';
+        html += '<div class="wl-task-dot" style="background:' + dot + '"></div>';
+        html += '<span class="wl-task-id">' + t.id + '</span>';
+        html += '<span class="wl-task-name">' + t.title + '</span>';
+        html += '<span class="wl-task-status ' + stCls + '">' + stLbl + '</span>';
+        html += '</div>';
+      });
+    }
+    html += '</div></div></div>';
+  });
+  el.innerHTML = html;
+  }); // end forEach elId
+}
+
+function transferTicket(taskId) {
+  var sel = document.getElementById('tdTransferSelect');
+  var noteInp = document.getElementById('tdTransferNote');
+  if (!sel) return;
+  var toTeamId = sel.value;
+  var note = noteInp ? noteInp.value.trim() : '';
+  var t = TD_DATA[taskId];
+  if (!t) return;
+  var fromTeam = IT_TEAMS.find(function(tm){ return tm.id === (t.team || 'fe'); }) || IT_TEAMS[0];
+  var toTeam   = IT_TEAMS.find(function(tm){ return tm.id === toTeamId; });
+  if (!toTeam || toTeamId === (t.team || 'fe')) { showToast('Chọn team khác để chuyển!'); return; }
+  var now = new Date();
+  var ts = 'Hôm nay, ' + now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  var msg = '⇄ Chuyển phiếu: ' + fromTeam.label + ' → ' + toTeam.label + ' · Đức Hiếu' + (note ? ' · "' + note + '"' : '');
+  t.history.unshift({time: ts, msg: msg});
+  t.team = toTeamId;
+  renderTdTab('history', t);
+  showToast('⇄ Đã chuyển sang ' + toTeam.label + '!');
 }
 
 function saveTaskNote(taskId) {
@@ -4308,7 +4565,7 @@ function sendTdTgMsg() {
   msgs.scrollTop = msgs.scrollHeight;
   box.value = '';
   document.querySelectorAll('#tdTgPanel .tg-tag').forEach(function(t){ t.classList.remove('act'); });
-  showToast('Đã gửi Telegram cho người phụ trách!');
+  showToast('Đã gửi tin nhắn nội bộ!');
 }
 
 /* ═══════════════════════════════════════════════════════════
