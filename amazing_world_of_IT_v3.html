@@ -1471,12 +1471,12 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
     </div>
     <div class="sb-sec">Menu chính</div>
     <div class="sb-it"    id="nav-profile"   onclick="goView('profile')" style="display:none">  <i class="ti ti-user-circle"></i> Trang cá nhân <span class="sb-bdg" id="urgBdg" style="background:#E8492A">3</span></div>
-    <div class="sb-it"    id="nav-hub"       onclick="goView('hub')">      <i class="ti ti-folder"></i> Projects <span class="sb-bdg" id="newOrderBdg" style="background:#E8492A;display:none">!</span></div>
+    <div class="sb-it act" id="nav-hub"       onclick="goView('hub')">      <i class="ti ti-folder"></i> Projects <span class="sb-bdg" id="newOrderBdg" style="background:#E8492A;display:none">!</span></div>
     <div class="sb-it"    id="nav-docs"      onclick="goView('docs')" style="display:none">     <i class="ti ti-book"></i> Tài liệu</div>
     <div class="sb-it"    id="nav-checklist" onclick="goView('checklist')" style="display:none"><i class="ti ti-checklist"></i> Checklist của tôi <span class="sb-bdg" id="remBdg" style="display:none"></span></div>
-    <div class="sb-it act" id="nav-feed"    onclick="goView('feed')">     <i class="ti ti-layout-dashboard"></i> Feed <span class="sb-bdg" id="pendBdg">2</span></div>
+    <div class="sb-it" id="nav-feed"    onclick="goView('feed')" style="display:none">     <i class="ti ti-layout-dashboard"></i> Feed <span class="sb-bdg" id="pendBdg">2</span></div>
     <div class="sb-it"    id="nav-contacts"  onclick="goView('contacts')" style="display:none"> <i class="ti ti-users"></i> Team &amp; contacts</div>
-    <div class="sb-it"    id="nav-casestudy" onclick="goView('casestudy')"><i class="ti ti-archive"></i> Kho Case Study <span class="sb-bdg g" id="csBdg">1</span></div>
+    <div class="sb-it"    id="nav-casestudy" onclick="goView('casestudy')" style="display:none"><i class="ti ti-archive"></i> Kho Case Study <span class="sb-bdg g" id="csBdg">1</span></div>
     <div class="sb-sec">Chuyển vai</div>
     <div class="role-wrap" id="roleWrap">
       <button class="role-chip" onclick="toggleRoleMenuV3(event)">
@@ -1530,7 +1530,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
     </div>
 
     <!-- FEED -->
-    <div class="view act" id="view-feed" style="overflow-y:auto">
+    <div class="view" id="view-feed" style="overflow-y:auto">
       <div class="feed-wrap" id="feedWrap">
         <!-- POST 1 — READY TO SHIP -->
         <div class="post done" id="post-1">
@@ -1715,7 +1715,7 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
     </div>
 
     <!-- PROJECTS -->
-    <div class="view" id="view-hub" style="overflow-y:auto">
+    <div class="view act" id="view-hub" style="overflow-y:auto">
       <div class="proj-wrap">
 
         <!-- HEADER + DROPDOWN FILTER -->
@@ -1817,6 +1817,24 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
                   <div class="proj-task-dl hot">1 ngày</div>
                 </div>
               </div>
+              <div class="proj-card-toggle" id="projDocsToggle-nhile" onclick="event.stopPropagation();toggleProjDocs('nhile')"><span>Tài liệu bổ sung</span><i class="ti ti-chevron-down" id="projDocsChevron-nhile"></i></div>
+              <div class="proj-task-list" id="projDocs-nhile" style="display:none">
+                <div class="proj-task-item" onclick="event.stopPropagation()">
+                  <div class="proj-task-ico">📐</div>
+                  <div class="proj-task-info"><div class="proj-task-name">Kiến trúc hệ thống</div><div class="proj-task-meta">PDF · Cập nhật 3/4/2026</div></div>
+                  <div class="doc-open">Mở →</div>
+                </div>
+                <div class="proj-task-item" onclick="event.stopPropagation()">
+                  <div class="proj-task-ico">⚙️</div>
+                  <div class="proj-task-info"><div class="proj-task-name">Setup môi trường local</div><div class="proj-task-meta">Notion · Cập nhật 25/3/2026</div></div>
+                  <div class="doc-open">Mở →</div>
+                </div>
+                <div class="proj-task-item" onclick="event.stopPropagation()">
+                  <div class="proj-task-ico">🔀</div>
+                  <div class="proj-task-info"><div class="proj-task-name">Git workflow & conventions</div><div class="proj-task-meta">Markdown · Cập nhật 28/3/2026</div></div>
+                  <div class="doc-open">Mở →</div>
+                </div>
+              </div>
             </div>
 
             <div class="proj-card" id="projCard-nedu" style="border-left-color:#378ADD" onclick="toggleProjTasks('nedu')">
@@ -1838,15 +1856,28 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
                   <div class="proj-task-dl warm">3 ngày</div>
                 </div>
               </div>
+              <div class="proj-card-toggle" id="projDocsToggle-nedu" onclick="event.stopPropagation();toggleProjDocs('nedu')"><span>Tài liệu bổ sung</span><i class="ti ti-chevron-down" id="projDocsChevron-nedu"></i></div>
+              <div class="proj-task-list" id="projDocs-nedu" style="display:none">
+                <div class="proj-task-item" onclick="event.stopPropagation()">
+                  <div class="proj-task-ico">🗃️</div>
+                  <div class="proj-task-info"><div class="proj-task-name">Database schema & ERD</div><div class="proj-task-meta">Cập nhật 1/4/2026</div></div>
+                  <div class="doc-open">Mở →</div>
+                </div>
+                <div class="proj-task-item" onclick="event.stopPropagation()">
+                  <div class="proj-task-ico">📋</div>
+                  <div class="proj-task-info"><div class="proj-task-name">Product requirements</div><div class="proj-task-meta">Cập nhật 2/4/2026</div></div>
+                  <div class="doc-open">Mở →</div>
+                </div>
+                <div class="proj-task-item" onclick="event.stopPropagation()">
+                  <div class="proj-task-ico">🎨</div>
+                  <div class="proj-task-info"><div class="proj-task-name">Figma UI Kit</div><div class="proj-task-meta">Cập nhật 4/4/2026</div></div>
+                  <div class="doc-open">Mở →</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- WORKLOAD SECTION -->
-        <div class="hub-section show" id="hubSecWorkload">
-          <div style="font-size:12px;font-weight:800;color:var(--ink3);text-transform:uppercase;letter-spacing:.6px;margin-bottom:9px">👥 Task đang nhận</div>
-          <div id="hubWorkloadList"></div>
-        </div>
 
       </div>
     </div>
@@ -1876,10 +1907,6 @@ body{background:var(--cream);color:var(--ink);font-size:14px}
           <div class="ct-row"><div class="ct-av" style="background:#378ADD;color:#fff">NL</div><div><div class="ct-name">Ngọc Lan</div><div class="ct-role">Dev · Backend</div><div class="ct-scope">Hỏi về: API, DB, Supabase</div><div class="ct-tags"><span class="ct-tag">@ngoclan</span></div></div></div>
           <div class="ct-row"><div class="ct-av" style="background:#7F77DD;color:#fff">MT</div><div><div class="ct-name">Minh Tú</div><div class="ct-role">Dev · Frontend</div><div class="ct-scope">Hỏi về: React, UI, component</div><div class="ct-tags"><span class="ct-tag">@minhtu</span></div></div></div>
           <div class="ct-row"><div class="ct-av" style="background:#C97550;color:#fff">NH</div><div><div class="ct-name">Ngọc Hân</div><div class="ct-role">Dev · Full-stack</div><div class="ct-scope">Hỏi về: auth, API integration</div><div class="ct-tags"><span class="ct-tag">@ngochan</span></div></div></div>
-        </div>
-        <div class="wl-card">
-          <div class="wl-card-t">📋 Task đang nhận</div>
-          <div id="memberWorkloadList"></div>
         </div>
       </div>
     </div>
@@ -3479,6 +3506,17 @@ function toggleProjTasks(projId) {
   list.style.display    = open ? 'none' : 'flex';
   if (chevron) chevron.style.transform = open ? '' : 'rotate(180deg)';
   if (toggle)  toggle.querySelector('span').textContent = open ? 'Xem task list' : 'Ẩn task list';
+}
+
+function toggleProjDocs(projId) {
+  var list    = document.getElementById('projDocs-' + projId);
+  var chevron = document.getElementById('projDocsChevron-' + projId);
+  var toggle  = document.getElementById('projDocsToggle-' + projId);
+  if (!list) return;
+  var open = list.style.display !== 'none';
+  list.style.display    = open ? 'none' : 'flex';
+  if (chevron) chevron.style.transform = open ? '' : 'rotate(180deg)';
+  if (toggle)  toggle.querySelector('span').textContent = open ? 'Tài liệu bổ sung' : 'Ẩn tài liệu';
 }
 
 function updateOrderCount() {
